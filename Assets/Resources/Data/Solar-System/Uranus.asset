@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0817d767de5974f4dbb5fb99f702e1e2, type: 3}
+  m_Name: Uranus
+  m_EditorClassIdentifier: 
+  Name: Uranus
+  Details: Uranus is the seventh planet from the Sun. It has the third-largest planetary
+    radius and fourth-largest planetary mass in the Solar System. Uranus is similar
+    in composition to Neptune, and both have different bulk chemical composition
+    from that of the larger gas giants Jupiter and Saturn. For this reason, scientists
+    often classify Uranus and Neptune as \"ice giants\" to distinguish them from
+    the gas giants.
+  Texture: {fileID: 2800000, guid: 585a5189734e42a40aa4e1349213acec, type: 3}
+  Clouds: 0
+  TidallyLocked: 0
+  Orbit: 19.189
+  OrbitTilt: 0
+  Size: 4.007
+  BodyTilt: -97.77
+  YearLength: 84
+  DayLength: 0.72083336
+  Coords: s
