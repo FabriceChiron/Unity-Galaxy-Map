@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9f95dd68d8df8a4b8fb9a99efe26b46, type: 3}
-  m_Name: Earth-Satellites
+  m_Name: H-110 - list
   m_EditorClassIdentifier: 
   PlanetItem:
-  - {fileID: 11400000, guid: ee02331540ce10848863509017fdb852, type: 2}
+  - {fileID: 11400000, guid: 18f871786c5c6d94dad6a23bcd93edcd, type: 2}

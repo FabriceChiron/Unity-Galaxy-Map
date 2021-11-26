@@ -10,7 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9f95dd68d8df8a4b8fb9a99efe26b46, type: 3}
-  m_Name: Saturn-Satellites
+  m_Name: Civki - list
   m_EditorClassIdentifier: 
   PlanetItem:
-  - {fileID: 11400000, guid: 11d6dfa7db1bb434fa03b0a32bd823d4, type: 2}
+  - {fileID: 11400000, guid: d2c3abf2704acea4183893972938f46c, type: 2}
+  - {fileID: 11400000, guid: 9c87ede615e0111438b131fb117e6e39, type: 2}
+  - {fileID: 11400000, guid: a140817a636cc844fbb67a491612c75e, type: 2}
+  - {fileID: 11400000, guid: b10da3d53162933479a881eca16db66e, type: 2}
