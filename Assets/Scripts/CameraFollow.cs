@@ -117,7 +117,7 @@ public class CameraFollow : MonoBehaviour
             //transform.Translate(transform.right * mouseHorizontal * Sensitivity);
         }
 
-        Debug.Log(CameraAnchor);
+        //Debug.Log(CameraAnchor);
         if(CameraAnchor != null && CameraAnchorPlanet != null)
         {
             FocusOnTarget();
