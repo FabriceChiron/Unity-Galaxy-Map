@@ -20,3 +20,7 @@ Assets/Real Stars Skybox/.DS_Store
 Assets/Real Stars Skybox/
 
 Assets/TextMesh Pro/
+
+*.cache
+
+*.csproj
