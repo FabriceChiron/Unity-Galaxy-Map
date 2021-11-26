@@ -24,3 +24,5 @@ Assets/TextMesh Pro/
 *.cache
 
 *.csproj
+
+.vs/Unity-Galaxy-Map/v16/
