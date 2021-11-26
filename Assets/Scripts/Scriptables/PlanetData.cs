@@ -42,4 +42,6 @@ public class PlanetData : ScriptableObject
     public string Coords;
 
     public bool Rings;
+
+    public PlanetData[] ChildrenItem;
 }
