@@ -381,7 +381,7 @@ public class Planet : MonoBehaviour
 
     private void SetCameraAnchor()
     {
-        CameraAnchor.localPosition = new Vector3(0f, 0f, OrbitSize * 3f);
+        CameraAnchor.localPosition = new Vector3(0f, ObjectSize * .5f, ObjectSize * 2f);
     }
 
     public void SetStellarObject()

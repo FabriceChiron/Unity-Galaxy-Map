@@ -58,7 +58,7 @@ public class CameraFollow : MonoBehaviour
 
         //_transform.LookAt(_cameraTarget.position);
 
-        if(CameraTarget != Star)
+        if(CameraTarget != Star && CameraTarget != null)
         {
             _transform.parent = CameraTarget.parent;
         }
@@ -84,14 +84,34 @@ public class CameraFollow : MonoBehaviour
 
         if (Input.GetMouseButton(1))
         {
-            transform.RotateAround(CameraTarget.transform.position, Vector3.up, mouseHorizontal * Sensitivity); //use transform.Rotate(transform.up * mouseHorizontal * Sensitivity);
-            transform.RotateAround(CameraTarget.transform.position, -Vector3.right, mouseVertical * Sensitivity);
+            transform.RotateAround(CameraTarget == null ? transform.position : CameraTarget.transform.position, Vector3.up, mouseHorizontal * Sensitivity); //use transform.Rotate(transform.up * mouseHorizontal * Sensitivity);
+            transform.RotateAround(CameraTarget == null ? transform.position : CameraTarget.transform.position, -Vector3.right, mouseVertical * Sensitivity);
 
         }
 
         if (Input.GetMouseButton(2))
         {
-            transform.position = new Vector3(mouseHorizontal * Sensitivity, mouseVertical * Sensitivity, transform.position.z);
+            CameraTarget = null;
+            Vector3 NewPosition = new Vector3(Input.GetAxis("Mouse X"), 0, Input.GetAxis("Mouse Y"));
+            Vector3 pos = transform.localPosition;
+            if (NewPosition.x > 0.0f)
+            {
+                pos += transform.right;
+            }
+            else if (NewPosition.x < 0.0f)
+            {
+                pos -= transform.right;
+            }
+            if (NewPosition.z > 0.0f)
+            {
+                pos += transform.forward;
+            }
+            if (NewPosition.z < 0.0f)
+            {
+                pos -= transform.forward;
+            }
+            pos.y = transform.localPosition.y;
+            transform.localPosition = pos;
 
             //transform.Translate(transform.up * mouseVertical * Sensitivity);
             //transform.Translate(transform.right * mouseHorizontal * Sensitivity);
