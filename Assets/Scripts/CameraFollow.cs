@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,7 +22,8 @@ public class CameraFollow : MonoBehaviour
 
     private bool _mouseOnUI;
 
-    private Transform _star;
+    private Transform _star, _cameraAnchor;
+    private Planet _cameraAnchorPlanet;
 
     public string StartingPoint { get => _startingPoint; set => _startingPoint = value; }
     public float Sensitivity { get => _sensitivity; set => _sensitivity = value; }
@@ -31,6 +32,8 @@ public class CameraFollow : MonoBehaviour
     public Transform CameraTarget { get => _cameraTarget; set => _cameraTarget = value; }
     public UITest UITest { get => _UITest; set => _UITest = value; }
     public bool MouseOnUI { get => _mouseOnUI; set => _mouseOnUI = value; }
+    public Transform CameraAnchor { get => _cameraAnchor; set => _cameraAnchor = value; }
+    public Planet CameraAnchorPlanet { get => _cameraAnchorPlanet; set => _cameraAnchorPlanet = value; }
 
     // Start is called before the first frame update
     void Awake()
@@ -93,6 +96,12 @@ public class CameraFollow : MonoBehaviour
             //transform.Translate(transform.up * mouseVertical * Sensitivity);
             //transform.Translate(transform.right * mouseHorizontal * Sensitivity);
         }
+
+        Debug.Log(CameraAnchor);
+        if(CameraAnchor != null && CameraAnchorPlanet != null)
+        {
+            FocusOnTarget();
+        }
     }
 
     public void ChangeTarget(Transform newCameraTarget)
@@ -106,6 +115,22 @@ public class CameraFollow : MonoBehaviour
         Debug.Log(PlanetName);
         Debug.Log(GameObject.Find($"{PlanetName}"));
         CameraTarget = GameObject.Find($"{PlanetName}").transform;
+    }
+
+    public void FocusOnTarget()
+    {
+        //Debug.Log("Lerping");
+        //Vector3 newPos = Vector3.Lerp(_transform.position, _cameraAnchor.position, 5f * Time.deltaTime);
+        Vector3 newPos = Vector3.Lerp(_transform.position, CameraAnchor.position, 5f * Time.deltaTime);
+        // On applique la nouvelle position
+        _transform.position = newPos;
+        Debug.Log(Vector3.Distance(_transform.position, CameraAnchor.position));
+        if (Vector3.Distance(_transform.position, CameraAnchor.position) <= CameraAnchorPlanet.ObjectSize * 0.5f)
+        {
+            CameraAnchor = null;
+            CameraAnchorPlanet = null;
+        }
+
     }
 
     private void ZoomCamera()

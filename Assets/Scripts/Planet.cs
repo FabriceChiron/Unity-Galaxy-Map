@@ -23,7 +23,7 @@ public class Planet : MonoBehaviour
     private Transform _clouds;
 
     [SerializeField]
-    private Transform _lightAnchor;
+    private Transform _cameraAnchor;
 
     [SerializeField]
     private GeneratePlanets _generatePlanets;
@@ -79,7 +79,7 @@ public class Planet : MonoBehaviour
     public Collider Collider { get => _collider; set => _collider = value; }
     public PlanetData PlanetData { get => _planetData; set => _planetData = value; }
     public Transform Star { get => _star; set => _star = value; }
-    public Transform LightAnchor { get => _lightAnchor; set => _lightAnchor = value; }
+    public Transform CameraAnchor { get => _cameraAnchor; set => _cameraAnchor = value; }
     public GeneratePlanets GeneratePlanets { get => _generatePlanets; set => _generatePlanets = value; }
     public string ParentStellarObject { get => _parentStellarObject; set => _parentStellarObject = value; }
     public string ObjectType { get => _objectType; set => _objectType = value; }
@@ -194,7 +194,7 @@ public class Planet : MonoBehaviour
                 PlanetRotation();
             }
 
-            LightAnchor.parent.LookAt(Star.position);
+            CameraAnchor.parent.LookAt(Star.position);
 
         }
 
@@ -357,8 +357,9 @@ public class Planet : MonoBehaviour
         //_objectNameDisplay.GetComponent<RectTransform>().position = new Vector3(ObjectSize, ObjectSize, _objectNameDisplay.GetComponent<RectTransform>().position.z);
 
         StellarObject.localScale = new Vector3(ObjectSize, ObjectSize, ObjectSize);
-        
+
         //SetLight();
+        SetCameraAnchor();
 
         //CheckIfObjectIsStuckInside();
     }
@@ -376,7 +377,11 @@ public class Planet : MonoBehaviour
             }
         }
 
+    }
 
+    private void SetCameraAnchor()
+    {
+        CameraAnchor.localPosition = new Vector3(0f, 0f, OrbitSize * 3f);
     }
 
     public void SetStellarObject()
@@ -434,6 +439,8 @@ public class Planet : MonoBehaviour
                     
                     //And hide the name
                     UIName.gameObject.SetActive(false);
+                    _camera.CameraAnchor = CameraAnchor;
+                    _camera.CameraAnchorPlanet = GetComponent<Planet>();
                 }
 
                 //else

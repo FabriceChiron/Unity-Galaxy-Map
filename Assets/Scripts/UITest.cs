@@ -14,7 +14,7 @@ public class UITest : MonoBehaviour
 
     private void Update()
     {
-        print(IsPointerOverUIElement() ? "Over UI" : "Not over UI");
+        //print(IsPointerOverUIElement() ? "Over UI" : "Not over UI");
     }
 
 
