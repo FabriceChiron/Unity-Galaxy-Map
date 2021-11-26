@@ -12,6 +12,9 @@ public class GeneratePlanets : MonoBehaviour
     private GameObject PlanetLogicPrefab;
 
     [SerializeField]
+    private string _galaxyName, _clusterName;
+
+    [SerializeField]
     private bool _goDeeper;
 
     private Transform _transform;
@@ -20,10 +23,19 @@ public class GeneratePlanets : MonoBehaviour
 
     public PlanetsList PlanetsList { get => _planetsList; set => _planetsList = value; }
     public bool GoDeeper { get => _goDeeper; set => _goDeeper = value; }
+    public string GalaxyName { get => _galaxyName; set => _galaxyName = value; }
+    public string ClusterName { get => _clusterName; set => _clusterName = value; }
 
     private void Awake()
     {
-
+        if(GalaxyName == "")
+        {
+            GalaxyName = "Milky Way";
+        }
+        if(ClusterName == "")
+        {
+            ClusterName = "Local Cluster";
+        }
 
         PlanetListDropdown = GameObject.FindGameObjectWithTag("PlanetsList").GetComponent<TMP_Dropdown>();
 
@@ -39,7 +51,7 @@ public class GeneratePlanets : MonoBehaviour
 
         if (goDeeper)
         {
-            GetComponent<Transform>().name = PlanetsList.name;
+            GetComponent<Transform>().name = PlanetsList.name.Replace(" - list", "");
         }
 
         foreach (PlanetData planetData in PlanetsList.PlanetItem)
@@ -101,11 +113,13 @@ public class GeneratePlanets : MonoBehaviour
             moonGenerator.enabled = false;
             Destroy(moonGenerator.gameObject);
         }
+
+        moonGenerator.GalaxyName = GalaxyName;
+        moonGenerator.ClusterName = ClusterName;
         
         string MoonsListPath = GetMoonsListPath(planet, planetData);
-
         moonGenerator.PlanetsList = Resources.Load<PlanetsList>(MoonsListPath);
-
+        Debug.Log(moonGenerator.PlanetsList);
         if (moonGenerator.PlanetsList != null && moonGenerator.PlanetsList.name.Contains(planetData.name))
         {
             moonGenerator.LoopPlanetsList(false, moonGenerator.PlanetsList, planet.PlanetData.Name, "moon");
@@ -116,8 +130,8 @@ public class GeneratePlanets : MonoBehaviour
     {
         string StellarSystemName = name;
         string PlanetName = planetData.Name;
-        string Path = $"Data/{StellarSystemName}/{PlanetName}/{PlanetName}-Satellites";
-
+        string Path = $"Data/Galaxies/{GalaxyName}/{ClusterName}/{StellarSystemName}/{PlanetName}/{PlanetName} - list";
+        Debug.Log(Path);
         return Path;
     }
 
