@@ -10,9 +10,11 @@ public class Controller : MonoBehaviour
 
     private void Awake()
     {
-        PlanetListDropdown = GameObject.FindGameObjectWithTag("PlanetsList").GetComponent<TMP_Dropdown>();
-
-        PlanetListDropdown.AddOptions(new List<string> { GameObject.FindGameObjectWithTag("Star").name });
+        if (GameObject.FindGameObjectWithTag("Star"))
+        {
+            PlanetListDropdown = GameObject.FindGameObjectWithTag("PlanetsList").GetComponent<TMP_Dropdown>();
+            PlanetListDropdown.AddOptions(new List<string> { GameObject.FindGameObjectWithTag("Star").name });
+        }
     }
 
     // Start is called before the first frame update

@@ -39,18 +39,27 @@ public class CameraFollow : MonoBehaviour
     void Awake()
     {
         _transform = GetComponent<Transform>();
+        
+        if(GameObject.FindGameObjectWithTag("Star") != null)
+        {
+            Star = GameObject.FindGameObjectWithTag("Star").transform;
+            CameraTarget = Star;
+        }
 
-        Star = GameObject.FindGameObjectWithTag("Star").transform;
+        if(GameObject.FindGameObjectWithTag("StellarSystem"))
+        {
+            UITest = GameObject.FindGameObjectWithTag("StellarSystem").GetComponent<UITest>();
+        }
 
-        UITest = GameObject.FindGameObjectWithTag("StellarSystem").GetComponent<UITest>();
-
-        CameraTarget = Star;
     }
 
     // Update is called once per frame
     void Update()
     {
-        MouseOnUI = UITest.IsPointerOverUIElement();
+        if(UITest != null)
+        {
+            MouseOnUI = UITest.IsPointerOverUIElement();
+        }
         if (!MouseOnUI)
         {
             ZoomCamera();
@@ -112,6 +121,7 @@ public class CameraFollow : MonoBehaviour
             }
             pos.y = transform.localPosition.y;
             transform.localPosition = pos;
+            //transform.localPosition = Vector3.Lerp(_transform.position, pos, 50f * Time.deltaTime);
 
             //transform.Translate(transform.up * mouseVertical * Sensitivity);
             //transform.Translate(transform.right * mouseHorizontal * Sensitivity);
@@ -160,7 +170,14 @@ public class CameraFollow : MonoBehaviour
         if(_scrollWheelChange != 0f)
         {
             //_transform.position += _transform.forward * _scrollWheelChange;
-            _transform.position += _transform.forward * _scrollWheelChange * Vector3.Distance(_transform.position, CameraTarget ? CameraTarget.position : Star.position) / 10f;
+            if (CameraTarget || Star)
+            {
+                _transform.position += _transform.forward * _scrollWheelChange * Vector3.Distance(_transform.position, CameraTarget ? CameraTarget.position : Star.position) / 10f;
+            }
+            else
+            {
+                _transform.position += _transform.forward * _scrollWheelChange * 10f;
+            }
         }
     }
 }

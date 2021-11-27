@@ -12,7 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 834075130dc7900479ecc8e9dbf9b57d, type: 3}
   m_Name: Solar System
   m_EditorClassIdentifier: 
-  Name: 
-  StarName: 
-  StarSize: 0
-  ChildrenItem: []
+  Name: Solar System
+  StarName: Sun
+  StarSize: 109
+  Top: 0
+  Left: 0
+  ChildrenItem:
+  - {fileID: 11400000, guid: d5bb790338eff90459bbe396f640c898, type: 2}
+  - {fileID: 11400000, guid: 6ebea61587dab4d428cbd3de45f2b8f8, type: 2}
+  - {fileID: 11400000, guid: 71ee25a67a9466146b75266c70fc17e5, type: 2}
+  - {fileID: 11400000, guid: ff4d4623c24abea42ac29fd33b098545, type: 2}
+  - {fileID: 11400000, guid: 5fe5a030dc8ed864792a56348b375a39, type: 2}
+  - {fileID: 11400000, guid: a5866ad366462b9469c77174d0f6364d, type: 2}
+  - {fileID: 11400000, guid: f006be2ada65ea54ab914e21fbab32f4, type: 2}
+  - {fileID: 11400000, guid: fcbb1cb61441f054aaf07b56aa2a0556, type: 2}
+  - {fileID: 11400000, guid: 4fc6f241d5d5c4a4880535cb361082ec, type: 2}

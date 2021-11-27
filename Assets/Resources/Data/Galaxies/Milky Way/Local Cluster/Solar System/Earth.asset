@@ -27,3 +27,6 @@ MonoBehaviour:
   YearLength: 1
   DayLength: 1
   Coords: sw
+  Rings: 0
+  ChildrenItem:
+  - {fileID: 11400000, guid: ee02331540ce10848863509017fdb852, type: 2}
