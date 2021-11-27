@@ -23,7 +23,7 @@ public class CameraFollow : MonoBehaviour
     private bool _mouseOnUI;
 
     private Transform _star, _cameraAnchor;
-    private Planet _cameraAnchorPlanet;
+    private GameObject _cameraAnchorObject;
 
     public string StartingPoint { get => _startingPoint; set => _startingPoint = value; }
     public float Sensitivity { get => _sensitivity; set => _sensitivity = value; }
@@ -33,7 +33,7 @@ public class CameraFollow : MonoBehaviour
     public UITest UITest { get => _UITest; set => _UITest = value; }
     public bool MouseOnUI { get => _mouseOnUI; set => _mouseOnUI = value; }
     public Transform CameraAnchor { get => _cameraAnchor; set => _cameraAnchor = value; }
-    public Planet CameraAnchorPlanet { get => _cameraAnchorPlanet; set => _cameraAnchorPlanet = value; }
+    public GameObject CameraAnchorObject { get => _cameraAnchorObject; set => _cameraAnchorObject = value; }
 
     // Start is called before the first frame update
     void Awake()
@@ -128,9 +128,16 @@ public class CameraFollow : MonoBehaviour
         }
 
         //Debug.Log(CameraAnchor);
-        if(CameraAnchor != null && CameraAnchorPlanet != null)
+        if(CameraAnchor != null)
         {
-            FocusOnTarget();
+            if(CameraAnchorObject.GetComponent<Planet>() != null)
+            {
+                FocusOnTarget("Planet");
+            }
+            else if(CameraAnchorObject.GetComponent<Galaxy>() != null)
+            {
+                FocusOnTarget("Galaxy");
+            }
         }
     }
 
@@ -147,19 +154,33 @@ public class CameraFollow : MonoBehaviour
         CameraTarget = GameObject.Find($"{PlanetName}").transform;
     }
 
-    public void FocusOnTarget()
+    public void FocusOnTarget(string componentType)
     {
         //Debug.Log("Lerping");
         //Vector3 newPos = Vector3.Lerp(_transform.position, _cameraAnchor.position, 5f * Time.deltaTime);
         Vector3 newPos = Vector3.Lerp(_transform.position, CameraAnchor.position, 5f * Time.deltaTime);
         // On applique la nouvelle position
         _transform.position = newPos;
-        Debug.Log(Vector3.Distance(_transform.position, CameraAnchor.position));
-        if (Vector3.Distance(_transform.position, CameraAnchor.position) <= CameraAnchorPlanet.ObjectSize * 0.5f)
+
+        float targetThreshold = 0.1f;
+
+        switch (componentType)
+        {
+            case "Planet":
+                targetThreshold = CameraAnchorObject.GetComponent<Planet>().ObjectSize * 0.5f;
+                break;
+            
+            case "Galaxy":
+                targetThreshold = 0.5f;
+                break;
+        }
+        
+        if (Vector3.Distance(_transform.position, CameraAnchor.position) <= targetThreshold)
         {
             CameraAnchor = null;
-            CameraAnchorPlanet = null;
+            CameraAnchorObject = null;
         }
+        
 
     }
 

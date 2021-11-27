@@ -252,7 +252,7 @@ public class Planet : MonoBehaviour
         GetOrbitOrientationStart(PlanetData.Coords);
 
         //Set the orbit's plane
-        OrbitAnchor.rotation = Quaternion.Euler(OrbitTiltAngle, OrientationStart, 0);
+        OrbitAnchor.rotation = Quaternion.Euler(OrbitTiltAngle, OrientationStart, 0f);
 
         /*Orbit.localScale *= OrbitSize;
         StellarAnchor.localScale /= OrbitSize;*/
@@ -440,7 +440,7 @@ public class Planet : MonoBehaviour
                     //And hide the name
                     UIName.gameObject.SetActive(false);
                     _camera.CameraAnchor = CameraAnchor;
-                    _camera.CameraAnchorPlanet = GetComponent<Planet>();
+                    _camera.CameraAnchorObject = gameObject;
                 }
 
                 //else
