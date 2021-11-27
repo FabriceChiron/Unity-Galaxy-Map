@@ -329,6 +329,15 @@ public class Planet : MonoBehaviour
 
     public void SetScales()
     {
+        if (!ScaleSettings.stellarScales.RationalizeValues)
+        {
+            GameObject.FindGameObjectWithTag("Star").transform.localScale = new Vector3(50f, 50f, 50f);
+        }
+        else
+        {
+            GameObject.FindGameObjectWithTag("Star").transform.localScale = new Vector3(5f, 5f, 5f);
+        }
+
         OrbitSize = PlanetData.Orbit * ScaleSettings.stellarScales.Orbit * OrbitSizeAdjust;
         
 /*        if(PlanetData.Orbit <= 0.01 || ObjectType == "Moon")
@@ -343,13 +352,13 @@ public class Planet : MonoBehaviour
 
         CalculatedOrbitSize = OrbitSize;
 
-        Orbit.localScale = new Vector3(OrbitSize, OrbitSize, OrbitSize);
+        //Orbit.localScale = new Vector3(OrbitSize, OrbitSize, OrbitSize);
 
-        StellarAnchor.localPosition = new Vector3(0f, 0f, OrbitSize);
+        StellarAnchor.localPosition = new Vector3(0f, 0f, (GameObject.FindGameObjectWithTag("Star").transform.localScale.z / 2f) + OrbitSize);
 
 
 
-        StellarAnchor.localScale = new Vector3(1f / OrbitSize, 1f / OrbitSize, 1f / OrbitSize);
+        //StellarAnchor.localScale = new Vector3(1f / OrbitSize, 1f / OrbitSize, 1f / OrbitSize);
 
         ObjectSize = PlanetData.Size * ScaleSettings.stellarScales.Planet;
         CalculatedObjectSize = ObjectSize;
