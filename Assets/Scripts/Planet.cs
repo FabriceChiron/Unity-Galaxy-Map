@@ -126,7 +126,12 @@ public class Planet : MonoBehaviour
 
         UIName.text = PlanetData.name;
         UIDetails.GetComponentsInChildren<TextMeshProUGUI>(true)[0].text = PlanetData.name;
-        UIDetails.GetComponentsInChildren<TextMeshProUGUI>(true)[1].text = PlanetData.Details;
+        UIDetails.GetComponentsInChildren<TextMeshProUGUI>(true)[1].text =
+            $"<b>Orbit</b>: {PlanetData.Orbit} AU\n" +
+            $"<b>Radius</b>: {PlanetData.Size * 6378f}kms ({PlanetData.Size} of Earth's)\n" +
+            $"<b>Orbital Period</b>: {PlanetData.YearLength} Earth year(s)\n" +
+            $"<b>Rotation Period</b>: {PlanetData.DayLength} Earth day(s)\n\n" +
+            $"{PlanetData.Details}";
 
         UIName.gameObject.SetActive(false);
         UIDetails.gameObject.SetActive(false);
@@ -185,7 +190,7 @@ public class Planet : MonoBehaviour
             {
                 DetectClick();
             }
-            AdjustOrbit();
+            //AdjustOrbit();
             SetScales();
 
             if (!_isPaused)
@@ -215,30 +220,33 @@ public class Planet : MonoBehaviour
 
     public void PlanetRotation()
     {
+        bool inverted;
         if(_isTidallyLocked)
         {
-            RotationTime = Mathf.Max(PlanetData.YearLength, 0.5f) * ScaleSettings.Year;
+            inverted = Mathf.Abs(PlanetData.YearLength) != PlanetData.YearLength;
+            RotationTime = Mathf.Abs(Mathf.Max(PlanetData.YearLength, 0.5f)) * ScaleSettings.Year;
         }
         else
         {
-            RotationTime = PlanetData.DayLength * ScaleSettings.Day;
+            inverted = Mathf.Abs(PlanetData.DayLength) != PlanetData.DayLength;
+            RotationTime = Mathf.Abs(PlanetData.DayLength) * ScaleSettings.Day;
         }
 
+        RotateObject(StellarObject, RotationTime, inverted);
 
-        RotateObject(StellarObject, RotationTime);
         
         if (_hasClouds)
         {
-            RotateObject(_clouds, RotationTime / 0.2f);
+            RotateObject(_clouds, RotationTime / 0.2f, inverted);
         }
 
     }
 
-    private void RotateObject(Transform objTransform, float RotationTime)
+    private void RotateObject(Transform objTransform, float RotationTime, bool inverted)
     {
 
         RotationTime = Mathf.Max(RotationTime, 0.01f);
-        rotationDegreesPerSecond = 360f / RotationTime * -1f;
+        rotationDegreesPerSecond = 360f / RotationTime * (inverted ? 1f : -1f);
         objTransform.Rotate(new Vector3(0, rotationDegreesPerSecond * Time.deltaTime, 0));
     }
 
@@ -299,6 +307,8 @@ public class Planet : MonoBehaviour
                 OrientationStart = Random.value * 360f;
                 break;
         }
+
+        //OrientationStart = 0f;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -306,7 +316,7 @@ public class Planet : MonoBehaviour
         //Debug.Log($"{name} collides with {collision.transform.name}");
         if (ParentStellarObject == collision.transform.name)
         {
-            //Debug.Log($"{name} collides with {collision.transform.name}");
+            Debug.Log($"{name} collides with {collision.transform.name}");
             _needsAdjust = true;
         }
     }
@@ -347,14 +357,23 @@ public class Planet : MonoBehaviour
             Debug.Log($"{name}'s orbit is now {OrbitSize}");
         }*/
 
-        OrbitSize = ScaleSettings.dimRet(OrbitSize, 3f);
+        OrbitSize = ScaleSettings.dimRet(OrbitSize, 3.5f);
 
 
         CalculatedOrbitSize = OrbitSize;
 
         //Orbit.localScale = new Vector3(OrbitSize, OrbitSize, OrbitSize);
 
-        StellarAnchor.localPosition = new Vector3(0f, 0f, (GameObject.FindGameObjectWithTag("Star").transform.localScale.z / 2f) + OrbitSize);
+        if(ObjectType == "planet")
+        {
+            StellarAnchor.localPosition = new Vector3(0f, 0f, (GameObject.FindGameObjectWithTag("Star").transform.localScale.z / 2f) + OrbitSize);
+        }
+        else if(ObjectType == "moon")
+        {
+            Debug.Log($"{name}: dataSize - {PlanetData.Orbit} _ OrbitSize - {OrbitSize} _ ParentHalfSize : {GameObject.Find(ParentStellarObject).transform.localScale.z / 2f}\nTotal: {GameObject.FindGameObjectWithTag("Star").transform.localScale.z + OrbitSize}");
+            StellarAnchor.localPosition = new Vector3(0f, 0f, GameObject.Find(ParentStellarObject).transform.localScale.z + OrbitSize);
+        }
+
 
 
 
@@ -370,7 +389,7 @@ public class Planet : MonoBehaviour
         //SetLight();
         SetCameraAnchor();
 
-        //CheckIfObjectIsStuckInside();
+        CheckIfObjectIsStuckInside();
     }
 
     private void CheckIfObjectIsStuckInside()

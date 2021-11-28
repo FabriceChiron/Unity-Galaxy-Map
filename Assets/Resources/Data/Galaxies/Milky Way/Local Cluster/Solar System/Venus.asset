@@ -25,5 +25,7 @@ MonoBehaviour:
   Size: 0.95
   BodyTilt: 0
   YearLength: 0.61
-  DayLength: 243.025
+  DayLength: -243.025
   Coords: ne
+  Rings: 0
+  ChildrenItem: []
