@@ -149,8 +149,6 @@ public class CameraFollow : MonoBehaviour
 
     public void ChangeTarget(string PlanetName)
     {
-        Debug.Log(PlanetName);
-        Debug.Log(GameObject.Find($"{PlanetName}"));
         CameraTarget = GameObject.Find($"{PlanetName}").transform;
     }
 

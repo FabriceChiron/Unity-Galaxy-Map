@@ -119,7 +119,7 @@ public class GeneratePlanets : MonoBehaviour
         
         string MoonsListPath = GetMoonsListPath(planet, planetData);
         moonGenerator.PlanetsList = Resources.Load<PlanetsList>(MoonsListPath);
-        Debug.Log(moonGenerator.PlanetsList);
+        //Debug.Log(moonGenerator.PlanetsList);
         if (moonGenerator.PlanetsList != null && moonGenerator.PlanetsList.name.Contains(planetData.name))
         {
             moonGenerator.LoopPlanetsList(false, moonGenerator.PlanetsList, planet.PlanetData.Name, "moon");
@@ -131,7 +131,7 @@ public class GeneratePlanets : MonoBehaviour
         string StellarSystemName = name;
         string PlanetName = planetData.Name;
         string Path = $"Data/Galaxies/{GalaxyName}/{ClusterName}/{StellarSystemName}/{PlanetName}/{PlanetName} - list";
-        Debug.Log(Path);
+        //Debug.Log(Path);
         return Path;
     }
 
