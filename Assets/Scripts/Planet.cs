@@ -91,6 +91,7 @@ public class Planet : MonoBehaviour
     public Animator Animator { get => _animator; set => _animator = value; }
     public UITest UITest { get => _UITest; set => _UITest = value; }
     public bool MouseOnUI { get => _mouseOnUI; set => _mouseOnUI = value; }
+    public bool IsCreated { get => _isCreated; set => _isCreated = value; }
 
     private void Awake()
     {
@@ -162,10 +163,11 @@ public class Planet : MonoBehaviour
 
         OrbitAnchor.localPosition = Vector3.zero;
 
+        SetScales("init");
         SetOrbit();
         SetStellarObject();
 
-        _isCreated = true;
+        IsCreated = true;
     }
 
     // Start is called before the first frame update
@@ -184,7 +186,7 @@ public class Planet : MonoBehaviour
             _isPaused = !_isPaused;
         }
 
-        if (_isCreated)
+        if (IsCreated)
         {
 
             if(!MouseOnUI)
@@ -192,7 +194,7 @@ public class Planet : MonoBehaviour
                 DetectClick();
             }
             //AdjustOrbit();
-            SetScales();
+            //SetScales();
 
             if (!_isPaused)
             {
@@ -338,8 +340,9 @@ public class Planet : MonoBehaviour
         }
     }
 
-    public void SetScales()
+    public void SetScales(string moment)
     {
+        //Debug.Log($"Setting scales for {name}");
         if (!ScaleSettings.stellarScales.RationalizeValues)
         {
             GameObject.FindGameObjectWithTag("Star").transform.localScale = new Vector3(50f, 50f, 50f);
@@ -371,8 +374,12 @@ public class Planet : MonoBehaviour
         }
         else if(ObjectType == "moon")
         {
-            //Debug.Log($"{name}: dataSize - {PlanetData.Orbit} _ OrbitSize - {OrbitSize} _ ParentHalfSize : {GameObject.Find(ParentStellarObject).transform.localScale.z / 2f}\nTotal: {GameObject.FindGameObjectWithTag("Star").transform.localScale.z + OrbitSize}");
-            StellarAnchor.localPosition = new Vector3(0f, 0f, GameObject.Find(ParentStellarObject).transform.localScale.z + OrbitSize);
+            if(StellarAnchor != null)
+            {
+                //Debug.Log($"{moment} - {name} - {ParentStellarObject} - {StellarAnchor}");
+                //Debug.Log($"{name}: dataSize - {PlanetData.Orbit} _ OrbitSize - {OrbitSize} _ ParentHalfSize : {GameObject.Find(ParentStellarObject).transform.localScale.z / 2f}\nTotal: {GameObject.FindGameObjectWithTag("Star").transform.localScale.z + OrbitSize}");
+                StellarAnchor.localPosition = new Vector3(0f, 0f, GameObject.Find(ParentStellarObject).transform.localScale.z + OrbitSize);
+            }
         }
 
 

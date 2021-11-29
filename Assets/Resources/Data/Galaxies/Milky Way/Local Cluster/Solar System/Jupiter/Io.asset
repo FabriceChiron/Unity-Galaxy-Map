@@ -21,10 +21,12 @@ MonoBehaviour:
   Texture: {fileID: 2800000, guid: 99533733cc7a56845bc324b4acab54a9, type: 3}
   Clouds: 0
   TidallyLocked: 0
-  Orbit: 0.002819
+  Orbit: 0.02819
   OrbitTilt: 0
   Size: 0.286
   BodyTilt: 0
   YearLength: 0.004846953
   DayLength: 0
   Coords: sw
+  Rings: 0
+  ChildrenItem: []
