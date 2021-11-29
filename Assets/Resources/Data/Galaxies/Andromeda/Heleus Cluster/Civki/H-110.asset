@@ -25,3 +25,5 @@ MonoBehaviour:
   DayLength: 0.413
   Coords: 
   Rings: 0
+  ChildrenItem:
+  - {fileID: 11400000, guid: 18f871786c5c6d94dad6a23bcd93edcd, type: 2}

@@ -9,6 +9,9 @@ public class GeneratePlanets : MonoBehaviour
     private PlanetsList _planetsList;
 
     [SerializeField]
+    private StellarSystemData _stellarSystemData;
+
+    [SerializeField]
     private GameObject PlanetLogicPrefab;
 
     [SerializeField]
@@ -25,6 +28,7 @@ public class GeneratePlanets : MonoBehaviour
     public bool GoDeeper { get => _goDeeper; set => _goDeeper = value; }
     public string GalaxyName { get => _galaxyName; set => _galaxyName = value; }
     public string ClusterName { get => _clusterName; set => _clusterName = value; }
+    public StellarSystemData StellarSystemData { get => _stellarSystemData; set => _stellarSystemData = value; }
 
     private void Awake()
     {
@@ -38,23 +42,37 @@ public class GeneratePlanets : MonoBehaviour
         }
 
         PlanetListDropdown = GameObject.FindGameObjectWithTag("PlanetsList").GetComponent<TMP_Dropdown>();
-
-        if (PlanetsList != null && GoDeeper)
+        
+        if (StellarSystemData != null && StellarSystemData.ChildrenItem.Length > 0 && GoDeeper)
         {
-            LoopPlanetsList(true, PlanetsList, "", "planet");
+            LoopPlanetsList(true, StellarSystemData.ChildrenItem, "", "planet");
+        }
+
+/*
+        if(StellarSystemData)
+        {
+            LoopTestList(StellarSystemData.ChildrenItem);
+        }*/
+    }
+
+    public void LoopTestList(PlanetData[] ChildrenItem)
+    {
+        foreach (PlanetData planetData in ChildrenItem)
+        {
+            Debug.Log($"stellarSystemData: {planetData.Name}");
         }
     }
 
-    public void LoopPlanetsList(bool goDeeper, PlanetsList PlanetsList, string ParentName, string objectType)
+    public void LoopPlanetsList(bool goDeeper, PlanetData[] ChildrenItem, string ParentName, string objectType)
     {
         //Debug.Log($"{name}: goDeeper is set to {goDeeper}, PlanetsList is {PlanetsList}");
 
         if (goDeeper)
         {
-            GetComponent<Transform>().name = PlanetsList.name.Replace(" - list", "");
+            //GetComponent<Transform>().name = PlanetsList.name.Replace(" - list", "");
         }
 
-        foreach (PlanetData planetData in PlanetsList.PlanetItem)
+        foreach (PlanetData planetData in ChildrenItem)
         {
             //Debug.Log(planetData.name);
             PlanetListDropdown.AddOptions(new List<string> { planetData.name });
@@ -91,7 +109,7 @@ public class GeneratePlanets : MonoBehaviour
         if(objectType == "moon")
         {
             //Destroy(planet.GetComponent<Rigidbody>());
-            planet.GetComponent<Rigidbody>().isKinematic = false;
+            //planet.GetComponent<Rigidbody>().isKinematic = false;
         }
 
         PlanetLogic.transform.name = $"{planetData.Name} - OrbitAnchor";
@@ -114,16 +132,17 @@ public class GeneratePlanets : MonoBehaviour
             Destroy(moonGenerator.gameObject);
         }
 
-        moonGenerator.GalaxyName = GalaxyName;
+        /*moonGenerator.GalaxyName = GalaxyName;
         moonGenerator.ClusterName = ClusterName;
         
         string MoonsListPath = GetMoonsListPath(planet, planetData);
-        moonGenerator.PlanetsList = Resources.Load<PlanetsList>(MoonsListPath);
+        moonGenerator.PlanetsList = Resources.Load<PlanetsList>(MoonsListPath);*/
+
         //Debug.Log(moonGenerator.PlanetsList);
-        if (moonGenerator.PlanetsList != null && moonGenerator.PlanetsList.name.Contains(planetData.name))
-        {
-            moonGenerator.LoopPlanetsList(false, moonGenerator.PlanetsList, planet.PlanetData.Name, "moon");
-        }
+        //if (moonGenerator.PlanetsList != null && moonGenerator.PlanetsList.name.Contains(planetData.name))
+        //{
+            moonGenerator.LoopPlanetsList(false, planet.PlanetData.ChildrenItem, planet.PlanetData.Name, "moon");
+        //}
     }
 
     private string GetMoonsListPath(Planet planet, PlanetData planetData)

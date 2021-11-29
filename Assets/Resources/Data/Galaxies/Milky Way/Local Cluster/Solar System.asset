@@ -15,8 +15,8 @@ MonoBehaviour:
   Name: Solar System
   StarName: Sun
   StarSize: 109
-  Top: 0
-  Left: 0
+  Top: 30
+  Left: 34
   ChildrenItem:
   - {fileID: 11400000, guid: d5bb790338eff90459bbe396f640c898, type: 2}
   - {fileID: 11400000, guid: 6ebea61587dab4d428cbd3de45f2b8f8, type: 2}

@@ -29,3 +29,9 @@ MonoBehaviour:
   YearLength: 11.862
   DayLength: 0.413
   Coords: sw
+  Rings: 0
+  ChildrenItem:
+  - {fileID: 11400000, guid: d46ebc0a1a94cd84f8a0fdacbf3d3d96, type: 2}
+  - {fileID: 11400000, guid: 0408f54a124f81a46b5c6af71627e77d, type: 2}
+  - {fileID: 11400000, guid: 9fb7da4599c3ac84c922c97d720b9f8f, type: 2}
+  - {fileID: 11400000, guid: 5fa36a36b06f15f49bd05a74a6403e11, type: 2}

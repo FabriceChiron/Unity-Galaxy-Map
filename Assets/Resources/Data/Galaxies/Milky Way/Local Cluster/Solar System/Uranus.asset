@@ -19,7 +19,7 @@ MonoBehaviour:
     from that of the larger gas giants Jupiter and Saturn. For this reason, scientists
     often classify Uranus and Neptune as \"ice giants\" to distinguish them from
     the gas giants.
-  Texture: {fileID: 2800000, guid: 585a5189734e42a40aa4e1349213acec, type: 3}
+  Texture: {fileID: 2800000, guid: 2a63dbd924f677f4e8146da66141dc3a, type: 3}
   Clouds: 0
   TidallyLocked: 0
   Orbit: 19.189
@@ -29,3 +29,5 @@ MonoBehaviour:
   YearLength: 84
   DayLength: 0.72083336
   Coords: s
+  Rings: 0
+  ChildrenItem: []

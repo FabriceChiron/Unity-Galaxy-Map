@@ -55,6 +55,7 @@ GameObject:
   - component: {fileID: 7701551589869002511}
   - component: {fileID: 7701551589869002508}
   - component: {fileID: 1929063321150608854}
+  - component: {fileID: 2594613437536674332}
   m_Layer: 0
   m_Name: Stellar System
   m_TagString: StellarSystem
@@ -125,6 +126,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e21c7f0ed85c17459784f61741baf05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &2594613437536674332
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7701551589869002505}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 82014ff675704aa4b8f65f352e1cd668, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!54 &7701551590271395070
 Rigidbody:
   m_ObjectHideFlags: 0

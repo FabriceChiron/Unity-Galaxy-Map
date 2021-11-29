@@ -23,7 +23,7 @@ public class Planet : MonoBehaviour
     private Transform _clouds;
 
     [SerializeField]
-    private Transform _cameraAnchor;
+    private Transform _cameraAnchor, _displayOrbitCircle;
 
     [SerializeField]
     private GeneratePlanets _generatePlanets;
@@ -80,6 +80,7 @@ public class Planet : MonoBehaviour
     public PlanetData PlanetData { get => _planetData; set => _planetData = value; }
     public Transform Star { get => _star; set => _star = value; }
     public Transform CameraAnchor { get => _cameraAnchor; set => _cameraAnchor = value; }
+    public Transform DisplayOrbitCircle { get => _displayOrbitCircle; set => _displayOrbitCircle = value; }
     public GeneratePlanets GeneratePlanets { get => _generatePlanets; set => _generatePlanets = value; }
     public string ParentStellarObject { get => _parentStellarObject; set => _parentStellarObject = value; }
     public string ObjectType { get => _objectType; set => _objectType = value; }
@@ -370,12 +371,12 @@ public class Planet : MonoBehaviour
         }
         else if(ObjectType == "moon")
         {
-            Debug.Log($"{name}: dataSize - {PlanetData.Orbit} _ OrbitSize - {OrbitSize} _ ParentHalfSize : {GameObject.Find(ParentStellarObject).transform.localScale.z / 2f}\nTotal: {GameObject.FindGameObjectWithTag("Star").transform.localScale.z + OrbitSize}");
+            //Debug.Log($"{name}: dataSize - {PlanetData.Orbit} _ OrbitSize - {OrbitSize} _ ParentHalfSize : {GameObject.Find(ParentStellarObject).transform.localScale.z / 2f}\nTotal: {GameObject.FindGameObjectWithTag("Star").transform.localScale.z + OrbitSize}");
             StellarAnchor.localPosition = new Vector3(0f, 0f, GameObject.Find(ParentStellarObject).transform.localScale.z + OrbitSize);
         }
 
 
-
+        DisplayOrbitCircle.localScale = new Vector3(StellarAnchor.localPosition.z / 5f, StellarAnchor.localPosition.z / 5f, StellarAnchor.localPosition.z / 5f);
 
         //StellarAnchor.localScale = new Vector3(1f / OrbitSize, 1f / OrbitSize, 1f / OrbitSize);
 
@@ -389,7 +390,7 @@ public class Planet : MonoBehaviour
         //SetLight();
         SetCameraAnchor();
 
-        CheckIfObjectIsStuckInside();
+        //CheckIfObjectIsStuckInside();
     }
 
     private void CheckIfObjectIsStuckInside()
