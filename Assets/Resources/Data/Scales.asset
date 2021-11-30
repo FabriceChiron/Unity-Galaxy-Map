@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e113e7395c9f3742870d9ffb8791fd0, type: 3}
   m_Name: Scales
   m_EditorClassIdentifier: 
-  Orbit: 50
+  Orbit: 30
   Planet: 1
   Year: 30
   Day: 10

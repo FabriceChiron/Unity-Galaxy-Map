@@ -15,10 +15,10 @@ public class SettingsInitializer : MonoBehaviour
             sliderSetting.LoadPrefs();
         }
 
-        /*ToggleSetting[] _toggles = FindObjectsOfType<ToggleSetting>(true);
+        ToggleSetting[] _toggles = FindObjectsOfType<ToggleSetting>(true);
         foreach (ToggleSetting toggleSetting in _toggles)
         {
             toggleSetting.LoadPrefs();
-        }*/
+        }
     }
 }

@@ -257,9 +257,6 @@ public class Planet : MonoBehaviour
     {
         OrbitTiltAngle = PlanetData.OrbitTilt;
 
-/*        OrbitSize = _planetData.Orbit * _scaleSettings.Orbit;
-        OrbitSize = _scaleSettings.dimRet(OrbitSize, 3f);*/
-
         GetOrbitOrientationStart(PlanetData.Coords);
 
         //Set the orbit's plane
@@ -342,7 +339,8 @@ public class Planet : MonoBehaviour
 
     public void SetScales(string moment)
     {
-        //Debug.Log($"Setting scales for {name}");
+
+
         if (!ScaleSettings.stellarScales.RationalizeValues)
         {
             GameObject.FindGameObjectWithTag("Star").transform.localScale = new Vector3(50f, 50f, 50f);
@@ -352,21 +350,10 @@ public class Planet : MonoBehaviour
             GameObject.FindGameObjectWithTag("Star").transform.localScale = new Vector3(5f, 5f, 5f);
         }
 
-        OrbitSize = PlanetData.Orbit * ScaleSettings.stellarScales.Orbit * OrbitSizeAdjust;
-        
-/*        if(PlanetData.Orbit <= 0.01 || ObjectType == "Moon")
-        {
-            Debug.Log($"{name}'s orbit is {OrbitSize}, multiplying by 1000");
-            OrbitSize = OrbitSize * 1000f;
-            Debug.Log($"{name}'s orbit is now {OrbitSize}");
-        }*/
 
-        OrbitSize = ScaleSettings.dimRet(OrbitSize, 3.5f);
-
+        OrbitSize = PlanetData.Orbit * ScaleSettings.dimRet(ScaleSettings.stellarScales.Orbit, 3.5f, ScaleSettings.stellarScales.RationalizeValues) * OrbitSizeAdjust;
 
         CalculatedOrbitSize = OrbitSize;
-
-        //Orbit.localScale = new Vector3(OrbitSize, OrbitSize, OrbitSize);
 
         if(ObjectType == "planet")
         {
@@ -376,8 +363,6 @@ public class Planet : MonoBehaviour
         {
             if(StellarAnchor != null)
             {
-                //Debug.Log($"{moment} - {name} - {ParentStellarObject} - {StellarAnchor}");
-                //Debug.Log($"{name}: dataSize - {PlanetData.Orbit} _ OrbitSize - {OrbitSize} _ ParentHalfSize : {GameObject.Find(ParentStellarObject).transform.localScale.z / 2f}\nTotal: {GameObject.FindGameObjectWithTag("Star").transform.localScale.z + OrbitSize}");
                 StellarAnchor.localPosition = new Vector3(0f, 0f, GameObject.Find(ParentStellarObject).transform.localScale.z + OrbitSize);
             }
         }
@@ -385,19 +370,13 @@ public class Planet : MonoBehaviour
 
         DisplayOrbitCircle.localScale = new Vector3(StellarAnchor.localPosition.z / 5f, StellarAnchor.localPosition.z / 5f, StellarAnchor.localPosition.z / 5f);
 
-        //StellarAnchor.localScale = new Vector3(1f / OrbitSize, 1f / OrbitSize, 1f / OrbitSize);
 
         ObjectSize = PlanetData.Size * ScaleSettings.stellarScales.Planet;
         CalculatedObjectSize = ObjectSize;
 
-        //_objectNameDisplay.GetComponent<RectTransform>().position = new Vector3(ObjectSize, ObjectSize, _objectNameDisplay.GetComponent<RectTransform>().position.z);
-
         StellarObject.localScale = new Vector3(ObjectSize, ObjectSize, ObjectSize);
 
-        //SetLight();
         SetCameraAnchor();
-
-        //CheckIfObjectIsStuckInside();
     }
 
     private void CheckIfObjectIsStuckInside()

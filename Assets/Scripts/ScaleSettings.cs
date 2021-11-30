@@ -37,21 +37,26 @@ public class ScaleSettings : MonoBehaviour
         RationalizeValues = stellarScales.RationalizeValues;
     }
 
-    public float dimRet(float val, float scale)
+    public float dimRet(float val, float scale, bool rationalizeValues)
     {
         if (val < 0)
         {
-            return -dimRet(-val, scale);
+            return -dimRet(-val, scale, rationalizeValues);
         }
 
         float mult = val / scale;
         float trinum = (Mathf.Sqrt(4.0f * mult + 1.0f) - 1.0f) / 2.0f;
-        if (!RationalizeValues)
+
+        //Debug.Log($"val : {val} - trinum * scale {trinum * scale}");
+
+        if (!rationalizeValues)
         {
+            //Debug.Log($"RationalizeValues is {rationalizeValues}, returning 'val': {val}");
             return val;
         }
         else
         {
+            //Debug.Log($"RationalizeValues is {rationalizeValues}, returning 'trinum * scale': {trinum * scale}");
             return trinum * scale;
         }
     }
