@@ -35,6 +35,9 @@ public class Planet : MonoBehaviour
     private TextMeshProUGUI _UIName;
 
     [SerializeField]
+    private PlanetButton _planetButton;
+
+    [SerializeField]
     private Image _UIDetails;
 
     [SerializeField]
@@ -99,6 +102,8 @@ public class Planet : MonoBehaviour
     public bool IsOnScreen { get => _isOnScreen; set => _isOnScreen = value; }
     public TrailRenderer PlanetTrail { get => _planetTrail; set => _planetTrail = value; }
     public float TrailStartTime { get => _trailStartTime; set => _trailStartTime = value; }
+    public CameraFollow Camera { get => _camera; set => _camera = value; }
+    public PlanetButton PlanetButton { get => _planetButton; set => _planetButton = value; }
 
     private void Awake()
     {
@@ -109,7 +114,7 @@ public class Planet : MonoBehaviour
 
     public void OnCreation()
     {
-        _camera = Camera.main.GetComponent<CameraFollow>();
+        Camera = UnityEngine.Camera.main.GetComponent<CameraFollow>();
 
         OrbitSizeAdjust = 1f;
 
@@ -171,6 +176,11 @@ public class Planet : MonoBehaviour
 
         OrbitAnchor.localPosition = Vector3.zero;
 
+        if(ObjectType == "moon")
+        {
+            PlanetButton.GetComponent<RectTransform>().sizeDelta = new Vector2(10f, 10f);
+        }
+
         SetScales("init");
         SetOrbit();
         SetStellarObject();
@@ -215,7 +225,9 @@ public class Planet : MonoBehaviour
 
         }
 
-        UIName.transform.position = Camera.main.WorldToScreenPoint(_stellarObject.position);
+        PlanetButton.transform.position = UnityEngine.Camera.main.WorldToScreenPoint(_stellarObject.position);
+ 
+        UIName.transform.position = UnityEngine.Camera.main.WorldToScreenPoint(_stellarObject.position);
 
 
         if(PlayerPrefs.GetInt("ShowNames") == 1 && IsOnScreen)
@@ -233,7 +245,7 @@ public class Planet : MonoBehaviour
 
     private void CheckIfOnScreen()
     {
-        Vector3 screenPoint = Camera.main.WorldToViewportPoint(StellarObject.position);
+        Vector3 screenPoint = UnityEngine.Camera.main.WorldToViewportPoint(StellarObject.position);
         IsOnScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
     }
 
@@ -452,7 +464,7 @@ public class Planet : MonoBehaviour
 
     private void DetectClick()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
 
         // On peut visualiser le rayon dans la sc�ne pour debugger (n'influe en rien sur le jeu)
         Debug.DrawRay(ray.origin, ray.direction * 20f);
@@ -462,7 +474,7 @@ public class Planet : MonoBehaviour
         //if the mouse is on the sun and and is clicked
         if(Physics.Raycast(ray, out hit) && hit.transform.tag == "Star" && Input.GetMouseButton(0))
         {
-            _camera.ChangeTarget(hit.transform);
+            Camera.ChangeTarget(hit.transform);
         }
 
 
@@ -476,7 +488,7 @@ public class Planet : MonoBehaviour
             {
 
                 //if the camera is alreay focused on the planet or moon
-                if(_camera.CameraTarget == hit.transform)
+                if(Camera.CameraTarget == hit.transform)
                 {
                     /*if(IsPointerOverUIObject())
                     {
@@ -488,15 +500,15 @@ public class Planet : MonoBehaviour
                     //And hide the name
                     //UIName.gameObject.SetActive(false);
                     Animator.SetBool("ShowName", false);
-                    _camera.CameraAnchor = CameraAnchor;
-                    _camera.CameraAnchorObject = gameObject;
+                    Camera.CameraAnchor = CameraAnchor;
+                    Camera.CameraAnchorObject = gameObject;
                 }
 
                 //else
                 else
                 {
                     //change the camera focus to the planet
-                    _camera.ChangeTarget(hit.transform);
+                    Camera.ChangeTarget(hit.transform);
                 }
 
 

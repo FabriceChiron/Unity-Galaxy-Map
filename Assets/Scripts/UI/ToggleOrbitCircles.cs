@@ -34,6 +34,7 @@ public class ToggleOrbitCircles : MonoBehaviour
         }
 
         _toggle.isOn = (PlayerPrefs.GetInt("ShowOrbitCircles") != 0) ? true : false;
+        SetToggleOrbitCircles();
     }
 
     public void SetToggleOrbitCircles()
