@@ -45,6 +45,7 @@ public class GeneratePlanets : MonoBehaviour
         
         if (StellarSystemData != null && StellarSystemData.ChildrenItem.Length > 0 && GoDeeper)
         {
+            PlanetListDropdown.AddOptions(new List<string> { GameObject.FindGameObjectWithTag("Star").name });
             LoopPlanetsList(true, StellarSystemData.ChildrenItem, "", "planet");
         }
 

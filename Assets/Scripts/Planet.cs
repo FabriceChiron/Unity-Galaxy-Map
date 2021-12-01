@@ -179,6 +179,8 @@ public class Planet : MonoBehaviour
         if(ObjectType == "moon")
         {
             PlanetButton.GetComponent<RectTransform>().sizeDelta = new Vector2(10f, 10f);
+            UIName.fontSize = 14;
+            UIName.fontStyle = (FontStyles)FontStyle.Normal;
         }
 
         SetScales("init");
@@ -494,6 +496,9 @@ public class Planet : MonoBehaviour
                     {
 
                     }*/
+
+                    Debug.Log($"Should show description of {hit.transform.name}");
+
                     //Set the animator boolean to true, which will start the animation to show the details
                     Animator.SetBool("ShowDetails", !Animator.GetBool("ShowDetails"));
                     

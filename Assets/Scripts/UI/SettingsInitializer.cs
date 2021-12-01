@@ -29,5 +29,8 @@ public class SettingsInitializer : MonoBehaviour
 
         ToggleOrbitCircles toggleOrbitCircles = FindObjectOfType<ToggleOrbitCircles>();
         toggleOrbitCircles.LoadPrefs();
+
+        TogglePlanetHighlight togglePlanetHighlight = FindObjectOfType<TogglePlanetHighlight>();
+        togglePlanetHighlight.LoadPrefs();
     }
 }
