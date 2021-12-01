@@ -16,10 +16,10 @@ public class DropDownMenu : MonoBehaviour
 
         PlanetListDropdown = GameObject.FindGameObjectWithTag("PlanetsList").GetComponent<TMP_Dropdown>();
 
-        PlanetListDropdown.onValueChanged.AddListener(delegate
+        /*PlanetListDropdown.onValueChanged.AddListener(delegate
         {
             DropdownValueChanged(PlanetListDropdown);
-        });
+        });*/
 
     }
 
