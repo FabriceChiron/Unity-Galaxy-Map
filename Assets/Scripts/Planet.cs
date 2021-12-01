@@ -26,6 +26,9 @@ public class Planet : MonoBehaviour
     private Transform _cameraAnchor, _displayOrbitCircle;
 
     [SerializeField]
+    private TrailRenderer _planetTrail;
+
+    [SerializeField]
     private GeneratePlanets _generatePlanets;
 
     [SerializeField]
@@ -46,9 +49,9 @@ public class Planet : MonoBehaviour
 
     private string _coords;
 
-    private bool _hasClouds, _isTidallyLocked, _isCreated, _isPaused, _needsAdjust, _mouseOnUI;
+    private bool _hasClouds, _isTidallyLocked, _isCreated, _isPaused, _needsAdjust, _mouseOnUI, _isHovered, _isOnScreen;
 
-    private float revolutionDegreesPerSecond, rotationDegreesPerSecond, _orientationStart, _orbitSizeAdjust;
+    private float revolutionDegreesPerSecond, rotationDegreesPerSecond, _orientationStart, _orbitSizeAdjust, _trailStartTime;
 
 
     private Transform _stellarObject, _stellarAnchor, _orbit, _orbitAnchor, _cameraPosition, _star;
@@ -92,11 +95,16 @@ public class Planet : MonoBehaviour
     public UITest UITest { get => _UITest; set => _UITest = value; }
     public bool MouseOnUI { get => _mouseOnUI; set => _mouseOnUI = value; }
     public bool IsCreated { get => _isCreated; set => _isCreated = value; }
+    public bool IsHovered { get => _isHovered; set => _isHovered = value; }
+    public bool IsOnScreen { get => _isOnScreen; set => _isOnScreen = value; }
+    public TrailRenderer PlanetTrail { get => _planetTrail; set => _planetTrail = value; }
+    public float TrailStartTime { get => _trailStartTime; set => _trailStartTime = value; }
 
     private void Awake()
     {
         Star = GameObject.FindGameObjectWithTag("Star").transform;
         UITest = GameObject.FindGameObjectWithTag("StellarSystem").GetComponent<UITest>();
+        TrailStartTime = 1.5f;
     }
 
     public void OnCreation()
@@ -135,7 +143,7 @@ public class Planet : MonoBehaviour
             $"<b>Rotation Period</b>: {PlanetData.DayLength} Earth day(s)\n\n" +
             $"{PlanetData.Details}";
 
-        UIName.gameObject.SetActive(false);
+        //UIName.gameObject.SetActive(false);
         UIDetails.gameObject.SetActive(false);
 
         //Define the collider for click detection
@@ -181,13 +189,12 @@ public class Planet : MonoBehaviour
     {
         MouseOnUI = UITest.IsPointerOverUIElement();
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            _isPaused = !_isPaused;
-        }
-
         if (IsCreated)
         {
+            /*if(TrailStartTime - Time.deltaTime <= Time.time)
+            {
+                PlanetTrail.enabled = PlayerPrefs.GetInt("ShowTrails") != 0;
+            }*/
 
             if(!MouseOnUI)
             {
@@ -196,7 +203,7 @@ public class Planet : MonoBehaviour
             //AdjustOrbit();
             //SetScales();
 
-            if (!_isPaused)
+            if (!UITest.IsPaused)
             {
                 PlanetRevolution();
                 PlanetRotation();
@@ -204,8 +211,30 @@ public class Planet : MonoBehaviour
 
             CameraAnchor.parent.LookAt(Star.position);
 
+            CheckIfOnScreen();
+
         }
 
+        UIName.transform.position = Camera.main.WorldToScreenPoint(_stellarObject.position);
+
+
+        if(PlayerPrefs.GetInt("ShowNames") == 1 && IsOnScreen)
+        {
+            //UIName.gameObject.SetActive(true);
+            Animator.SetBool("ShowName", true);
+        }
+        else if(!IsHovered)
+        {
+            Animator.SetBool("ShowName", false);
+        }
+
+
+    }
+
+    private void CheckIfOnScreen()
+    {
+        Vector3 screenPoint = Camera.main.WorldToViewportPoint(StellarObject.position);
+        IsOnScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
     }
 
     private void PlanetRevolution()
@@ -219,6 +248,7 @@ public class Planet : MonoBehaviour
         StellarAnchor.Rotate(new Vector3(0, -revolutionDegreesPerSecond * Time.deltaTime, 0));
 
         Orbit.Rotate(new Vector3(0, revolutionDegreesPerSecond * Time.deltaTime, 0));
+        PlanetTrail.time = RevolutionTime * .75f;
     }
 
     public void PlanetRotation()
@@ -236,6 +266,7 @@ public class Planet : MonoBehaviour
         }
 
         RotateObject(StellarObject, RotationTime, inverted);
+        
 
         
         if (_hasClouds)
@@ -372,6 +403,7 @@ public class Planet : MonoBehaviour
 
 
         ObjectSize = PlanetData.Size * ScaleSettings.stellarScales.Planet;
+        //PlanetTrail.startWidth = ObjectSize * .5f;
         CalculatedObjectSize = ObjectSize;
 
         StellarObject.localScale = new Vector3(ObjectSize, ObjectSize, ObjectSize);
@@ -438,6 +470,7 @@ public class Planet : MonoBehaviour
         //if the mouse is on a planet or moon...
         else if (Physics.Raycast(ray, out hit) && (hit.transform == _stellarObject))
         {
+            IsHovered = true;
             //and is clicked
             if (Input.GetMouseButtonDown(0))
             {
@@ -453,7 +486,8 @@ public class Planet : MonoBehaviour
                     Animator.SetBool("ShowDetails", !Animator.GetBool("ShowDetails"));
                     
                     //And hide the name
-                    UIName.gameObject.SetActive(false);
+                    //UIName.gameObject.SetActive(false);
+                    Animator.SetBool("ShowName", false);
                     _camera.CameraAnchor = CameraAnchor;
                     _camera.CameraAnchorObject = gameObject;
                 }
@@ -472,17 +506,24 @@ public class Planet : MonoBehaviour
             else if (!Animator.GetBool("ShowDetails"))
             {
                 //Display the name
-                UIName.gameObject.SetActive(true);
+                //UIName.gameObject.SetActive(true);
+                Animator.SetBool("ShowName", true);
                 //Position the name on the planet or moon
-                UIName.transform.position = Camera.main.WorldToScreenPoint(_stellarObject.position);
+                //UIName.transform.position = Camera.main.WorldToScreenPoint(_stellarObject.position);
             }
         }
 
         //If the mouse is not on a planet or moon
         else
         {
+            IsHovered = true;
+
             Animator.SetBool("ShowDetails", false);
-            UIName.gameObject.SetActive(false);
+            if (PlayerPrefs.GetInt("ShowNames") == 0)
+            {
+                //UIName.gameObject.SetActive(false);
+                Animator.SetBool("ShowName", false);
+            }
         }
     }
 }

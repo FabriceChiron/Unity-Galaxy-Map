@@ -64,38 +64,4 @@ public class ToggleSetting : MonoBehaviour
             }
         }
     }
-
-
-    /*    public void LoadPrefs()
-        {
-            // On récupère le Toggle
-            _toggle = GetComponent<Toggle>();
-
-            Debug.Log(PlayerPrefs.GetInt(PrefName));
-            Debug.Log(Scales.RationalizeValues);
-            // On défini l'état du composant Toggle grâce aux PlayerPrefs
-            _toggle.isOn = Scales.RationalizeValues;
-            //SetValue(Scales.RationalizeValues);
-        }
-
-        public void SetValue(bool value)
-        {
-            // On sauvegarde la nouvelle valeur dans les PlayerPrefs
-            Scales.RationalizeValues = value;
-
-            PlayerPrefs.SetInt(PrefName, value ? 1 : 0);
-            Debug.Log(value);
-            Debug.Log(PlayerPrefs.GetInt(PrefName));
-
-            _planets = GameObject.FindGameObjectWithTag("StellarSystem").GetComponentsInChildren<Planet>();
-
-            foreach (Planet planet in _planets)
-            {
-                //Debug.Log(planet.name);
-                if (planet.IsCreated)
-                {
-                    planet.SetScales("toggle");
-                }
-            }
-        }*/
 }

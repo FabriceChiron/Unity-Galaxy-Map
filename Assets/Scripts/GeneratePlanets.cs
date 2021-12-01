@@ -75,7 +75,7 @@ public class GeneratePlanets : MonoBehaviour
         foreach (PlanetData planetData in ChildrenItem)
         {
             //Debug.Log(planetData.name);
-            PlanetListDropdown.AddOptions(new List<string> { planetData.name });
+            PlanetListDropdown.AddOptions(new List<string> { $"{((objectType == "moon") ? "     " : "") }{planetData.name}" });
             CreatePlanet(planetData, goDeeper, ParentName, objectType);
 
         }
