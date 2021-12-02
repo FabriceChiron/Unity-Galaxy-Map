@@ -65,7 +65,10 @@ public class SelectSystemsList : MonoBehaviour
 
             //Debug.Log($"Switching Stellar Systems in {_timeBeforeDeploy}");
 
-            currentStellarSystem.GetComponent<ToggleStellarSystem>().FoldStellarSystem();
+            if(currentStellarSystem != null)
+            {
+                currentStellarSystem.GetComponent<ToggleStellarSystem>().FoldStellarSystem();
+            }
 
             
 
@@ -73,7 +76,10 @@ public class SelectSystemsList : MonoBehaviour
             {
                 Camera.main.transform.parent = null;
                 ChangeStellarSystem = false;
-                Destroy(currentStellarSystem);
+                if (currentStellarSystem != null)
+                {
+                    Destroy(currentStellarSystem);
+                }
 
                 newStellarSystem = Instantiate(_stellarSystemPrefab, Vector3.zero, Quaternion.identity);
                 GeneratePlanets newGenerator = newStellarSystem.GetComponent<GeneratePlanets>();

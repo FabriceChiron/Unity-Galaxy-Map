@@ -178,6 +178,7 @@ public class Planet : MonoBehaviour
 
         PlanetButton.GetComponent<Image>().enabled = PlayerPrefs.GetInt("HighlightPlanetsPosition") != 0;
         DisplayOrbitCircle.gameObject.SetActive(PlayerPrefs.GetInt("ShowOrbitCircles") != 0);
+        PlanetTrail.enabled = PlayerPrefs.GetInt("ShowTrails") != 0;
 
         if (ObjectType == "moon")
         {
