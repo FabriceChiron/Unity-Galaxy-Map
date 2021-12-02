@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class CameraFollow : MonoBehaviour
 {
@@ -24,6 +25,9 @@ public class CameraFollow : MonoBehaviour
 
     private Transform _star, _cameraAnchor;
     private GameObject _cameraAnchorObject;
+
+    [SerializeField]
+    private TMP_Dropdown PlanetListDropdown;
 
     public string StartingPoint { get => _startingPoint; set => _startingPoint = value; }
     public float Sensitivity { get => _sensitivity; set => _sensitivity = value; }
@@ -143,13 +147,28 @@ public class CameraFollow : MonoBehaviour
 
     public void ChangeTarget(Transform newCameraTarget)
     {
-        //Debug.Log(newCameraTarget.name);
         CameraTarget = newCameraTarget;
+
+        ChangeSelectionInDropdown(newCameraTarget.name);
     }
 
     public void ChangeTarget(string PlanetName)
     {
         CameraTarget = GameObject.Find($"{PlanetName}").transform;
+
+        ChangeSelectionInDropdown(PlanetName);
+    }
+
+    private void ChangeSelectionInDropdown(string newCameraTarget)
+    {
+        for (int i = 0; i < PlanetListDropdown.options.Count; i++)
+        {
+            if (newCameraTarget == PlanetListDropdown.options[i].text.Replace("     ", ""))
+            {
+                Debug.Log($"Setting dropdown to {PlanetListDropdown.options[i].text.Replace("     ", "")}");
+                PlanetListDropdown.value = i;
+            }
+        }
     }
 
     public void FocusOnTarget(string componentType)

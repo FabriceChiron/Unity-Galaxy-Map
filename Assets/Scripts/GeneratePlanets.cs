@@ -45,6 +45,7 @@ public class GeneratePlanets : MonoBehaviour
         
         if (StellarSystemData != null && StellarSystemData.ChildrenItem.Length > 0 && GoDeeper)
         {
+            PlanetListDropdown.AddOptions(new List<string> { GameObject.FindGameObjectWithTag("Star").name });
             LoopPlanetsList(true, StellarSystemData.ChildrenItem, "", "planet");
         }
 
@@ -75,7 +76,7 @@ public class GeneratePlanets : MonoBehaviour
         foreach (PlanetData planetData in ChildrenItem)
         {
             //Debug.Log(planetData.name);
-            PlanetListDropdown.AddOptions(new List<string> { planetData.name });
+            PlanetListDropdown.AddOptions(new List<string> { $"{((objectType == "moon") ? "     " : "") }{planetData.name}" });
             CreatePlanet(planetData, goDeeper, ParentName, objectType);
 
         }

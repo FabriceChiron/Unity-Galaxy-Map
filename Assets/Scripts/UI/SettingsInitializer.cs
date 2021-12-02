@@ -20,5 +20,17 @@ public class SettingsInitializer : MonoBehaviour
         {
             toggleSetting.LoadPrefs();
         }
+
+        ToggleNames toggleNames = FindObjectOfType<ToggleNames>();
+        toggleNames.LoadPrefs();
+
+        ToggleTrails toggleTrails = FindObjectOfType<ToggleTrails>();
+        toggleTrails.LoadPrefs();
+
+        ToggleOrbitCircles toggleOrbitCircles = FindObjectOfType<ToggleOrbitCircles>();
+        toggleOrbitCircles.LoadPrefs();
+
+        TogglePlanetHighlight togglePlanetHighlight = FindObjectOfType<TogglePlanetHighlight>();
+        togglePlanetHighlight.LoadPrefs();
     }
 }
