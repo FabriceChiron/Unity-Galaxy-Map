@@ -17,7 +17,7 @@ public class ToggleStellarSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DeployStellarSystem();
+        //DeployStellarSystem();
     }
 
     // Update is called once per frame
@@ -26,13 +26,27 @@ public class ToggleStellarSystem : MonoBehaviour
         
     }
 
+    public void ActivateUIDetails()
+    {
+        Camera.main.GetComponent<CameraFollow>().ResetCameraTarget();
+        foreach (GameObject UIDetails in GameObject.FindGameObjectsWithTag("UI - Details"))
+        {
+            UIDetails.SetActive(true);
+        }
+    }
+
     public void DeployStellarSystem()
     {
         Animator.SetBool("IsDeployed", true);
+
     }
 
     public void FoldStellarSystem()
     {
+        foreach(GameObject UIDetails in GameObject.FindGameObjectsWithTag("UI - Details"))
+        {
+            Destroy(UIDetails);
+        }
         Animator.SetBool("IsDeployed", false);
     }
 }

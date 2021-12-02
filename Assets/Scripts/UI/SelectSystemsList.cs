@@ -14,9 +14,13 @@ public class SelectSystemsList : MonoBehaviour
 
     private TMP_Dropdown _systemsDropdown;
 
-    private bool _changeStellarSystem;
+    private bool _changeStellarSystem = false;
 
-    private float _timeBeforeDeploy = 1f;
+    private float _timeBeforeDeploy = 1.5f;
+    private float _resetTimeBeforeDeploy;
+
+    private float _timeBeforeResetCam = 1f;
+    private float _resetTimeBeforeResetCam;
 
     public bool ChangeStellarSystem { get => _changeStellarSystem; set => _changeStellarSystem = value; }
 
@@ -27,12 +31,17 @@ public class SelectSystemsList : MonoBehaviour
     {
         _systemsDropdown = GetComponent<TMP_Dropdown>();
 
+        _resetTimeBeforeDeploy = _timeBeforeDeploy;
+        _resetTimeBeforeResetCam = _timeBeforeResetCam;
+
         currentStellarSystem = GameObject.FindGameObjectWithTag("StellarSystem");
 
         foreach (StellarSystemData stellarSystemItem in _stellarSystemsArray)
         {
             _systemsDropdown.AddOptions(new List<string> { stellarSystemItem.name });
         }
+
+        SelectSolarSystem(_systemsDropdown);
     }
 
     // Start is called before the first frame update
@@ -51,34 +60,46 @@ public class SelectSystemsList : MonoBehaviour
     {
         if (ChangeStellarSystem)
         {
-            Debug.Log($"Switching Stellar Systems");
 
             _timeBeforeDeploy -= Time.deltaTime;
 
-            currentStellarSystem.GetComponent<Animator>().SetBool("IsDeployed", false);
+            //Debug.Log($"Switching Stellar Systems in {_timeBeforeDeploy}");
+
+            currentStellarSystem.GetComponent<ToggleStellarSystem>().FoldStellarSystem();
+
+            
 
             if (_timeBeforeDeploy <= 0)
             {
                 Camera.main.transform.parent = null;
                 ChangeStellarSystem = false;
                 Destroy(currentStellarSystem);
-                newStellarSystem.GetComponent<Animator>().SetBool("IsDeployed", true);
+
+                newStellarSystem = Instantiate(_stellarSystemPrefab, Vector3.zero, Quaternion.identity);
+                GeneratePlanets newGenerator = newStellarSystem.GetComponent<GeneratePlanets>();
+
+                newGenerator.StellarSystemData = _stellarSystemsArray[_systemsDropdown.value];
+
+                newGenerator.GenerateStellarSystem();
+
+                newStellarSystem.GetComponent<ToggleStellarSystem>().DeployStellarSystem();
+
+
+                _timeBeforeDeploy = _resetTimeBeforeDeploy;
+
+                _timeBeforeResetCam -= Time.deltaTime;
+
+                if(_timeBeforeResetCam <= 0)
+                {
+                    _timeBeforeResetCam = _resetTimeBeforeResetCam;
+                }
+
             }
         }
     }
 
     public void SelectSolarSystem(TMP_Dropdown Dropdown)
     {
-        Debug.Log(_stellarSystemsArray[Dropdown.value]);
-
-        newStellarSystem = Instantiate(_stellarSystemPrefab, Vector3.zero, Quaternion.identity);
-
-        GeneratePlanets newGenerator = newStellarSystem.GetComponent<GeneratePlanets>();
-
-        newGenerator.StellarSystemData = _stellarSystemsArray[Dropdown.value];
-
-        newGenerator.GenerateStellarSystem();
-
         currentStellarSystem = GameObject.FindGameObjectWithTag("StellarSystem");
 
         ChangeStellarSystem = true;

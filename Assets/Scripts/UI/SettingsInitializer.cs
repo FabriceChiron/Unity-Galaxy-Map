@@ -11,7 +11,6 @@ public class SettingsInitializer : MonoBehaviour
         SliderSetting[] _sliders = FindObjectsOfType<SliderSetting>(true);
         foreach (SliderSetting sliderSetting in _sliders)
         {
-            Debug.Log(sliderSetting);
             sliderSetting.LoadPrefs();
         }
 

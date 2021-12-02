@@ -176,7 +176,10 @@ public class Planet : MonoBehaviour
 
         OrbitAnchor.localPosition = Vector3.zero;
 
-        if(ObjectType == "moon")
+        PlanetButton.GetComponent<Image>().enabled = PlayerPrefs.GetInt("HighlightPlanetsPosition") != 0;
+        DisplayOrbitCircle.gameObject.SetActive(PlayerPrefs.GetInt("ShowOrbitCircles") != 0);
+
+        if (ObjectType == "moon")
         {
             PlanetButton.GetComponent<RectTransform>().sizeDelta = new Vector2(10f, 10f);
             UIName.fontSize = 14;

@@ -33,7 +33,7 @@ public class GeneratePlanets : MonoBehaviour
     private void Awake()
     {
 
-        Debug.Log($"Awake: {name}");
+        //Debug.Log($"Awake: {name}");
         GenerateStellarSystem();
 
         /*
@@ -45,7 +45,7 @@ public class GeneratePlanets : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log($"Start: {name}");
+        //Debug.Log($"Start: {name}");
     }
 
     public void GenerateStellarSystem()
@@ -62,7 +62,7 @@ public class GeneratePlanets : MonoBehaviour
         
         PlanetListDropdown = GameObject.FindGameObjectWithTag("PlanetsList").GetComponent<TMP_Dropdown>();
 
-        Debug.Log($"{name}: {StellarSystemData}");
+        //Debug.Log($"{name}: {StellarSystemData}");
 
         if (StellarSystemData != null && StellarSystemData.ChildrenItem.Length > 0 && GoDeeper)
         {

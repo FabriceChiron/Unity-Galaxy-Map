@@ -5,8 +5,6 @@ using TMPro;
 
 public class Controller : MonoBehaviour
 {
-    private TMP_Dropdown PlanetListDropdown;
-
 
     private void Awake()
     {

@@ -46,15 +46,22 @@ public class CameraFollow : MonoBehaviour
         
         if(GameObject.FindGameObjectWithTag("Star") != null)
         {
-            Star = GameObject.FindGameObjectWithTag("Star").transform;
-            CameraTarget = Star;
+            ResetCameraTarget();
         }
 
-        if(GameObject.FindGameObjectWithTag("StellarSystem"))
+        if (GameObject.FindGameObjectWithTag("StellarSystem"))
         {
             UITest = GameObject.FindGameObjectWithTag("StellarSystem").GetComponent<UITest>();
         }
+    }
 
+    public void ResetCameraTarget()
+    {
+        Star = GameObject.FindGameObjectWithTag("Star").transform;
+        Debug.Log($"Resetting camera target to {Star}");
+        CameraTarget = Star;
+        CameraAnchor = null;
+        ChangeTarget(Star);
     }
 
     // Update is called once per frame
@@ -165,7 +172,7 @@ public class CameraFollow : MonoBehaviour
         {
             if (newCameraTarget == PlanetListDropdown.options[i].text.Replace("     ", ""))
             {
-                Debug.Log($"Setting dropdown to {PlanetListDropdown.options[i].text.Replace("     ", "")}");
+                //Debug.Log($"Setting dropdown to {PlanetListDropdown.options[i].text.Replace("     ", "")}");
                 PlanetListDropdown.value = i;
             }
         }
