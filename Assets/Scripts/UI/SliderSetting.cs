@@ -86,16 +86,20 @@ public class SliderSetting : MonoBehaviour
         // On sauvegarde la nouvelle valeur dans les PlayerPrefs
         PlayerPrefs.SetFloat(_prefName, value);
 
-        _planets = GameObject.FindGameObjectWithTag("StellarSystem").GetComponentsInChildren<Planet>();
-
-        foreach (Planet planet in _planets)
+        if (GameObject.FindGameObjectWithTag("StellarSystem"))
         {
-            //Debug.Log(planet.name);
-            if(planet.IsCreated)
+            _planets = GameObject.FindGameObjectWithTag("StellarSystem").GetComponentsInChildren<Planet>();
+
+            foreach (Planet planet in _planets)
             {
-                planet.SetScales("slider");
+                //Debug.Log(planet.name);
+                if(planet.IsCreated)
+                {
+                    planet.SetScales("slider");
+                }
             }
         }
+
         
     }
 
