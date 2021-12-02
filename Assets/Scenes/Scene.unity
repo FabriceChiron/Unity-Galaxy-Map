@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.01624039, g: 0.01472227, b: 0.0138980355, a: 1}
+  m_IndirectSpecularColor: {r: 0.016243907, g: 0.014724376, b: 0.013899613, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -786,7 +786,7 @@ GameObject:
   - component: {fileID: 296273593}
   - component: {fileID: 296273592}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -809,7 +809,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 140, y: 25}
+  m_SizeDelta: {x: 140, y: 30}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &296273592
 MonoBehaviour:
@@ -866,7 +866,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 4
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1175,7 +1175,7 @@ GameObject:
   - component: {fileID: 396339858}
   - component: {fileID: 396339857}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Stellar System Selection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2539,12 +2539,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c916861fd19697d419423ebaf2397962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TransformToRotate: {fileID: 963194228}
-  NumberOfTouchesRequired: 1
-  GestureView: {fileID: 0}
-  RotationSpeed: 20
-  RotationXMinMax: {x: -60, y: 60}
-  RotationDampening: 0.8
 --- !u!114 &963194232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2557,24 +2551,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08baa3d19a3754108af85534c7824251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnableMultiTouch: 1
-  TreatMousePointerAsFinger: 0
-  TreatMouseWheelAsFingers: 0
-  SimulateMouseWithTouches: 0
-  ProcessUnityTouches: 1
-  RequireControlKeyForMouseZoom: 1
-  MouseDistanceInUnitsForScaleAndRotate: 2
-  MouseWheelDeltaMultiplier: 0.025
-  MouseWheelZoomOutSnapBack: {x: 0, y: 0}
-  PassThroughObjects: []
-  AutoAddRequiredComponents: 1
-  ShowTouches: 0
-  TouchCircles: []
-  DefaultDPI: 200
-  LevelUnloadOption: 2
-  UseFixedUpdate: 0
-  RecordTouches: 0
-  TestTouches: []
 --- !u!114 &963194233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2587,13 +2563,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4e2041f10bbdcd49b4ea8f09022f348, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Target: {fileID: 0}
-  PanSpeed: -1
-  TiltSpeed: -1
-  TiltThreadhold: 0.5
-  ZoomSpeed: 1
-  RotateSpeed: 1
-  Dampening: 0.95
 --- !u!1 &1016613035
 GameObject:
   m_ObjectHideFlags: 0
@@ -5060,6 +5029,38 @@ PrefabInstance:
       propertyPath: m_Name
       value: StellarSystems List
       objectReference: {fileID: 0}
+    - target: {fileID: 1982498355667602534, guid: e04326d909c04ca4f8003d435e58c36b, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982498355667602534, guid: e04326d909c04ca4f8003d435e58c36b, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982498355667602534, guid: e04326d909c04ca4f8003d435e58c36b, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1999791609}
+    - target: {fileID: 1982498355667602534, guid: e04326d909c04ca4f8003d435e58c36b, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982498355667602534, guid: e04326d909c04ca4f8003d435e58c36b, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SelectSolarSystem
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982498355667602534, guid: e04326d909c04ca4f8003d435e58c36b, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SelectSystemsList, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982498355667602534, guid: e04326d909c04ca4f8003d435e58c36b, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1999791610}
+    - target: {fileID: 1982498355667602534, guid: e04326d909c04ca4f8003d435e58c36b, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: TMPro.TMP_Dropdown, Unity.TextMeshPro
+      objectReference: {fileID: 0}
     - target: {fileID: 1982498355667602535, guid: e04326d909c04ca4f8003d435e58c36b, type: 3}
       propertyPath: m_Pivot.x
       value: 1
@@ -5179,6 +5180,18 @@ MonoBehaviour:
   _stellarSystemsArray:
   - {fileID: 11400000, guid: 997017bddba0fb1478b7d746c8e741f8, type: 2}
   - {fileID: 11400000, guid: be6ab11939c590b4b945a522f795b042, type: 2}
+  _stellarSystemPrefab: {fileID: 7701551589869002505, guid: 858751f73b10c6b4ebd1f8006bb1f00c, type: 3}
+--- !u!114 &1999791610 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1982498355667602534, guid: e04326d909c04ca4f8003d435e58c36b, type: 3}
+  m_PrefabInstance: {fileID: 1999791606}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1999791608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2005422435
 GameObject:
   m_ObjectHideFlags: 0
@@ -6110,7 +6123,7 @@ PrefabInstance:
     - target: {fileID: 7701551589869002508, guid: 858751f73b10c6b4ebd1f8006bb1f00c, type: 3}
       propertyPath: _planetsList
       value: 
-      objectReference: {fileID: 11400000, guid: b50a06b6a2eb68c49828d0ef487b721d, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7701551589869002508, guid: 858751f73b10c6b4ebd1f8006bb1f00c, type: 3}
       propertyPath: _stellarSystemData
       value: 

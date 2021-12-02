@@ -32,28 +32,44 @@ public class GeneratePlanets : MonoBehaviour
 
     private void Awake()
     {
-        if(GalaxyName == "")
+
+        Debug.Log($"Awake: {name}");
+        GenerateStellarSystem();
+
+        /*
+                if(StellarSystemData)
+                {
+                    LoopTestList(StellarSystemData.ChildrenItem);
+                }*/
+    }
+
+    private void Start()
+    {
+        Debug.Log($"Start: {name}");
+    }
+
+    public void GenerateStellarSystem()
+    {
+        if (GalaxyName == "")
         {
             GalaxyName = "Milky Way";
         }
-        if(ClusterName == "")
+        if (ClusterName == "")
         {
             ClusterName = "Local Cluster";
         }
 
-        PlanetListDropdown = GameObject.FindGameObjectWithTag("PlanetsList").GetComponent<TMP_Dropdown>();
         
+        PlanetListDropdown = GameObject.FindGameObjectWithTag("PlanetsList").GetComponent<TMP_Dropdown>();
+
+        Debug.Log($"{name}: {StellarSystemData}");
+
         if (StellarSystemData != null && StellarSystemData.ChildrenItem.Length > 0 && GoDeeper)
         {
+            PlanetListDropdown.ClearOptions();
             PlanetListDropdown.AddOptions(new List<string> { GameObject.FindGameObjectWithTag("Star").name });
             LoopPlanetsList(true, StellarSystemData.ChildrenItem, "", "planet");
         }
-
-/*
-        if(StellarSystemData)
-        {
-            LoopTestList(StellarSystemData.ChildrenItem);
-        }*/
     }
 
     public void LoopTestList(PlanetData[] ChildrenItem)
@@ -133,17 +149,8 @@ public class GeneratePlanets : MonoBehaviour
             Destroy(moonGenerator.gameObject);
         }
 
-        /*moonGenerator.GalaxyName = GalaxyName;
-        moonGenerator.ClusterName = ClusterName;
-        
-        string MoonsListPath = GetMoonsListPath(planet, planetData);
-        moonGenerator.PlanetsList = Resources.Load<PlanetsList>(MoonsListPath);*/
 
-        //Debug.Log(moonGenerator.PlanetsList);
-        //if (moonGenerator.PlanetsList != null && moonGenerator.PlanetsList.name.Contains(planetData.name))
-        //{
-            moonGenerator.LoopPlanetsList(false, planet.PlanetData.ChildrenItem, planet.PlanetData.Name, "moon");
-        //}
+        moonGenerator.LoopPlanetsList(false, planet.PlanetData.ChildrenItem, planet.PlanetData.Name, "moon");
     }
 
     private string GetMoonsListPath(Planet planet, PlanetData planetData)
@@ -153,12 +160,6 @@ public class GeneratePlanets : MonoBehaviour
         string Path = $"Data/Galaxies/{GalaxyName}/{ClusterName}/{StellarSystemName}/{PlanetName}/{PlanetName} - list";
         //Debug.Log(Path);
         return Path;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
     }
 
     // Update is called once per frame

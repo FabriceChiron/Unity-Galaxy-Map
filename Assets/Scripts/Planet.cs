@@ -221,7 +221,7 @@ public class Planet : MonoBehaviour
                 PlanetRotation();
             }
 
-            CameraAnchor.parent.LookAt(Star.position);
+            CameraAnchor.parent.LookAt(GameObject.FindGameObjectWithTag("Star").transform.position);
 
             CheckIfOnScreen();
 

@@ -17,4 +17,8 @@ MonoBehaviour:
   StarSize: 0
   Top: 68.3
   Left: 7.2
-  ChildrenItem: []
+  ChildrenItem:
+  - {fileID: 11400000, guid: d2c3abf2704acea4183893972938f46c, type: 2}
+  - {fileID: 11400000, guid: 9c87ede615e0111438b131fb117e6e39, type: 2}
+  - {fileID: 11400000, guid: a140817a636cc844fbb67a491612c75e, type: 2}
+  - {fileID: 11400000, guid: b10da3d53162933479a881eca16db66e, type: 2}

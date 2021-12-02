@@ -29,17 +29,17 @@ public class Controller : MonoBehaviour
         if (IsEscapePressed())
         {
             Application.Quit();
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
-#endif
+            #endif
         }
     }
     bool IsEscapePressed()
     {
-#if ENABLE_INPUT_SYSTEM
-            return Keyboard.current != null ? Keyboard.current.escapeKey.isPressed : false; 
-#else
+        #if ENABLE_INPUT_SYSTEM
+        return Keyboard.current != null ? Keyboard.current.escapeKey.isPressed : false; 
+        #else
         return Input.GetKey(KeyCode.Escape);
-#endif
+        #endif
     }
 }
