@@ -1927,7 +1927,7 @@ GameObject:
   - component: {fileID: 5935862909361321917}
   m_Layer: 0
   m_Name: Planet
-  m_TagString: Untagged
+  m_TagString: Planet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1966,7 +1966,7 @@ MeshRenderer:
   m_GameObject: {fileID: 5713132408691743885}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 0
+  m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
@@ -2053,6 +2053,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _planetsList: {fileID: 0}
   _stellarSystemData: {fileID: 0}
+  StarPrefab: {fileID: 0}
   PlanetLogicPrefab: {fileID: 566919208562527429}
   _galaxyName: 
   _clusterName: 
@@ -2484,6 +2485,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _planetsList: {fileID: 0}
   _stellarSystemData: {fileID: 0}
+  StarPrefab: {fileID: 0}
   PlanetLogicPrefab: {fileID: 566919208562527429}
   _galaxyName: 
   _clusterName: 

@@ -12,6 +12,9 @@ public class GeneratePlanets : MonoBehaviour
     private StellarSystemData _stellarSystemData;
 
     [SerializeField]
+    private GameObject StarPrefab;
+
+    [SerializeField]
     private GameObject PlanetLogicPrefab;
 
     [SerializeField]
@@ -20,15 +23,19 @@ public class GeneratePlanets : MonoBehaviour
     [SerializeField]
     private bool _goDeeper;
 
+    private GameObject _star;
+
     private Transform _transform;
 
-    private TMP_Dropdown PlanetListDropdown;
+    private TMP_Dropdown _planetListDropdown;
 
     public PlanetsList PlanetsList { get => _planetsList; set => _planetsList = value; }
     public bool GoDeeper { get => _goDeeper; set => _goDeeper = value; }
     public string GalaxyName { get => _galaxyName; set => _galaxyName = value; }
     public string ClusterName { get => _clusterName; set => _clusterName = value; }
     public StellarSystemData StellarSystemData { get => _stellarSystemData; set => _stellarSystemData = value; }
+    public GameObject Star { get => _star; set => _star = value; }
+    public TMP_Dropdown PlanetListDropdown { get => _planetListDropdown; set => _planetListDropdown = value; }
 
     private void Awake()
     {
@@ -36,11 +43,6 @@ public class GeneratePlanets : MonoBehaviour
         //Debug.Log($"Awake: {name}");
         GenerateStellarSystem();
 
-        /*
-                if(StellarSystemData)
-                {
-                    LoopTestList(StellarSystemData.ChildrenItem);
-                }*/
     }
 
     private void Start()
@@ -67,18 +69,24 @@ public class GeneratePlanets : MonoBehaviour
         if (StellarSystemData != null && StellarSystemData.ChildrenItem.Length > 0 && GoDeeper)
         {
             PlanetListDropdown.ClearOptions();
-            PlanetListDropdown.AddOptions(new List<string> { GameObject.FindGameObjectWithTag("Star").name });
+
+            //SpawnStar();
+            
+            //PlanetListDropdown.AddOptions(new List<string> { GameObject.FindGameObjectWithTag("Star").name });
             LoopPlanetsList(true, StellarSystemData.ChildrenItem, "", "planet");
         }
     }
 
-    public void LoopTestList(PlanetData[] ChildrenItem)
+    public void SpawnStar()
     {
-        foreach (PlanetData planetData in ChildrenItem)
-        {
-            Debug.Log($"stellarSystemData: {planetData.Name}");
-        }
+        
+        Star starComponent = GameObject.FindGameObjectWithTag("Star").GetComponent<Star>();
+        starComponent.AddToDropdown();
+        starComponent.SetScales();
+        //starComponent.CustomiseStar();
+        
     }
+
 
     public void LoopPlanetsList(bool goDeeper, PlanetData[] ChildrenItem, string ParentName, string objectType)
     {

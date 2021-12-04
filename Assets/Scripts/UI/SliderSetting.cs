@@ -20,6 +20,8 @@ public class SliderSetting : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _displayValue;
 
+    private Controller _controller;
+
     private Planet[] _planets;
 
     // On déclare la variable qui contiendra le composant Slider
@@ -29,6 +31,7 @@ public class SliderSetting : MonoBehaviour
 
     private void Awake()
     {
+        _controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<Controller>();
     }
 
 
@@ -86,7 +89,7 @@ public class SliderSetting : MonoBehaviour
         // On sauvegarde la nouvelle valeur dans les PlayerPrefs
         PlayerPrefs.SetFloat(_prefName, value);
 
-        if (GameObject.FindGameObjectWithTag("StellarSystem"))
+        /*if (GameObject.FindGameObjectWithTag("StellarSystem"))
         {
             _planets = GameObject.FindGameObjectWithTag("StellarSystem").GetComponentsInChildren<Planet>();
 
@@ -95,10 +98,16 @@ public class SliderSetting : MonoBehaviour
                 //Debug.Log(planet.name);
                 if(planet.IsCreated)
                 {
-                    planet.SetScales("slider");
+                    planet.SetScales();
                 }
             }
+        }*/
+
+        if (GameObject.FindGameObjectWithTag("StellarSystem"))
+        {
+            _controller.SetScales();
         }
+
 
         
     }

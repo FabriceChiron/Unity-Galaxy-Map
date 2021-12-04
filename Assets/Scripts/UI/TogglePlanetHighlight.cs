@@ -9,9 +9,12 @@ public class TogglePlanetHighlight : MonoBehaviour
     private Toggle _toggle;
     public Toggle Toggle { get => _toggle; set => _toggle = value; }
 
+    private Controller _controller;
+
     private void Awake()
     {
         Toggle = GetComponent<Toggle>();
+        _controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<Controller>();
     }
 
     // Start is called before the first frame update
@@ -40,12 +43,7 @@ public class TogglePlanetHighlight : MonoBehaviour
     public void SetTogglePlanetHighlight()
     {
         PlayerPrefs.SetInt("HighlightPlanetsPosition", (Toggle.isOn) ? 1 : 0);
-        foreach(Planet planet in FindObjectsOfType<Planet>())
-        {
-            if(planet.IsCreated)
-            {
-                planet.PlanetButton.GetComponent<Image>().enabled = PlayerPrefs.GetInt("HighlightPlanetsPosition") != 0;
-            }
-        }
+
+        _controller.TogglePlanetsHighlight();
     }
 }

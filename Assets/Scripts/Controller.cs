@@ -1,18 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class Controller : MonoBehaviour
 {
 
+    [SerializeField]
+    private UITest _uiTest;
+
+    public UITest UITest { get => _uiTest; set => _uiTest = value; }
+
     private void Awake()
     {
-/*        if (GameObject.FindGameObjectWithTag("Star"))
-        {
-            PlanetListDropdown = GameObject.FindGameObjectWithTag("PlanetsList").GetComponent<TMP_Dropdown>();
-            PlanetListDropdown.AddOptions(new List<string> { GameObject.FindGameObjectWithTag("Star").name });
-        }*/
+
     }
 
     // Start is called before the first frame update
@@ -39,5 +41,51 @@ public class Controller : MonoBehaviour
         #else
         return Input.GetKey(KeyCode.Escape);
         #endif
+    }
+
+    public void ToggleOrbitCircles()
+    {
+        foreach(Planet planet in FindObjectsOfType<Planet>())
+        {
+            planet.DisplayOrbitCircle.gameObject.SetActive(PlayerPrefs.GetInt("ShowOrbitCircles") != 0);
+        }
+    }
+    public void TogglePlanetsHighlight()
+    {
+        foreach(Planet planet in FindObjectsOfType<Planet>())
+        {
+            planet.PlanetButton.GetComponent<Image>().enabled = PlayerPrefs.GetInt("HighlightPlanetsPosition") != 0;
+        }
+    }
+
+    public void TogglePause(bool IsPaused)
+    {
+        foreach (Planet planet in FindObjectsOfType<Planet>())
+        {
+            planet.IsPaused = IsPaused;
+        }
+    }
+
+    public void ClearTrails()
+    {
+        foreach (Planet planet in FindObjectsOfType<Planet>())
+        {
+            planet.PlanetTrail.Clear();
+        }
+    }
+
+    public void SetScales()
+    {
+
+        GameObject.FindGameObjectWithTag("Star").GetComponent<Star>().SetScales();
+
+        ClearTrails();
+
+        foreach (Planet planet in FindObjectsOfType<Planet>())
+        {
+            planet.SetScales();
+        }
+
+        ClearTrails();
     }
 }

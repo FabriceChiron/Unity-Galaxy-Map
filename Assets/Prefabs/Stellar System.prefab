@@ -68,6 +68,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _planetsList: {fileID: 0}
   _stellarSystemData: {fileID: 0}
+  StarPrefab: {fileID: 3484598937430278707, guid: 87e6d2c6600a668409ef90cfa5c8d377, type: 3}
   PlanetLogicPrefab: {fileID: 566919208562527429, guid: c84e49716761d472c8c81aff15cd4c0c, type: 3}
   _galaxyName: 
   _clusterName: 
@@ -226,10 +227,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sun
       objectReference: {fileID: 0}
+    - target: {fileID: 3484598937430278707, guid: 87e6d2c6600a668409ef90cfa5c8d377, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3484598937430278710, guid: 87e6d2c6600a668409ef90cfa5c8d377, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3484598937430278711, guid: 87e6d2c6600a668409ef90cfa5c8d377, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d35e5dcc9d4429b48b60c5d19d21313c, type: 2}
+    - target: {fileID: 7809465393944382844, guid: 87e6d2c6600a668409ef90cfa5c8d377, type: 3}
+      propertyPath: _scaleSettings
+      value: 
+      objectReference: {fileID: 7701551589869002511}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87e6d2c6600a668409ef90cfa5c8d377, type: 3}
 --- !u!4 &7701551590663664576 stripped

@@ -12,6 +12,13 @@ public class StellarSystemData : ScriptableObject
 
     public float StarSize;
 
+    public string StarDescription;
+
+    //Texture file for star
+    public Texture Texture;
+
+    public Material Material;
+
     public float Top;
 
     public float Left;

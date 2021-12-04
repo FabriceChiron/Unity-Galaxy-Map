@@ -21,13 +21,16 @@ public class CameraFollow : MonoBehaviour
     [SerializeField]
     private float _speed = 3f;
 
+    [SerializeField]
+    private TMP_Dropdown PlanetListDropdown;
+
     private bool _mouseOnUI;
 
     private Transform _star, _cameraAnchor;
     private GameObject _cameraAnchorObject;
 
-    [SerializeField]
-    private TMP_Dropdown PlanetListDropdown;
+    private Vector3 _initPosition;
+    private Quaternion _initRotation;
 
     public string StartingPoint { get => _startingPoint; set => _startingPoint = value; }
     public float Sensitivity { get => _sensitivity; set => _sensitivity = value; }
@@ -38,11 +41,16 @@ public class CameraFollow : MonoBehaviour
     public bool MouseOnUI { get => _mouseOnUI; set => _mouseOnUI = value; }
     public Transform CameraAnchor { get => _cameraAnchor; set => _cameraAnchor = value; }
     public GameObject CameraAnchorObject { get => _cameraAnchorObject; set => _cameraAnchorObject = value; }
+    public Vector3 InitPosition { get => _initPosition; set => _initPosition = value; }
+    public Quaternion InitRotation { get => _initRotation; set => _initRotation = value; }
 
     // Start is called before the first frame update
     void Awake()
     {
         _transform = GetComponent<Transform>();
+
+        InitPosition = _transform.position;
+        InitRotation = _transform.rotation;
         
         if(GameObject.FindGameObjectWithTag("Star") != null)
         {
@@ -55,12 +63,20 @@ public class CameraFollow : MonoBehaviour
         }
     }
 
+    public void InitCamera()
+    {
+        transform.parent = null;
+        _transform.position = InitPosition;
+        _transform.rotation = InitRotation;
+    }
+
     public void ResetCameraTarget()
     {
+        InitCamera();
+
         Star = GameObject.FindGameObjectWithTag("Star").transform;
         Debug.Log($"Resetting camera target to {Star}");
         CameraTarget = Star;
-        CameraAnchor = null;
         ChangeTarget(Star);
     }
 
@@ -149,6 +165,7 @@ public class CameraFollow : MonoBehaviour
             {
                 FocusOnTarget("Galaxy");
             }
+            
         }
     }
 
@@ -195,6 +212,10 @@ public class CameraFollow : MonoBehaviour
                 break;
             
             case "Galaxy":
+                targetThreshold = 0.5f;
+                break;
+
+            case "Star":
                 targetThreshold = 0.5f;
                 break;
         }

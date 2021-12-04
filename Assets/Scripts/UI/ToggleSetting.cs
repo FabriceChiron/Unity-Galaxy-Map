@@ -19,8 +19,15 @@ public class ToggleSetting : MonoBehaviour
 
     private Toggle _toggle;
 
+    private Controller _controller;
+
     public Scales Scales { get => scales; set => scales = value; }
     protected string PrefName { get => _prefName; set => _prefName = value; }
+
+    private void Awake()
+    {
+        _controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<Controller>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -51,17 +58,19 @@ public class ToggleSetting : MonoBehaviour
         });
     }
 
+
     public void Rescale()
     {
-        _planets = GameObject.FindGameObjectWithTag("StellarSystem").GetComponentsInChildren<Planet>();
+        /*_planets = GameObject.FindGameObjectWithTag("StellarSystem").GetComponentsInChildren<Planet>();
 
         foreach (Planet planet in _planets)
         {
             //Debug.Log(planet.name);
             if (planet.IsCreated)
             {
-                planet.SetScales("toggle");
+                planet.SetScales();
             }
-        }
+        }*/
+        _controller.SetScales();
     }
 }

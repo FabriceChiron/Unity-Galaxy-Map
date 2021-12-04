@@ -13,7 +13,7 @@ public class SelectSystemsList : MonoBehaviour
     private GameObject _stellarSystemPrefab;
 
     private TMP_Dropdown _systemsDropdown;
-
+    
     private bool _changeStellarSystem = false;
 
     private float _timeBeforeDeploy = 1.5f;
@@ -82,14 +82,14 @@ public class SelectSystemsList : MonoBehaviour
                 }
 
                 newStellarSystem = Instantiate(_stellarSystemPrefab, Vector3.zero, Quaternion.identity);
-                GeneratePlanets newGenerator = newStellarSystem.GetComponent<GeneratePlanets>();
+                GeneratePlanets newGenerator = newStellarSystem.GetComponent<GeneratePlanets>(); 
 
                 newGenerator.StellarSystemData = _stellarSystemsArray[_systemsDropdown.value];
 
                 newGenerator.GenerateStellarSystem();
 
-                newStellarSystem.GetComponent<ToggleStellarSystem>().DeployStellarSystem();
 
+                newStellarSystem.GetComponent<ToggleStellarSystem>().DeployStellarSystem();
 
                 _timeBeforeDeploy = _resetTimeBeforeDeploy;
 
@@ -97,6 +97,7 @@ public class SelectSystemsList : MonoBehaviour
 
                 if(_timeBeforeResetCam <= 0)
                 {
+                    Camera.main.GetComponent<CameraFollow>().ResetCameraTarget();
                     _timeBeforeResetCam = _resetTimeBeforeResetCam;
                 }
 

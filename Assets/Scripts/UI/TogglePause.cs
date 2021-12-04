@@ -14,6 +14,8 @@ public class TogglePause : MonoBehaviour
 
     private Toggle _toggle;
 
+    private Controller _controller;
+
     public UITest UITest { get => _uiTest; set => _uiTest = value; }
     public Toggle Toggle { get => _toggle; set => _toggle = value; }
     public Text Label { get => _label; set => _label = value; }
@@ -21,6 +23,7 @@ public class TogglePause : MonoBehaviour
     private void Awake()
     {
         Toggle = GetComponent<Toggle>();
+        _controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<Controller>();
     }
 
     // Start is called before the first frame update
@@ -38,7 +41,8 @@ public class TogglePause : MonoBehaviour
     {
         UITest.IsPaused = !UITest.IsPaused;
         Toggle.isOn = UITest.IsPaused;
-        Debug.Log($"Pause: {UITest.IsPaused}");
         Label.text = (Toggle.isOn ? "Ø" : "Û");
+
+        _controller.TogglePause(UITest.IsPaused);
     }
 }
