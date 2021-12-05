@@ -74,6 +74,8 @@ public class CameraFollow : MonoBehaviour
     {
         InitCamera();
 
+        Debug.Log(GameObject.FindGameObjectsWithTag("Star").Length);
+
         Star = GameObject.FindGameObjectWithTag("Star").transform;
         Debug.Log($"Resetting camera target to {Star}");
         CameraTarget = Star;
@@ -178,6 +180,7 @@ public class CameraFollow : MonoBehaviour
 
     public void ChangeTarget(string PlanetName)
     {
+        Debug.Log(PlanetName);
         CameraTarget = GameObject.Find($"{PlanetName}").transform;
 
         ChangeSelectionInDropdown(PlanetName);

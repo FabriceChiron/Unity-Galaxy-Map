@@ -22,7 +22,7 @@ public class ToggleSetting : MonoBehaviour
     private Controller _controller;
 
     public Scales Scales { get => scales; set => scales = value; }
-    protected string PrefName { get => _prefName; set => _prefName = value; }
+    private string PrefName { get => _prefName; set => _prefName = value; }
 
     private void Awake()
     {
@@ -48,14 +48,34 @@ public class ToggleSetting : MonoBehaviour
 
         _toggle.isOn = (PlayerPrefs.GetInt(PrefName) != 0) ? true : false;
 
+        Debug.Log($"PrefName: {PrefName}");
 
         _toggle.onValueChanged.AddListener(delegate
         {
-            PlayerPrefs.SetInt(PrefName, (_toggle.isOn) ? 1 : 0);
-            Scales.RationalizeValues = _toggle.isOn;
+            switch (PrefName)
+            {
+                case "RationalizeValues":
+                    PlayerPrefs.SetInt(PrefName, (_toggle.isOn) ? 1 : 0);
+                    Scales.RationalizeValues = _toggle.isOn;
+                    break;
+
+                case "ScaleFactor":
+                    PlayerPrefs.SetInt(PrefName, (_toggle.isOn) ? 1 : 0);
+                    break;
+            }
 
             Rescale();
         });
+    }
+
+    public void AssignPrefNameToScales(string prefName)
+    {
+        switch (prefName)
+        {
+            case "RationalizeValues":
+                
+                break;
+        }
     }
 
 

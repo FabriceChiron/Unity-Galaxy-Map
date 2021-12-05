@@ -225,7 +225,7 @@ public class Planet : MonoBehaviour
     {
         MouseOnUI = UITest.IsPointerOverUIElement();
 
-        Debug.Log(UITest.IsPaused);
+        //Debug.Log(UITest.IsPaused);
 
         if (IsCreated)
         {
@@ -423,7 +423,7 @@ public class Planet : MonoBehaviour
 
         StellarSystemData = GameObject.FindGameObjectWithTag("StellarSystem").GetComponent<GeneratePlanets>().StellarSystemData;
 
-        Debug.Log(StellarSystemData.StarSize);
+        //Debug.Log(StellarSystemData.StarSize);
 
         if (!ScaleSettings.stellarScales.RationalizeValues)
         {
@@ -435,14 +435,25 @@ public class Planet : MonoBehaviour
         }
 
 
-        OrbitSize = PlanetData.Orbit * ScaleSettings.dimRet(ScaleSettings.stellarScales.Orbit, 3.5f, ScaleSettings.stellarScales.RationalizeValues);
+        OrbitSize = PlanetData.Orbit * ScaleSettings.dimRet(ScaleSettings.stellarScales.Orbit, 3.5f, ScaleSettings.stellarScales.RationalizeValues) * (PlayerPrefs.GetInt("ScaleFactor") != 0 ? StellarSystemData.ScaleFactor : 1f);
+
+        TextMeshProUGUI ScaleFactorInfo = GameObject.FindGameObjectWithTag("ScaleFactorInfo").GetComponent<TextMeshProUGUI>();
+        
+        if(PlayerPrefs.GetInt("ScaleFactor") != 0 && StellarSystemData.ScaleFactor != 1f)
+        {
+            ScaleFactorInfo.text = $"Orbits increased {StellarSystemData.ScaleFactor}x for better view";
+        }
+        else
+        {
+            ScaleFactorInfo.text = "";
+        }
 
         CalculatedOrbitSize = OrbitSize;
 
         if (ObjectType == "planet")
         {
 
-            Debug.Log($"{name}: {GameObject.FindGameObjectWithTag("Star").transform.localScale.z}");
+            //Debug.Log($"{name}: {GameObject.FindGameObjectWithTag("Star").transform.localScale.z}");
 
             StellarAnchor.localPosition = new Vector3(0f, 0f, (GameObject.FindGameObjectWithTag("Star").transform.localScale.z) + OrbitSize);
         }

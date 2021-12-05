@@ -10,6 +10,8 @@ public class ScaleSettings : MonoBehaviour
     [SerializeField]
     private float _orbit;
     [SerializeField]
+    private float _scaleFactor;
+    [SerializeField]
     private float _planet;
     [SerializeField]
     private float _year;
@@ -21,6 +23,7 @@ public class ScaleSettings : MonoBehaviour
     private bool _rationalizeValues;
 
     public float Orbit { get => _orbit; set => _orbit = value; }
+    public float ScaleFactor { get => _scaleFactor; set => _scaleFactor = value; }
     public float Planet { get => _planet; set => _planet = value; }
     public float Year { get => _year; set => _year = value; }
     public float Day { get => _day; set => _day = value; }

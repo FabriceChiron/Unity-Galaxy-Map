@@ -70,8 +70,8 @@ public class GeneratePlanets : MonoBehaviour
         {
             PlanetListDropdown.ClearOptions();
 
-            //SpawnStar();
-            
+            PlanetListDropdown.AddOptions(new List<string> { $"<b>{StellarSystemData.StarName}</b>" });
+
             //PlanetListDropdown.AddOptions(new List<string> { GameObject.FindGameObjectWithTag("Star").name });
             LoopPlanetsList(true, StellarSystemData.ChildrenItem, "", "planet");
         }

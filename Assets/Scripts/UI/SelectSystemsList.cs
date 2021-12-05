@@ -15,6 +15,7 @@ public class SelectSystemsList : MonoBehaviour
     private TMP_Dropdown _systemsDropdown;
     
     private bool _changeStellarSystem = false;
+    private bool _resetCamera = false;
 
     private float _timeBeforeDeploy = 1.5f;
     private float _resetTimeBeforeDeploy;
@@ -23,6 +24,7 @@ public class SelectSystemsList : MonoBehaviour
     private float _resetTimeBeforeResetCam;
 
     public bool ChangeStellarSystem { get => _changeStellarSystem; set => _changeStellarSystem = value; }
+    public bool ResetCamera { get => _resetCamera; set => _resetCamera = value; }
 
     private GameObject currentStellarSystem;
     private GameObject newStellarSystem;
@@ -54,6 +56,24 @@ public class SelectSystemsList : MonoBehaviour
     void Update()
     {
         SwitchStellarSystems();
+        FireResetCamera();
+    }
+
+    private void FireResetCamera()
+    {
+        if(ResetCamera)
+        {
+            _timeBeforeResetCam -= Time.deltaTime;
+
+            if (_timeBeforeResetCam <= 0)
+            {
+                Debug.Log("Camera Reset");
+                Camera.main.GetComponent<CameraFollow>().ResetCameraTarget();
+                _timeBeforeResetCam = _resetTimeBeforeResetCam;
+
+                ResetCamera = false;
+            }
+        }
     }
 
     private void SwitchStellarSystems()
@@ -63,9 +83,10 @@ public class SelectSystemsList : MonoBehaviour
 
             _timeBeforeDeploy -= Time.deltaTime;
 
+
             //Debug.Log($"Switching Stellar Systems in {_timeBeforeDeploy}");
 
-            if(currentStellarSystem != null)
+            if (currentStellarSystem != null)
             {
                 currentStellarSystem.GetComponent<ToggleStellarSystem>().FoldStellarSystem();
             }
@@ -94,13 +115,9 @@ public class SelectSystemsList : MonoBehaviour
 
                 _timeBeforeDeploy = _resetTimeBeforeDeploy;
 
-                _timeBeforeResetCam -= Time.deltaTime;
+                _timeBeforeResetCam = _resetTimeBeforeResetCam;
 
-                if(_timeBeforeResetCam <= 0)
-                {
-                    Camera.main.GetComponent<CameraFollow>().ResetCameraTarget();
-                    _timeBeforeResetCam = _resetTimeBeforeResetCam;
-                }
+                ResetCamera = true;
 
             }
         }

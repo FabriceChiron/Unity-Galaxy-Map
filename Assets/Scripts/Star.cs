@@ -43,7 +43,7 @@ public class Star : MonoBehaviour
         StellarSystemData = transform.parent.GetComponent<GeneratePlanets>().StellarSystemData;
         _material = StellarSystemData.Material;
 
-        AddToDropdown();
+        //AddToDropdown();
 
         CustomiseStar();
 
@@ -63,6 +63,7 @@ public class Star : MonoBehaviour
 
     public void CustomiseStar()
     {
+        transform.name = StellarSystemData.StarName;
         GetComponent<MeshRenderer>().material = _material;
         Debug.Log(GetComponent<MeshRenderer>().material.name);
 
