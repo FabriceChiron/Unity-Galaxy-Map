@@ -82,7 +82,7 @@ public class GeneratePlanets : MonoBehaviour
         
         Star starComponent = GameObject.FindGameObjectWithTag("Star").GetComponent<Star>();
         starComponent.AddToDropdown();
-        starComponent.SetScales();
+        //starComponent.SetScales();
         //starComponent.CustomiseStar();
         
     }

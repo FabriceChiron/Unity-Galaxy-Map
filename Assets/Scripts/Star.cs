@@ -68,7 +68,7 @@ public class Star : MonoBehaviour
 
         if(!GetComponent<MeshRenderer>().material.name.Contains("sun-texture"))
         {
-            GetComponent<Light>().color = Color.Lerp(Color.white, GetComponent<MeshRenderer>().material.GetColor("_EmissionColor"), 0.5f);
+            GetComponent<Light>().color = Color.Lerp(Color.white, GetComponent<MeshRenderer>().material.GetColor("_EmissionColor"), 0.1f);
         }
 
     }

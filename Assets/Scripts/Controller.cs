@@ -77,7 +77,7 @@ public class Controller : MonoBehaviour
     public void SetScales()
     {
 
-        GameObject.FindGameObjectWithTag("Star").GetComponent<Star>().SetScales();
+        //GameObject.FindGameObjectWithTag("Star").GetComponent<Star>().SetScales();
 
         ClearTrails();
 

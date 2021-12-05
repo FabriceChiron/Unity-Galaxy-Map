@@ -67,6 +67,7 @@ public class Planet : MonoBehaviour
     private CameraFollow _camera;
     private Animator _animator;
     private UITest _UITest;
+    private StellarSystemData _stellarSystemData;
 
     public float RevolutionTime { get => _revolutionTime; set => _revolutionTime = value; }
     public float RotationTime { get => _rotationTime; set => _rotationTime = value; }
@@ -109,6 +110,7 @@ public class Planet : MonoBehaviour
     public CameraFollow Camera { get => _camera; set => _camera = value; }
     public PlanetButton PlanetButton { get => _planetButton; set => _planetButton = value; }
     public MeshRenderer MeshRenderer { get => _meshRenderer; set => _meshRenderer = value; }
+    public StellarSystemData StellarSystemData { get => _stellarSystemData; set => _stellarSystemData = value; }
 
     private void Awake()
     {
@@ -119,6 +121,7 @@ public class Planet : MonoBehaviour
 
     public void OnCreation()
     {
+        
         Camera = UnityEngine.Camera.main.GetComponent<CameraFollow>();
 
         OrbitSizeAdjust = 1f;
@@ -153,8 +156,14 @@ public class Planet : MonoBehaviour
             $"<b>Rotation Period</b>: {PlanetData.DayLength} Earth day(s)\n\n" +
             $"{PlanetData.Details}";
 
+        UIDetails.GetComponentsInChildren<TextMeshProUGUI>(true)[1].GetComponent<RectTransform>().position = Vector3.zero;
+
+
         //UIName.gameObject.SetActive(false);
-        UIDetails.gameObject.SetActive(false);
+        //UIDetails.gameObject.SetActive(false);
+        //UIDetails.transform.Find("Scrollbar Vertical").gameObject.SetActive(true);
+
+
 
         //Define the collider for click detection
         Collider = GetComponent<Collider>();
@@ -401,35 +410,55 @@ public class Planet : MonoBehaviour
 
     public void SetScales()
     {
+        /*        if (!ScaleSettings.stellarScales.RationalizeValues)
+                {
+                    GameObject.FindGameObjectWithTag("Star").transform.localScale = new Vector3(50f, 50f, 50f);
+                }
+                else
+                {
+                    GameObject.FindGameObjectWithTag("Star").transform.localScale = new Vector3(5f, 5f, 5f);
+                }*/
 
+        //Debug.Log($"{name}: {transform.parent.GetComponentInParent<GeneratePlanets>().name}");
 
-        
+        StellarSystemData = GameObject.FindGameObjectWithTag("StellarSystem").GetComponent<GeneratePlanets>().StellarSystemData;
 
+        Debug.Log(StellarSystemData.StarSize);
 
-        //OrbitSize = PlanetData.Orbit * ScaleSettings.dimRet(ScaleSettings.stellarScales.Orbit, 3.5f, ScaleSettings.stellarScales.RationalizeValues) * OrbitSizeAdjust;
-        ObjectSize = PlanetData.Size * ScaleSettings.stellarScales.Planet;
-
-
-        if(ObjectType == "planet")
+        if (!ScaleSettings.stellarScales.RationalizeValues)
         {
-
-            OrbitSize = PlanetData.Orbit * ScaleSettings.dimRet(ScaleSettings.stellarScales.Orbit, 3.5f, ScaleSettings.stellarScales.RationalizeValues) + GameObject.FindGameObjectWithTag("Star").transform.localScale.z + (ObjectSize * .5f);
+            GameObject.FindGameObjectWithTag("Star").transform.localScale = new Vector3(StellarSystemData.StarSize * ScaleSettings.stellarScales.Planet, StellarSystemData.StarSize * ScaleSettings.stellarScales.Planet, StellarSystemData.StarSize * ScaleSettings.stellarScales.Planet);
         }
-        else if(ObjectType == "moon")
+        else
         {
-            if(StellarAnchor != null)
+            GameObject.FindGameObjectWithTag("Star").transform.localScale = new Vector3(5f, 5f, 5f);
+        }
+
+
+        OrbitSize = PlanetData.Orbit * ScaleSettings.dimRet(ScaleSettings.stellarScales.Orbit, 3.5f, ScaleSettings.stellarScales.RationalizeValues);
+
+        CalculatedOrbitSize = OrbitSize;
+
+        if (ObjectType == "planet")
+        {
+
+            Debug.Log($"{name}: {GameObject.FindGameObjectWithTag("Star").transform.localScale.z}");
+
+            StellarAnchor.localPosition = new Vector3(0f, 0f, (GameObject.FindGameObjectWithTag("Star").transform.localScale.z) + OrbitSize);
+        }
+        else if (ObjectType == "moon")
+        {
+            if (StellarAnchor != null)
             {
-                OrbitSize = PlanetData.Orbit * ScaleSettings.dimRet(ScaleSettings.stellarScales.Orbit, 3.5f, ScaleSettings.stellarScales.RationalizeValues) + GameObject.Find(ParentStellarObject).transform.localScale.z + (ObjectSize * .5f);
-                //StellarAnchor.localPosition = new Vector3(0f, 0f, GameObject.Find(ParentStellarObject).transform.localScale.z + OrbitSize + (ObjectSize * .5f));
+                StellarAnchor.localPosition = new Vector3(0f, 0f, GameObject.Find(ParentStellarObject).transform.localScale.z + OrbitSize);
             }
         }
 
-        StellarAnchor.localPosition = new Vector3(0f, 0f,  OrbitSize);
-        CalculatedOrbitSize = OrbitSize;
 
         DisplayOrbitCircle.localScale = new Vector3(StellarAnchor.localPosition.z / 5f, StellarAnchor.localPosition.z / 5f, StellarAnchor.localPosition.z / 5f);
 
 
+        ObjectSize = PlanetData.Size * ScaleSettings.stellarScales.Planet;
         //PlanetTrail.startWidth = ObjectSize * .5f;
         CalculatedObjectSize = ObjectSize;
 
@@ -513,6 +542,7 @@ public class Planet : MonoBehaviour
                     Debug.Log($"Should show description of {hit.transform.name}");
 
                     //Set the animator boolean to true, which will start the animation to show the details
+                    UIDetails.GetComponentsInChildren<TextMeshProUGUI>(true)[1].GetComponent<RectTransform>().position = Vector3.zero;
                     Animator.SetBool("ShowDetails", !Animator.GetBool("ShowDetails"));
                     
                     //And hide the name

@@ -78,6 +78,7 @@ public class SelectSystemsList : MonoBehaviour
                 ChangeStellarSystem = false;
                 if (currentStellarSystem != null)
                 {
+                    currentStellarSystem.SetActive(false);
                     Destroy(currentStellarSystem);
                 }
 
