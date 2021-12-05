@@ -15,6 +15,8 @@ MonoBehaviour:
   Name: Solar System
   StarName: Sun
   StarSize: 109
+  StarDescription: 
+  ScaleFactor: 1
   Texture: {fileID: 0}
   Material: {fileID: 2100000, guid: d35e5dcc9d4429b48b60c5d19d21313c, type: 2}
   Top: 30

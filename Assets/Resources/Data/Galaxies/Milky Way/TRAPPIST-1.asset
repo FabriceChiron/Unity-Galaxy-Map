@@ -16,6 +16,7 @@ MonoBehaviour:
   StarName: TRAPPIST-1
   StarSize: 12.535
   StarDescription: 
+  ScaleFactor: 25
   Texture: {fileID: 0}
   Material: {fileID: 2100000, guid: c575297c6d9b36843a12e99e55943111, type: 2}
   Top: 0
