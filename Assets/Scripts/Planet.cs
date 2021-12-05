@@ -519,6 +519,8 @@ public class Planet : MonoBehaviour
 
     private void DetectClick()
     {
+        Debug.Log("DetectClick");
+
         Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
 
         // On peut visualiser le rayon dans la sc�ne pour debugger (n'influe en rien sur le jeu)

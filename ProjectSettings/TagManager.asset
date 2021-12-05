@@ -15,6 +15,7 @@ TagManager:
   - PlanetsList
   - SatellitesHolder
   - Controller
+  - ScaleFactorInfo
   layers:
   - Default
   - TransparentFX
