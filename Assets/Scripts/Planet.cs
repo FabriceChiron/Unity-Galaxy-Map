@@ -50,9 +50,11 @@ public class Planet : MonoBehaviour
 
     private Texture _textureMaterial;
 
+    private Material _material;
+
     private string _coords;
 
-    private bool _hasClouds, _isTidallyLocked, _isCreated, _isPaused, _needsAdjust, _mouseOnUI, _isHovered, _isOnScreen;
+    private bool _gaseous, _hasClouds, _isTidallyLocked, _isCreated, _isPaused, _needsAdjust, _mouseOnUI, _isHovered, _isOnScreen;
 
     private float revolutionDegreesPerSecond, rotationDegreesPerSecond, _orientationStart, _orbitSizeAdjust, _trailStartTime;
 
@@ -170,13 +172,8 @@ public class Planet : MonoBehaviour
 
         StellarAnchor = StellarObject.parent.transform; //"PlanetAnchor" GO.transform
 
-        _hasClouds = PlanetData.Clouds;
 
-        if (_hasClouds)
-        {
-            _clouds.GetComponent<MeshRenderer>().material = PlanetData.CloudsMaterial;
-            _clouds.gameObject.SetActive(true);
-        }
+
 
         if (PlanetData.DayLength == 0)
         {
@@ -501,9 +498,26 @@ public class Planet : MonoBehaviour
     public void SetStellarObject()
     {
         //ObjectTexture = Resources.Load($"Textures/Planets/{_planetData.Texture}", typeof(Material)) as Material;
-
+        _hasClouds = PlanetData.Clouds;
         _textureMaterial = PlanetData.Texture;
+        _material = PlanetData.Material;
+        _gaseous = PlanetData.Gaseous;
 
+        if (_hasClouds)
+        {
+            _clouds.GetComponent<MeshRenderer>().material = PlanetData.CloudsMaterial;
+            _clouds.gameObject.SetActive(true);
+        }
+        else
+        {
+            Destroy(_clouds.gameObject);
+        }
+
+        if (_material)
+        {
+            Renderer.material = _material;
+        }
+        
         if(_textureMaterial)
         {
             Renderer.material.mainTexture = _textureMaterial;

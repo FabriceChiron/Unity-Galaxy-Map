@@ -19,7 +19,10 @@ MonoBehaviour:
     size of the planet that it orbits (its primary). Following Jupiter's satellite
     Io, the Moon is second-densest satellite among those whose densities are known.
   Texture: {fileID: 2800000, guid: 1634aab1251ae78489b9a8035ffe9a8b, type: 3}
+  Gaseous: 0
+  Material: {fileID: 2100000, guid: be649677fddacfa4f83a68899335466c, type: 2}
   Clouds: 0
+  CloudsMaterial: {fileID: 0}
   TidallyLocked: 1
   Orbit: 0.00257
   OrbitTilt: -30.2

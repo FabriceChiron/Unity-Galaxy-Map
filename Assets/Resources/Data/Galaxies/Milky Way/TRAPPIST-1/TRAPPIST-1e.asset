@@ -30,6 +30,8 @@ MonoBehaviour:
     habitability. According to the Habitable Exoplanets Catalog, TRAPPIST-1e is one
     of the most potentially habitable exoplanets discovered so far.
   Texture: {fileID: 2800000, guid: 8c9044a292ac5344ea2516f4e65b3067, type: 3}
+  Gaseous: 0
+  Material: {fileID: 2100000, guid: 2211e0c73e7e4944bbbe2aef9f0077a3, type: 2}
   Clouds: 1
   CloudsMaterial: {fileID: 2100000, guid: 1f102fd0a1e89984d955a40a383f44bb, type: 2}
   TidallyLocked: 1

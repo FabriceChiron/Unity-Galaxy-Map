@@ -28,6 +28,8 @@ MonoBehaviour:
     formation of sulfuric acid clouds, such as are found on Venus, the hottest planet
     in our solar system.
   Texture: {fileID: 2800000, guid: 2a63dbd924f677f4e8146da66141dc3a, type: 3}
+  Gaseous: 0
+  Material: {fileID: 2100000, guid: b26c960f77c688f4a92e9fb5804dbebb, type: 2}
   Clouds: 1
   CloudsMaterial: {fileID: 2100000, guid: 48c217f8192dec145838b34f586b0078, type: 2}
   TidallyLocked: 1

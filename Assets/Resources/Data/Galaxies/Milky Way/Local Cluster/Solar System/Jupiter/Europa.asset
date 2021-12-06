@@ -19,7 +19,9 @@ MonoBehaviour:
     named after Europa, the legendary mother of King Minos of Crete and lover of
     Zeus (the Greek equivalent of the Roman god Jupiter).
   Texture: {fileID: 2800000, guid: ae2f0b2f5c97ab044a9d48bb65f91935, type: 3}
+  Material: {fileID: 2100000, guid: a20f32ae8e4e0d24cb10e6ba6763139d, type: 2}
   Clouds: 0
+  CloudsMaterial: {fileID: 0}
   TidallyLocked: 1
   Orbit: 0.0044846893
   OrbitTilt: 0
@@ -28,3 +30,5 @@ MonoBehaviour:
   YearLength: 0
   DayLength: 0
   Coords: e
+  Rings: 0
+  ChildrenItem: []

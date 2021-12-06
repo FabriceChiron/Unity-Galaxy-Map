@@ -4928,7 +4928,7 @@ GameObject:
   - component: {fileID: 1809457410}
   - component: {fileID: 1809457409}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: ScaleFactorInfo
   m_TagString: ScaleFactorInfo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

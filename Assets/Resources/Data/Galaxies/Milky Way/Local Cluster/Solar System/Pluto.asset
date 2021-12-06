@@ -21,7 +21,9 @@ MonoBehaviour:
     to define the term \"planet\" formally in 2006, during their 26th General Assembly.
     That definition excluded Pluto and reclassified it as a dwarf planet.
   Texture: {fileID: 2800000, guid: 18f7b842b271e844ba7b638a6a84ae39, type: 3}
+  Material: {fileID: 2100000, guid: a5584922a0ef3bb4c9c805126d3e5f35, type: 2}
   Clouds: 0
+  CloudsMaterial: {fileID: 0}
   TidallyLocked: 0
   Orbit: 39.5
   OrbitTilt: -17.16
@@ -30,3 +32,6 @@ MonoBehaviour:
   YearLength: 247.7
   DayLength: 0.39166668
   Coords: nw
+  Rings: 0
+  ChildrenItem:
+  - {fileID: 11400000, guid: fc581e2c14e18e244bae2dbe97d4c2e4, type: 2}

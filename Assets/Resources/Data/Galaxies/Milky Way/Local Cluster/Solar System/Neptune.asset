@@ -21,7 +21,10 @@ MonoBehaviour:
     the Sun once every 164.8 years at an average distance of 30.1 astronomical units
     (4.50\xD7109 km)."
   Texture: {fileID: 2800000, guid: 9f4878948876c8a419af2021633fb048, type: 3}
+  Gaseous: 1
+  Material: {fileID: 2100000, guid: 7dfac4f6ee239824ea7758d33dbe8b01, type: 2}
   Clouds: 0
+  CloudsMaterial: {fileID: 0}
   TidallyLocked: 0
   Orbit: 30.103
   OrbitTilt: 0
@@ -30,3 +33,5 @@ MonoBehaviour:
   YearLength: 164.8
   DayLength: 0.67083335
   Coords: ne
+  Rings: 0
+  ChildrenItem: []

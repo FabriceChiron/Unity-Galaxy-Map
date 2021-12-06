@@ -21,6 +21,8 @@ MonoBehaviour:
     rocky composition with a very thick Venus-like atmosphere, although it is expected
     to be thinner than that of TRAPPIST-1b.
   Texture: {fileID: 2800000, guid: 2f07b40ed9374e6478ce28bf97451782, type: 3}
+  Gaseous: 0
+  Material: {fileID: 2100000, guid: 32507070148871745959d8b89e0cb5c3, type: 2}
   Clouds: 1
   CloudsMaterial: {fileID: 2100000, guid: b88f25b4fcde5544488fa6a1ddd7a121, type: 2}
   TidallyLocked: 1

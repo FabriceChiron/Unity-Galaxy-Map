@@ -23,6 +23,8 @@ MonoBehaviour:
     The second most distant known planet in its system, TRAPPIST-1g is a planet larger
     than Earth yet less dense, meaning it likely hosts some form of water.
   Texture: {fileID: 2800000, guid: 84e22eef14a18a449988cc8b9d9aa5c1, type: 3}
+  Gaseous: 0
+  Material: {fileID: 2100000, guid: 1c70adbf086ee2b498a95b6ad82dab83, type: 2}
   Clouds: 0
   CloudsMaterial: {fileID: 2100000, guid: b88f25b4fcde5544488fa6a1ddd7a121, type: 2}
   TidallyLocked: 0
