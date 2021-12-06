@@ -174,14 +174,15 @@ public class CameraFollow : MonoBehaviour
     public void ChangeTarget(Transform newCameraTarget)
     {
         CameraTarget = newCameraTarget;
+        Debug.Log($"by transform: {newCameraTarget.name}");
 
         ChangeSelectionInDropdown(newCameraTarget.name);
     }
 
     public void ChangeTarget(string PlanetName)
     {
-        Debug.Log(PlanetName);
-        CameraTarget = GameObject.Find($"{PlanetName}").transform;
+        Debug.Log($"by name: {PlanetName}");
+        CameraTarget = GameObject.Find($"{PlanetName.Replace("<b>","").Replace("</b>", "")}").transform;
 
         ChangeSelectionInDropdown(PlanetName);
     }

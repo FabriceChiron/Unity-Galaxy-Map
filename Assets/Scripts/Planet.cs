@@ -533,7 +533,6 @@ public class Planet : MonoBehaviour
 
     private void DetectClick()
     {
-        Debug.Log("DetectClick");
 
         Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
 
