@@ -12,9 +12,10 @@ public class TogglePause : MonoBehaviour
     [SerializeField]
     private Text _label;
 
-    private Toggle _toggle;
-
+    [SerializeField]
     private Controller _controller;
+
+    private Toggle _toggle;
 
     public UITest UITest { get => _uiTest; set => _uiTest = value; }
     public Toggle Toggle { get => _toggle; set => _toggle = value; }
@@ -23,7 +24,6 @@ public class TogglePause : MonoBehaviour
     private void Awake()
     {
         Toggle = GetComponent<Toggle>();
-        _controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<Controller>();
     }
 
     // Start is called before the first frame update
@@ -39,10 +39,8 @@ public class TogglePause : MonoBehaviour
 
     public void SetTogglePause()
     {
-        UITest.IsPaused = !UITest.IsPaused;
-        Toggle.isOn = UITest.IsPaused;
+        _controller.IsPaused = !_controller.IsPaused;
+        Toggle.isOn = _controller.IsPaused;
         Label.text = (Toggle.isOn ? "Ø" : "Û");
-
-        _controller.TogglePause(UITest.IsPaused);
     }
 }

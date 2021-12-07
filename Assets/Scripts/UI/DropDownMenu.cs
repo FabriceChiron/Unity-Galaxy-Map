@@ -6,15 +6,21 @@ using TMPro;
 public class DropDownMenu : MonoBehaviour
 {
 
-    private TMP_Dropdown PlanetListDropdown;
+    [SerializeField]
+    private TextMeshProUGUI _label;
+
+    private TMP_Dropdown _planetListDropdown;
 
     private CameraFollow _camera;
+
+    public TextMeshProUGUI Label { get => _label; set => _label = value; }
+    public TMP_Dropdown PlanetListDropdown { get => _planetListDropdown; set => _planetListDropdown = value; }
 
     private void Awake()
     {
         _camera = Camera.main.GetComponent<CameraFollow>();
 
-        PlanetListDropdown = GameObject.FindGameObjectWithTag("PlanetsList").GetComponent<TMP_Dropdown>();
+        PlanetListDropdown = GetComponent<TMP_Dropdown>();
 
         /*PlanetListDropdown.onValueChanged.AddListener(delegate
         {
@@ -37,6 +43,9 @@ public class DropDownMenu : MonoBehaviour
 
     public void DropdownValueChanged(TMP_Dropdown Dropdown)
     {
-        _camera.ChangeTarget(Dropdown.options[Dropdown.value].text.Replace("     ", ""));
+        string StellarObjectName = Dropdown.options[Dropdown.value].text.Replace("    ", "").Replace("<b>", "").Replace("</b>", "");
+        Label.text = StellarObjectName;
+        _camera.ChangeTarget(StellarObjectName);
+        //PlanetListDropdown.transform.GetChild(0)text = StellarObjectName;
     }
 }

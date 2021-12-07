@@ -48,8 +48,6 @@ public class ToggleSetting : MonoBehaviour
 
         _toggle.isOn = (PlayerPrefs.GetInt(PrefName) != 0) ? true : false;
 
-        Debug.Log($"PrefName: {PrefName}");
-
         _toggle.onValueChanged.AddListener(delegate
         {
             switch (PrefName)
@@ -68,29 +66,8 @@ public class ToggleSetting : MonoBehaviour
         });
     }
 
-    public void AssignPrefNameToScales(string prefName)
-    {
-        switch (prefName)
-        {
-            case "RationalizeValues":
-                
-                break;
-        }
-    }
-
-
     public void Rescale()
     {
-        /*_planets = GameObject.FindGameObjectWithTag("StellarSystem").GetComponentsInChildren<Planet>();
-
-        foreach (Planet planet in _planets)
-        {
-            //Debug.Log(planet.name);
-            if (planet.IsCreated)
-            {
-                planet.SetScales();
-            }
-        }*/
         _controller.SetScales();
     }
 }

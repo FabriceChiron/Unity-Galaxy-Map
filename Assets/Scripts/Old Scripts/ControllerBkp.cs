@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class Controller : MonoBehaviour
+public class ControllerBkp : MonoBehaviour
 {
 
     [SerializeField]

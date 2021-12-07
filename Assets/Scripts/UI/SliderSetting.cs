@@ -20,6 +20,7 @@ public class SliderSetting : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _displayValue;
 
+    [SerializeField]
     private Controller _controller;
 
     private Planet[] _planets;
@@ -27,17 +28,18 @@ public class SliderSetting : MonoBehaviour
     // On déclare la variable qui contiendra le composant Slider
     protected Slider _slider;
 
-   public Scales Scales { get => scales; set => scales = value; }
+    public Scales Scales { get => scales; set => scales = value; }
 
     private void Awake()
     {
-        _controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<Controller>();
+
     }
 
 
     public virtual void LoadPrefs()
     {
-        // On récupère le Slider
+        Debug.Log(_prefName);
+
         _slider = GetComponent<Slider>();
 
         InitValueFromScales(_prefName);
@@ -75,41 +77,17 @@ public class SliderSetting : MonoBehaviour
         }
 
         PlayerPrefs.SetFloat(prefName, Mathf.Round(value * 4) / 4);
-
-        //return Mathf.Round(value * 4) / 4;
     }
 
     public virtual void SetValue(float value)
     {
         value = Mathf.Round(value * 4) / 4;
+
         AssignValueToScales(_prefName, value);
 
-        //Debug.Log($"Setting {_prefName} value to {value}");
-
-        // On sauvegarde la nouvelle valeur dans les PlayerPrefs
         PlayerPrefs.SetFloat(_prefName, value);
 
-        /*if (GameObject.FindGameObjectWithTag("StellarSystem"))
-        {
-            _planets = GameObject.FindGameObjectWithTag("StellarSystem").GetComponentsInChildren<Planet>();
-
-            foreach (Planet planet in _planets)
-            {
-                //Debug.Log(planet.name);
-                if(planet.IsCreated)
-                {
-                    planet.SetScales();
-                }
-            }
-        }*/
-
-        if (GameObject.FindGameObjectWithTag("StellarSystem"))
-        {
-            _controller.SetScales();
-        }
-
-
-        
+        _controller.SetScales();   
     }
 
     public void AssignValueToScales(string prefName, float value)

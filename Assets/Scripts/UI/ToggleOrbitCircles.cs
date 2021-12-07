@@ -45,13 +45,5 @@ public class ToggleOrbitCircles : MonoBehaviour
         PlayerPrefs.SetInt("ShowOrbitCircles", (Toggle.isOn) ? 1 : 0);
 
         _controller.ToggleOrbitCircles();
-
-        /*foreach(Planet planet in FindObjectsOfType<Planet>())
-        {
-            if(planet.IsCreated)
-            {
-                planet.DisplayOrbitCircle.gameObject.SetActive(PlayerPrefs.GetInt("ShowOrbitCircles") != 0);
-            }
-        }*/
     }
 }

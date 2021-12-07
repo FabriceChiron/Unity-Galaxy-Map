@@ -182,16 +182,24 @@ public class CameraFollow : MonoBehaviour
     public void ChangeTarget(string PlanetName)
     {
         Debug.Log($"by name: {PlanetName}");
-        CameraTarget = GameObject.Find($"{PlanetName.Replace("<b>","").Replace("</b>", "")}").transform;
+        string StrippedPlanetName = PlanetName.Replace("  ", "").Replace("<b>", "").Replace("</b>", "");
 
-        ChangeSelectionInDropdown(PlanetName);
+        Debug.Log($"StrippedPlanetName: {StrippedPlanetName}");
+
+        CameraTarget = GameObject.Find($"{StrippedPlanetName}").transform;
+
+        Debug.Log(CameraTarget);
+
+        ChangeSelectionInDropdown(StrippedPlanetName);
     }
 
     private void ChangeSelectionInDropdown(string newCameraTarget)
     {
         for (int i = 0; i < PlanetListDropdown.options.Count; i++)
         {
-            if (newCameraTarget == PlanetListDropdown.options[i].text.Replace("     ", ""))
+            string StrippedCameraTarget = PlanetListDropdown.options[i].text.Replace("  ", "").Replace("<b>", "").Replace("</b>", "");
+
+            if (newCameraTarget == StrippedCameraTarget)
             {
                 //Debug.Log($"Setting dropdown to {PlanetListDropdown.options[i].text.Replace("     ", "")}");
                 PlanetListDropdown.value = i;

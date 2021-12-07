@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class Star : MonoBehaviour
+public class StarBkp : MonoBehaviour
 {
     [SerializeField]
     private Scales scales;
