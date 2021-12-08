@@ -28,7 +28,7 @@ MonoBehaviour:
   Clouds: 0
   CloudsMaterial: {fileID: 2100000, guid: b88f25b4fcde5544488fa6a1ddd7a121, type: 2}
   TidallyLocked: 0
-  Orbit: 0.4683
+  Orbit: 0.04683
   OrbitTilt: 0
   Size: 1.129
   BodyTilt: 0
