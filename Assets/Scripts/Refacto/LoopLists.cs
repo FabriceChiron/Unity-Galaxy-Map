@@ -63,7 +63,10 @@ public class LoopLists : MonoBehaviour
  
         foreach(StellarObject stellarObject in GameObject.FindObjectsOfType<StellarObject>())
         {
-            stellarObject.ObjectTrail.gameObject.SetActive(StellarSystemGenerated);
+            if(stellarObject.ObjectTrail)
+            {
+                stellarObject.ObjectTrail.gameObject.SetActive(StellarSystemGenerated);
+            }
         }
         
     }
@@ -108,7 +111,7 @@ public class LoopLists : MonoBehaviour
 
                 newMoon.name = $"{moonData.Name} - Moon Orbit Anchor";
 
-                _stellarBodiesList.Add($"   {moonData.Name}");
+                _stellarBodiesList.Add($"    {moonData.Name}");
             }
         }
 
@@ -137,8 +140,6 @@ public class LoopLists : MonoBehaviour
     {
         planetsListDropDown.ClearOptions();
 
-        Debug.Log(stellarBodiesList.Count);
-
         foreach (string StellarBodyName in stellarBodiesList)
         {
             planetsListDropDown.AddOptions(new List<string> { StellarBodyName });
@@ -155,20 +156,14 @@ public class LoopLists : MonoBehaviour
         float mult = val / scale;
         float trinum = (Mathf.Sqrt(4.0f * mult + 1.0f) - 1.0f) / 2.0f;
 
-        //Debug.Log($"val : {val} - trinum * scale {trinum * scale}");
-
         if (!rationalizeValues)
         {
-            //Debug.Log($"RationalizeValues is {rationalizeValues}, returning 'val': {val}");
             return val;
         }
         else
         {
-            //Debug.Log($"RationalizeValues is {rationalizeValues}, returning 'trinum * scale': {trinum * scale}");
             return trinum * scale;
         }
     }
-
-
 
 }

@@ -44,6 +44,8 @@ public class StellarObject : MonoBehaviour
 
     private CameraFollow _camera;
 
+    private Star _star;
+
     private float _revolutionTime, _rotationTime, _objectSize, _orbitSize, _bodyTiltAngle, _orbitTiltAngle, _revolutionDegreesPerSecond, rotationDegreesPerSecond, _trailStartTime;
 
     private Transform _stellarBody, _stellarAnchor, _orbit, _orbitAnchor;
@@ -76,9 +78,11 @@ public class StellarObject : MonoBehaviour
     public Animator Animator { get => _animator; set => _animator = value; }
     public CameraFollow Camera { get => _camera; set => _camera = value; }
     public bool IsHovered { get => _isHovered; set => _isHovered = value; }
+    public Star Star { get => _star; set => _star = value; }
 
     private void Awake()
     {
+
     }
 
     // Start is called before the first frame update
@@ -86,6 +90,7 @@ public class StellarObject : MonoBehaviour
     {
         Controller = LoopLists.GetComponent<Controller>();
         Camera = UnityEngine.Camera.main.GetComponent<CameraFollow>();
+        Star = GameObject.FindObjectOfType<Star>();
 
         StellarBody = transform;
         StellarAnchor = StellarBody.parent;
@@ -107,7 +112,6 @@ public class StellarObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(Controller.IsPaused);
         if(!Controller.IsPaused)
         {
             PlanetRevolution();
@@ -117,7 +121,17 @@ public class StellarObject : MonoBehaviour
         StickToObject(PlanetButton.transform, StellarBody);
         StickToObject(UIName.transform, StellarBody);
 
-        DetectClick();
+        CameraAnchor.parent.LookAt(Star.transform.position);
+
+        if (PlayerPrefs.GetInt("ShowNames") == 1)
+        {
+            //UIName.gameObject.SetActive(true);
+            Animator.SetBool("ShowName", true);
+        }
+        else if (!IsHovered)
+        {
+            Animator.SetBool("ShowName", false);
+        }
     }
 
     private void InitElemsByPlayerPrefs()
@@ -176,7 +190,7 @@ public class StellarObject : MonoBehaviour
 
         if (PlanetData.Clouds)
         {
-            RotateObject(_clouds, RotationTime / 0.2f, inverted);
+            RotateObject(Clouds, RotationTime / 0.2f, inverted);
         }
 
     }
@@ -227,7 +241,8 @@ public class StellarObject : MonoBehaviour
     {
         if(PlanetData.CloudsMaterial)
         {
-            transform.Find("Clouds").GetComponent<Renderer>().material = PlanetData.CloudsMaterial;
+            Clouds.gameObject.SetActive(true);
+            Clouds.GetComponent<Renderer>().material = PlanetData.CloudsMaterial;
         }
     }
 

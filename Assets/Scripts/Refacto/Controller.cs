@@ -8,18 +8,24 @@ public class Controller : MonoBehaviour
 {
     private UITest _uiTest;
 
-    private bool _isPaused, _isStellarSystemCreated;
+    private bool _isPaused, _isStellarSystemCreated, _mouseOnUI;
 
     private CameraFollow _camera;
+
+    private LoopLists _loopLists;
+
     public UITest UITest { get => _uiTest; set => _uiTest = value; }
     public bool IsPaused { get => _isPaused; set => _isPaused = value; }
     public CameraFollow Camera { get => _camera; set => _camera = value; }
     public bool IsStellarSystemCreated { get => _isStellarSystemCreated; set => _isStellarSystemCreated = value; }
+    public bool MouseOnUI { get => _mouseOnUI; set => _mouseOnUI = value; }
+    public LoopLists LoopLists { get => _loopLists; set => _loopLists = value; }
 
     private void Awake()
     {
         Camera = UnityEngine.Camera.main.GetComponent<CameraFollow>();
         UITest = GetComponent<UITest>();
+        LoopLists = GetComponent<LoopLists>();
         IsPaused = false;
     }
 
@@ -32,6 +38,13 @@ public class Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        MouseOnUI = UITest.IsPointerOverUIElement();
+
+        if (!MouseOnUI)
+        {
+            DetectClick();
+        }
+
         if (IsEscapePressed())
         {
             Application.Quit();
@@ -96,5 +109,86 @@ public class Controller : MonoBehaviour
         }
 
         ClearTrails();
+    }
+
+    private void DetectClick()
+    {
+        Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        // Visualize Ray on Scene (no impact on Game view)
+        Debug.DrawRay(ray.origin, ray.direction * 20f);
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            //If mouse is on the star
+            if(hit.transform.GetComponent<Star>() != null)
+            {
+                Star star = hit.transform.GetComponent<Star>();
+
+                if (Input.GetMouseButton(0))
+                {
+                    Camera.ChangeTarget(star.transform);
+                }
+            }
+
+            //If mouse is on a planet
+            else if(hit.transform.GetComponent<StellarObject>() != null)
+            {
+                StellarObject stellarObject = hit.transform.GetComponent<StellarObject>();
+
+                stellarObject.IsHovered = true;
+
+                //and is clicked
+                if (Input.GetMouseButtonDown(0))
+                {
+
+                    //if the camera is alreay focused on the planet or moon
+                    if (Camera.CameraTarget == hit.transform)
+                    {
+
+
+                        //Set the animator boolean to true, which will start the animation to show the details
+                        stellarObject.Animator.SetBool("ShowDetails", !stellarObject.Animator.GetBool("ShowDetails"));
+
+                        //And hide the name
+                        //UIName.gameObject.SetActive(false);
+                        stellarObject.Animator.SetBool("ShowName", false);
+                        Camera.CameraAnchor = stellarObject.CameraAnchor;
+                        Camera.CameraAnchorObject = gameObject;
+                    }
+
+                    //else
+                    else
+                    {
+                        //change the camera focus to the planet
+                        Camera.ChangeTarget(hit.transform);
+                    }
+
+
+                }
+
+                //and is not clicked and the details are not shown
+                else if (!stellarObject.Animator.GetBool("ShowDetails"))
+                {
+                    stellarObject.Animator.SetBool("ShowName", true);
+                }
+            }
+        }
+        else
+        {
+            foreach(StellarObject stellarObject in GameObject.FindObjectsOfType<StellarObject>())
+            {
+                stellarObject.IsHovered = false;
+
+                stellarObject.Animator.SetBool("ShowDetails", false);
+                if (PlayerPrefs.GetInt("ShowNames") == 0)
+                {
+                    //UIName.gameObject.SetActive(false);
+                    stellarObject.Animator.SetBool("ShowName", false);
+                }
+            }
+        }
     }
 }

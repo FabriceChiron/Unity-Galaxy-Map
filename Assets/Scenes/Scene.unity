@@ -2869,6 +2869,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sensitivity: 3
   _startingPoint: Earth
+  _controller: {fileID: 495509697}
   _speed: 3
   PlanetListDropdown: {fileID: 768173179}
 --- !u!114 &963194230
@@ -2915,17 +2916,17 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08baa3d19a3754108af85534c7824251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   EnableMultiTouch: 1
-  TreatMousePointerAsFinger: 1
-  TreatMouseWheelAsFingers: 1
+  TreatMousePointerAsFinger: 0
+  TreatMouseWheelAsFingers: 0
   SimulateMouseWithTouches: 0
   ProcessUnityTouches: 1
-  RequireControlKeyForMouseZoom: 1
+  RequireControlKeyForMouseZoom: 0
   MouseDistanceInUnitsForScaleAndRotate: 2
   MouseWheelDeltaMultiplier: 0.025
   MouseWheelZoomOutSnapBack: {x: 0, y: 0}
@@ -6723,7 +6724,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1982498355898364058, guid: e04326d909c04ca4f8003d435e58c36b, type: 3}
       propertyPath: m_Color.a
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1982498355898364058, guid: e04326d909c04ca4f8003d435e58c36b, type: 3}
       propertyPath: m_RaycastPadding.w

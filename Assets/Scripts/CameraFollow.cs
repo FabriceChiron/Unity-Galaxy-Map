@@ -16,6 +16,9 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] 
     private string _startingPoint;
 
+    [SerializeField]
+    private Controller _controller;
+
     private float _scrollWheelChange;
 
     [SerializeField]
@@ -26,11 +29,17 @@ public class CameraFollow : MonoBehaviour
 
     private bool _mouseOnUI;
 
+    float mouseHorizontal;
+    float mouseVertical;
+
     private Transform _star, _cameraAnchor;
     private GameObject _cameraAnchorObject;
 
     private Vector3 _initPosition;
     private Quaternion _initRotation;
+
+    public Vector2 startPos;
+    public Vector2 direction;
 
     public string StartingPoint { get => _startingPoint; set => _startingPoint = value; }
     public float Sensitivity { get => _sensitivity; set => _sensitivity = value; }
@@ -43,6 +52,7 @@ public class CameraFollow : MonoBehaviour
     public GameObject CameraAnchorObject { get => _cameraAnchorObject; set => _cameraAnchorObject = value; }
     public Vector3 InitPosition { get => _initPosition; set => _initPosition = value; }
     public Quaternion InitRotation { get => _initRotation; set => _initRotation = value; }
+    public Controller Controller { get => _controller; set => _controller = value; }
 
     // Start is called before the first frame update
     void Awake()
@@ -57,27 +67,22 @@ public class CameraFollow : MonoBehaviour
             ResetCameraTarget();
         }
 
-        if (GameObject.FindGameObjectWithTag("StellarSystem"))
-        {
-            UITest = GameObject.FindGameObjectWithTag("StellarSystem").GetComponent<UITest>();
-        }
+        UITest = Controller.UITest;
     }
 
     public void InitCamera()
     {
         transform.parent = null;
-        _transform.position = InitPosition;
-        _transform.rotation = InitRotation;
+        transform.position = InitPosition;
+        transform.rotation = InitRotation;
     }
 
     public void ResetCameraTarget()
     {
         InitCamera();
 
-        Debug.Log(GameObject.FindGameObjectsWithTag("Star").Length);
-
-        Star = GameObject.FindGameObjectWithTag("Star").transform;
-        Debug.Log($"Resetting camera target to {Star}");
+        Star = Controller.LoopLists.NewStar.transform;
+        
         CameraTarget = Star;
         ChangeTarget(Star);
     }
@@ -93,8 +98,6 @@ public class CameraFollow : MonoBehaviour
         {
             ZoomCamera();
         }
-
-        //_transform.LookAt(_cameraTarget.position);
 
         if(CameraTarget != Star && CameraTarget != null)
         {
@@ -117,14 +120,38 @@ public class CameraFollow : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float mouseHorizontal = Input.GetAxis("Mouse X");
-        float mouseVertical = Input.GetAxis("Mouse Y");
+        mouseHorizontal = Input.GetAxis("Mouse X");
+        mouseVertical = Input.GetAxis("Mouse Y");
+
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            // Handle finger movements based on TouchPhase
+            switch (touch.phase)
+            {
+                //When a touch has first been detected, change the message and record the starting position
+                case TouchPhase.Began:
+                    // Record initial touch position.
+                    startPos = touch.position;
+                    break;
+
+                //Determine if the touch is a moving touch
+                case TouchPhase.Moved:
+                    // Determine direction by comparing the current touch position with the initial one
+                    direction = touch.position - startPos;
+                    //TouchToWorldPosition(touch);
+                    break;
+
+                case TouchPhase.Ended:
+                    // Report that the touch has ended when it ends
+                    break;
+            }
+        }
 
         if (Input.GetMouseButton(1))
         {
-            transform.RotateAround(CameraTarget == null ? transform.position : CameraTarget.transform.position, Vector3.up, mouseHorizontal * Sensitivity); //use transform.Rotate(transform.up * mouseHorizontal * Sensitivity);
-            transform.RotateAround(CameraTarget == null ? transform.position : CameraTarget.transform.position, -Vector3.right, mouseVertical * Sensitivity);
-
+            RotateAroundObject();
         }
 
         if (Input.GetMouseButton(2))
@@ -171,24 +198,24 @@ public class CameraFollow : MonoBehaviour
         }
     }
 
+    public void RotateAroundObject()
+    {
+        transform.RotateAround(CameraTarget == null ? transform.position : CameraTarget.transform.position, Vector3.up, mouseHorizontal * Sensitivity); //use transform.Rotate(transform.up * mouseHorizontal * Sensitivity);
+        transform.RotateAround(CameraTarget == null ? transform.position : CameraTarget.transform.position, -Vector3.right, mouseVertical * Sensitivity);
+    }
+
     public void ChangeTarget(Transform newCameraTarget)
     {
         CameraTarget = newCameraTarget;
-        Debug.Log($"by transform: {newCameraTarget.name}");
 
         ChangeSelectionInDropdown(newCameraTarget.name);
     }
 
     public void ChangeTarget(string PlanetName)
     {
-        Debug.Log($"by name: {PlanetName}");
-        string StrippedPlanetName = PlanetName.Replace("  ", "").Replace("<b>", "").Replace("</b>", "");
-
-        Debug.Log($"StrippedPlanetName: {StrippedPlanetName}");
+        string StrippedPlanetName = PlanetName.Replace("    ", "").Replace("<b>", "").Replace("</b>", "");
 
         CameraTarget = GameObject.Find($"{StrippedPlanetName}").transform;
-
-        Debug.Log(CameraTarget);
 
         ChangeSelectionInDropdown(StrippedPlanetName);
     }
@@ -197,7 +224,7 @@ public class CameraFollow : MonoBehaviour
     {
         for (int i = 0; i < PlanetListDropdown.options.Count; i++)
         {
-            string StrippedCameraTarget = PlanetListDropdown.options[i].text.Replace("  ", "").Replace("<b>", "").Replace("</b>", "");
+            string StrippedCameraTarget = PlanetListDropdown.options[i].text.Replace("    ", "").Replace("<b>", "").Replace("</b>", "");
 
             if (newCameraTarget == StrippedCameraTarget)
             {

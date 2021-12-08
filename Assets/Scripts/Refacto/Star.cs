@@ -11,12 +11,21 @@ public class Star : MonoBehaviour
     [SerializeField]
     private Scales scales;
 
+    private Material _material;
+
+    private CameraFollow _camera;
+
     public StellarSystemData StellarSystemData { get => stellarSystemData; set => stellarSystemData = value; }
+    public CameraFollow Camera { get => _camera; set => _camera = value; }
 
     // Start is called before the first frame update
     void Start()
     {
+        Camera = UnityEngine.Camera.main.GetComponent<CameraFollow>();
+        
         SetScales();
+
+        _material = StellarSystemData.Material;
 
         SetMaterial();
     }
@@ -24,22 +33,19 @@ public class Star : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //DetectClick();
     }
 
 
     //Apply material set in StellarSystemData 
     public void SetMaterial()
     {
-        Debug.Log($"{StellarSystemData.Name} - {StellarSystemData.Material}");
+        Renderer renderer= GetComponent<MeshRenderer>();
+        renderer.material = _material;
 
-        Material starMaterial = GetComponent<MeshRenderer>().material;
-        starMaterial = StellarSystemData.Material;
-
-        //If starMaterial is not the sun, adapt the color of the light to the material emission color
-        if (!starMaterial.name.Contains("sun-texture"))
+        if (!renderer.material.name.Contains("sun-texture"))
         {
-            GetComponent<Light>().color = Color.Lerp(Color.white, starMaterial.GetColor("_EmissionColor"), 0.1f);
+            GetComponent<Light>().color = Color.Lerp(Color.white, renderer.material.GetColor("_EmissionColor"), 0.1f);
         }
     }
 
@@ -56,6 +62,23 @@ public class Star : MonoBehaviour
         else
         {
             transform.localScale = new Vector3(5f * scales.Planet, 5f * scales.Planet, 5f * scales.Planet);
+        }
+    }
+
+    private void DetectClick()
+    {
+
+        Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        // Visualize Ray on Scene (no impact on Game view)
+        Debug.DrawRay(ray.origin, ray.direction * 20f);
+
+        RaycastHit hit;
+
+        //if the mouse is on the sun and and is clicked
+        if (Physics.Raycast(ray, out hit) && hit.transform == transform && Input.GetMouseButton(0))
+        {
+            Camera.ChangeTarget(hit.transform);
         }
     }
 }
