@@ -6,7 +6,7 @@ PlayerSettings:
   serializedVersion: 22
   productGUID: d35518c1d317f8a4392cfac4f484f842
   AndroidProfiler: 0
-  AndroidFilterTouchesWhenObscured: 0
+  AndroidFilterTouchesWhenObscured: 1
   AndroidEnableSustainedPerformanceMode: 0
   defaultScreenOrientation: 4
   targetDevice: 2

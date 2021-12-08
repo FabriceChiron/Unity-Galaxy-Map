@@ -29,8 +29,8 @@ public class CameraFollow : MonoBehaviour
 
     private bool _mouseOnUI;
 
-    float mouseHorizontal;
-    float mouseVertical;
+    private float mouseHorizontal;
+    private float mouseVertical;
 
     private Transform _star, _cameraAnchor;
     private GameObject _cameraAnchorObject;
@@ -123,30 +123,45 @@ public class CameraFollow : MonoBehaviour
         mouseHorizontal = Input.GetAxis("Mouse X");
         mouseVertical = Input.GetAxis("Mouse Y");
 
+        _scrollWheelChange = Input.GetAxis("Mouse ScrollWheel");
+
+        // Si au moins un doigt est utilisé
         if (Input.touchCount > 0)
         {
+            // On récupère l'objet Touch pour le premier doigt
             Touch touch = Input.GetTouch(0);
 
-            // Handle finger movements based on TouchPhase
-            switch (touch.phase)
+            if(Input.touchCount == 1)
             {
-                //When a touch has first been detected, change the message and record the starting position
-                case TouchPhase.Began:
-                    // Record initial touch position.
-                    startPos = touch.position;
-                    break;
-
-                //Determine if the touch is a moving touch
-                case TouchPhase.Moved:
-                    // Determine direction by comparing the current touch position with the initial one
-                    direction = touch.position - startPos;
-                    //TouchToWorldPosition(touch);
-                    break;
-
-                case TouchPhase.Ended:
-                    // Report that the touch has ended when it ends
-                    break;
+                // Si le doigt vient d'être posé
+                if (touch.phase == TouchPhase.Began)
+                {
+                    OnStartSwipe(touch);
+                }
+                // Si le doigt vient de bouger
+                else if (touch.phase == TouchPhase.Moved)
+                {
+                    OnMoveSwipe(touch);
+                }
             }
+
+            if(Input.touchCount == 2)
+            {
+                Touch touch0 = Input.GetTouch(0);
+                Touch touch1 = Input.GetTouch(1);
+
+                Debug.Log($"{touch0.position} - {touch1.position}");
+
+                if(touch.phase == TouchPhase.Began)
+                {
+                    OnStartPinch(touch0, touch1);
+                }
+                else if(touch.phase == TouchPhase.Moved)
+                {
+                    OnMovePinch(touch0, touch1);
+                }
+            }
+
         }
 
         if (Input.GetMouseButton(1))
@@ -186,16 +201,86 @@ public class CameraFollow : MonoBehaviour
         //Debug.Log(CameraAnchor);
         if(CameraAnchor != null)
         {
-            if(CameraAnchorObject.GetComponent<Planet>() != null)
+            if (CameraAnchorObject.GetComponent<StellarObject>() != null)
+            {
+                FocusOnTarget("Planet");
+            }
+            else if (CameraAnchorObject.GetComponent<Galaxy>() != null)
+            {
+                FocusOnTarget("Galaxy");
+            }
+
+            /*if(CameraAnchorObject.GetComponent<Planet>() != null)
             {
                 FocusOnTarget("Planet");
             }
             else if(CameraAnchorObject.GetComponent<Galaxy>() != null)
             {
                 FocusOnTarget("Galaxy");
-            }
-            
+            }*/
+
         }
+    }
+
+    // Si le doigt vient d'être posé
+    private void OnStartSwipe(Touch touch)
+    {
+        // On calcule la position du doigt DANS LE WORLD (touch.position renvoie la position du doigt SUR L'ECRAN en pixels)
+        Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+    }
+
+    // Si le doigt vient de bouger
+    private void OnMoveSwipe(Touch touch)
+    {
+        // On calcule la position du doigt DANS LE WORLD (touch.position renvoie la position du doigt SUR L'ECRAN en pixels)
+        Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+        // On calcule la position du doigt à la dernière frame DANS LE WORLD (touch.deltaPosition renvoie la différence entre la position actuelle et la dernière position du doigt sur l'ecran en pixels)
+        Vector2 touchPreviousPosition = Camera.main.ScreenToWorldPoint(touch.position - touch.deltaPosition);
+
+        Debug.Log($"deltaPosition: {touch.deltaPosition}");
+
+        mouseHorizontal = touch.deltaPosition.x / 10f;
+        mouseVertical = touch.deltaPosition.y / 10f;
+
+        if (!MouseOnUI)
+        {
+            RotateAroundObject();
+        }
+    }
+
+    private void OnStartPinch(Touch touch0, Touch touch1)
+    {
+        Vector2 touchPos0 = touch0.position;
+        Vector2 touchPreviousPos0 = touch0.position - touch0.deltaPosition;
+
+        Vector2 touchPos1 = touch1.position;
+        Vector2 touchPreviousPos1 = touch1.position - touch1.deltaPosition;
+    }
+
+    private void OnMovePinch(Touch touch0, Touch touch1)
+    {
+        Vector2 touchPos0 = touch0.position;
+        Vector2 touchPreviousPos0 = touch0.position - touch0.deltaPosition;
+
+        Vector2 touchPos1 = touch1.position;
+        Vector2 touchPreviousPos1 = touch1.position - touch1.deltaPosition;
+
+        Debug.Log($"Previous: {touchPreviousPos0} - {touchPreviousPos1}");
+        Debug.Log($"Now: {touchPos0} - {touchPos1}");
+        //Debug.Log($"Now: {Vector2.Distance(touchPos0, touchPos1)}");
+
+        if (Vector2.Distance(touchPreviousPos0, touchPreviousPos1) > Vector2.Distance(touchPos0, touchPos1))
+        {
+            Debug.Log("Pinch");
+            _scrollWheelChange = Vector2.Distance(touch0.deltaPosition, touch1.deltaPosition) * -0.1f;
+        }
+        else if (Vector2.Distance(touchPreviousPos0, touchPreviousPos1) < Vector2.Distance(touchPos0, touchPos1))
+        {
+            Debug.Log("Zoom");
+            _scrollWheelChange = Vector2.Distance(touch0.deltaPosition, touch1.deltaPosition) * 0.1f;
+        }
+
+
     }
 
     public void RotateAroundObject()
@@ -270,7 +355,7 @@ public class CameraFollow : MonoBehaviour
 
     private void ZoomCamera()
     {
-        _scrollWheelChange = Input.GetAxis("Mouse ScrollWheel");
+        
 
         if(_scrollWheelChange != 0f)
         {

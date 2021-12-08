@@ -38,8 +38,6 @@ public class SliderSetting : MonoBehaviour
 
     public virtual void LoadPrefs()
     {
-        Debug.Log(_prefName);
-
         _slider = GetComponent<Slider>();
 
         InitValueFromScales(_prefName);
