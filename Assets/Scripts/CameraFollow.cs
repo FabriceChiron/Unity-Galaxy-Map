@@ -173,13 +173,13 @@ public class CameraFollow : MonoBehaviour
 
         }
 
-        if (Input.GetMouseButtonDown(0) && !MouseOnUI)
+        if (Input.GetMouseButtonDown(1) && !MouseOnUI)
         {
             _totalClickTime = 0;
             GettingLongClick = true;
         }
 
-        if (Input.GetMouseButton(0) && GettingLongClick)
+        if (Input.GetMouseButton(1) && GettingLongClick)
         {
             _totalClickTime += Time.deltaTime;
 
@@ -193,14 +193,14 @@ public class CameraFollow : MonoBehaviour
                 IsRotating = false;
             }
         }
-        if(IsRotating && Input.GetMouseButtonUp(0))
+        if(IsRotating && Input.GetMouseButtonUp(1))
         {
             IsRotating = false;
             GettingLongClick = false;
         }
 
 
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(2))
         {
 
             CameraTarget = null;
