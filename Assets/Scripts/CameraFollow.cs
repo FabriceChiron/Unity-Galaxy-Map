@@ -28,9 +28,13 @@ public class CameraFollow : MonoBehaviour
     private TMP_Dropdown PlanetListDropdown;
 
     private bool _mouseOnUI;
+    private bool _isRotating;
+    private bool _gettingLongClick;
 
     private float mouseHorizontal;
     private float mouseVertical;
+    private float _timeBeforeRotate = 0.2f;
+    private float _totalClickTime;
 
     private Transform _star, _cameraAnchor;
     private GameObject _cameraAnchorObject;
@@ -48,6 +52,8 @@ public class CameraFollow : MonoBehaviour
     public Transform CameraTarget { get => _cameraTarget; set => _cameraTarget = value; }
     public UITest UITest { get => _UITest; set => _UITest = value; }
     public bool MouseOnUI { get => _mouseOnUI; set => _mouseOnUI = value; }
+    public bool IsRotating { get => _isRotating; set => _isRotating = value; }
+    public bool GettingLongClick { get => _gettingLongClick; set => _gettingLongClick = value; }
     public Transform CameraAnchor { get => _cameraAnchor; set => _cameraAnchor = value; }
     public GameObject CameraAnchorObject { get => _cameraAnchorObject; set => _cameraAnchorObject = value; }
     public Vector3 InitPosition { get => _initPosition; set => _initPosition = value; }
@@ -116,6 +122,9 @@ public class CameraFollow : MonoBehaviour
             _transform.rotation = Quaternion.Slerp(_transform.rotation, Quaternion.LookRotation(lookDirection), _speed * Time.deltaTime);
         }
 
+        Cursor.visible = !IsRotating;
+        Cursor.lockState = IsRotating ? CursorLockMode.Locked : CursorLockMode.None;
+
     }
 
     private void FixedUpdate()
@@ -164,13 +173,36 @@ public class CameraFollow : MonoBehaviour
 
         }
 
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButtonDown(0) && !MouseOnUI)
         {
-            RotateAroundObject();
+            _totalClickTime = 0;
+            GettingLongClick = true;
         }
 
-        if (Input.GetMouseButton(2))
+        if (Input.GetMouseButton(0) && GettingLongClick)
         {
+            _totalClickTime += Time.deltaTime;
+
+            if(_totalClickTime >= _timeBeforeRotate)
+            {
+                IsRotating = true;
+                RotateAroundObject();
+            }
+            else
+            {
+                IsRotating = false;
+            }
+        }
+        if(IsRotating && Input.GetMouseButtonUp(0))
+        {
+            IsRotating = false;
+            GettingLongClick = false;
+        }
+
+
+        if (Input.GetMouseButton(1))
+        {
+
             CameraTarget = null;
             Vector3 NewPosition = new Vector3(Input.GetAxis("Mouse X"), 0, Input.GetAxis("Mouse Y"));
             Vector3 pos = transform.localPosition;
@@ -196,6 +228,7 @@ public class CameraFollow : MonoBehaviour
 
             //transform.Translate(transform.up * mouseVertical * Sensitivity);
             //transform.Translate(transform.right * mouseHorizontal * Sensitivity);
+
         }
 
         //Debug.Log(CameraAnchor);
@@ -285,8 +318,10 @@ public class CameraFollow : MonoBehaviour
 
     public void RotateAroundObject()
     {
+
         transform.RotateAround(CameraTarget == null ? transform.position : CameraTarget.transform.position, Vector3.up, mouseHorizontal * Sensitivity); //use transform.Rotate(transform.up * mouseHorizontal * Sensitivity);
         transform.RotateAround(CameraTarget == null ? transform.position : CameraTarget.transform.position, -Vector3.right, mouseVertical * Sensitivity);
+
     }
 
     public void ChangeTarget(Transform newCameraTarget)
@@ -299,6 +334,8 @@ public class CameraFollow : MonoBehaviour
     public void ChangeTarget(string PlanetName)
     {
         string StrippedPlanetName = PlanetName.Replace("    ", "").Replace("<b>", "").Replace("</b>", "");
+
+        Debug.Log(StrippedPlanetName);
 
         CameraTarget = GameObject.Find($"{StrippedPlanetName}").transform;
 
@@ -332,7 +369,7 @@ public class CameraFollow : MonoBehaviour
         switch (componentType)
         {
             case "Planet":
-                targetThreshold = CameraAnchorObject.GetComponent<Planet>().ObjectSize * 0.5f;
+                targetThreshold = CameraAnchorObject.GetComponent<StellarObject>().ObjectSize * 0.5f;
                 break;
             
             case "Galaxy":

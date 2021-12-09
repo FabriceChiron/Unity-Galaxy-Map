@@ -45,6 +45,7 @@ public class DropDownMenu : MonoBehaviour
     {
         string StellarObjectName = Dropdown.options[Dropdown.value].text.Replace("    ", "").Replace("<b>", "").Replace("</b>", "");
         Label.text = StellarObjectName;
+        Debug.Log(StellarObjectName);
         _camera.ChangeTarget(StellarObjectName);
         //PlanetListDropdown.transform.GetChild(0)text = StellarObjectName;
     }

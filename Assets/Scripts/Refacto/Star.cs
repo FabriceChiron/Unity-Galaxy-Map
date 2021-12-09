@@ -6,7 +6,7 @@ public class Star : MonoBehaviour
 {
 
     [SerializeField]
-    private StellarSystemData stellarSystemData;
+    private StarData starData;
     
     [SerializeField]
     private Scales scales;
@@ -15,8 +15,8 @@ public class Star : MonoBehaviour
 
     private CameraFollow _camera;
 
-    public StellarSystemData StellarSystemData { get => stellarSystemData; set => stellarSystemData = value; }
     public CameraFollow Camera { get => _camera; set => _camera = value; }
+    public StarData StarData { get => starData; set => starData = value; }
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +25,7 @@ public class Star : MonoBehaviour
         
         SetScales();
 
-        _material = StellarSystemData.Material;
+        _material = StarData.Material;
 
         SetMaterial();
     }
@@ -56,7 +56,7 @@ public class Star : MonoBehaviour
         if (!scales.RationalizeValues)
         {
             //star scale is calculated with the star size (in Earth size) and the scales applied to planets
-            transform.localScale = new Vector3(StellarSystemData.StarSize * scales.Planet, StellarSystemData.StarSize * scales.Planet, StellarSystemData.StarSize * scales.Planet);
+            transform.localScale = new Vector3(StarData.Size * scales.Planet, StarData.Size * scales.Planet, StarData.Size * scales.Planet);
         }
         //else, set a default size for the star (multiplied by the scales applied to planets
         else

@@ -16,6 +16,8 @@ MonoBehaviour:
   StarName: Sun
   StarSize: 109
   StarDescription: 
+  StarsItem:
+  - {fileID: 11400000, guid: af43264eee37be840b38f3be5852548a, type: 2}
   ScaleFactor: 1
   Texture: {fileID: 0}
   Material: {fileID: 2100000, guid: d35e5dcc9d4429b48b60c5d19d21313c, type: 2}

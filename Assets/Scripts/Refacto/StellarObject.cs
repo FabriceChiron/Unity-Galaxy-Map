@@ -150,8 +150,10 @@ public class StellarObject : MonoBehaviour
             $"<b>Orbit</b>: {PlanetData.Orbit} AU\n" +
             $"<b>Radius</b>: {PlanetData.Size * 6378f}kms ({PlanetData.Size} of Earth's)\n" +
             $"<b>Orbital Period</b>: {PlanetData.YearLength} Earth year(s)\n" +
-            $"<b>Rotation Period</b>: {PlanetData.DayLength} Earth day(s)\n\n" +
+            $"<b>Rotation Period</b>: {(PlanetData.TidallyLocked ? "Tidally Locked" : $"{((PlanetData.DayLength == float.NaN) ? "Unknown" : $"{PlanetData.DayLength} Earth day(s)")}") }\n\n" +
             $"{PlanetData.Details}";
+
+        //$"<b>Rotation Period</b>: {(PlanetData.TidallyLocked ? "Tidally Locked" : $"{((PlanetData.DayLength == float.NaN && PlanetData.Name != "Earth") ? "Unknown" : $"{PlanetData.DayLength} Earth day(s)")}") }\n\n"
     }
 
     private void PlanetRevolution()
@@ -182,8 +184,13 @@ public class StellarObject : MonoBehaviour
         }
         else
         {
-            inverted = Mathf.Abs(PlanetData.DayLength) != PlanetData.DayLength;
-            RotationTime = Mathf.Abs(PlanetData.DayLength) * scales.Day;
+            float _dayLength = PlanetData.DayLength;
+            if(PlanetData.DayLength == float.NaN)
+            {
+                _dayLength = 1f;
+            }
+            inverted = Mathf.Abs(_dayLength) != _dayLength;
+            RotationTime = Mathf.Abs(_dayLength) * scales.Day;
         }
 
         RotateObject(StellarBody, RotationTime, inverted);

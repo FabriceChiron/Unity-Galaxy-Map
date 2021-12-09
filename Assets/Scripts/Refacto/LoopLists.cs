@@ -81,7 +81,12 @@ public class LoopLists : MonoBehaviour
 
         NewStellarSystem.name = $"{StellarSystemData.Name} - stellar system";
 
-        GenerateStar(StellarSystemData);
+        foreach(StarData starData in StellarSystemData.StarsItem)
+        {
+            GenerateStar(starData);
+        }
+
+        //GenerateStar(StellarSystemData);
 
         foreach (PlanetData planetData in StellarSystemData.ChildrenItem)
         {
@@ -127,13 +132,13 @@ public class LoopLists : MonoBehaviour
         NewStellarSystem.GetComponent<ToggleStellarSystem>().DeployStellarSystem();
     }
 
-    public void GenerateStar(StellarSystemData starInfos)
+    public void GenerateStar(StarData starData)
     {
         NewStar = Instantiate(_starPrefab, NewStellarSystem.transform);
-        NewStar.GetComponent<Star>().StellarSystemData = StellarSystemData;
-        NewStar.name = $"{starInfos.StarName} - Star";
+        NewStar.GetComponent<Star>().StarData = starData;
+        NewStar.name = $"{starData.Name}";
 
-        _stellarBodiesList.Add($"<b>{starInfos.StarName}</b>");
+        _stellarBodiesList.Add($"<b>{starData.Name}</b>");
     }
 
     public void FillPlanetsDropDownList(List<string> stellarBodiesList, TMP_Dropdown planetsListDropDown)
