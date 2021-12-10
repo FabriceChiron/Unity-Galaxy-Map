@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu]
@@ -28,4 +26,6 @@ public class StellarSystemData : ScriptableObject
     public float Left;
 
     public PlanetData[] ChildrenItem;
+
+    public AsteroidBeltData[] AsteroidBeltItem;
 }

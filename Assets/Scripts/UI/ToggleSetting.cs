@@ -43,6 +43,11 @@ public class ToggleSetting : MonoBehaviour
 
     public void LoadPrefs()
     {
+        if (!PlayerPrefs.HasKey(PrefName))
+        {
+            PlayerPrefs.SetInt(PrefName, 0);
+        }
+
         // On récupère le Toggle
         _toggle = GetComponent<Toggle>();
 
