@@ -30,14 +30,14 @@ public class RescaleUI : MonoBehaviour
 
         _dpiRatio = _screenDPI / _baseDPI;
 
-        _UIScaleFactor = _baseDPI / _screenDPI;
+        //_UIScaleFactor = _baseDPI / _screenDPI;
 
-        if(_dpiRatio > 2f)
-        {
-
-        }
 
         _canvasScaler = GetComponent<CanvasScaler>();
+        if(_dpiRatio > 2f && _UIScaleFactor > 0f)
+        {
+            _canvasScaler.scaleFactor = _UIScaleFactor;
+        }
 /*
 
         if(_displayScreenRatio != null)

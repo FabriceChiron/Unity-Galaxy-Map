@@ -20,12 +20,14 @@ public class ToggleSetting : MonoBehaviour
     private Toggle _toggle;
 
     private Controller _controller;
+    private string PrefName { get => _prefName; set => _prefName = value; }
 
     public Scales Scales { get => scales; set => scales = value; }
-    private string PrefName { get => _prefName; set => _prefName = value; }
+    public Toggle Toggle { get => _toggle; set => _toggle = value; }
 
     private void Awake()
     {
+        Toggle = GetComponent<Toggle>();
         _controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<Controller>();
     }
 
@@ -43,9 +45,10 @@ public class ToggleSetting : MonoBehaviour
 
     public void LoadPrefs()
     {
+
         if (!PlayerPrefs.HasKey(PrefName))
         {
-            PlayerPrefs.SetInt(PrefName, 0);
+            PlayerPrefs.SetInt(PrefName, Scales.RationalizeValues ? 1 : 0);
         }
 
         // On récupère le Toggle
@@ -53,26 +56,26 @@ public class ToggleSetting : MonoBehaviour
 
         _toggle.isOn = (PlayerPrefs.GetInt(PrefName) != 0) ? true : false;
 
-        _toggle.onValueChanged.AddListener(delegate
+    }
+
+    public void SetValue()
+    {
+        switch (PrefName)
         {
-            switch (PrefName)
-            {
-                case "RationalizeValues":
-                    PlayerPrefs.SetInt(PrefName, (_toggle.isOn) ? 1 : 0);
-                    Scales.RationalizeValues = _toggle.isOn;
-                    break;
+            case "RationalizeValues":
+                PlayerPrefs.SetInt(PrefName, (_toggle.isOn) ? 1 : 0);
+                Scales.RationalizeValues = _toggle.isOn;
+                break;
 
-                case "ScaleFactor":
-                    PlayerPrefs.SetInt(PrefName, (_toggle.isOn) ? 1 : 0);
-                    break;
-            }
+            case "ScaleFactor":
+                PlayerPrefs.SetInt(PrefName, (_toggle.isOn) ? 1 : 0);
+                break;
+        }
 
-            Rescale();
-        });
+        _controller.SetScales();
     }
 
     public void Rescale()
     {
-        _controller.SetScales();
     }
 }
