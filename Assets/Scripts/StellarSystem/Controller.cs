@@ -6,6 +6,9 @@ using TMPro;
 
 public class Controller : MonoBehaviour
 {
+    [SerializeField]
+    private TextMeshProUGUI _deviceInfo;
+
     private UITest _uiTest;
     private bool _isPaused, _isStellarSystemCreated, _mouseOnUI;
     private CameraFollow _camera;
@@ -26,6 +29,8 @@ public class Controller : MonoBehaviour
         UITest = GetComponent<UITest>();
         LoopLists = GetComponent<LoopLists>();
         IsPaused = false;
+
+        _deviceInfo.text = $"{SystemInfo.deviceType}";
     }
 
     // Start is called before the first frame update
@@ -117,6 +122,7 @@ public class Controller : MonoBehaviour
 
     private void DetectClick()
     {
+        
         Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
 
         // Visualize Ray on Scene (no impact on Game view)
