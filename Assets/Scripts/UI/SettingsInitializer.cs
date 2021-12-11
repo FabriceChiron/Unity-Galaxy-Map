@@ -53,7 +53,11 @@ public class SettingsInitializer : MonoBehaviour
 
             Debug.Log("Prefs loaded");
         }
-        else
+        else if(!LoopLists.StellarSystemGenerated)
+        {
+            Controller.ClearTrails();
+        }
+        else if (!_loadPrefsDone)
         {
             Controller.ClearTrails();
         }
