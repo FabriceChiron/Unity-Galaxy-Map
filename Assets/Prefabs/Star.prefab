@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3484598937430278711}
   - component: {fileID: 3484598937430278710}
   - component: {fileID: 3484598937430278705}
-  - component: {fileID: 7285597439738835177}
+  - component: {fileID: 7809465393944382844}
   m_Layer: 0
   m_Name: Star
   m_TagString: Star
@@ -159,19 +159,21 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!54 &7285597439738835177
-Rigidbody:
+--- !u!114 &7809465393944382844
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3484598937430278707}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccd912c870143324b8d36b3ac93eb1af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scales: {fileID: 11400000, guid: c0c8336a971c09743bc6a866d7f5a944, type: 2}
+  _texture: {fileID: 0}
+  _material: {fileID: 0}
+  stellarSystemData: {fileID: 0}
+  _scaleSettings: {fileID: 0}
+  PlanetListDropdown: {fileID: 0}

@@ -6,12 +6,17 @@ using TMPro;
 
 public class ToggleTrails : MonoBehaviour
 {
+
+    [SerializeField]
+    private Controller _controller;
+
     private Toggle _toggle;
     public Toggle Toggle { get => _toggle; set => _toggle = value; }
 
     private void Awake()
     {
         Toggle = GetComponent<Toggle>();
+        _controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<Controller>();
     }
 
     // Start is called before the first frame update
@@ -38,13 +43,9 @@ public class ToggleTrails : MonoBehaviour
 
     public void SetToggleTrails()
     {
+
         PlayerPrefs.SetInt("ShowTrails", (Toggle.isOn) ? 1 : 0);
-        foreach(Planet planet in FindObjectsOfType<Planet>())
-        {
-            if(planet.IsCreated && planet.TrailStartTime - Time.deltaTime <= Time.time)
-            {
-                planet.PlanetTrail.enabled = PlayerPrefs.GetInt("ShowTrails") != 0;
-            }
-        }
+
+        _controller.ToggleTrails();
     }
 }

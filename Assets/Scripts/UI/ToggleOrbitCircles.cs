@@ -9,9 +9,12 @@ public class ToggleOrbitCircles : MonoBehaviour
     private Toggle _toggle;
     public Toggle Toggle { get => _toggle; set => _toggle = value; }
 
+    private Controller _controller;
+
     private void Awake()
     {
         Toggle = GetComponent<Toggle>();
+        _controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<Controller>();
     }
 
     // Start is called before the first frame update
@@ -40,12 +43,7 @@ public class ToggleOrbitCircles : MonoBehaviour
     public void SetToggleOrbitCircles()
     {
         PlayerPrefs.SetInt("ShowOrbitCircles", (Toggle.isOn) ? 1 : 0);
-        foreach(Planet planet in FindObjectsOfType<Planet>())
-        {
-            if(planet.IsCreated)
-            {
-                planet.DisplayOrbitCircle.gameObject.SetActive(PlayerPrefs.GetInt("ShowOrbitCircles") != 0);
-            }
-        }
+
+        _controller.ToggleOrbitCircles();
     }
 }

@@ -14,7 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Civki
   StarName: Civki
-  StarSize: 0
+  StarSize: 10
+  StarDescription: 
+  ScaleFactor: 1
+  Texture: {fileID: 0}
+  Material: {fileID: 2100000, guid: c575297c6d9b36843a12e99e55943111, type: 2}
   Top: 68.3
   Left: 7.2
   ChildrenItem:

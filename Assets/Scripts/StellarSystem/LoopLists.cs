@@ -1,0 +1,179 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
+public class LoopLists : MonoBehaviour
+{
+
+    [SerializeField]
+    private Scales scales;
+
+
+    [SerializeField]
+    private TMP_Dropdown _planetsListDropDown;
+
+    [SerializeField]
+    private StellarSystemData _stellarSystemData;
+
+    [SerializeField]
+    private GameObject _stellarsystemPrefab, _starPrefab, _planetLogicPrefab, _asteroidBeltPrefab;
+
+    [SerializeField]
+    private Controller _controller;
+
+    private List<string> _stellarBodiesList;
+
+    private bool _stellarSystemGenerated;
+
+    private GameObject _newStellarSystem, _newStar, _newAsteroidBelt;
+    public GameObject NewStellarSystem { get => _newStellarSystem; set => _newStellarSystem = value; }
+    public GameObject NewStar { get => _newStar; set => _newStar = value; }
+    public GameObject NewAsteroidBelt { get => _newAsteroidBelt; set => _newAsteroidBelt = value; }
+    public StellarSystemData StellarSystemData { get => _stellarSystemData; set => _stellarSystemData = value; }
+    public bool StellarSystemGenerated { get => _stellarSystemGenerated; set => _stellarSystemGenerated = value; }
+
+    private void Awake()
+    {
+        
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if(!StellarSystemGenerated)
+        {
+            _controller.ClearTrails();
+
+        }
+ 
+        foreach(StellarObject stellarObject in GameObject.FindObjectsOfType<StellarObject>())
+        {
+            if(stellarObject.ObjectTrail)
+            {
+                stellarObject.ObjectTrail.gameObject.SetActive(StellarSystemGenerated);
+            }
+        }
+        
+    }
+
+    public void GenerateStellarSystem()
+    {
+        StellarSystemGenerated = false;
+
+        _stellarBodiesList = new List<string>();
+
+        NewStellarSystem = Instantiate(_stellarsystemPrefab);
+
+        NewStellarSystem.name = $"{StellarSystemData.Name} - stellar system";
+
+        foreach(StarData starData in StellarSystemData.StarsItem)
+        {
+            GenerateStar(starData);
+        }
+
+        foreach(AsteroidBeltData asteroidBeltData in StellarSystemData.AsteroidBeltItem)
+        {
+            GenerateAsteroidsBelt(asteroidBeltData);
+        }
+
+        //GenerateStar(StellarSystemData);
+
+        foreach (PlanetData planetData in StellarSystemData.ChildrenItem)
+        {
+            GameObject newPlanet = Instantiate(_planetLogicPrefab, NewStellarSystem.transform);
+
+            StellarObject newPlanetStellarObject = newPlanet.GetComponentInChildren<StellarObject>();
+
+            newPlanetStellarObject.PlanetData = planetData;
+            newPlanetStellarObject.ObjectType = "planet";
+            newPlanetStellarObject.LoopLists = this;
+
+
+            newPlanet.name = $"{planetData.Name} - Planet Orbit Anchor";
+
+            _stellarBodiesList.Add(planetData.Name);
+
+            foreach (PlanetData moonData in planetData.ChildrenItem)
+            {
+                GameObject newMoon = Instantiate(_planetLogicPrefab, newPlanet.transform.GetChild(0).GetChild(0).Find("SatellitesHolder").transform);
+
+                StellarObject newMoonStellarObject = newMoon.GetComponentInChildren<StellarObject>();
+
+                newMoonStellarObject.PlanetData = moonData;
+                newMoonStellarObject.ObjectType = "moon";
+                newMoonStellarObject.LoopLists = this;
+                newMoonStellarObject.ParentStellarObject = planetData.Name;
+
+                newMoon.name = $"{moonData.Name} - Moon Orbit Anchor";
+
+                _stellarBodiesList.Add($"    {moonData.Name}");
+            }
+        }
+
+        FillPlanetsDropDownList(_stellarBodiesList, _planetsListDropDown);
+        
+        StellarSystemGenerated = true;
+
+        DeployStellarSystem();
+    }
+
+    private void DeployStellarSystem()
+    {
+        NewStellarSystem.GetComponent<ToggleStellarSystem>().DeployStellarSystem();
+    }
+
+    public void GenerateAsteroidsBelt(AsteroidBeltData asteroidBeltData)
+    {
+        NewAsteroidBelt = Instantiate(_asteroidBeltPrefab, NewStellarSystem.transform);
+        NewAsteroidBelt.GetComponent<AsteroidBelt>().AsteroidBeltData = asteroidBeltData;
+        NewAsteroidBelt.GetComponent<AsteroidBelt>().Controller = GetComponent<Controller>();
+        NewAsteroidBelt.GetComponent<AsteroidBelt>().LoopLists = GetComponent<LoopLists>();
+    }
+
+    public void GenerateStar(StarData starData)
+    {
+        NewStar = Instantiate(_starPrefab, NewStellarSystem.transform);
+        NewStar.GetComponent<Star>().StarData = starData;
+        NewStar.name = $"{starData.Name}";
+
+        _stellarBodiesList.Add($"<b>{starData.Name}</b>");
+    }
+
+    public void FillPlanetsDropDownList(List<string> stellarBodiesList, TMP_Dropdown planetsListDropDown)
+    {
+        planetsListDropDown.ClearOptions();
+
+        foreach (string StellarBodyName in stellarBodiesList)
+        {
+            planetsListDropDown.AddOptions(new List<string> { StellarBodyName });
+        }
+    }
+
+    public float dimRet(float val, float scale, bool rationalizeValues)
+    {
+        if (val < 0)
+        {
+            return -dimRet(-val, scale, rationalizeValues);
+        }
+
+        float mult = val / scale;
+        float trinum = (Mathf.Sqrt(4.0f * mult + 1.0f) - 1.0f) / 2.0f;
+
+        if (!rationalizeValues)
+        {
+            return val;
+        }
+        else
+        {
+            return trinum * scale;
+        }
+    }
+
+}

@@ -18,7 +18,9 @@ MonoBehaviour:
     System and rotates in the opposite direction to most other planets. It has no
     natural satellites.
   Texture: {fileID: 2800000, guid: cfd0bf559fadacb418f3b985197fd2a4, type: 3}
+  Material: {fileID: 2100000, guid: ca3b4fb68542e684f8afa42ed24ccc2e, type: 2}
   Clouds: 0
+  CloudsMaterial: {fileID: 2100000, guid: 636b610856fbfcd4d8098d1949d75dfc, type: 2}
   TidallyLocked: 0
   Orbit: 0.723
   OrbitTilt: 0

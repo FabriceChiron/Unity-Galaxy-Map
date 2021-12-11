@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 834075130dc7900479ecc8e9dbf9b57d, type: 3}
+  m_Name: TRAPPIST-1
+  m_EditorClassIdentifier: 
+  Name: TRAPPIST-1
+  StarName: TRAPPIST-1
+  StarSize: 12.535
+  StarDescription: 
+  StarsItem:
+  - {fileID: 11400000, guid: c1709ec5989f21b44ba79b38fc890aff, type: 2}
+  ScaleFactor: 25
+  Texture: {fileID: 0}
+  Material: {fileID: 2100000, guid: c575297c6d9b36843a12e99e55943111, type: 2}
+  Top: 0
+  Left: 0
+  ChildrenItem:
+  - {fileID: 11400000, guid: 727dc75e2f0383e40a18254e31cd7b66, type: 2}
+  - {fileID: 11400000, guid: 2c2217bd20e10d449a74c3bebc26f16a, type: 2}
+  - {fileID: 11400000, guid: 91d14463423d7874aade8f8172deeba5, type: 2}
+  - {fileID: 11400000, guid: 1a1b9ae2a37b42c4a9bee8115818fb82, type: 2}
+  - {fileID: 11400000, guid: f4d073b5b94dd784fb765795f607a997, type: 2}
+  - {fileID: 11400000, guid: 7bd0e73d2a5e6c048b8c972253bf0f42, type: 2}
+  - {fileID: 11400000, guid: 41e8369407eddde4c8c12a699152ec63, type: 2}

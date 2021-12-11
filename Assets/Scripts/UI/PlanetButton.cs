@@ -7,9 +7,9 @@ public class PlanetButton : MonoBehaviour
 {
 
     [SerializeField]
-    private Planet _planet;
+    private StellarObject _stellarObject;
 
-    public Planet Planet { get => _planet; set => _planet = value; }
+    public StellarObject StellarObject { get => _stellarObject; set => _stellarObject = value; }
 
     // Start is called before the first frame update
     void Start()
@@ -23,31 +23,37 @@ public class PlanetButton : MonoBehaviour
 
     public void SelectPlanet()
     {
-        if (Planet.Camera.CameraTarget == Planet.StellarObject)
+        Debug.Log($"SelectPlanet");
+
+        if (StellarObject.Camera.CameraTarget == StellarObject.StellarBody)
         {
-            Planet.Camera.CameraAnchor = Planet.CameraAnchor;
-            Planet.Camera.CameraAnchorObject = Planet.gameObject;
-            Planet.Animator.SetBool("ShowDetails", true);
+            StellarObject.Camera.CameraAnchor = StellarObject.CameraAnchor;
+            StellarObject.Camera.CameraAnchorObject = StellarObject.gameObject;
+            StellarObject.Animator.SetBool("ShowDetails", true);
+            StellarObject.Animator.SetBool("ShowName", false);
         }
 
-        Planet.Camera.ChangeTarget(Planet.StellarObject);
+        StellarObject.Camera.ChangeTarget(StellarObject.StellarBody);
 
     }
 
     public void ShowName()
     {
-        if(Planet.Camera.CameraTarget == Planet.StellarObject)
+
+        StellarObject.Animator.SetBool("ShowName", true);
+
+        /*if (StellarObject.Camera.CameraTarget == StellarObject.StellarBody)
         {
-            Planet.Animator.SetBool("ShowName", false);
+            StellarObject.Animator.SetBool("ShowName", false);
         }
         else
         {
-            Planet.Animator.SetBool("ShowName", true);
-        }
+            StellarObject.Animator.SetBool("ShowName", true);
+        }*/
     }
 
     public void HideName()
     {
-        Planet.Animator.SetBool("ShowName", false);
+        StellarObject.Animator.SetBool("ShowName", false);
     }
 }

@@ -12,6 +12,9 @@ public class TogglePause : MonoBehaviour
     [SerializeField]
     private Text _label;
 
+    [SerializeField]
+    private Controller _controller;
+
     private Toggle _toggle;
 
     public UITest UITest { get => _uiTest; set => _uiTest = value; }
@@ -36,9 +39,8 @@ public class TogglePause : MonoBehaviour
 
     public void SetTogglePause()
     {
-        UITest.IsPaused = !UITest.IsPaused;
-        Toggle.isOn = UITest.IsPaused;
-        Debug.Log($"Pause: {UITest.IsPaused}");
+        _controller.IsPaused = !_controller.IsPaused;
+        Toggle.isOn = _controller.IsPaused;
         Label.text = (Toggle.isOn ? "Ø" : "Û");
     }
 }

@@ -13,8 +13,15 @@ public class PlanetData : ScriptableObject
     //Texture file for planet
     public Texture Texture;
 
+    public bool Gaseous;
+
+    //Material file for planet
+    public Material Material;
+
     //Texture file for clouds (if any)
     public bool Clouds;
+
+    public Material CloudsMaterial;
 
     //Texture file for clouds (if any)
     public bool TidallyLocked;
