@@ -98,7 +98,7 @@ public class StellarObject : MonoBehaviour
         Orbit = StellarAnchor.parent;
         OrbitAnchor = Orbit.parent;
 
-        Debug.Log($"OrbitAnchor Name: {OrbitAnchor.name}");
+        //Debug.Log($"OrbitAnchor Name: {OrbitAnchor.name}");
 
         ObjectTrail.enabled = false;
 
@@ -372,7 +372,7 @@ public class StellarObject : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
 
-                //if the camera is alreay focused on the planet or moon
+                /*//if the camera is alreay focused on the planet or moon
                 if (Camera.CameraTarget == hit.transform)
                 {
                     Debug.Log($"Should show description of {hit.transform.name}");
@@ -391,14 +391,14 @@ public class StellarObject : MonoBehaviour
                 else
                 {
                     //change the camera focus to the planet
-                    Camera.ChangeTarget(hit.transform);
-                }
+                }*/
+                Camera.ChangeTarget(hit.transform);
 
 
             }
 
             //and is not clicked and the details are not shown
-            else if (!Animator.GetBool("ShowDetails"))
+            else //if (!Animator.GetBool("ShowDetails"))
             {
                 //Display the name
                 //UIName.gameObject.SetActive(true);
@@ -413,12 +413,13 @@ public class StellarObject : MonoBehaviour
         {
             IsHovered = true;
 
-            Animator.SetBool("ShowDetails", false);
+            /*Animator.SetBool("ShowDetails", false);
             if (PlayerPrefs.GetInt("ShowNames") == 0)
             {
                 //UIName.gameObject.SetActive(false);
                 Animator.SetBool("ShowName", false);
-            }
+            }*/
+            Animator.SetBool("ShowName", false);
         }
     }
 }

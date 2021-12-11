@@ -23,13 +23,11 @@ public class PlanetButton : MonoBehaviour
 
     public void SelectPlanet()
     {
-        Debug.Log($"SelectPlanet");
-
         if (StellarObject.Camera.CameraTarget == StellarObject.StellarBody)
         {
             StellarObject.Camera.CameraAnchor = StellarObject.CameraAnchor;
             StellarObject.Camera.CameraAnchorObject = StellarObject.gameObject;
-            StellarObject.Animator.SetBool("ShowDetails", true);
+            //StellarObject.Animator.SetBool("ShowDetails", true);
             StellarObject.Animator.SetBool("ShowName", false);
         }
 

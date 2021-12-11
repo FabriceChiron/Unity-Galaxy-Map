@@ -149,7 +149,7 @@ public class Controller : MonoBehaviour
                 {
 
                     //if the camera is alreay focused on the planet or moon
-                    if (Camera.CameraTarget == hit.transform)
+                    /*if (Camera.CameraTarget == hit.transform)
                     {
 
 
@@ -167,14 +167,18 @@ public class Controller : MonoBehaviour
                     else
                     {
                         //change the camera focus to the planet
-                        Camera.ChangeTarget(hit.transform);
-                    }
+                    }*/
 
+                    Camera.ChangeTarget(hit.transform);
 
                 }
 
                 //and is not clicked and the details are not shown
-                else if (!stellarObject.Animator.GetBool("ShowDetails"))
+                /*else if (!stellarObject.Animator.GetBool("ShowDetails"))
+                {
+                    stellarObject.Animator.SetBool("ShowName", true);
+                }*/
+                else
                 {
                     stellarObject.Animator.SetBool("ShowName", true);
                 }
@@ -186,7 +190,7 @@ public class Controller : MonoBehaviour
             {
                 stellarObject.IsHovered = false;
 
-                stellarObject.Animator.SetBool("ShowDetails", false);
+                //stellarObject.Animator.SetBool("ShowDetails", false);
                 if (PlayerPrefs.GetInt("ShowNames") == 0)
                 {
                     //UIName.gameObject.SetActive(false);
@@ -199,7 +203,6 @@ public class Controller : MonoBehaviour
     public float GetOrbitOrientationStart(int index, int arrayLength)
     {
         float OrientationStart = ((float)index / (float)arrayLength) * 360f;
-        Debug.Log($"index: {index} - arrayLength: {arrayLength} - OrientationStart: {OrientationStart}");
 
         return OrientationStart;
     }

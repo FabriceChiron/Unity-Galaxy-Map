@@ -36,6 +36,8 @@ public class CameraFollow : MonoBehaviour
     private float _timeBeforeRotate = 0.2f;
     private float _totalClickTime;
 
+    private Vector3 velocity = Vector3.zero;
+
     private Transform _star, _cameraAnchor;
     private GameObject _cameraAnchorObject;
 
@@ -234,7 +236,7 @@ public class CameraFollow : MonoBehaviour
         //Debug.Log(CameraAnchor);
         if(CameraAnchor != null)
         {
-            if (CameraAnchorObject.GetComponent<StellarObject>() != null)
+            if (CameraTarget.GetComponent<StellarObject>() != null)
             {
                 FocusOnTarget("Planet");
             }
@@ -319,6 +321,8 @@ public class CameraFollow : MonoBehaviour
     public void RotateAroundObject()
     {
 
+        CameraAnchor = null;
+
         transform.RotateAround(CameraTarget == null ? transform.position : CameraTarget.transform.position, Vector3.up, mouseHorizontal * Sensitivity); //use transform.Rotate(transform.up * mouseHorizontal * Sensitivity);
         transform.RotateAround(CameraTarget == null ? transform.position : CameraTarget.transform.position, -Vector3.right, mouseVertical * Sensitivity);
 
@@ -334,8 +338,6 @@ public class CameraFollow : MonoBehaviour
     public void ChangeTarget(string PlanetName)
     {
         string StrippedPlanetName = PlanetName.Replace("    ", "").Replace("<b>", "").Replace("</b>", "");
-
-        Debug.Log(StrippedPlanetName);
 
         CameraTarget = GameObject.Find($"{StrippedPlanetName}").transform;
 
@@ -360,7 +362,8 @@ public class CameraFollow : MonoBehaviour
     {
         //Debug.Log("Lerping");
         //Vector3 newPos = Vector3.Lerp(_transform.position, _cameraAnchor.position, 5f * Time.deltaTime);
-        Vector3 newPos = Vector3.Lerp(_transform.position, CameraAnchor.position, 5f * Time.deltaTime);
+        //Vector3 newPos = Vector3.Lerp(_transform.position, CameraAnchor.position, 5f * Time.deltaTime);
+        Vector3 newPos = Vector3.SmoothDamp(_transform.position, CameraAnchor.position, ref velocity, .5f);
         // On applique la nouvelle position
         _transform.position = newPos;
 
@@ -392,10 +395,11 @@ public class CameraFollow : MonoBehaviour
 
     private void ZoomCamera()
     {
-        
 
         if(_scrollWheelChange != 0f)
         {
+            CameraAnchor = null;
+
             //_transform.position += _transform.forward * _scrollWheelChange;
             if (CameraTarget || Star)
             {

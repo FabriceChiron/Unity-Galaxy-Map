@@ -81,7 +81,7 @@ public class AsteroidBelt : MonoBehaviour
 
     public void SetScales()
     {
-        Debug.Log(AsteroidBeltData.Orbit * LoopLists.dimRet(scales.Orbit, 3.5f, scales.RationalizeValues) * (PlayerPrefs.GetInt("ScaleFactor") != 0 ? LoopLists.StellarSystemData.ScaleFactor : 1f) + LoopLists.NewStar.transform.localScale.z);
+        //Debug.Log(AsteroidBeltData.Orbit * LoopLists.dimRet(scales.Orbit, 3.5f, scales.RationalizeValues) * (PlayerPrefs.GetInt("ScaleFactor") != 0 ? LoopLists.StellarSystemData.ScaleFactor : 1f) + LoopLists.NewStar.transform.localScale.z);
 
         SetOrbitSize();
         
