@@ -4,10 +4,20 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+public enum InputType
+{
+    BOTH,
+    TOUCH,
+    MOUSE,
+}
+
 public class Controller : MonoBehaviour
 {
     [SerializeField]
     private TextMeshProUGUI _deviceInfo;
+
+    [SerializeField]
+    private InputType _inputType;
 
     private UITest _uiTest;
     private bool _isPaused, _isStellarSystemCreated, _mouseOnUI;
@@ -22,6 +32,8 @@ public class Controller : MonoBehaviour
     public bool IsStellarSystemCreated { get => _isStellarSystemCreated; set => _isStellarSystemCreated = value; }
     public bool MouseOnUI { get => _mouseOnUI; set => _mouseOnUI = value; }
     public LoopLists LoopLists { get => _loopLists; set => _loopLists = value; }
+    public InputType InputType { get => _inputType; set => _inputType = value; }
+    public TextMeshProUGUI DeviceInfo { get => _deviceInfo; set => _deviceInfo = value; }
 
     private void Awake()
     {
@@ -30,7 +42,7 @@ public class Controller : MonoBehaviour
         LoopLists = GetComponent<LoopLists>();
         IsPaused = false;
 
-        _deviceInfo.text = $"{SystemInfo.deviceType}";
+        DeviceInfo.text = $"{SystemInfo.deviceType}";
     }
 
     // Start is called before the first frame update
@@ -44,10 +56,24 @@ public class Controller : MonoBehaviour
     {
         MouseOnUI = UITest.IsPointerOverUIElement();
 
-        if (!MouseOnUI)
+        if (InputType == InputType.MOUSE || InputType == InputType.BOTH)
         {
-            DetectClick();
+            if (!MouseOnUI)
+            {
+                DetectMouseClick();
+            }
+
         }
+
+        if(InputType == InputType.TOUCH || InputType == InputType.BOTH)
+        {
+            if(Input.touchCount > 0)
+            {
+                DetectTouchClick();
+            }
+        }
+
+
 
         if (IsEscapePressed())
         {
@@ -120,9 +146,38 @@ public class Controller : MonoBehaviour
         ClearTrails();
     }
 
-    private void DetectClick()
+    private void DetectTouchClick()
     {
-        
+        Vector2 _pointerPosition;
+
+        _pointerPosition = Input.mousePosition;
+
+        Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            
+            if(hit.transform.GetComponent<Star>() != null || hit.transform.GetComponent<StellarObject>() != null)
+            {
+                Camera.ChangeTarget(hit.transform);
+            }
+            
+        }
+
+        else
+        {
+
+        }
+    }
+
+    private void DetectMouseClick()
+    {
+        Vector2 _pointerPosition;
+
+        _pointerPosition = Input.mousePosition;
+
         Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
 
         // Visualize Ray on Scene (no impact on Game view)
@@ -133,7 +188,7 @@ public class Controller : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             //If mouse is on the star
-            if(hit.transform.GetComponent<Star>() != null)
+            if (hit.transform.GetComponent<Star>() != null)
             {
                 Star star = hit.transform.GetComponent<Star>();
 
@@ -144,7 +199,7 @@ public class Controller : MonoBehaviour
             }
 
             //If mouse is on a planet
-            else if(hit.transform.GetComponent<StellarObject>() != null)
+            else if (hit.transform.GetComponent<StellarObject>() != null)
             {
                 StellarObject stellarObject = hit.transform.GetComponent<StellarObject>();
 
@@ -153,37 +208,9 @@ public class Controller : MonoBehaviour
                 //and is clicked
                 if (Input.GetMouseButtonDown(0))
                 {
-
-                    //if the camera is alreay focused on the planet or moon
-                    /*if (Camera.CameraTarget == hit.transform)
-                    {
-
-
-                        //Set the animator boolean to true, which will start the animation to show the details
-                        stellarObject.Animator.SetBool("ShowDetails", !stellarObject.Animator.GetBool("ShowDetails"));
-
-                        //And hide the name
-                        //UIName.gameObject.SetActive(false);
-                        stellarObject.Animator.SetBool("ShowName", false);
-                        Camera.CameraAnchor = stellarObject.CameraAnchor;
-                        Camera.CameraAnchorObject = gameObject;
-                    }
-
-                    //else
-                    else
-                    {
-                        //change the camera focus to the planet
-                    }*/
-
                     Camera.ChangeTarget(hit.transform);
-
                 }
 
-                //and is not clicked and the details are not shown
-                /*else if (!stellarObject.Animator.GetBool("ShowDetails"))
-                {
-                    stellarObject.Animator.SetBool("ShowName", true);
-                }*/
                 else
                 {
                     stellarObject.Animator.SetBool("ShowName", true);
@@ -192,7 +219,7 @@ public class Controller : MonoBehaviour
         }
         else
         {
-            foreach(StellarObject stellarObject in GameObject.FindObjectsOfType<StellarObject>())
+            foreach (StellarObject stellarObject in GameObject.FindObjectsOfType<StellarObject>())
             {
                 stellarObject.IsHovered = false;
 
@@ -204,6 +231,9 @@ public class Controller : MonoBehaviour
                 }
             }
         }
+
+
+        
     }
 
     public float GetOrbitOrientationStart(int index, int arrayLength)

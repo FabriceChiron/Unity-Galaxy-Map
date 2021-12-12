@@ -88,6 +88,7 @@ public class ToggleInfos : MonoBehaviour
                 _targetedObject = _objectTarget;
 
                 _camera.CameraAnchor = _objectTarget.GetComponent<StellarObject>().CameraAnchor;
+                _camera.IsFocusing = true;
 
                 //Show infos of the current object
                 ShowInfos(_objectTarget, true);

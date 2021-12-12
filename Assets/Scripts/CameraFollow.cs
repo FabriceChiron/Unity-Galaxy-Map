@@ -30,6 +30,7 @@ public class CameraFollow : MonoBehaviour
     private bool _mouseOnUI;
     private bool _isRotating;
     private bool _gettingLongClick;
+    private bool _isFocusing;
 
     private float mouseHorizontal;
     private float mouseVertical;
@@ -37,6 +38,7 @@ public class CameraFollow : MonoBehaviour
     private float _totalClickTime;
 
     private Vector3 velocity = Vector3.zero;
+    private Quaternion nullQuaternion = Quaternion.identity;
 
     private Transform _star, _cameraAnchor;
     private GameObject _cameraAnchorObject;
@@ -56,6 +58,8 @@ public class CameraFollow : MonoBehaviour
     public bool MouseOnUI { get => _mouseOnUI; set => _mouseOnUI = value; }
     public bool IsRotating { get => _isRotating; set => _isRotating = value; }
     public bool GettingLongClick { get => _gettingLongClick; set => _gettingLongClick = value; }
+    public bool IsFocusing { get => _isFocusing; set => _isFocusing = value; }
+
     public Transform CameraAnchor { get => _cameraAnchor; set => _cameraAnchor = value; }
     public GameObject CameraAnchorObject { get => _cameraAnchorObject; set => _cameraAnchorObject = value; }
     public Vector3 InitPosition { get => _initPosition; set => _initPosition = value; }
@@ -116,12 +120,26 @@ public class CameraFollow : MonoBehaviour
             _transform.parent = null;
         }
 
+
+        if(CameraTarget != null)
+        {
+            Controller.DeviceInfo.text = $"{CameraTarget}";
+
+        }
+        else
+        {
+            Controller.DeviceInfo.text = $"nope";
+        }
+
         if (CameraTarget)
         {
             Vector3 lookDirection = CameraTarget.position - _transform.position;
             lookDirection.Normalize();
 
-            _transform.rotation = Quaternion.Slerp(_transform.rotation, Quaternion.LookRotation(lookDirection), _speed * Time.deltaTime);
+            //_transform.rotation = Quaternion.Slerp(_transform.rotation, Quaternion.LookRotation(lookDirection), _speed * Time.deltaTime);
+            //Quaternion.Euler(Vector3.SmoothDamp())
+            //_transform.rotation = Vector3.SmoothDamp(_transform.position, CameraAnchor.position, ref velocity, .5f);
+            _transform.rotation = SmoothDamp(_transform.rotation, Quaternion.LookRotation(lookDirection), ref nullQuaternion, 0.1f);
         }
 
         Cursor.visible = !IsRotating;
@@ -136,13 +154,62 @@ public class CameraFollow : MonoBehaviour
 
         _scrollWheelChange = Input.GetAxis("Mouse ScrollWheel");
 
+
+        if(SystemInfo.deviceType == DeviceType.Handheld)
+        {
+
+        }
+
+        if (Controller.InputType == InputType.MOUSE || Controller.InputType == InputType.BOTH)
+        {
+            MouseInteractions();
+
+        }
+
+        if (Controller.InputType == InputType.TOUCH || Controller.InputType == InputType.BOTH)
+        {
+            if(Input.touchCount > 0)
+            {
+                TouchInteractions();
+            }
+        }
+
+        //MouseInteractions();
+
+        //Debug.Log(CameraAnchor);
+        if(IsFocusing)
+        {
+            if (CameraTarget.GetComponent<StellarObject>() != null)
+            {
+                FocusOnTarget("Planet");
+            }
+            else if (CameraAnchorObject.GetComponent<Galaxy>() != null)
+            {
+                FocusOnTarget("Galaxy");
+            }
+
+            /*if(CameraAnchorObject.GetComponent<Planet>() != null)
+            {
+                FocusOnTarget("Planet");
+            }
+            else if(CameraAnchorObject.GetComponent<Galaxy>() != null)
+            {
+                FocusOnTarget("Galaxy");
+            }*/
+
+        }
+    }
+
+    private void TouchInteractions()
+    {
         // Si au moins un doigt est utilisé
         if (Input.touchCount > 0)
         {
+            Debug.Log($"TouchInteractions");
             // On récupère l'objet Touch pour le premier doigt
             Touch touch = Input.GetTouch(0);
 
-            if(Input.touchCount == 1)
+            if (Input.touchCount == 1)
             {
                 // Si le doigt vient d'être posé
                 if (touch.phase == TouchPhase.Began)
@@ -154,27 +221,34 @@ public class CameraFollow : MonoBehaviour
                 {
                     OnMoveSwipe(touch);
                 }
+                else if (touch.phase == TouchPhase.Ended)
+                {
+                    OnEndSwipe(touch);
+                }
             }
 
-            if(Input.touchCount == 2)
+            if (Input.touchCount == 2)
             {
                 Touch touch0 = Input.GetTouch(0);
                 Touch touch1 = Input.GetTouch(1);
 
                 Debug.Log($"{touch0.position} - {touch1.position}");
 
-                if(touch.phase == TouchPhase.Began)
+                if (touch.phase == TouchPhase.Began)
                 {
                     OnStartPinch(touch0, touch1);
                 }
-                else if(touch.phase == TouchPhase.Moved)
+                else if (touch.phase == TouchPhase.Moved)
                 {
                     OnMovePinch(touch0, touch1);
                 }
             }
 
         }
+    }
 
+    private void MouseInteractions()
+    {
         if (Input.GetMouseButtonDown(1) && !MouseOnUI)
         {
             _totalClickTime = 0;
@@ -185,7 +259,7 @@ public class CameraFollow : MonoBehaviour
         {
             _totalClickTime += Time.deltaTime;
 
-            if(_totalClickTime >= _timeBeforeRotate)
+            if (_totalClickTime >= _timeBeforeRotate)
             {
                 IsRotating = true;
                 RotateAroundObject();
@@ -195,7 +269,7 @@ public class CameraFollow : MonoBehaviour
                 IsRotating = false;
             }
         }
-        if(IsRotating && Input.GetMouseButtonUp(1))
+        if (IsRotating && Input.GetMouseButtonUp(1))
         {
             IsRotating = false;
             GettingLongClick = false;
@@ -232,29 +306,6 @@ public class CameraFollow : MonoBehaviour
             //transform.Translate(transform.right * mouseHorizontal * Sensitivity);
 
         }
-
-        //Debug.Log(CameraAnchor);
-        if(CameraAnchor != null)
-        {
-            if (CameraTarget.GetComponent<StellarObject>() != null)
-            {
-                FocusOnTarget("Planet");
-            }
-            else if (CameraAnchorObject.GetComponent<Galaxy>() != null)
-            {
-                FocusOnTarget("Galaxy");
-            }
-
-            /*if(CameraAnchorObject.GetComponent<Planet>() != null)
-            {
-                FocusOnTarget("Planet");
-            }
-            else if(CameraAnchorObject.GetComponent<Galaxy>() != null)
-            {
-                FocusOnTarget("Galaxy");
-            }*/
-
-        }
     }
 
     // Si le doigt vient d'être posé
@@ -283,6 +334,13 @@ public class CameraFollow : MonoBehaviour
         }
     }
 
+    private void OnEndSwipe(Touch touch)
+    {
+        Vector3 lookDirection = CameraTarget.position - _transform.position;
+        lookDirection.Normalize();
+        _transform.rotation = SmoothDamp(_transform.rotation, Quaternion.LookRotation(lookDirection), ref nullQuaternion, 0.1f);
+    }
+
     private void OnStartPinch(Touch touch0, Touch touch1)
     {
         Vector2 touchPos0 = touch0.position;
@@ -306,12 +364,12 @@ public class CameraFollow : MonoBehaviour
 
         if (Vector2.Distance(touchPreviousPos0, touchPreviousPos1) > Vector2.Distance(touchPos0, touchPos1))
         {
-            Debug.Log("Pinch");
+            Debug.Log("Zoom");
             _scrollWheelChange = Vector2.Distance(touch0.deltaPosition, touch1.deltaPosition) * -0.1f;
         }
         else if (Vector2.Distance(touchPreviousPos0, touchPreviousPos1) < Vector2.Distance(touchPos0, touchPos1))
         {
-            Debug.Log("Zoom");
+            Debug.Log("Pinch");
             _scrollWheelChange = Vector2.Distance(touch0.deltaPosition, touch1.deltaPosition) * 0.1f;
         }
 
@@ -321,7 +379,8 @@ public class CameraFollow : MonoBehaviour
     public void RotateAroundObject()
     {
 
-        CameraAnchor = null;
+
+        Debug.Log("RotateAroundObject");
 
         transform.RotateAround(CameraTarget == null ? transform.position : CameraTarget.transform.position, Vector3.up, mouseHorizontal * Sensitivity); //use transform.Rotate(transform.up * mouseHorizontal * Sensitivity);
         transform.RotateAround(CameraTarget == null ? transform.position : CameraTarget.transform.position, -Vector3.right, mouseVertical * Sensitivity);
@@ -366,13 +425,14 @@ public class CameraFollow : MonoBehaviour
         Vector3 newPos = Vector3.SmoothDamp(_transform.position, CameraAnchor.position, ref velocity, .5f);
         // On applique la nouvelle position
         _transform.position = newPos;
+        _transform.LookAt(CameraTarget);
 
         float targetThreshold = 0.1f;
 
         switch (componentType)
         {
             case "Planet":
-                targetThreshold = CameraAnchorObject.GetComponent<StellarObject>().ObjectSize * 0.5f;
+                targetThreshold = CameraTarget.GetComponent<StellarObject>().ObjectSize * 0.5f;
                 break;
             
             case "Galaxy":
@@ -386,8 +446,12 @@ public class CameraFollow : MonoBehaviour
         
         if (Vector3.Distance(_transform.position, CameraAnchor.position) <= targetThreshold)
         {
+            IsFocusing = false;
             CameraAnchor = null;
             CameraAnchorObject = null;
+        } else
+        {
+            RotateAroundObject();
         }
         
 
@@ -410,5 +474,33 @@ public class CameraFollow : MonoBehaviour
                 _transform.position += _transform.forward * _scrollWheelChange * 10f;
             }
         }
+    }
+
+    public static Quaternion SmoothDamp(Quaternion rot, Quaternion target, ref Quaternion deriv, float time)
+    {
+        if (Time.deltaTime < Mathf.Epsilon) return rot;
+        // account for double-cover
+        var Dot = Quaternion.Dot(rot, target);
+        var Multi = Dot > 0f ? 1f : -1f;
+        target.x *= Multi;
+        target.y *= Multi;
+        target.z *= Multi;
+        target.w *= Multi;
+        // smooth damp (nlerp approx)
+        var Result = new Vector4(
+            Mathf.SmoothDamp(rot.x, target.x, ref deriv.x, time),
+            Mathf.SmoothDamp(rot.y, target.y, ref deriv.y, time),
+            Mathf.SmoothDamp(rot.z, target.z, ref deriv.z, time),
+            Mathf.SmoothDamp(rot.w, target.w, ref deriv.w, time)
+        ).normalized;
+
+        // ensure deriv is tangent
+        var derivError = Vector4.Project(new Vector4(deriv.x, deriv.y, deriv.z, deriv.w), Result);
+        deriv.x -= derivError.x;
+        deriv.y -= derivError.y;
+        deriv.z -= derivError.z;
+        deriv.w -= derivError.w;
+
+        return new Quaternion(Result.x, Result.y, Result.z, Result.w);
     }
 }
