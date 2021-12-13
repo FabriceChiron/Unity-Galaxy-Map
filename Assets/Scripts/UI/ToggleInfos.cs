@@ -73,7 +73,7 @@ public class ToggleInfos : MonoBehaviour
 
         if (Toggle.isOn)
         {
-
+            
             //if an object
             if(_targetedObject != _objectTarget && _targetedObject != null)
             {

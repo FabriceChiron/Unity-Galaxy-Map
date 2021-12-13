@@ -724,8 +724,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 394.875, y: 0}
-  m_SizeDelta: {x: 789.75, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &8118629942466838946
 CanvasRenderer:
@@ -2151,13 +2151,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6231180080325509355}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ecb12f08c959a584e9e11ba1512c7069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _UIScaleFactor: 1.8
-  _resizeTextInside: 0
+  _resizeTextInside: 1
   _itemsToResize: []
   _displayScreenRatio: {fileID: 0}
 --- !u!1 &6813831547610324230
@@ -2409,7 +2409,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 1.2748184
+  m_AspectRatio: 0.8010492
 --- !u!1 &8237728267661293250
 GameObject:
   m_ObjectHideFlags: 0
@@ -2696,7 +2696,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 5539523941454990137}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.6991188
+  m_Size: 0.3037667
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

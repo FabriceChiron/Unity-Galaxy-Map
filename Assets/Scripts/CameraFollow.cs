@@ -123,12 +123,12 @@ public class CameraFollow : MonoBehaviour
 
         if(CameraTarget != null)
         {
-            Controller.DeviceInfo.text = $"{CameraTarget}";
+            //Controller.DeviceInfo.text = $"{CameraTarget.name}";
 
         }
         else
         {
-            Controller.DeviceInfo.text = $"nope";
+            //Controller.DeviceInfo.text = $"nope";
         }
 
         if (CameraTarget)
@@ -182,6 +182,7 @@ public class CameraFollow : MonoBehaviour
             if (CameraTarget.GetComponent<StellarObject>() != null)
             {
                 FocusOnTarget("Planet");
+                
             }
             else if (CameraAnchorObject.GetComponent<Galaxy>() != null)
             {
@@ -197,6 +198,15 @@ public class CameraFollow : MonoBehaviour
                 FocusOnTarget("Galaxy");
             }*/
 
+        }
+
+        if (CameraTarget.GetComponent<StellarObject>() != null)
+        {
+            StellarObject stellarObject = CameraTarget.GetComponent<StellarObject>();
+            Controller.DeviceInfo.text = $"{stellarObject.Animator.GetBool("ShowDetails")}";
+            Controller.DeviceInfo.text += $"\n{stellarObject.UIDetails.rectTransform.GetChild(0).GetComponent<RectTransform>().anchorMin}";
+            Controller.DeviceInfo.text += $"\n{stellarObject.UIDetails.rectTransform.GetChild(0).GetComponent<RectTransform>().anchorMax}";
+            //Controller.DeviceInfo.text += $"\n{stellarObject.UIDetails.GetComponentsInChildren<TextMeshProUGUI>()[1].text}";
         }
     }
 

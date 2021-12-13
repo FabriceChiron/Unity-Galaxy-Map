@@ -85,6 +85,7 @@ public class RescaleUI : MonoBehaviour
 
         _canvasScaler.scaleFactor = _UIScaleFactor;
         Debug.Log("on Android");*/
+#else
 #endif
     }
 

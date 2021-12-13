@@ -66,8 +66,8 @@ public class AsteroidBelt : MonoBehaviour
 
         asteroidBody.rotation = Random.rotation;
 
-        
 
+        //SetMaterial();
 
         _asteroidList.Add(asteroid.transform);
     }

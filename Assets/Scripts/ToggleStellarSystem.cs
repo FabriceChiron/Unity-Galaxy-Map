@@ -63,6 +63,11 @@ public class ToggleStellarSystem : MonoBehaviour
         {
             Destroy(UIDetails);
         }
+
+        foreach(StellarObject stellarObject in GameObject.FindObjectsOfType<StellarObject>())
+        {
+            stellarObject.Animator.SetBool("ShowNames", false);
+        }
         Animator.SetBool("IsDeployed", false);
     }
 }
