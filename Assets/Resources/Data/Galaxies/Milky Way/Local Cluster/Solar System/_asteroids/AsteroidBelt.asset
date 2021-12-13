@@ -13,5 +13,10 @@ MonoBehaviour:
   m_Name: AsteroidBelt
   m_EditorClassIdentifier: 
   Quantity: 100
+  asteroidType: 0
   Orbit: 3
+  OrbitMin: 3
+  OrbitMax: 5
+  HeightMin: -3
+  HeightMax: 3
   YearLength: 4.5

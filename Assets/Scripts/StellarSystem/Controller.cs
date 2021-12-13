@@ -43,6 +43,21 @@ public class Controller : MonoBehaviour
         IsPaused = false;
 
         DeviceInfo.text = $"{SystemInfo.deviceType}";
+
+        if(Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            InputType = InputType.TOUCH;
+        }
+        else if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+            InputType = InputType.BOTH;
+        }
+        else
+        {
+            InputType = InputType.BOTH;
+        }
+
+
     }
 
     // Start is called before the first frame update

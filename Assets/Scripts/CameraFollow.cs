@@ -432,7 +432,7 @@ public class CameraFollow : MonoBehaviour
         //Debug.Log("Lerping");
         //Vector3 newPos = Vector3.Lerp(_transform.position, _cameraAnchor.position, 5f * Time.deltaTime);
         //Vector3 newPos = Vector3.Lerp(_transform.position, CameraAnchor.position, 5f * Time.deltaTime);
-        Vector3 newPos = Vector3.SmoothDamp(_transform.position, CameraAnchor.position, ref velocity, .5f);
+        Vector3 newPos = Vector3.SmoothDamp(_transform.position, CameraAnchor.position, ref velocity, 1f);
         // On applique la nouvelle position
         _transform.position = newPos;
         _transform.LookAt(CameraTarget);
@@ -461,7 +461,10 @@ public class CameraFollow : MonoBehaviour
             CameraAnchorObject = null;
         } else
         {
-            RotateAroundObject();
+            if(Controller.InputType == InputType.TOUCH)
+            {
+                RotateAroundObject();
+            }
         }
         
 

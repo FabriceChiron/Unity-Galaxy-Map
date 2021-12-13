@@ -67,7 +67,13 @@ MonoBehaviour:
   _asteroidBeltData: {fileID: 0}
   scales: {fileID: 11400000, guid: c0c8336a971c09743bc6a866d7f5a944, type: 2}
   _asteroidPrefab: {fileID: 7978633150232275278, guid: ef4b9d42d20c5904d89ce71430fe054b, type: 3}
+  _icyAsteroidPrefab: {fileID: 7978633150232275278, guid: 1ce7a665a8a379b46ba15a9187918ca2, type: 3}
+  _controller: {fileID: 0}
+  _loopLists: {fileID: 0}
   _icyTexture: {fileID: 2800000, guid: 112a4337c07daf34ba12f939ebfb6b6d, type: 3}
+  _materials:
+  - {fileID: 2100000, guid: 0b86af8e5f7021c4184f5c487c0063c0, type: 2}
+  - {fileID: 2100000, guid: 2f1e0fa9ff79fc34f804680470156e6b, type: 2}
 --- !u!1 &1358931206615092430
 GameObject:
   m_ObjectHideFlags: 0

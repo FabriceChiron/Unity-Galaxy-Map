@@ -34,13 +34,16 @@ public class StellarObject : MonoBehaviour
     private PlanetButton _planetButton;
 
     [SerializeField]
-    private Image _UIDetails;
+    private Image _UIDetails, _UIDetailsLandscape;
 
     [SerializeField]
     private Controller _controller;
 
     [SerializeField]
     private Animator _animator;
+
+    [SerializeField]
+    private float _widthThreshold;
 
     private CameraFollow _camera;
 
@@ -74,6 +77,7 @@ public class StellarObject : MonoBehaviour
     public TextMeshProUGUI UIName { get => _UIName; set => _UIName = value; }
     public PlanetButton PlanetButton { get => _planetButton; set => _planetButton = value; }
     public Image UIDetails { get => _UIDetails; set => _UIDetails = value; }
+    public Image UIDetailsLandscape { get => _UIDetailsLandscape; set => _UIDetailsLandscape = value; }
     public Controller Controller { get => _controller; set => _controller = value; }
     public Animator Animator { get => _animator; set => _animator = value; }
     public CameraFollow Camera { get => _camera; set => _camera = value; }
@@ -104,6 +108,8 @@ public class StellarObject : MonoBehaviour
 
         FillUIElements();
 
+        SwitchUIDetails();
+
         CreateStellarObject();
 
         SetScales();
@@ -114,7 +120,9 @@ public class StellarObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!Controller.IsPaused)
+        SwitchUIDetails();
+
+        if (!Controller.IsPaused)
         {
             PlanetRevolution();
             PlanetRotation();
@@ -154,8 +162,29 @@ public class StellarObject : MonoBehaviour
             $"<b>Orbital Period</b>: {PlanetData.YearLength} Earth year(s)\n" +
             $"<b>Rotation Period</b>: {(PlanetData.TidallyLocked ? "Tidally Locked" : $"{((PlanetData.DayLength == float.NaN) ? "Unknown" : $"{PlanetData.DayLength} Earth day(s)")}") }\n\n" +
             $"{PlanetData.Details}";
+        UIDetailsLandscape.GetComponentsInChildren<TextMeshProUGUI>(true)[0].text = PlanetData.name;
+        UIDetailsLandscape.GetComponentsInChildren<TextMeshProUGUI>(true)[1].text =
+            $"<b>Orbit</b>: {PlanetData.Orbit} AU\n" +
+            $"<b>Radius</b>: {PlanetData.Size * 6378f}kms ({PlanetData.Size} of Earth's)\n" +
+            $"<b>Orbital Period</b>: {PlanetData.YearLength} Earth year(s)\n" +
+            $"<b>Rotation Period</b>: {(PlanetData.TidallyLocked ? "Tidally Locked" : $"{((PlanetData.DayLength == float.NaN) ? "Unknown" : $"{PlanetData.DayLength} Earth day(s)")}") }\n\n" +
+            $"{PlanetData.Details}";
 
         //$"<b>Rotation Period</b>: {(PlanetData.TidallyLocked ? "Tidally Locked" : $"{((PlanetData.DayLength == float.NaN && PlanetData.Name != "Earth") ? "Unknown" : $"{PlanetData.DayLength} Earth day(s)")}") }\n\n"
+    }
+
+    private void SwitchUIDetails()
+    {
+        if (Screen.width > Screen.height && Screen.width >= _widthThreshold)
+        {
+            UIDetails.gameObject.SetActive(false);
+            UIDetailsLandscape.gameObject.SetActive(true);
+        }
+        else
+        {
+            UIDetailsLandscape.gameObject.SetActive(false);
+            UIDetails.gameObject.SetActive(true);
+        }
     }
 
     private void PlanetRevolution()

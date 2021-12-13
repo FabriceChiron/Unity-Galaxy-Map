@@ -40,9 +40,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7978633150232275277}
-  - component: {fileID: -5986717542071731350}
+  - component: {fileID: 1760300322572979485}
   m_Layer: 0
-  m_Name: Asteroid Orbit
+  m_Name: Icy Asteroid Orbit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +63,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-5986717542071731350
+--- !u!114 &1760300322572979485
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -203,7 +203,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: eac4df01561d38540b2fecf012a18500, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 0b86af8e5f7021c4184f5c487c0063c0, type: 2}
+      objectReference: {fileID: 2100000, guid: 2f1e0fa9ff79fc34f804680470156e6b, type: 2}
     - target: {fileID: 919132149155446097, guid: eac4df01561d38540b2fecf012a18500, type: 3}
       propertyPath: m_Name
       value: Rock

@@ -14,5 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Quantity: 1000
   asteroidType: 1
-  Orbit: 40
+  Orbit: 30.103
+  OrbitMin: 30
+  OrbitMax: 50
+  HeightMin: -5
+  HeightMax: 5
   YearLength: 250

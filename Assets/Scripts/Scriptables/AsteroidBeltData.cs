@@ -15,5 +15,11 @@ public class AsteroidBeltData : ScriptableObject
 
     public float Orbit;
 
+    public float OrbitMin;
+    public float OrbitMax;
+
+    public float HeightMin;
+    public float HeightMax;
+
     public float YearLength = 1f;
 }
