@@ -61,10 +61,10 @@ public class SelectSystemsList : MonoBehaviour
     void Update()
     {
         SwitchStellarSystems();
-        FireResetCamera();
+        //FireResetCamera();
     }
 
-    private void FireResetCamera()
+/*    private void FireResetCamera()
     {
         if(ResetCamera)
         {
@@ -79,23 +79,30 @@ public class SelectSystemsList : MonoBehaviour
                 ResetCamera = false;
             }
         }
-    }
+    }*/
 
     private void SwitchStellarSystems()
     {
         if (ChangeStellarSystem)
         {
+            Camera.main.GetComponent<CameraFollow>().ResetCameraTarget(true);
 
-            _timeBeforeDeploy -= Time.deltaTime;
+            if(LoopLists.NewStellarSystem.GetComponent<Animator>().GetFloat("Scale") == 0) {
 
-            if (currentStellarSystem != null)
-            {
-                currentStellarSystem.GetComponent<ToggleStellarSystem>().FoldStellarSystem();
+
+                LoopLists.NewStellarSystem.SetActive(false);
+                Destroy(LoopLists.NewStellarSystem);
+                ChangeStellarSystem = false;
+
+                LoopLists.StellarSystemData = _stellarSystemsArray[_systemsDropdown.value];
+
+                LoopLists.GenerateStellarSystem();
+
             }
 
             
 
-            if (_timeBeforeDeploy <= 0)
+            /*if (_timeBeforeDeploy <= 0)
             {
                 Camera.main.transform.parent = null;
                 ChangeStellarSystem = false;
@@ -115,13 +122,13 @@ public class SelectSystemsList : MonoBehaviour
 
                 ResetCamera = true;
 
-            }
+            }*/
         }
     }
 
     public void SelectSolarSystem(TMP_Dropdown Dropdown)
     {
-        currentStellarSystem = GameObject.FindGameObjectWithTag("StellarSystem");
+        LoopLists.NewStellarSystem.GetComponent<ToggleStellarSystem>().FoldStellarSystem();
 
         ChangeStellarSystem = true;
     }

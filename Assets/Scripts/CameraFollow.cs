@@ -74,10 +74,10 @@ public class CameraFollow : MonoBehaviour
         InitPosition = _transform.position;
         InitRotation = _transform.rotation;
         
-        if(GameObject.FindGameObjectWithTag("Star") != null)
+        /*if(GameObject.FindGameObjectWithTag("Star") != null)
         {
             ResetCameraTarget();
-        }
+        }*/
 
         UITest = Controller.UITest;
     }
@@ -85,18 +85,27 @@ public class CameraFollow : MonoBehaviour
     public void InitCamera()
     {
         transform.parent = null;
-        transform.position = InitPosition;
-        transform.rotation = InitRotation;
+        CameraTarget = null;
+        /*transform.position = InitPosition;
+        transform.rotation = InitRotation;*/
     }
 
-    public void ResetCameraTarget()
+    public void ResetCameraTarget(bool init)
     {
-        InitCamera();
+        //InitCamera();
 
-        Star = GameObject.FindObjectOfType<Star>().transform;
+        //Star = GameObject.FindObjectsOfType<Star>()[0].transform;
+
+        Star = GameObject.Find(Controller.LoopLists.StellarSystemData.StarsItem[0].Name).transform;
+
+        Debug.Log(Star.name);
         
-        CameraTarget = Star;
         ChangeTarget(Star);
+        
+        if (init)
+        {
+            InitCamera();
+        }
     }
 
     // Update is called once per frame

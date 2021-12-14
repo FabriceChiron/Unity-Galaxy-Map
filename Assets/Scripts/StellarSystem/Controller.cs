@@ -42,7 +42,7 @@ public class Controller : MonoBehaviour
         LoopLists = GetComponent<LoopLists>();
         IsPaused = false;
 
-        DeviceInfo.text = $"{SystemInfo.deviceType}";
+        //DeviceInfo.text = $"{SystemInfo.deviceType}";
 
         if(Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
         {
@@ -161,8 +161,6 @@ public class Controller : MonoBehaviour
 
     public void SetScales()
     {
-        Debug.Log($"SetScales: {Time.time}");
-
         ClearTrails();
 
         foreach (Star star in FindObjectsOfType<Star>())

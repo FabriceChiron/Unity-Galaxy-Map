@@ -15,6 +15,9 @@ public class ToggleSetting : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _label;
 
+    [SerializeField]
+    private ToggleStellarSystem _toggleStellarSystem;
+
     private Planet[] _planets;
 
     private Toggle _toggle;
@@ -52,9 +55,9 @@ public class ToggleSetting : MonoBehaviour
         }
 
         // On récupère le Toggle
-        _toggle = GetComponent<Toggle>();
+        Toggle = GetComponent<Toggle>();
 
-        _toggle.isOn = (PlayerPrefs.GetInt(PrefName) != 0) ? true : false;
+        Toggle.isOn = (PlayerPrefs.GetInt(PrefName) != 0) ? true : false;
 
     }
 
@@ -63,12 +66,19 @@ public class ToggleSetting : MonoBehaviour
         switch (PrefName)
         {
             case "RationalizeValues":
-                PlayerPrefs.SetInt(PrefName, (_toggle.isOn) ? 1 : 0);
-                Scales.RationalizeValues = _toggle.isOn;
+                PlayerPrefs.SetInt(PrefName, (Toggle.isOn) ? 1 : 0);
+                Scales.RationalizeValues = Toggle.isOn;
+
+                _toggleStellarSystem = _controller.LoopLists.NewStellarSystem.GetComponent<ToggleStellarSystem>();
+
+                _toggleStellarSystem.GetTargetScale();
+
+                _toggleStellarSystem.IsScaleChanging = true;
+
                 break;
 
             case "ScaleFactor":
-                PlayerPrefs.SetInt(PrefName, (_toggle.isOn) ? 1 : 0);
+                PlayerPrefs.SetInt(PrefName, (Toggle.isOn) ? 1 : 0);
                 break;
         }
 

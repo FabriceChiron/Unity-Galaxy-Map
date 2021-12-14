@@ -54,15 +54,15 @@ public class LoopLists : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log($"StellarSystemGenerated: {StellarSystemGenerated}");
+        //Debug.Log($"StellarSystemGenerated: {StellarSystemGenerated}");
 
         if (!StellarSystemGenerated)
         {
             _controller.ClearTrails();
 
-            Debug.Log($"StarCount: {StarCount} - StellarSystemData.StarsItem.Length: {StellarSystemData.StarsItem.Length}\n" +
+            /*Debug.Log($"StarCount: {StarCount} - StellarSystemData.StarsItem.Length: {StellarSystemData.StarsItem.Length}\n" +
                 $"StellarObjectCount: {StellarObjectCount} - StellarObjectTotal: {StellarObjectTotal}\n" +
-                $"AsteroidCount: {AsteroidCount} - AsteroidTotal: {AsteroidTotal}");
+                $"AsteroidCount: {AsteroidCount} - AsteroidTotal: {AsteroidTotal}");*/
 
             if (StarCount == StellarSystemData.StarsItem.Length)
             {
@@ -75,6 +75,8 @@ public class LoopLists : MonoBehaviour
                         DeployStellarSystem();
 
                         StellarSystemGenerated = true;
+
+                        Camera.main.GetComponent<CameraFollow>().ResetCameraTarget(false);
 
                     }
                 }
