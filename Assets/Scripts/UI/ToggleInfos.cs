@@ -67,9 +67,9 @@ public class ToggleInfos : MonoBehaviour
 
     public void SetToggleInfos()
     {
-        Debug.Log($"Toggle.isOn: {Toggle.isOn}");
+        /*Debug.Log($"Toggle.isOn: {Toggle.isOn}");
         Debug.Log($"_targetedObject: {_targetedObject}");
-        Debug.Log($"_objectTarget: {_objectTarget}");
+        Debug.Log($"_objectTarget: {_objectTarget}");*/
 
         if (Toggle.isOn)
         {
@@ -77,14 +77,14 @@ public class ToggleInfos : MonoBehaviour
             //if an object
             if(_targetedObject != _objectTarget && _targetedObject != null)
             {
-                Debug.Log("_targetedObject != _objectTarget");
+                //Debug.Log("_targetedObject != _objectTarget");
                 //Hide infos of previously opened object
                 ShowInfos(_targetedObject, false);
             }
 
             if (_objectTarget.GetComponent<StellarObject>())
             {
-                Debug.Log("_objectTarget.GetComponent<StellarObject>()");
+                //Debug.Log("_objectTarget.GetComponent<StellarObject>()");
                 _targetedObject = _objectTarget;
 
                 _camera.CameraAnchor = _objectTarget.GetComponent<StellarObject>().CameraAnchor;

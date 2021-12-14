@@ -60,7 +60,6 @@ public class RescaleUI : MonoBehaviour
 
             foreach (TextMeshProUGUI TextComp in _canvasScaler.gameObject.GetComponentsInChildren<TextMeshProUGUI>())
             {
-                Debug.Log($"TextMeshProUGUI - {TextComp.text}");
                 TextComp.fontSize *= _resizeTextInside;
             }
 

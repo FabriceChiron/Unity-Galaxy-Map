@@ -141,6 +141,8 @@ public class Controller : MonoBehaviour
 
     public void SetScales()
     {
+        Debug.Log($"SetScales: {Time.time}");
+
         ClearTrails();
 
         foreach (Star star in FindObjectsOfType<Star>())
