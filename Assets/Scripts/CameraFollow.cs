@@ -93,7 +93,7 @@ public class CameraFollow : MonoBehaviour
     {
         InitCamera();
 
-        Star = Controller.LoopLists.NewStar.transform;
+        Star = GameObject.FindObjectOfType<Star>().transform;
         
         CameraTarget = Star;
         ChangeTarget(Star);
@@ -200,7 +200,7 @@ public class CameraFollow : MonoBehaviour
 
         }
 
-        if (CameraTarget.GetComponent<StellarObject>() != null)
+        if (CameraTarget != null && CameraTarget.GetComponent<StellarObject>() != null)
         {
             StellarObject stellarObject = CameraTarget.GetComponent<StellarObject>();
             Controller.DeviceInfo.text = $"{stellarObject.Animator.GetBool("ShowDetails")}";

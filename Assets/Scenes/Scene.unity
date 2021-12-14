@@ -28,8 +28,8 @@ RenderSettings:
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 842eb72ad6961a34496869b26e572d45, type: 2}
   m_HaloStrength: 0.5
-  m_FlareStrength: 1
-  m_FlareFadeSpeed: 3
+  m_FlareStrength: 0.175
+  m_FlareFadeSpeed: 1
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
   m_DefaultReflectionMode: 0
@@ -3739,7 +3739,7 @@ MonoBehaviour:
   _planetsListDropDown: {fileID: 768173179}
   _stellarSystemData: {fileID: 0}
   _stellarsystemPrefab: {fileID: 7701551589869002505, guid: ee6cf1a64376112489e6f19b56335ad2, type: 3}
-  _starPrefab: {fileID: 3484598937430278707, guid: db37d981ac0ee3c47a8a29d3142ef000, type: 3}
+  _starPrefab: {fileID: 566919208562527429, guid: f4214ba77ab7d70488cf83a827d73855, type: 3}
   _planetLogicPrefab: {fileID: 566919208562527429, guid: 9ae4a1609718860479b95117a0fdecd8, type: 3}
   _asteroidBeltPrefab: {fileID: 566919208562527429, guid: f533c5d258eeefe4d8c9bd5aa7e219b2, type: 3}
   _controller: {fileID: 495509697}
@@ -6497,6 +6497,7 @@ GameObject:
   - component: {fileID: 963194234}
   - component: {fileID: 963194231}
   - component: {fileID: 963194232}
+  - component: {fileID: 963194233}
   m_Layer: 6
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -6656,6 +6657,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 512afaa685d60b349946f77171407e29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!124 &963194233
+Behaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
 --- !u!114 &963194234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12835,6 +12844,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 997017bddba0fb1478b7d746c8e741f8, type: 2}
   - {fileID: 11400000, guid: 6a596ff3616b90443b864c72298a88b6, type: 2}
   - {fileID: 11400000, guid: 65a3ab57b4c16e84c9ca09b4e10d7412, type: 2}
+  - {fileID: 11400000, guid: 932f42da574b0e448a4ea1e7686bbbf9, type: 2}
   _loopLists: {fileID: 495509696}
   _stellarSystemPrefab: {fileID: 7701551589869002505, guid: ee6cf1a64376112489e6f19b56335ad2, type: 3}
 --- !u!114 &1999791610 stripped

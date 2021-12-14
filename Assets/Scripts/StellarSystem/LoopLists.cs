@@ -27,12 +27,19 @@ public class LoopLists : MonoBehaviour
 
     private bool _stellarSystemGenerated;
 
+    private int _starCount, _stellarObjectCount, _asteroidCount, _stellarObjectTotal, _asteroidTotal;
+
     private GameObject _newStellarSystem, _newStar, _newAsteroidBelt;
     public GameObject NewStellarSystem { get => _newStellarSystem; set => _newStellarSystem = value; }
     public GameObject NewStar { get => _newStar; set => _newStar = value; }
     public GameObject NewAsteroidBelt { get => _newAsteroidBelt; set => _newAsteroidBelt = value; }
     public StellarSystemData StellarSystemData { get => _stellarSystemData; set => _stellarSystemData = value; }
     public bool StellarSystemGenerated { get => _stellarSystemGenerated; set => _stellarSystemGenerated = value; }
+    public int StarCount { get => _starCount; set => _starCount = value; }
+    public int StellarObjectCount { get => _stellarObjectCount; set => _stellarObjectCount = value; }
+    public int AsteroidCount { get => _asteroidCount; set => _asteroidCount = value; }
+    public int StellarObjectTotal { get => _stellarObjectTotal; set => _stellarObjectTotal = value; }
+    public int AsteroidTotal { get => _asteroidTotal; set => _asteroidTotal = value; }
 
     private void Awake()
     {
@@ -47,13 +54,43 @@ public class LoopLists : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!StellarSystemGenerated)
+        Debug.Log($"StellarSystemGenerated: {StellarSystemGenerated}");
+
+        if (!StellarSystemGenerated)
         {
             _controller.ClearTrails();
 
+            Debug.Log($"StarCount: {StarCount} - StellarSystemData.StarsItem.Length: {StellarSystemData.StarsItem.Length}\n" +
+                $"StellarObjectCount: {StellarObjectCount} - StellarObjectTotal: {StellarObjectTotal}\n" +
+                $"AsteroidCount: {AsteroidCount} - AsteroidTotal: {AsteroidTotal}");
+
+            if (StarCount == StellarSystemData.StarsItem.Length)
+            {
+                if (StellarObjectCount == StellarObjectTotal)
+                {
+                    if (AsteroidCount == AsteroidTotal)
+                    {
+                        _controller.SetScales();
+
+                        DeployStellarSystem();
+
+                        StellarSystemGenerated = true;
+
+                    }
+                }
+            }
+
         }
- 
-        foreach(StellarObject stellarObject in GameObject.FindObjectsOfType<StellarObject>())
+
+        foreach (Star star in GameObject.FindObjectsOfType<Star>())
+        {
+            if (star.ObjectTrail)
+            {
+                star.ObjectTrail.gameObject.SetActive(StellarSystemGenerated);
+            }
+        }
+
+        foreach (StellarObject stellarObject in GameObject.FindObjectsOfType<StellarObject>())
         {
             if(stellarObject.ObjectTrail)
             {
@@ -63,8 +100,19 @@ public class LoopLists : MonoBehaviour
         
     }
 
+    private void InitCounts()
+    {
+        StarCount = 0;
+        StellarObjectCount = 0;
+        AsteroidCount = 0;
+        StellarObjectTotal = 0;
+        AsteroidTotal = 0;
+    }
+
     public void GenerateStellarSystem()
     {
+        InitCounts();
+
         StellarSystemGenerated = false;
 
         _stellarBodiesList = new List<string>();
@@ -85,6 +133,8 @@ public class LoopLists : MonoBehaviour
 
         //GenerateStar(StellarSystemData);
 
+        StellarObjectTotal = StellarSystemData.ChildrenItem.Length;
+
         foreach (PlanetData planetData in StellarSystemData.ChildrenItem)
         {
             GameObject newPlanet = Instantiate(_planetLogicPrefab, NewStellarSystem.transform);
@@ -99,6 +149,8 @@ public class LoopLists : MonoBehaviour
             newPlanet.name = $"{planetData.Name} - Planet Orbit Anchor";
 
             _stellarBodiesList.Add(planetData.Name);
+
+            StellarObjectTotal += planetData.ChildrenItem.Length;
 
             foreach (PlanetData moonData in planetData.ChildrenItem)
             {
@@ -119,9 +171,8 @@ public class LoopLists : MonoBehaviour
 
         FillPlanetsDropDownList(_stellarBodiesList, _planetsListDropDown);
         
-        StellarSystemGenerated = true;
 
-        DeployStellarSystem();
+
     }
 
     private void DeployStellarSystem()
@@ -135,13 +186,21 @@ public class LoopLists : MonoBehaviour
         NewAsteroidBelt.GetComponent<AsteroidBelt>().AsteroidBeltData = asteroidBeltData;
         NewAsteroidBelt.GetComponent<AsteroidBelt>().Controller = GetComponent<Controller>();
         NewAsteroidBelt.GetComponent<AsteroidBelt>().LoopLists = GetComponent<LoopLists>();
+
+        AsteroidTotal += asteroidBeltData.Quantity;
     }
 
     public void GenerateStar(StarData starData)
     {
         NewStar = Instantiate(_starPrefab, NewStellarSystem.transform);
-        NewStar.GetComponent<Star>().StarData = starData;
+        Star starScript = NewStar.GetComponentInChildren<Star>();
+
+        starScript.StarData = starData;
         NewStar.name = $"{starData.Name}";
+
+        starScript.LoopLists = this;
+
+        starScript.GetComponent<Light>().intensity = starScript.GetComponent<Light>().intensity / StellarSystemData.StarsItem.Length;
 
         _stellarBodiesList.Add($"<b>{starData.Name}</b>");
     }

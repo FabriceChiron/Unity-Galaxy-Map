@@ -112,7 +112,7 @@ public class StellarObject : MonoBehaviour
 
         CreateStellarObject();
 
-        SetScales();
+        //SetScales();
         InitElemsByPlayerPrefs();
     }
 
@@ -128,8 +128,8 @@ public class StellarObject : MonoBehaviour
             PlanetRotation();
         }
 
-        StickToObject(PlanetButton.transform, StellarBody);
-        StickToObject(UIName.transform, StellarBody);
+        Controller.StickToObject(PlanetButton.transform, StellarBody);
+        Controller.StickToObject(UIName.transform, StellarBody);
 
         CameraAnchor.parent.LookAt(Star.transform.position);
 
@@ -177,13 +177,25 @@ public class StellarObject : MonoBehaviour
     {
         if (Screen.width > Screen.height && Screen.width >= _widthThreshold)
         {
-            UIDetails.gameObject.SetActive(false);
-            UIDetailsLandscape.gameObject.SetActive(true);
+            if (UIDetails)
+            {
+                UIDetails.gameObject.SetActive(false);
+            }
+            if (UIDetailsLandscape)
+            {
+                UIDetailsLandscape.gameObject.SetActive(true);
+            }
         }
         else
         {
-            UIDetailsLandscape.gameObject.SetActive(false);
-            UIDetails.gameObject.SetActive(true);
+            if (UIDetailsLandscape)
+            {
+                UIDetailsLandscape.gameObject.SetActive(false);
+            }
+            if (UIDetails)
+            {
+                UIDetails.gameObject.SetActive(true);
+            }
         }
     }
 
@@ -231,10 +243,6 @@ public class StellarObject : MonoBehaviour
 
 
     //Stick UI GameObject to the position of another GameObject, based on position on Screen
-    public void StickToObject(Transform elemTransform, Transform targetTransform)
-    {
-        elemTransform.position = UnityEngine.Camera.main.WorldToScreenPoint(targetTransform.position);
-    }
 
     //Creating stellar object (planet, moon)
     private void CreateStellarObject()
@@ -248,6 +256,8 @@ public class StellarObject : MonoBehaviour
         SetOrbit();
 
         SetUIElements();
+
+        LoopLists.StellarObjectCount++;
     }
 
     //Apply Material to stellar object
@@ -323,8 +333,10 @@ public class StellarObject : MonoBehaviour
     private void SetObjectSize()
     {
         ObjectSize = PlanetData.Size * scales.Planet;
-
-        StellarBody.localScale = new Vector3(ObjectSize, ObjectSize, ObjectSize);
+        if (StellarBody)
+        {
+            StellarBody.localScale = new Vector3(ObjectSize, ObjectSize, ObjectSize);
+        }
     }
 
     //Set Orbit size
@@ -338,19 +350,33 @@ public class StellarObject : MonoBehaviour
     // in order to avoid having a planet stuck in its star, or a moon stuck in its planet
     private void SetStellarAnchor()
     {
-        switch (ObjectType)
-        {
-            case "planet":
-                StellarAnchor.localPosition = new Vector3(0f, 0f, (LoopLists.NewStar.transform.localScale.z * 0.5f) + OrbitSize);
-                break;
-
-            case "moon":
-                StellarAnchor.localPosition = new Vector3(0f, 0f, GameObject.Find(ParentStellarObject).transform.localScale.z + OrbitSize);
-                break;
-        }
-
         if(StellarAnchor)
         {
+            switch (ObjectType)
+            {
+                case "planet":
+                    
+                    foreach (Star star in FindObjectsOfType<Star>())
+                    {
+                        OrbitSize += star.transform.localScale.z * 0.5f;
+                    }
+
+                    if(FindObjectsOfType<Star>().Length > 1)
+                    {
+                        OrbitSize += Vector3.Distance(FindObjectsOfType<Star>()[0].transform.position, FindObjectsOfType<Star>()[1].transform.position);
+                    }
+
+
+                    StellarAnchor.localPosition = new Vector3(0f, 0f, OrbitSize);
+                    
+
+                    break;
+
+                case "moon":
+                    StellarAnchor.localPosition = new Vector3(0f, 0f, GameObject.Find(ParentStellarObject).transform.localScale.z + OrbitSize);
+                    break;
+            }
+
             DisplayOrbitCircle.localScale = new Vector3(StellarAnchor.localPosition.z / 5f, StellarAnchor.localPosition.z / 5f, StellarAnchor.localPosition.z / 5f);
         }
     }

@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0817d767de5974f4dbb5fb99f702e1e2, type: 3}
+  m_Name: Kepler-16b
+  m_EditorClassIdentifier: 
+  Name: Kepler-16b
+  Details: Kepler-16b (formally Kepler-16 (AB)-b) is an extrasolar planet. It is
+    a Saturn-mass planet consisting of half gas and half rock and ice, and it orbits
+    a binary star, Kepler-16, with a period of 229 days.
+  Texture: {fileID: 0}
+  Gaseous: 1
+  Material: {fileID: 2100000, guid: 1d5d3b37aa9b02f46824bdc9c66cff54, type: 2}
+  Clouds: 0
+  CloudsMaterial: {fileID: 2100000, guid: c4aa5ab73af348e43a79c9a30f30b891, type: 2}
+  TidallyLocked: 0
+  Orbit: 0.7048
+  OrbitTilt: 0
+  Size: 8.44256
+  BodyTilt: 0
+  YearLength: 0.62678355
+  DayLength: NaN
+  Coords: 
+  Rings: 0
+  ChildrenItem: []

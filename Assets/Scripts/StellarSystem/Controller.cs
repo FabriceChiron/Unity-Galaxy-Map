@@ -109,6 +109,11 @@ public class Controller : MonoBehaviour
 
     public void ToggleOrbitCircles()
     {
+        foreach (Star starObject in FindObjectsOfType<Star>())
+        {
+            starObject.DisplayOrbitCircle.gameObject.SetActive(PlayerPrefs.GetInt("ShowOrbitCircles") != 0);
+        }
+    
         foreach (StellarObject stellarObject in FindObjectsOfType<StellarObject>())
         {
             stellarObject.DisplayOrbitCircle.gameObject.SetActive(PlayerPrefs.GetInt("ShowOrbitCircles") != 0);
@@ -116,6 +121,11 @@ public class Controller : MonoBehaviour
     }
     public void TogglePlanetsHighlight()
     {
+        foreach (Star starObject in FindObjectsOfType<Star>())
+        {
+            starObject.PlanetButton.GetComponent<Image>().enabled = PlayerPrefs.GetInt("HighlightPlanetsPosition") != 0;
+        }
+
         foreach (StellarObject stellarObject in FindObjectsOfType<StellarObject>())
         {
             stellarObject.PlanetButton.GetComponent<Image>().enabled = PlayerPrefs.GetInt("HighlightPlanetsPosition") != 0;
@@ -125,6 +135,11 @@ public class Controller : MonoBehaviour
     {
         ClearTrails();
 
+        foreach (Star starObject in FindObjectsOfType<Star>())
+        {
+            starObject.ObjectTrail.enabled = PlayerPrefs.GetInt("ShowTrails") != 0;
+        }
+
         foreach (StellarObject stellarObject in FindObjectsOfType<StellarObject>())
         {
             stellarObject.ObjectTrail.enabled = PlayerPrefs.GetInt("ShowTrails") != 0;
@@ -133,6 +148,11 @@ public class Controller : MonoBehaviour
 
     public void ClearTrails()
     {
+        foreach (Star starObject in FindObjectsOfType<Star>())
+        {
+            starObject.ObjectTrail.Clear();
+        }
+
         foreach (StellarObject stellarObject in FindObjectsOfType<StellarObject>())
         {
             stellarObject.ObjectTrail.Clear();
@@ -177,10 +197,13 @@ public class Controller : MonoBehaviour
         {
             //if(Input.GetTouch(0).phase == TouchPhase.Began)
             //{
-                if(hit.transform.GetComponent<Star>() != null || hit.transform.GetComponent<StellarObject>() != null)
-                {
-                    Camera.ChangeTarget(hit.transform);
-                }
+            if (hit.transform.parent.GetComponent<Star>() != null) {
+                Camera.ChangeTarget(hit.transform.parent);
+            }
+            else if(hit.transform.GetComponent<StellarObject>() != null)
+            {
+                Camera.ChangeTarget(hit.transform);
+            }
             //}
         }
 
@@ -206,13 +229,20 @@ public class Controller : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             //If mouse is on the star
-            if (hit.transform.GetComponent<Star>() != null)
+            if (hit.transform.parent.GetComponent<Star>() != null)
             {
-                Star star = hit.transform.GetComponent<Star>();
+                Star star = hit.transform.parent.GetComponent<Star>();
+
+                star.IsHovered = true;
 
                 if (Input.GetMouseButton(0))
                 {
                     Camera.ChangeTarget(star.transform);
+                }
+
+                else
+                {
+                    star.Animator.SetBool("ShowName", true);
                 }
             }
 
@@ -248,10 +278,24 @@ public class Controller : MonoBehaviour
                     stellarObject.Animator.SetBool("ShowName", false);
                 }
             }
-        }
 
+            foreach (Star star in GameObject.FindObjectsOfType<Star>())
+            {
+                star.IsHovered = false;
 
-        
+                //stellarObject.Animator.SetBool("ShowDetails", false);
+                if (PlayerPrefs.GetInt("ShowNames") == 0)
+                {
+                    //UIName.gameObject.SetActive(false);
+                    star.Animator.SetBool("ShowName", false);
+                }
+            }
+        }    
+    }
+
+    public void StickToObject(Transform elemTransform, Transform targetTransform)
+    {
+        elemTransform.position = UnityEngine.Camera.main.WorldToScreenPoint(targetTransform.position);
     }
 
     public float GetOrbitOrientationStart(int index, int arrayLength)

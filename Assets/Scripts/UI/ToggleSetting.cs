@@ -72,7 +72,10 @@ public class ToggleSetting : MonoBehaviour
                 break;
         }
 
-        _controller.SetScales();
+        if(_controller.LoopLists && _controller.LoopLists.StellarSystemGenerated)
+        {
+            _controller.SetScales();
+        }
     }
 
     public void Rescale()

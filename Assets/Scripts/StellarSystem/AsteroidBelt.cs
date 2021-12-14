@@ -33,6 +33,8 @@ public class AsteroidBelt : MonoBehaviour
 
     private float _orbitSize, _revolutionTime, _posY;
 
+    private int _asteroidCount;
+
     public AsteroidBeltData AsteroidBeltData { get => _asteroidBeltData; set => _asteroidBeltData = value; }
     public GameObject AsteroidPrefab { get => _asteroidPrefab; set => _asteroidPrefab = value; }
     public GameObject IcyAsteroidPrefab { get => _icyAsteroidPrefab; set => _icyAsteroidPrefab = value; }
@@ -52,7 +54,10 @@ public class AsteroidBelt : MonoBehaviour
             GenerateAsteroid(i, AsteroidBeltData.Quantity);
         }
 
-        SetScales();
+/*        if(_asteroidCount == _asteroidList.Count)
+        {
+            SetScales();
+        }*/
     }
 
     // Update is called once per frame
@@ -81,6 +86,9 @@ public class AsteroidBelt : MonoBehaviour
 
 
         _asteroidList.Add(asteroid.transform);
+
+        _asteroidCount++;
+        LoopLists.AsteroidCount ++;
     }
 
     private void AsteroidsRevolution()
@@ -94,7 +102,6 @@ public class AsteroidBelt : MonoBehaviour
     {
         //Debug.Log(AsteroidBeltData.Orbit * LoopLists.dimRet(scales.Orbit, 3.5f, scales.RationalizeValues) * (PlayerPrefs.GetInt("ScaleFactor") != 0 ? LoopLists.StellarSystemData.ScaleFactor : 1f) + LoopLists.NewStar.transform.localScale.z);
 
-        
         foreach(Transform asteroid in _asteroidList)
         {
             SetOrbitSize(asteroid);

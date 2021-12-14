@@ -85,7 +85,10 @@ public class SliderSetting : MonoBehaviour
 
         PlayerPrefs.SetFloat(_prefName, value);
 
-        _controller.SetScales();   
+        if (_controller.LoopLists.StellarSystemGenerated)
+        {
+            _controller.SetScales();
+        }
     }
 
     public void AssignValueToScales(string prefName, float value)

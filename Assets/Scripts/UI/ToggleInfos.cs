@@ -93,6 +93,18 @@ public class ToggleInfos : MonoBehaviour
                 //Show infos of the current object
                 ShowInfos(_objectTarget, true);
             }
+            else if (_objectTarget.GetComponent<Star>())
+            {
+                //Debug.Log("_objectTarget.GetComponent<StellarObject>()");
+                _targetedObject = _objectTarget;
+
+                _camera.CameraAnchor = _objectTarget.GetComponent<Star>().CameraAnchor;
+                _camera.IsFocusing = true;
+
+                //Show infos of the current object
+                ShowInfos(_objectTarget, true);
+
+            }
         }
         else if(_targetedObject != null)
         {
@@ -104,6 +116,14 @@ public class ToggleInfos : MonoBehaviour
 
     public void ShowInfos(Transform thisObject, bool show)
     {
-        thisObject.GetComponent<StellarObject>().Animator.SetBool("ShowDetails", show);
+        if (thisObject.GetComponent<StellarObject>())
+        {
+            thisObject.GetComponent<StellarObject>().Animator.SetBool("ShowDetails", show);
+        }
+        else if (thisObject.GetComponent<Star>())
+        {
+            thisObject.GetComponent<Star>().Animator.SetBool("ShowDetails", show);
+
+        }
     }
 }

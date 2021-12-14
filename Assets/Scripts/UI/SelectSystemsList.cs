@@ -20,7 +20,7 @@ public class SelectSystemsList : MonoBehaviour
     private bool _changeStellarSystem = false;
     private bool _resetCamera = false;
 
-    private float _timeBeforeDeploy = 1.5f;
+    private float _timeBeforeDeploy = 1;
     private float _resetTimeBeforeDeploy;
 
     private float _timeBeforeResetCam = 1f;
@@ -48,7 +48,7 @@ public class SelectSystemsList : MonoBehaviour
 
         LoopLists.GenerateStellarSystem();
 
-        SelectSolarSystem(_systemsDropdown);
+        //SelectSolarSystem(_systemsDropdown);
     }
 
     // Start is called before the first frame update

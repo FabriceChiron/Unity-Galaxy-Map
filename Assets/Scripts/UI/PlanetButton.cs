@@ -9,7 +9,11 @@ public class PlanetButton : MonoBehaviour
     [SerializeField]
     private StellarObject _stellarObject;
 
+    [SerializeField]
+    private Star _starObject;
+
     public StellarObject StellarObject { get => _stellarObject; set => _stellarObject = value; }
+    public Star StarObject { get => _starObject; set => _starObject = value; }
 
     // Start is called before the first frame update
     void Start()
@@ -23,22 +27,47 @@ public class PlanetButton : MonoBehaviour
 
     public void SelectPlanet()
     {
-        if (StellarObject.Camera.CameraTarget == StellarObject.StellarBody)
+        if (StellarObject)
         {
-            StellarObject.Camera.CameraAnchor = StellarObject.CameraAnchor;
-            StellarObject.Camera.CameraAnchorObject = StellarObject.gameObject;
-            //StellarObject.Animator.SetBool("ShowDetails", true);
-            StellarObject.Animator.SetBool("ShowName", false);
+            if (StellarObject.Camera.CameraTarget == StellarObject.StellarBody)
+            {
+                StellarObject.Camera.CameraAnchor = StellarObject.CameraAnchor;
+                StellarObject.Camera.CameraAnchorObject = StellarObject.gameObject;
+                //StellarObject.Animator.SetBool("ShowDetails", true);
+                StellarObject.Animator.SetBool("ShowName", false);
+            }
+
+            StellarObject.Camera.ChangeTarget(StellarObject.StellarBody);
         }
 
-        StellarObject.Camera.ChangeTarget(StellarObject.StellarBody);
+    }
+    public void SelectStar()
+    {
+        if (StarObject)
+        {
+            if (StarObject.Camera.CameraTarget == StarObject.StarBody)
+            {
+                StarObject.Camera.CameraAnchor = StarObject.CameraAnchor;
+                StarObject.Camera.CameraAnchorObject = StarObject.gameObject;
+                //StellarObject.Animator.SetBool("ShowDetails", true);
+                StarObject.Animator.SetBool("ShowName", false);
+            }
+
+            StarObject.Camera.ChangeTarget(StarObject.StarBody);
+        }
 
     }
 
     public void ShowName()
     {
-
-        StellarObject.Animator.SetBool("ShowName", true);
+        if (StellarObject)
+        {
+            StellarObject.Animator.SetBool("ShowName", true);
+        }
+        else if (StarObject)
+        {
+            StarObject.Animator.SetBool("ShowName", true);
+        }
 
         /*if (StellarObject.Camera.CameraTarget == StellarObject.StellarBody)
         {
@@ -52,6 +81,13 @@ public class PlanetButton : MonoBehaviour
 
     public void HideName()
     {
-        StellarObject.Animator.SetBool("ShowName", false);
+        if (StellarObject)
+        {
+            StellarObject.Animator.SetBool("ShowName", false);
+        }
+        else if (StarObject)
+        {
+            StarObject.Animator.SetBool("ShowName", false);
+        }
     }
 }
