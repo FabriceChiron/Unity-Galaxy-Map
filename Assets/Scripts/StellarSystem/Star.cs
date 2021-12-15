@@ -140,20 +140,17 @@ public class Star : MonoBehaviour
 
     private void FillUIElements()
     {
+        string starDescription = $"{(StarData.Orbit > 0 ? $"<b>Orbit</b>: {StarData.Orbit} AU\n" : "")}" +
+            $"<b>Radius</b>: {StarData.Size * 6378f}kms {(StarData.Name == "Sun" ? "" : $"({StarData.Size / 109} of the Sun)")} \n" +
+            $"{(StarData.YearLength > 0 ? $"<b>Orbital Period</b>: {StarData.YearLength} Earth year(s)\n" : "")}\n" +
+            $"{StarData.StarDescription}";
+
         name = StarData.Name;
-        UIName.text = StarData.name;
-        UIDetails.GetComponentsInChildren<TextMeshProUGUI>(true)[0].text = StarData.name;
-        UIDetails.GetComponentsInChildren<TextMeshProUGUI>(true)[1].text =
-            $"<b>Orbit</b>: {StarData.Orbit} AU\n" +
-            $"<b>Radius</b>: {StarData.Size * 6378f}kms ({StarData.Size * 109} of the Sun)\n" +
-            $"<b>Orbital Period</b>: {StarData.YearLength} Earth year(s)\n" +
-            $"{StarData.StarDescription}";
-        UIDetailsLandscape.GetComponentsInChildren<TextMeshProUGUI>(true)[0].text = StarData.name;
-        UIDetailsLandscape.GetComponentsInChildren<TextMeshProUGUI>(true)[1].text =
-            $"<b>Orbit</b>: {StarData.Orbit} AU\n" +
-            $"<b>Radius</b>: {StarData.Size * 6378f}kms ({StarData.Size * 109} of the Sun)\n" +
-            $"<b>Orbital Period</b>: {StarData.YearLength} Earth year(s)\n" +
-            $"{StarData.StarDescription}";
+        UIName.text = StarData.Name;
+        UIDetails.GetComponentsInChildren<TextMeshProUGUI>(true)[0].text = StarData.Name;
+        UIDetails.GetComponentsInChildren<TextMeshProUGUI>(true)[1].text = starDescription;
+        UIDetailsLandscape.GetComponentsInChildren<TextMeshProUGUI>(true)[0].text = StarData.Name;
+        UIDetailsLandscape.GetComponentsInChildren<TextMeshProUGUI>(true)[1].text = starDescription;
 
         //$"<b>Rotation Period</b>: {(PlanetData.TidallyLocked ? "Tidally Locked" : $"{((PlanetData.DayLength == float.NaN && PlanetData.Name != "Earth") ? "Unknown" : $"{PlanetData.DayLength} Earth day(s)")}") }\n\n"
     }

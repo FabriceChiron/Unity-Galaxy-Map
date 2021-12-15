@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: TRAPPIST-1
   m_EditorClassIdentifier: 
   Name: TRAPPIST-1
-  StarDescription: 
+  StarDescription: TRAPPIST-1, also designated 2MASS J23062928-0502285, is an ultra-cool
+    red dwarf star in the constellation Aquarius. It has a mass of about 9% that
+    of the Sun, a radius slightly larger than the planet Jupiter and a surface temperature
+    of about 2560 K.
   starType: 2
   Material: {fileID: 2100000, guid: c575297c6d9b36843a12e99e55943111, type: 2}
   Orbit: 0

@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Kepler-90
   m_EditorClassIdentifier: 
   Name: Kepler-90
-  StarDescription: 
+  StarDescription: Kepler-90, also designated 2MASS J18574403+4918185, is a G-type
+    main sequence star located about 2,840 light-years (870 pc) from Earth in the
+    constellation of Draco. It is notable for possessing a planetary system that
+    has the same number of observed planets as the Solar System.
   starType: 0
   Material: {fileID: 2100000, guid: d35e5dcc9d4429b48b60c5d19d21313c, type: 2}
   Orbit: 0
