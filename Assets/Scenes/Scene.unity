@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.01624039, g: 0.01472227, b: 0.0138980355, a: 1}
+  m_IndirectSpecularColor: {r: 0.016243907, g: 0.014724376, b: 0.013899613, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6770,30 +6770,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28dc0e77eac45a34b845e50615bf9bb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OrbitTarget: {fileID: 0}
-  Orbiter: {fileID: 0}
-  LookAtTarget: 1
-  ClampBounds: {fileID: 0}
-  MinimumDistance: 5
-  MaximumDistance: 1000
-  ZoomSpeed: 20
-  ZoomLookAtSpeed: 1
-  ZoomThresholdUnits: 0.15
-  OrbitXSpeed: -30
-  OrbitXMaxDegrees: 0
-  XAxisMovementType: 0
-  OrbitXPanSpeed: 1
-  OrbitXPanLimit: 100
-  OrbitYSpeed: -30
-  OrbitYMaxDegrees: 0
-  YAxisMovementType: 0
-  OrbitYPanSpeed: 1
-  OrbitYPanLimit: 100
-  AllowOrbitWhileZooming: 1
-  AllowMovementOnBothAxisSimultaneously: 1
-  OrbitInertia: 0.925
-  OrbitMaximumSize: {x: 0, y: 0, z: 0}
-  RequireOrbitGesturesToStartOnTarget: 0
 --- !u!114 &963194232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11906,7 +11882,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 90}
+  m_AnchoredPosition: {x: 0, y: 144}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1809457409
