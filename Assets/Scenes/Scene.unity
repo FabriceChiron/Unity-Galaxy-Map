@@ -5284,11 +5284,11 @@ RectTransform:
   m_Father: {fileID: 962243408}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
-  m_Pivot: {x: 0, y: 1}
+  m_SizeDelta: {x: 48, y: 48}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &721252069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6735,7 +6735,6 @@ MonoBehaviour:
   _sensitivity: 3
   _startingPoint: Earth
   _controller: {fileID: 495509697}
-  _speed: 3
   PlanetListDropdown: {fileID: 768173179}
   startPos: {x: 0, y: 0}
   direction: {x: 0, y: 0}
@@ -8760,11 +8759,11 @@ RectTransform:
   m_Father: {fileID: 471794784}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
-  m_Pivot: {x: 0, y: 1}
+  m_SizeDelta: {x: 48, y: 48}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1194582081
 MonoBehaviour:
   m_ObjectHideFlags: 0
