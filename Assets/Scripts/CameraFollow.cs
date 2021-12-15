@@ -96,9 +96,25 @@ public class CameraFollow : MonoBehaviour
 
         //Star = GameObject.FindObjectsOfType<Star>()[0].transform;
 
-        Star = GameObject.Find(Controller.LoopLists.StellarSystemData.StarsItem[0].Name).transform;
+        Star = null;
 
-        //Debug.Log(Star.name);
+        //Star = GameObject.Find(Controller.LoopLists.StellarSystemData.StarsItem[0].Name).transform;
+
+        foreach (StarData starData in Controller.LoopLists.StellarSystemData.StarsItem)
+        {
+            Debug.Log($"{starData.Name}: {starData.ChildrenItem.Length} stellar objects");
+            if(starData.ChildrenItem.Length > 0)
+            {
+                Star = GameObject.Find(starData.Name).transform;
+            }
+        }
+
+        if(Star == null)
+        {
+            Star = GameObject.Find(Controller.LoopLists.StellarSystemData.StarsItem[0].Name).transform;
+        }
+
+        Debug.Log($"Star: {Star}");
         
         ChangeTarget(Star);
         //Debug.Log(Star.GetComponent<Star>());
@@ -278,11 +294,12 @@ public class CameraFollow : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1) && !MouseOnUI)
         {
-            _totalClickTime = 0;
-            GettingLongClick = true;
+            IsRotating = true;
+            //_totalClickTime = 0;
+            //GettingLongClick = true;
         }
 
-        if (Input.GetMouseButton(1) && GettingLongClick)
+        /*if (Input.GetMouseButton(1) && GettingLongClick)
         {
             _totalClickTime += Time.deltaTime;
 
@@ -295,11 +312,16 @@ public class CameraFollow : MonoBehaviour
             {
                 IsRotating = false;
             }
+        }*/
+        if (Input.GetMouseButton(1))
+        {
+            RotateAroundObject();
         }
+
         if (IsRotating && Input.GetMouseButtonUp(1))
         {
             IsRotating = false;
-            GettingLongClick = false;
+            //GettingLongClick = false;
         }
 
 

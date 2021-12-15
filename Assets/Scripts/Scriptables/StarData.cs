@@ -4,6 +4,7 @@ public enum StarType
 {
     SunLike,
     HotBlue,
+    OrangeDwarf,
     RedDwarf,
     RedGiant,
     WhiteDwarf,
@@ -41,5 +42,9 @@ public class StarData : ScriptableObject
 
     //Coordinates of planet on orbit plane (e.g "nw")
     public string Coords;
+
+    public PlanetData[] ChildrenItem;
+
+    public AsteroidBeltData[] AsteroidBeltItem;
 
 }

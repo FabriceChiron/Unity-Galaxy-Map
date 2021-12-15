@@ -298,7 +298,8 @@ public class StellarObject : MonoBehaviour
         OrbitTiltAngle = PlanetData.OrbitTilt;
 
         //Set the orbit's plane, using the planet's coords
-        OrbitAnchor.rotation = Quaternion.Euler(OrbitTiltAngle, Controller.GetOrbitOrientationStart(PlanetData.Coords), 0f);
+        Orbit.rotation = Quaternion.Euler(0f, Controller.GetOrbitOrientationStart(PlanetData.Coords), 0f);
+        OrbitAnchor.rotation = Quaternion.Euler(OrbitTiltAngle, 0f, 0f);
     }
 
     //Get Starting point based on cardinal coords, if provided in PlanetData.
@@ -356,18 +357,26 @@ public class StellarObject : MonoBehaviour
             {
                 case "planet":
                     
-                    foreach (Star star in FindObjectsOfType<Star>())
+                    if(ParentStellarObject != "")
                     {
-                        OrbitSize += star.transform.localScale.z * 0.5f;
+                        StellarAnchor.localPosition = new Vector3(0f, 0f, GameObject.Find(ParentStellarObject).transform.localScale.z + OrbitSize);
                     }
 
-                    if(FindObjectsOfType<Star>().Length > 1)
+                    else
                     {
-                        OrbitSize += Vector3.Distance(FindObjectsOfType<Star>()[0].transform.position, FindObjectsOfType<Star>()[1].transform.position);
+                        foreach (Star star in FindObjectsOfType<Star>())
+                        {
+                            OrbitSize += star.transform.localScale.z * 0.5f;
+                        }
+
+                        if(FindObjectsOfType<Star>().Length > 1)
+                        {
+                            OrbitSize += Vector3.Distance(FindObjectsOfType<Star>()[0].transform.position, FindObjectsOfType<Star>()[1].transform.position);
+                        }
+
+
+                        StellarAnchor.localPosition = new Vector3(0f, 0f, OrbitSize);
                     }
-
-
-                    StellarAnchor.localPosition = new Vector3(0f, 0f, OrbitSize);
                     
 
                     break;

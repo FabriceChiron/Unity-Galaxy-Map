@@ -68,6 +68,8 @@ public class LoopLists : MonoBehaviour
             {
                 if (StellarObjectCount == StellarObjectTotal)
                 {
+                    Debug.Log($"StellarObjectTotal: {StellarObjectTotal}");
+
                     if (AsteroidCount == AsteroidTotal)
                     {
                         _controller.SetScales();
@@ -123,63 +125,91 @@ public class LoopLists : MonoBehaviour
 
         NewStellarSystem.name = $"{StellarSystemData.Name} - stellar system";
 
+        StellarObjectTotal = StellarSystemData.ChildrenItem.Length;
+
         foreach(StarData starData in StellarSystemData.StarsItem)
         {
-            GenerateStar(starData);
+            GameObject NewStar = GenerateStar(starData);
+
+            Star starScript = NewStar.GetComponentInChildren<Star>();
+
+            StellarObjectTotal += starData.ChildrenItem.Length;
+
+            
+
+            //Generate planets orbiting a specific star in a stellar system with several planets;
+            foreach (PlanetData planetData in starData.ChildrenItem)
+            {
+                Debug.Log($"Generating {planetData.Name}");
+                GameObject newPlanet = GeneratePlanet(planetData, NewStar.transform.GetChild(0).GetChild(0).Find("PlanetsHolder").transform, starData.Name);
+
+                foreach (PlanetData moonData in planetData.ChildrenItem)
+                {
+                    GameObject newMoon = GenerateMoon(planetData, newPlanet, moonData);
+                }
+            }
         }
 
         foreach(AsteroidBeltData asteroidBeltData in StellarSystemData.AsteroidBeltItem)
         {
             GenerateAsteroidsBelt(asteroidBeltData);
+
         }
 
         //GenerateStar(StellarSystemData);
 
-        StellarObjectTotal = StellarSystemData.ChildrenItem.Length;
 
+        //Generate Planets orbiting the center of stellar system
         foreach (PlanetData planetData in StellarSystemData.ChildrenItem)
         {
-            GameObject newPlanet = Instantiate(_planetLogicPrefab, NewStellarSystem.transform);
+            GameObject newPlanet = GeneratePlanet(planetData, NewStellarSystem.transform, "");
 
-            StellarObject newPlanetStellarObject = newPlanet.GetComponentInChildren<StellarObject>();
-
-            newPlanetStellarObject.PlanetData = planetData;
-            newPlanetStellarObject.ObjectType = "planet";
-            newPlanetStellarObject.LoopLists = this;
-
-
-            newPlanet.name = $"{planetData.Name} - Planet Orbit Anchor";
-
-            _stellarBodiesList.Add(planetData.Name);
-
-            StellarObjectTotal += planetData.ChildrenItem.Length;
-
+            //Generate the moons of the planet
             foreach (PlanetData moonData in planetData.ChildrenItem)
             {
-                GameObject newMoon = Instantiate(_planetLogicPrefab, newPlanet.transform.GetChild(0).GetChild(0).Find("SatellitesHolder").transform);
-
-                StellarObject newMoonStellarObject = newMoon.GetComponentInChildren<StellarObject>();
-
-                newMoonStellarObject.PlanetData = moonData;
-                newMoonStellarObject.ObjectType = "moon";
-                newMoonStellarObject.LoopLists = this;
-                newMoonStellarObject.ParentStellarObject = planetData.Name;
-
-                newMoon.name = $"{moonData.Name} - Moon Orbit Anchor";
-
-                _stellarBodiesList.Add($"    {moonData.Name}");
+                GameObject newMoon = GenerateMoon(planetData, newPlanet, moonData);
             }
         }
 
         FillPlanetsDropDownList(_stellarBodiesList, _planetsListDropDown);
-        
-
-
     }
 
-    private void DeployStellarSystem()
+    private GameObject GenerateMoon(PlanetData planetData, GameObject newPlanet, PlanetData moonData)
     {
-        NewStellarSystem.GetComponent<ToggleStellarSystem>().DeployStellarSystem();
+        GameObject newMoon = Instantiate(_planetLogicPrefab, newPlanet.transform.GetChild(0).GetChild(0).Find("SatellitesHolder").transform);
+
+        StellarObject newMoonStellarObject = newMoon.GetComponentInChildren<StellarObject>();
+
+        newMoonStellarObject.PlanetData = moonData;
+        newMoonStellarObject.ObjectType = "moon";
+        newMoonStellarObject.LoopLists = this;
+        newMoonStellarObject.ParentStellarObject = planetData.Name;
+
+        newMoon.name = $"{moonData.Name} - Moon Orbit Anchor";
+
+        _stellarBodiesList.Add($"    {moonData.Name}");
+
+        return newMoon;
+    }
+
+    private GameObject GeneratePlanet(PlanetData planetData, Transform hostTransform, string parentStellarObject)
+    {
+        GameObject newPlanet = Instantiate(_planetLogicPrefab, hostTransform);
+
+        StellarObject newPlanetStellarObject = newPlanet.GetComponentInChildren<StellarObject>();
+
+        newPlanetStellarObject.PlanetData = planetData;
+        newPlanetStellarObject.ObjectType = "planet";
+        newPlanetStellarObject.LoopLists = this;
+        newPlanetStellarObject.ParentStellarObject = parentStellarObject;
+
+
+        newPlanet.name = $"{planetData.Name} - Planet Orbit Anchor";
+
+        _stellarBodiesList.Add(planetData.Name);
+
+        StellarObjectTotal += planetData.ChildrenItem.Length;
+        return newPlanet;
     }
 
     public void GenerateAsteroidsBelt(AsteroidBeltData asteroidBeltData)
@@ -192,7 +222,7 @@ public class LoopLists : MonoBehaviour
         AsteroidTotal += asteroidBeltData.Quantity;
     }
 
-    public void GenerateStar(StarData starData)
+    public GameObject GenerateStar(StarData starData)
     {
         NewStar = Instantiate(_starPrefab, NewStellarSystem.transform);
         Star starScript = NewStar.GetComponentInChildren<Star>();
@@ -205,8 +235,15 @@ public class LoopLists : MonoBehaviour
         starScript.GetComponent<Light>().intensity = starScript.GetComponent<Light>().intensity / StellarSystemData.StarsItem.Length;
 
         _stellarBodiesList.Add($"<b>{starData.Name}</b>");
+
+        return NewStar;
     }
 
+
+    private void DeployStellarSystem()
+    {
+        NewStellarSystem.GetComponent<ToggleStellarSystem>().DeployStellarSystem();
+    }
     public void FillPlanetsDropDownList(List<string> stellarBodiesList, TMP_Dropdown planetsListDropDown)
     {
         planetsListDropDown.ClearOptions();

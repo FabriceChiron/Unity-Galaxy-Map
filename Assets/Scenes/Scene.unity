@@ -13225,6 +13225,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6a596ff3616b90443b864c72298a88b6, type: 2}
   - {fileID: 11400000, guid: 65a3ab57b4c16e84c9ca09b4e10d7412, type: 2}
   - {fileID: 11400000, guid: 932f42da574b0e448a4ea1e7686bbbf9, type: 2}
+  - {fileID: 11400000, guid: 6d46e837f69548a4a85caace038a9a8b, type: 2}
   _loopLists: {fileID: 495509696}
   _stellarSystemPrefab: {fileID: 7701551589869002505, guid: ee6cf1a64376112489e6f19b56335ad2, type: 3}
 --- !u!114 &1999791610 stripped

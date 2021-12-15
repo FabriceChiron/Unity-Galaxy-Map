@@ -198,16 +198,16 @@ public class Controller : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
-            //if(Input.GetTouch(0).phase == TouchPhase.Began)
-            //{
-            if (hit.transform.parent.GetComponent<Star>() != null) {
-                Camera.ChangeTarget(hit.transform.parent);
-            }
-            else if(hit.transform.GetComponent<StellarObject>() != null)
+            if (Input.GetTouch(0).phase == TouchPhase.Began)
             {
-                Camera.ChangeTarget(hit.transform);
+                if (hit.transform.parent.GetComponent<Star>() != null) {
+                    Camera.ChangeTarget(hit.transform.parent);
+                }
+                else if(hit.transform.GetComponent<StellarObject>() != null)
+                {
+                    Camera.ChangeTarget(hit.transform);
+                }
             }
-            //}
         }
 
         else

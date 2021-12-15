@@ -16,7 +16,8 @@ public class ToggleStellarSystem : MonoBehaviour
     private TextMeshProUGUI _infos;
 
     [SerializeField]
-    private float _resetTimeToScale = 1f;
+    private float _initDeployDuration = 1f;
+    private float _currentDeployDuration;
     private float _timeToScale;
     private float _stellarSystemOriginalScale;
     private float _stellarSystemCurrentScale;
@@ -50,6 +51,8 @@ public class ToggleStellarSystem : MonoBehaviour
 
         _controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<Controller>();
         Animator = GetComponent<Animator>();
+
+        _currentDeployDuration = _initDeployDuration;
     }
 
     // Start is called before the first frame update
@@ -72,12 +75,15 @@ public class ToggleStellarSystem : MonoBehaviour
         {
             _controller.ClearTrails();
         }
+
+        _currentDeployDuration = StellarSystemTargetScale > 0f ? _initDeployDuration : _initDeployDuration * .5f;
+        Debug.Log($"_currentDeployDuration: {_currentDeployDuration}");
         
         if (IsScaleChanging)
         {
             _controller.ClearTrails();
 
-            StellarSystemCurrentScale = Mathf.SmoothDamp(StellarSystemCurrentScale, StellarSystemTargetScale, ref velocity, _resetTimeToScale);
+            StellarSystemCurrentScale = Mathf.SmoothDamp(StellarSystemCurrentScale, StellarSystemTargetScale, ref velocity, _currentDeployDuration);
 
             Animator.SetFloat("Scale", StellarSystemCurrentScale);
 
@@ -124,7 +130,7 @@ public class ToggleStellarSystem : MonoBehaviour
         //StellarSystemTargetScale = scales.RationalizeValues ? 1f : 0.1f;
         StellarSystemTargetScale = 1f;
         StellarSystemOriginalScale = StellarSystemTargetScale;
-        _timeToScale = _resetTimeToScale;
+        _timeToScale = _initDeployDuration;
     }
 
     public void FoldStellarSystem()
