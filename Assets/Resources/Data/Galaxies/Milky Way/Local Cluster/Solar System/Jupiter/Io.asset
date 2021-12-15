@@ -23,13 +23,13 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: 81a850cd27db6b84e92da95da1e8f2eb, type: 2}
   Clouds: 0
   CloudsMaterial: {fileID: 0}
-  TidallyLocked: 0
+  TidallyLocked: 1
   Orbit: 0.02819
   OrbitTilt: 0
   Size: 0.286
   BodyTilt: 0
   YearLength: 0.004846953
-  DayLength: 1.75
+  DayLength: 0
   Coords: sw
   Rings: 0
   ChildrenItem: []

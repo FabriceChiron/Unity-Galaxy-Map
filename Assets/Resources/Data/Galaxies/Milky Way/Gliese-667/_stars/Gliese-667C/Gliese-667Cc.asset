@@ -33,9 +33,9 @@ MonoBehaviour:
   TidallyLocked: 1
   Orbit: 0.1251
   OrbitTilt: -30
-  Size: 3
+  Size: 1.5
   BodyTilt: 0
-  YearLength: 0.019727672
+  YearLength: 0.077136986
   DayLength: 0
   Coords: 
   Rings: 0
