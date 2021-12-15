@@ -19,6 +19,7 @@ MonoBehaviour:
     System. It was discovered in 1610 and was named after the mythological character
     Io, a priestess of Hera who became one of Zeus' lovers..
   Texture: {fileID: 2800000, guid: 99533733cc7a56845bc324b4acab54a9, type: 3}
+  Gaseous: 0
   Material: {fileID: 2100000, guid: 81a850cd27db6b84e92da95da1e8f2eb, type: 2}
   Clouds: 0
   CloudsMaterial: {fileID: 0}
@@ -28,7 +29,7 @@ MonoBehaviour:
   Size: 0.286
   BodyTilt: 0
   YearLength: 0.004846953
-  DayLength: 0
+  DayLength: 1.75
   Coords: sw
   Rings: 0
   ChildrenItem: []
