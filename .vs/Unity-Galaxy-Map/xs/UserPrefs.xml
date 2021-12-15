@@ -1,0 +1,30 @@
+﻿<Properties StartupConfiguration="{D3087C6B-F4F7-0F5A-3251-0221814DCEB3}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Planet.cs">
+    <Files>
+      <File FileName="Assets/Scripts/UI/SelectSystemsList.cs" Line="100" Column="53" />
+      <File FileName="Assets/Scripts/ToggleStellarSystem.cs" Line="21" Column="45" />
+      <File FileName="Assets/Scripts/GeneratePlanets.cs" Line="69" Column="13" />
+      <File FileName="Assets/Scripts/UI/DropDownMenu.cs" Line="46" Column="73" />
+      <File FileName="Assets/Scripts/Planet.cs" Line="391" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Unity-Galaxy-Map" expanded="True" selected="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Prefabs" expanded="True" />
+              <Node name="Scripts" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="39d36af4-9f79-4dc4-a647-64d1f2f5e9e1" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
