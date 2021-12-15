@@ -49,8 +49,6 @@ public class Controller : MonoBehaviour
             InputType = InputType.TOUCH;
         }*/
 
-        Debug.Log($"isMobile: {GameObject.FindObjectOfType<DetectMobile>().isMobile()}");
-
         if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
         {
             InputType = InputType.TOUCH;

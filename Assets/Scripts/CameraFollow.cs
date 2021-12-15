@@ -98,10 +98,10 @@ public class CameraFollow : MonoBehaviour
 
         Star = GameObject.Find(Controller.LoopLists.StellarSystemData.StarsItem[0].Name).transform;
 
-        Debug.Log(Star.name);
+        //Debug.Log(Star.name);
         
         ChangeTarget(Star);
-        Debug.Log(Star.GetComponent<Star>());
+        //Debug.Log(Star.GetComponent<Star>());
         CameraAnchor = Star.GetComponent<Star>().CameraAnchor;
         
         if (init)
