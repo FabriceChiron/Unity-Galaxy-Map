@@ -47,8 +47,6 @@ public class ToggleStellarSystem : MonoBehaviour
         _toggleValues = GameObject.FindObjectOfType<ToggleSetting>();
 
         _infos = GameObject.Find("DeviceInfo").GetComponent<TextMeshProUGUI>();
-        
-        Debug.Log(_toggleValues.name);
 
         _controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<Controller>();
         Animator = GetComponent<Animator>();
@@ -98,7 +96,7 @@ public class ToggleStellarSystem : MonoBehaviour
 
     public void toggleIsAnimating()
     {
-        Animator.SetBool("IsAnimating", !Animator.GetBool("IsAnimating"));
+        //Animator.SetBool("IsAnimating", !Animator.GetBool("IsAnimating"));
     }
 
     public void ActivateUIDetails()
@@ -111,15 +109,9 @@ public class ToggleStellarSystem : MonoBehaviour
         }
     }
 
-    public void ChangeStellarSystemScale(bool rationalizeValues)
-    {
-
-    }
-
     public void DeployStellarSystem()
     {
-        Debug.Log("DeployStellarSystem");
-        Animator.SetBool("IsDeployed", true);
+        //Animator.SetBool("IsDeployed", true);
 
         IsScaleChanging = true;
 
@@ -133,19 +125,6 @@ public class ToggleStellarSystem : MonoBehaviour
         StellarSystemTargetScale = 1f;
         StellarSystemOriginalScale = StellarSystemTargetScale;
         _timeToScale = _resetTimeToScale;
-        Debug.Log($"StellarSystemTargetScale: {StellarSystemTargetScale}");
-    }
-    private IEnumerator ChangeScale(float initialScale, float targetScale, float duration)
-    {
-        float currentScale;
-        for (float t= 0f; t < duration; t += Time.deltaTime)
-        {
-            currentScale = Mathf.Lerp(initialScale, targetScale, t / duration);
-            yield return null;
-        }
-        currentScale = targetScale;
-        Debug.Log("ChangeScale");
-        Animator.SetFloat("Scale", currentScale);
     }
 
     public void FoldStellarSystem()
@@ -162,6 +141,6 @@ public class ToggleStellarSystem : MonoBehaviour
 
         IsScaleChanging = true;
         StellarSystemTargetScale = 0;
-        Animator.SetBool("IsDeployed", false);
+        //Animator.SetBool("IsDeployed", false);
     }
 }

@@ -383,7 +383,7 @@ public class StellarObject : MonoBehaviour
 
     private void SetCameraAnchor()
     {
-        CameraAnchor.localPosition = new Vector3(0f, ObjectSize * .5f, ObjectSize * 2f);
+        CameraAnchor.localPosition = new Vector3(0f, ObjectSize * .5f, ObjectSize * (PlanetData.Size < 1f ? 3.5f : 3f));
     }
 
     //Show the applied scale factor (if set)

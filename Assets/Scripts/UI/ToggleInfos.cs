@@ -15,6 +15,9 @@ public class ToggleInfos : MonoBehaviour
     [SerializeField]
     private Controller _controller;
 
+    [SerializeField]
+    private ToggleFocus _toggleFocus;
+
     private string _iconIsOn = "s";
     private string _iconIsOff = "Q";
     //private string _iconIsOn = "[";
@@ -24,6 +27,7 @@ public class ToggleInfos : MonoBehaviour
 
     private Transform _objectTarget;
     private Transform _targetedObject;
+
 
     public Toggle Toggle { get => _toggle; set => _toggle = value; }
     public Text Label { get => _label; set => _label = value; }
@@ -46,14 +50,14 @@ public class ToggleInfos : MonoBehaviour
         Label.text = (Toggle.isOn ? _iconIsOn : _iconIsOff);
         _objectTarget = _camera.CameraTarget;
 
-        if(_objectTarget == null || _objectTarget.GetComponent<StellarObject>() == null)
+        if(_objectTarget == null || !HasInfos(_objectTarget))
         {
             Toggle.isOn = false;
             SetToggleInfos();
             Toggle.interactable = false;
             Label.color = new Vector4(Label.color.r, Label.color.g, Label.color.b, 0.5f);
         }
-        else if(_objectTarget.GetComponent<StellarObject>() != null)
+        else if(HasInfos(_objectTarget))
         {
             Toggle.interactable = true;
             Label.color = new Vector4(Label.color.r, Label.color.g, Label.color.b, 1f);
@@ -62,6 +66,18 @@ public class ToggleInfos : MonoBehaviour
             {
                 SetToggleInfos();
             }
+        }
+    }
+
+    public bool HasInfos(Transform spaceObject)
+    {
+        if(spaceObject.GetComponent<StellarObject>() != null || spaceObject.GetComponent<Star>())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -87,8 +103,7 @@ public class ToggleInfos : MonoBehaviour
                 //Debug.Log("_objectTarget.GetComponent<StellarObject>()");
                 _targetedObject = _objectTarget;
 
-                _camera.CameraAnchor = _objectTarget.GetComponent<StellarObject>().CameraAnchor;
-                _camera.IsFocusing = true;
+                _toggleFocus.GetComponent<Toggle>().isOn = true;
 
                 //Show infos of the current object
                 ShowInfos(_objectTarget, true);
@@ -98,8 +113,7 @@ public class ToggleInfos : MonoBehaviour
                 //Debug.Log("_objectTarget.GetComponent<StellarObject>()");
                 _targetedObject = _objectTarget;
 
-                _camera.CameraAnchor = _objectTarget.GetComponent<Star>().CameraAnchor;
-                _camera.IsFocusing = true;
+                _toggleFocus.GetComponent<Toggle>().isOn = true;
 
                 //Show infos of the current object
                 ShowInfos(_objectTarget, true);
@@ -123,7 +137,6 @@ public class ToggleInfos : MonoBehaviour
         else if (thisObject.GetComponent<Star>())
         {
             thisObject.GetComponent<Star>().Animator.SetBool("ShowDetails", show);
-
         }
     }
 }

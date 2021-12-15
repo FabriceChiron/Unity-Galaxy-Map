@@ -101,6 +101,8 @@ public class CameraFollow : MonoBehaviour
         Debug.Log(Star.name);
         
         ChangeTarget(Star);
+        Debug.Log(Star.GetComponent<Star>());
+        CameraAnchor = Star.GetComponent<Star>().CameraAnchor;
         
         if (init)
         {
@@ -111,7 +113,9 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(UITest != null)
+        Debug.Log($"CameraTarget: {CameraTarget}\n CameraAnchor: {CameraAnchor}");
+
+        if (UITest != null)
         {
             MouseOnUI = UITest.IsPointerOverUIElement();
         }
@@ -193,6 +197,10 @@ public class CameraFollow : MonoBehaviour
                 FocusOnTarget("Planet");
                 
             }
+            else if (CameraTarget.GetComponent<Star>() != null)
+            {
+                FocusOnTarget("Star");
+            }
             else if (CameraAnchorObject.GetComponent<Galaxy>() != null)
             {
                 FocusOnTarget("Galaxy");
@@ -212,9 +220,9 @@ public class CameraFollow : MonoBehaviour
         if (CameraTarget != null && CameraTarget.GetComponent<StellarObject>() != null)
         {
             StellarObject stellarObject = CameraTarget.GetComponent<StellarObject>();
-            Controller.DeviceInfo.text = $"{stellarObject.Animator.GetBool("ShowDetails")}";
-            Controller.DeviceInfo.text += $"\n{stellarObject.UIDetails.rectTransform.GetChild(0).GetComponent<RectTransform>().anchorMin}";
-            Controller.DeviceInfo.text += $"\n{stellarObject.UIDetails.rectTransform.GetChild(0).GetComponent<RectTransform>().anchorMax}";
+            //Controller.DeviceInfo.text = $"{stellarObject.Animator.GetBool("ShowDetails")}";
+            //Controller.DeviceInfo.text += $"\n{stellarObject.UIDetails.rectTransform.GetChild(0).GetComponent<RectTransform>().anchorMin}";
+            //Controller.DeviceInfo.text += $"\n{stellarObject.UIDetails.rectTransform.GetChild(0).GetComponent<RectTransform>().anchorMax}";
             //Controller.DeviceInfo.text += $"\n{stellarObject.UIDetails.GetComponentsInChildren<TextMeshProUGUI>()[1].text}";
         }
     }
@@ -459,7 +467,7 @@ public class CameraFollow : MonoBehaviour
                 break;
 
             case "Star":
-                targetThreshold = 0.5f;
+                targetThreshold = CameraTarget.GetComponent<Star>().ObjectSize * 0.5f;
                 break;
         }
         

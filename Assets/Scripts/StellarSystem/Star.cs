@@ -113,6 +113,8 @@ public class Star : MonoBehaviour
             StarRevolution();
         }
 
+
+
         Controller.StickToObject(PlanetButton.transform, StarBody);
         Controller.StickToObject(UIName.transform, StarBody);
 
@@ -248,16 +250,16 @@ public class Star : MonoBehaviour
 
         SetStarAnchor();
 
-        //SetObjectSize();
+        SetObjectSize();
 
         SetCameraAnchor();
     }
 
     private void SetObjectSize()
     {
-        ObjectSize = StarData.Size * scales.Planet;
+        ObjectSize = transform.localScale.z;
 
-        StarBody.localScale = new Vector3(ObjectSize, ObjectSize, ObjectSize);
+        //StarBody.localScale = new Vector3(ObjectSize, ObjectSize, ObjectSize);
     }
 
     private void SetOrbitSize()

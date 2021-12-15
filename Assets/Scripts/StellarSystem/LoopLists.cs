@@ -198,7 +198,7 @@ public class LoopLists : MonoBehaviour
         Star starScript = NewStar.GetComponentInChildren<Star>();
 
         starScript.StarData = starData;
-        NewStar.name = $"{starData.Name}";
+        NewStar.name = $"{starData.Name} - Star Orbit";
 
         starScript.LoopLists = this;
 

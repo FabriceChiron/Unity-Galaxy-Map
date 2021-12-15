@@ -18,12 +18,12 @@ public class ResizeUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
+        GetComponent<Controller>().DeviceInfo.text = $"IsMobile: {GameObject.FindObjectOfType<DetectMobile>().isMobile()}\nTouch Supported: {Input.touchSupported}\nScreen Width: {Screen.width} \nScreen Height: {Screen.height} \nScreen DPI: {Screen.dpi}";
         SwitchCanvas();
     }
 
