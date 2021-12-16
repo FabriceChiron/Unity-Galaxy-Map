@@ -32,3 +32,5 @@ Builds/
 MemoryCaptures/
 
 *.apk
+
+.DS_Store
