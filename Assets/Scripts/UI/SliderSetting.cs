@@ -23,8 +23,6 @@ public class SliderSetting : MonoBehaviour
     [SerializeField]
     private Controller _controller;
 
-    private Planet[] _planets;
-
     // On déclare la variable qui contiendra le composant Slider
     protected Slider _slider;
 

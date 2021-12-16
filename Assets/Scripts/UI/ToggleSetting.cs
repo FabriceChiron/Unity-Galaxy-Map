@@ -18,8 +18,6 @@ public class ToggleSetting : MonoBehaviour
     [SerializeField]
     private ToggleStellarSystem _toggleStellarSystem;
 
-    private Planet[] _planets;
-
     private Toggle _toggle;
 
     private Controller _controller;

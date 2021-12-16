@@ -22,9 +22,6 @@ public class CameraFollow : MonoBehaviour
     private float _scrollWheelChange;
 
     [SerializeField]
-    private float _speed = 3f;
-
-    [SerializeField]
     private TMP_Dropdown PlanetListDropdown;
 
     private bool _mouseOnUI;
@@ -34,8 +31,8 @@ public class CameraFollow : MonoBehaviour
 
     private float mouseHorizontal;
     private float mouseVertical;
-    private float _timeBeforeRotate = 0.2f;
-    private float _totalClickTime;
+    //private float _timeBeforeRotate = 0.2f;
+    //private float _totalClickTime;
 
     private Vector3 velocity = Vector3.zero;
     private Quaternion nullQuaternion = Quaternion.identity;
@@ -92,17 +89,11 @@ public class CameraFollow : MonoBehaviour
 
     public void ResetCameraTarget(bool init)
     {
-        //InitCamera();
-
-        //Star = GameObject.FindObjectsOfType<Star>()[0].transform;
-
+        
         Star = null;
-
-        //Star = GameObject.Find(Controller.LoopLists.StellarSystemData.StarsItem[0].Name).transform;
 
         foreach (StarData starData in Controller.LoopLists.StellarSystemData.StarsItem)
         {
-            Debug.Log($"{starData.Name}: {starData.ChildrenItem.Length} stellar objects");
             if(starData.ChildrenItem.Length > 0)
             {
                 Star = GameObject.Find(starData.Name).transform;
@@ -113,11 +104,9 @@ public class CameraFollow : MonoBehaviour
         {
             Star = GameObject.Find(Controller.LoopLists.StellarSystemData.StarsItem[0].Name).transform;
         }
-
-        Debug.Log($"Star: {Star}");
         
         ChangeTarget(Star);
-        //Debug.Log(Star.GetComponent<Star>());
+
         CameraAnchor = Star.GetComponent<Star>().CameraAnchor;
         
         if (init)
@@ -129,17 +118,19 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log($"CameraTarget: {CameraTarget}\n CameraAnchor: {CameraAnchor}");
 
         if (UITest != null)
         {
+            //Detect if mouse if over UI Elements
             MouseOnUI = UITest.IsPointerOverUIElement();
         }
         if (!MouseOnUI)
         {
+            //Allow zoomin/zoomout only when mouse is not over UI Elements
             ZoomCamera();
         }
 
+        //Set camera parent (when a stellar object is clicked)
         if(CameraTarget != Star && CameraTarget != null)
         {
             _transform.parent = CameraTarget.parent;
@@ -149,28 +140,16 @@ public class CameraFollow : MonoBehaviour
             _transform.parent = null;
         }
 
-
-        if(CameraTarget != null)
-        {
-            //Controller.DeviceInfo.text = $"{CameraTarget.name}";
-
-        }
-        else
-        {
-            //Controller.DeviceInfo.text = $"nope";
-        }
-
+        //Rotate Camera towards targeted stellar object
         if (CameraTarget)
         {
             Vector3 lookDirection = CameraTarget.position - _transform.position;
             lookDirection.Normalize();
 
-            //_transform.rotation = Quaternion.Slerp(_transform.rotation, Quaternion.LookRotation(lookDirection), _speed * Time.deltaTime);
-            //Quaternion.Euler(Vector3.SmoothDamp())
-            //_transform.rotation = Vector3.SmoothDamp(_transform.position, CameraAnchor.position, ref velocity, .5f);
             _transform.rotation = SmoothDamp(_transform.rotation, Quaternion.LookRotation(lookDirection), ref nullQuaternion, 0.1f);
         }
 
+        //Set cursor visibility and lockstate depending on camera rotation by mouse/touch inputs
         Cursor.visible = !IsRotating;
         Cursor.lockState = IsRotating ? CursorLockMode.Locked : CursorLockMode.None;
 
@@ -184,15 +163,10 @@ public class CameraFollow : MonoBehaviour
         _scrollWheelChange = Input.GetAxis("Mouse ScrollWheel");
 
 
-        if(SystemInfo.deviceType == DeviceType.Handheld)
-        {
-
-        }
-
+        //Separate Mouse/Touch input functions to avoid conflicts (hopefully)
         if (Controller.InputType == InputType.MOUSE || Controller.InputType == InputType.BOTH)
         {
             MouseInteractions();
-
         }
 
         if (Controller.InputType == InputType.TOUCH || Controller.InputType == InputType.BOTH)
@@ -203,10 +177,8 @@ public class CameraFollow : MonoBehaviour
             }
         }
 
-        //MouseInteractions();
-
-        //Debug.Log(CameraAnchor);
-        if(IsFocusing)
+        //If "Focus" is toggled ON, fire FocusOnTarget function
+        if(IsFocusing && CameraTarget != null)
         {
             if (CameraTarget.GetComponent<StellarObject>() != null)
             {
@@ -221,25 +193,6 @@ public class CameraFollow : MonoBehaviour
             {
                 FocusOnTarget("Galaxy");
             }
-
-            /*if(CameraAnchorObject.GetComponent<Planet>() != null)
-            {
-                FocusOnTarget("Planet");
-            }
-            else if(CameraAnchorObject.GetComponent<Galaxy>() != null)
-            {
-                FocusOnTarget("Galaxy");
-            }*/
-
-        }
-
-        if (CameraTarget != null && CameraTarget.GetComponent<StellarObject>() != null)
-        {
-            StellarObject stellarObject = CameraTarget.GetComponent<StellarObject>();
-            //Controller.DeviceInfo.text = $"{stellarObject.Animator.GetBool("ShowDetails")}";
-            //Controller.DeviceInfo.text += $"\n{stellarObject.UIDetails.rectTransform.GetChild(0).GetComponent<RectTransform>().anchorMin}";
-            //Controller.DeviceInfo.text += $"\n{stellarObject.UIDetails.rectTransform.GetChild(0).GetComponent<RectTransform>().anchorMax}";
-            //Controller.DeviceInfo.text += $"\n{stellarObject.UIDetails.GetComponentsInChildren<TextMeshProUGUI>()[1].text}";
         }
     }
 
@@ -325,6 +278,7 @@ public class CameraFollow : MonoBehaviour
         }
 
 
+        //Move camera with Middle Mouse Button
         if (Input.GetMouseButton(2))
         {
 
@@ -349,11 +303,6 @@ public class CameraFollow : MonoBehaviour
             }
             pos.y = transform.localPosition.y;
             transform.localPosition = pos;
-            //transform.localPosition = Vector3.Lerp(_transform.position, pos, 50f * Time.deltaTime);
-
-            //transform.Translate(transform.up * mouseVertical * Sensitivity);
-            //transform.Translate(transform.right * mouseHorizontal * Sensitivity);
-
         }
     }
 
@@ -428,9 +377,6 @@ public class CameraFollow : MonoBehaviour
     public void RotateAroundObject()
     {
 
-
-        Debug.Log("RotateAroundObject");
-
         transform.RotateAround(CameraTarget == null ? transform.position : CameraTarget.transform.position, Vector3.up, mouseHorizontal * Sensitivity); //use transform.Rotate(transform.up * mouseHorizontal * Sensitivity);
         transform.RotateAround(CameraTarget == null ? transform.position : CameraTarget.transform.position, -Vector3.right, mouseVertical * Sensitivity);
 
@@ -468,12 +414,11 @@ public class CameraFollow : MonoBehaviour
 
     public void FocusOnTarget(string componentType)
     {
-        //Debug.Log("Lerping");
-        //Vector3 newPos = Vector3.Lerp(_transform.position, _cameraAnchor.position, 5f * Time.deltaTime);
-        //Vector3 newPos = Vector3.Lerp(_transform.position, CameraAnchor.position, 5f * Time.deltaTime);
+        //Move Camera towards target
         Vector3 newPos = Vector3.SmoothDamp(_transform.position, CameraAnchor.position, ref velocity, 1f);
-        // On applique la nouvelle position
         _transform.position = newPos;
+
+        //While Camera keeps looking at the target
         _transform.LookAt(CameraTarget);
 
         float targetThreshold = 0.1f;
@@ -516,7 +461,6 @@ public class CameraFollow : MonoBehaviour
         {
             CameraAnchor = null;
 
-            //_transform.position += _transform.forward * _scrollWheelChange;
             if (CameraTarget || Star)
             {
                 _transform.position += _transform.forward * _scrollWheelChange * Vector3.Distance(_transform.position, CameraTarget ? CameraTarget.position : Star.position) / 10f;

@@ -17,11 +17,6 @@ public class SettingsInitializer : MonoBehaviour
         LoopLists = GetComponent<LoopLists>();
         Controller = GetComponent<Controller>();
 
-        ToggleSetting[] _toggles = FindObjectsOfType<ToggleSetting>(true);
-        foreach (ToggleSetting toggleSetting in _toggles)
-        {
-            toggleSetting.LoadPrefs();
-        }
 
         ToggleNames toggleNames = FindObjectOfType<ToggleNames>();
         toggleNames.LoadPrefs();
@@ -39,6 +34,12 @@ public class SettingsInitializer : MonoBehaviour
         if(LoopLists.StellarSystemGenerated && !_loadPrefsDone)
         {
             Debug.Log($"Loading Prefs");
+
+            ToggleSetting[] _toggles = FindObjectsOfType<ToggleSetting>(true);
+            foreach (ToggleSetting toggleSetting in _toggles)
+            {
+                toggleSetting.LoadPrefs();
+            }
 
             SliderSetting[] _sliders = FindObjectsOfType<SliderSetting>(true);
             foreach (SliderSetting sliderSetting in _sliders)

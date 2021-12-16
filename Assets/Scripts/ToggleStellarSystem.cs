@@ -77,7 +77,6 @@ public class ToggleStellarSystem : MonoBehaviour
         }
 
         _currentDeployDuration = StellarSystemTargetScale > 0f ? _initDeployDuration : _initDeployDuration * .5f;
-        Debug.Log($"_currentDeployDuration: {_currentDeployDuration}");
         
         if (IsScaleChanging)
         {
