@@ -138,7 +138,7 @@ public class CameraFollow : MonoBehaviour
         else
         {
             _transform.parent = null;
-        }
+        };
 
         //Rotate Camera towards targeted stellar object
         if (CameraTarget)
@@ -437,18 +437,25 @@ public class CameraFollow : MonoBehaviour
                 targetThreshold = CameraTarget.GetComponent<Star>().ObjectSize * 0.5f;
                 break;
         }
-        
+
+        if (Vector3.Distance(_transform.position, CameraAnchor.position) <= targetThreshold * 2)
+        {
+            StartCoroutine(AudioHelper.FadeOut(Controller.TravelSound, Controller.FadeTime * 2));
+        }
+
         if (Vector3.Distance(_transform.position, CameraAnchor.position) <= targetThreshold)
         {
+            //Controller.TravelSound.Stop();
+            
             IsFocusing = false;
             CameraAnchor = null;
             CameraAnchorObject = null;
         } else
         {
-            if(Controller.InputType == InputType.TOUCH)
+/*            if(Controller.InputType == InputType.TOUCH)
             {
                 RotateAroundObject();
-            }
+            }*/
         }
         
 

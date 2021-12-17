@@ -16,6 +16,8 @@ public class SelectSystemsList : MonoBehaviour
     private GameObject _stellarSystemPrefab;
 
     private TMP_Dropdown _systemsDropdown;
+
+    private Controller _controller;
     
     private bool _changeStellarSystem = false;
     private bool _resetCamera = false;
@@ -34,6 +36,8 @@ public class SelectSystemsList : MonoBehaviour
 
     private void Awake()
     {
+        //_controller = LoopLists.GetComponent<Controller>();
+        //StartCoroutine(AudioHelper.FadeIn(_controller.TravelSound, _controller.FadeTime));
         _systemsDropdown = GetComponent<TMP_Dropdown>();
 
         _resetTimeBeforeDeploy = _timeBeforeDeploy;
@@ -46,7 +50,10 @@ public class SelectSystemsList : MonoBehaviour
 
         LoopLists.StellarSystemData = _stellarSystemsArray[0];
 
+
         LoopLists.GenerateStellarSystem();
+
+
 
         //SelectSolarSystem(_systemsDropdown);
     }

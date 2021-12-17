@@ -85,7 +85,7 @@ public class SliderSetting : MonoBehaviour
 
         if (_controller.LoopLists.StellarSystemGenerated)
         {
-            _controller.SetScales();
+            _controller.TriggerSetScales("SliderSetting");
         }
     }
 

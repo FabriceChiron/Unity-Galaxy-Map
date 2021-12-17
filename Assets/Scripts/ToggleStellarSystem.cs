@@ -80,7 +80,12 @@ public class ToggleStellarSystem : MonoBehaviour
         
         if (IsScaleChanging)
         {
+            
             _controller.ClearTrails();
+            if(StellarSystemTargetScale > 0)
+            {
+                _controller.TriggerSetScales("ToggleStellarSystem");
+            }
 
             StellarSystemCurrentScale = Mathf.SmoothDamp(StellarSystemCurrentScale, StellarSystemTargetScale, ref velocity, _currentDeployDuration);
 
@@ -90,6 +95,7 @@ public class ToggleStellarSystem : MonoBehaviour
                 StellarSystemCurrentScale = StellarSystemTargetScale;
                 Animator.SetFloat("Scale", StellarSystemTargetScale);
                 IsScaleChanging = false;
+
 
                 Camera.main.GetComponent<CameraFollow>().ResetCameraTarget(false);
             }
@@ -121,7 +127,9 @@ public class ToggleStellarSystem : MonoBehaviour
         IsScaleChanging = true;
 
         GetTargetScale();
-        
+
+        StartCoroutine(AudioHelper.FadeOut(_controller.TravelSound, _controller.FadeTime));
+
     }
 
     public void GetTargetScale()
@@ -147,5 +155,7 @@ public class ToggleStellarSystem : MonoBehaviour
         IsScaleChanging = true;
         StellarSystemTargetScale = 0;
         //Animator.SetBool("IsDeployed", false);
+
+        StartCoroutine(AudioHelper.FadeIn(_controller.TravelSound, _controller.FadeTime));
     }
 }

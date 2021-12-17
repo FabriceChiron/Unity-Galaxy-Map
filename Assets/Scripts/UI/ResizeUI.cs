@@ -23,7 +23,7 @@ public class ResizeUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetComponent<Controller>().DeviceInfo.text = $"Touch Supported: {Input.touchSupported}\nScreen Width: {Screen.width} \nScreen Height: {Screen.height} \nScreen DPI: {Screen.dpi}";
+        //GetComponent<Controller>().DeviceInfo.text = $"Touch Supported: {Input.touchSupported}\nScreen Width: {Screen.width} \nScreen Height: {Screen.height} \nScreen DPI: {Screen.dpi}";
         SwitchCanvas();
     }
 

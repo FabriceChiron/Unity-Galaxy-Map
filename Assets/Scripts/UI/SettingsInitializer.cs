@@ -50,9 +50,9 @@ public class SettingsInitializer : MonoBehaviour
             ToggleTrails toggleTrails = FindObjectOfType<ToggleTrails>();
             toggleTrails.LoadPrefs();
 
+            Debug.Log("Prefs loaded");
             _loadPrefsDone = true;
 
-            Debug.Log("Prefs loaded");
         }
         else if(!LoopLists.StellarSystemGenerated)
         {

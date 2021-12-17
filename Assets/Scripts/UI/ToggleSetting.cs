@@ -82,11 +82,7 @@ public class ToggleSetting : MonoBehaviour
 
         if(_controller.LoopLists && _controller.LoopLists.StellarSystemGenerated)
         {
-            _controller.SetScales();
+            _controller.TriggerSetScales("ToggleSetting");
         }
-    }
-
-    public void Rescale()
-    {
     }
 }

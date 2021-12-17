@@ -112,5 +112,12 @@ public class ToggleFocus : MonoBehaviour
         {
             _targetedObject = null;
         }
+
+        if(_camera.IsFocusing)
+        {
+            //_controller.TravelSound.Play();
+            StartCoroutine(AudioHelper.FadeIn(_controller.TravelSound, _controller.FadeTime));
+
+        }
     }
 }
