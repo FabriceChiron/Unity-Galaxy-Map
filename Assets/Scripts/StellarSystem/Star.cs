@@ -33,6 +33,9 @@ public class Star : MonoBehaviour
     [SerializeField]
     private Controller _controller;
 
+    [SerializeField]
+    private StarType starType;
+
 
     [SerializeField]
     private Animator _animator;
@@ -80,8 +83,13 @@ public class Star : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         Controller = LoopLists.GetComponent<Controller>();
         Camera = UnityEngine.Camera.main.GetComponent<CameraFollow>();
+
+        starType = StarData.starType;
+        
+        Debug.Log(starType);
 
         StarBody = transform;
         StarAnchor = StarBody.parent;
@@ -115,8 +123,8 @@ public class Star : MonoBehaviour
 
 
 
-        Controller.StickToObject(PlanetButton.transform, StarBody);
-        Controller.StickToObject(UIName.transform, StarBody);
+        Controller.StickToObject(PlanetButton.transform, StarBody, 0f);
+        Controller.StickToObject(UIName.transform.parent, StarBody, 10f);
 
         CameraAnchor.LookAt(transform.position);
 
@@ -240,7 +248,39 @@ public class Star : MonoBehaviour
         //else, set a default size for the star (multiplied by the scales applied to planets
         else
         {
-            transform.localScale = new Vector3(5f * scales.Planet, 5f * scales.Planet, 5f * scales.Planet);
+            float starSize = 0;
+            switch (StarData.starType)
+            {
+                case StarType.BlackHole:
+                    starSize = 0.1f;
+                    break;
+                case StarType.HotBlue:
+                    starSize = 100f;
+                    break;
+                case StarType.NeutronStar:
+                    starSize = 0.1f;
+                    break;
+                case StarType.OrangeDwarf:
+                    starSize = 4f;
+                    break;
+                case StarType.Pulsar:
+                    starSize = 1f;
+                    break;
+                case StarType.RedDwarf:
+                    starSize = 2.5f;
+                    break;
+                case StarType.RedGiant:
+                    starSize = 1000f;
+                    break;
+                case StarType.WhiteDwarf:
+                    starSize = 0.1f;
+                    break;
+                case StarType.SunLike:
+                default:
+                    starSize = 5f;
+                    break;
+            }
+            transform.localScale = new Vector3(starSize * scales.Planet, starSize * scales.Planet, starSize * scales.Planet);
         }
 
         SetOrbitSize();

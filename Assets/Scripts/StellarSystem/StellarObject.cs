@@ -128,8 +128,8 @@ public class StellarObject : MonoBehaviour
             PlanetRotation();
         }
 
-        Controller.StickToObject(PlanetButton.transform, StellarBody);
-        Controller.StickToObject(UIName.transform, StellarBody);
+        Controller.StickToObject(PlanetButton.transform, StellarBody, 0f);
+        Controller.StickToObject(UIName.transform.parent, StellarBody, 10f);
 
         CameraAnchor.parent.LookAt(Star.transform.position);
 
