@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 834075130dc7900479ecc8e9dbf9b57d, type: 3}
   m_Name: Gliese-667
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Gliese-667
   StarName: 
   StarSize: 0
   StarDescription: 

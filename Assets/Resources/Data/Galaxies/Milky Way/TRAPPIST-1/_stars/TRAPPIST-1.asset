@@ -17,10 +17,12 @@ MonoBehaviour:
     red dwarf star in the constellation Aquarius. It has a mass of about 9% that
     of the Sun, a radius slightly larger than the planet Jupiter and a surface temperature
     of about 2560 K.
-  starType: 2
+  starType: 3
   Material: {fileID: 2100000, guid: c575297c6d9b36843a12e99e55943111, type: 2}
   Orbit: 0
   OrbitTilt: 0
   Size: 12.535
   YearLength: 0
   Coords: 
+  ChildrenItem: []
+  AsteroidBeltItem: []
