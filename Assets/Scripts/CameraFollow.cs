@@ -679,15 +679,21 @@ public class CameraFollow : MonoBehaviour
     {
         if (other.transform.name == "CameraAnchor")
         {
-            Debug.Log("Entering CameraAnchor");
-            CancelFocus();
+            if(other.GetComponent<GetMainBody>().MainBody == CameraTarget)
+            {
+                Debug.Log("Entering CameraAnchor");
+                CancelFocus();
+            }
         }
 
         if (other.transform.name == "Bubble")
         {
-            TriggerFadeSound(FadeOutCount, "out");
-            Debug.Log("Entering Bubble");
-            CanSnap = true;
+            if (other.GetComponent<GetMainBody>().MainBody == CameraTarget)
+            {
+                Debug.Log("Entering Bubble");
+                CanSnap = true;
+                TriggerFadeSound(FadeOutCount, "out");
+            }
         }
     }
 
