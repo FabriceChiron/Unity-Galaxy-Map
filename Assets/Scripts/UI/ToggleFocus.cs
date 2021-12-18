@@ -108,16 +108,15 @@ public class ToggleFocus : MonoBehaviour
                 _camera.IsFocusing = true;
             }
         }
-        else if (_targetedObject != null)
-        {
-            _targetedObject = null;
-        }
 
-        if(_camera.IsFocusing)
+        else
         {
-            //_controller.TravelSound.Play();
-            StartCoroutine(AudioHelper.FadeIn(_controller.TravelSound, _controller.FadeTime));
-
+            _camera.CancelFocus();
+            
+            if (_targetedObject != null)
+            {
+                _targetedObject = null;
+            }
         }
     }
 }

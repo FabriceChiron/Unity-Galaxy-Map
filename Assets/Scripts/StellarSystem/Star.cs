@@ -43,6 +43,9 @@ public class Star : MonoBehaviour
     [SerializeField]
     private float _widthThreshold;
 
+    [SerializeField]
+    private float _generatedObjectSize;
+
     private Material _material;
 
     private CameraFollow _camera;
@@ -79,6 +82,7 @@ public class Star : MonoBehaviour
     public Animator Animator { get => _animator; set => _animator = value; }
     public PlanetButton PlanetButton { get => _planetButton; set => _planetButton = value; }
     public StarData StarData { get => _starData; set => _starData = value; }
+    public float GeneratedObjectSize { get => _generatedObjectSize; set => _generatedObjectSize = value; }
 
     // Start is called before the first frame update
     void Start()
@@ -295,6 +299,10 @@ public class Star : MonoBehaviour
     private void SetObjectSize()
     {
         ObjectSize = transform.localScale.z;
+
+        GeneratedObjectSize = ObjectSize;
+
+        CameraAnchor.GetChild(0).localScale = new Vector3(Mathf.Min(ObjectSize, 1f) * 10f, Mathf.Min(ObjectSize, 1f) * 10f, Mathf.Min(ObjectSize, 1f) * 10f);
 
         //StarBody.localScale = new Vector3(ObjectSize, ObjectSize, ObjectSize);
     }

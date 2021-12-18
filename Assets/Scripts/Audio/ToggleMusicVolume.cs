@@ -33,6 +33,7 @@ public class ToggleMusicVolume : MonoBehaviour
 
     private void LoadPref()
     {
+
         // if MusicOn is already stored in PlayerPrefs
         if (PlayerPrefs.HasKey("MusicOn"))
         {

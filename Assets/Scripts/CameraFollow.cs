@@ -7,6 +7,7 @@ public class CameraFollow : MonoBehaviour
 {
     private Transform _transform;
     private Transform _cameraTarget;
+    private Transform _previousCameraTarget;
 
     private UITest _UITest;
 
@@ -19,6 +20,9 @@ public class CameraFollow : MonoBehaviour
     [SerializeField]
     private Controller _controller;
 
+    [SerializeField]
+    private Transform _cameraFollower;
+
     private float _scrollWheelChange;
 
     [SerializeField]
@@ -28,11 +32,22 @@ public class CameraFollow : MonoBehaviour
     private bool _isRotating;
     private bool _gettingLongClick;
     private bool _isFocusing;
+    private bool _soundFadeOut;
+    private bool _canSnap;
+    private int _fadeOutCount;
+    private int _fadeInCount;
+    private int _countDistance;
 
     private float mouseHorizontal;
     private float mouseVertical;
+    private float _targetThreshold = 0.1f;
+
+    private float _initialDistance;
     //private float _timeBeforeRotate = 0.2f;
     //private float _totalClickTime;
+
+    private float _timeToSnap = 5f;
+    private float _resetTimeToSnap;
 
     private Vector3 velocity = Vector3.zero;
     private Quaternion nullQuaternion = Quaternion.identity;
@@ -53,15 +68,23 @@ public class CameraFollow : MonoBehaviour
     public Transform CameraTarget { get => _cameraTarget; set => _cameraTarget = value; }
     public UITest UITest { get => _UITest; set => _UITest = value; }
     public bool MouseOnUI { get => _mouseOnUI; set => _mouseOnUI = value; }
-    public bool IsRotating { get => _isRotating; set => _isRotating = value; }
     public bool GettingLongClick { get => _gettingLongClick; set => _gettingLongClick = value; }
+    public bool IsRotating { get => _isRotating; set => _isRotating = value; }
     public bool IsFocusing { get => _isFocusing; set => _isFocusing = value; }
+    public bool SoundFadeOut { get => _soundFadeOut; set => _soundFadeOut = value; }
 
     public Transform CameraAnchor { get => _cameraAnchor; set => _cameraAnchor = value; }
     public GameObject CameraAnchorObject { get => _cameraAnchorObject; set => _cameraAnchorObject = value; }
     public Vector3 InitPosition { get => _initPosition; set => _initPosition = value; }
     public Quaternion InitRotation { get => _initRotation; set => _initRotation = value; }
     public Controller Controller { get => _controller; set => _controller = value; }
+    public int FadeInCount { get => _fadeInCount; set => _fadeInCount = value; }
+    public int FadeOutCount { get => _fadeOutCount; set => _fadeOutCount = value; }
+    public float InitialDistance { get => _initialDistance; set => _initialDistance = value; }
+    public float TargetThreshold { get => _targetThreshold; set => _targetThreshold = value; }
+    public int CountDistance { get => _countDistance; set => _countDistance = value; }
+    public Transform PreviousCameraTarget { get => _previousCameraTarget; set => _previousCameraTarget = value; }
+    public bool CanSnap { get => _canSnap; set => _canSnap = value; }
 
     // Start is called before the first frame update
     void Awake()
@@ -70,7 +93,9 @@ public class CameraFollow : MonoBehaviour
 
         InitPosition = _transform.position;
         InitRotation = _transform.rotation;
-        
+
+        _resetTimeToSnap = _timeToSnap;
+
         /*if(GameObject.FindGameObjectWithTag("Star") != null)
         {
             ResetCameraTarget();
@@ -119,6 +144,8 @@ public class CameraFollow : MonoBehaviour
     void Update()
     {
 
+        _cameraFollower.position = transform.position;
+
         if (UITest != null)
         {
             //Detect if mouse if over UI Elements
@@ -141,18 +168,21 @@ public class CameraFollow : MonoBehaviour
         };
 
         //Rotate Camera towards targeted stellar object
-        if (CameraTarget)
-        {
-            Vector3 lookDirection = CameraTarget.position - _transform.position;
-            lookDirection.Normalize();
-
-            _transform.rotation = SmoothDamp(_transform.rotation, Quaternion.LookRotation(lookDirection), ref nullQuaternion, 0.1f);
-        }
+        
 
         //Set cursor visibility and lockstate depending on camera rotation by mouse/touch inputs
         Cursor.visible = !IsRotating;
         Cursor.lockState = IsRotating ? CursorLockMode.Locked : CursorLockMode.None;
 
+    }
+
+    private void TurnTowardsTarget(float speed)
+    {
+        //Debug.Log(speed);
+        Vector3 lookDirection = CameraTarget.position - _transform.position;
+        lookDirection.Normalize();
+
+        _transform.rotation = SmoothDamp(_transform.rotation, Quaternion.LookRotation(lookDirection), ref nullQuaternion, speed);
     }
 
     private void FixedUpdate()
@@ -177,9 +207,110 @@ public class CameraFollow : MonoBehaviour
             }
         }
 
-        //If "Focus" is toggled ON, fire FocusOnTarget function
-        if(IsFocusing && CameraTarget != null)
+
+        if (CameraTarget)
         {
+            if (IsFocusing)
+            {
+
+                //Debug.Log($"InitialDistance: {InitialDistance}");
+
+                FadeInCount++;
+                TriggerFadeSound(FadeInCount, "in");
+                float currentDistance = GetDistanceToTarget();
+
+                float distanceBetweenTargets = Vector3.Distance(PreviousCameraTarget.position, CameraTarget.position);
+
+                float distanceRatio = currentDistance / InitialDistance;
+                //Debug.Log($"distanceRatio: {distanceRatio} - remainingDistance: {remainingDistance} - InitialDistance: {InitialDistance}");
+                //float turnSpeed = Controller.FadeTime * distanceRatio * (currentDistance > TargetThreshold ? 1f : 3f);
+                float turnSpeed;
+
+
+                //Debug.Log($"distanceBetweenTargets: {distanceBetweenTargets}\ncurrentDistance: {currentDistance}");
+
+                /*if (CameraTarget.GetComponent<StellarObject>() != null && PreviousCameraTarget.GetComponent<StellarObject>() != null)
+                {
+                    //Debug.Log($"Current: {CameraTarget.name} parent: {CameraTarget.GetComponent<StellarObject>().ParentStellarObject}");
+
+                    //Debug.Log($"Prev: {PreviousCameraTarget.name} parent: {PreviousCameraTarget.GetComponent<StellarObject>().ParentStellarObject}");
+
+                    if (CameraTarget.GetComponent<StellarObject>().ParentStellarObject == PreviousCameraTarget.name
+                        || PreviousCameraTarget.GetComponent<StellarObject>().ParentStellarObject == CameraTarget.name)
+                    {
+                        //Debug.Log($"{CameraTarget.name} and {PreviousCameraTarget.name} are related");
+                        turnSpeed = Controller.FadeTime * distanceRatio / 25f;
+                    }
+
+                    else
+                    {
+                        turnSpeed = Controller.FadeTime * distanceRatio;
+                    }
+                }
+                else
+                {
+                    turnSpeed = Controller.FadeTime * distanceRatio;
+                }*/
+
+                turnSpeed = Controller.FadeTime * distanceRatio * (CanSnap ? Mathf.Lerp(1f, 0.5f, Time.deltaTime) : 1f);
+
+                /*Debug.Log($"turnSpeed: {turnSpeed}");
+
+                Debug.Log($"currentDistance: {currentDistance}");
+                Debug.Log($"currentDistance / TargetThreshold: {currentDistance / TargetThreshold}");*/
+
+                TurnTowardsTarget(turnSpeed);
+
+                //Debug.Log($"distanceRatio: {distanceRatio}");
+                //Debug.Log($"currentDistance / (TargetThreshold): {currentDistance / (TargetThreshold)}");
+
+                //Debug.Log($"currentDistance: {currentDistance}\nTargetThreshold: {TargetThreshold}");
+
+                if (distanceRatio <= .25f)
+                {
+                    FadeOutCount++;
+                    //Debug.Log(FadeOutCount);
+                    SoundFadeOut = true;
+
+                    TriggerFadeSound(FadeOutCount, "out");
+
+                    //Debug.Log($"turnSpeed * distanceRatio: {turnSpeed * distanceRatio}");
+                    //TurnTowardsTarget(turnSpeed * distanceRatio);
+
+                    if(turnSpeed * distanceRatio > 0.002)
+                    {
+
+                    }
+
+
+                    _timeToSnap -= Time.deltaTime;
+
+                    if (_timeToSnap <= 0f)
+                    {
+                        //Debug.Log("Snap to target");
+                    }
+                }
+
+                /*if (distanceRatio <= 0.025f)
+                {
+                    //Debug.Log("By distanceRatio:");
+                    CancelFocus();
+                }*/
+
+
+            }
+            else
+            {
+                TurnTowardsTarget(0.1f);
+                InitialDistance = GetDistanceToTarget();
+            }
+        }
+
+
+        //If "Focus" is toggled ON, fire FocusOnTarget function
+        if (IsFocusing && CameraTarget != null)
+        {
+
             if (CameraTarget.GetComponent<StellarObject>() != null)
             {
                 FocusOnTarget("Planet");
@@ -384,7 +515,11 @@ public class CameraFollow : MonoBehaviour
 
     public void ChangeTarget(Transform newCameraTarget)
     {
+        PreviousCameraTarget = CameraTarget;
+
         CameraTarget = newCameraTarget;
+
+        InitialDistance = GetDistanceToTarget();
 
         ChangeSelectionInDropdown(newCameraTarget.name);
     }
@@ -393,7 +528,11 @@ public class CameraFollow : MonoBehaviour
     {
         string StrippedPlanetName = PlanetName.Replace("    ", "").Replace("<b>", "").Replace("</b>", "");
 
+        PreviousCameraTarget = CameraTarget;
+
         CameraTarget = GameObject.Find($"{StrippedPlanetName}").transform;
+
+        InitialDistance = GetDistanceToTarget();
 
         ChangeSelectionInDropdown(StrippedPlanetName);
     }
@@ -414,51 +553,108 @@ public class CameraFollow : MonoBehaviour
 
     public void FocusOnTarget(string componentType)
     {
+        CountDistance++;
+        if(CountDistance == 1)
+        {
+            InitialDistance = GetDistanceToTarget();
+        }
+
         //Move Camera towards target
-        Vector3 newPos = Vector3.SmoothDamp(_transform.position, CameraAnchor.position, ref velocity, 1f);
+        Vector3 newPos = Vector3.SmoothDamp(_transform.position, CameraAnchor.position, ref velocity, Controller.FadeTime);
         _transform.position = newPos;
 
         //While Camera keeps looking at the target
-        _transform.LookAt(CameraTarget);
 
-        float targetThreshold = 0.1f;
+
+
 
         switch (componentType)
         {
             case "Planet":
-                targetThreshold = CameraTarget.GetComponent<StellarObject>().ObjectSize * 0.5f;
+                TargetThreshold = CameraTarget.GetComponent<StellarObject>().ObjectSize * 0.5f;
                 break;
-            
+
             case "Galaxy":
-                targetThreshold = 0.5f;
+                TargetThreshold = 0.5f;
                 break;
 
             case "Star":
-                targetThreshold = CameraTarget.GetComponent<Star>().ObjectSize * 0.5f;
+                TargetThreshold = CameraTarget.GetComponent<Star>().ObjectSize * 0.5f;
                 break;
         }
 
-        if (Vector3.Distance(_transform.position, CameraAnchor.position) <= targetThreshold * 2)
-        {
-            StartCoroutine(AudioHelper.FadeOut(Controller.TravelSound, Controller.FadeTime * 2));
-        }
+        /*
+                if (Vector3.Distance(_transform.position, CameraAnchor.position) <= InitialDistance * 0.25f)
+                {
+                    FadeOutCount++;
+                    //Debug.Log(FadeOutCount);
+                    SoundFadeOut = true;
 
-        if (Vector3.Distance(_transform.position, CameraAnchor.position) <= targetThreshold)
-        {
-            //Controller.TravelSound.Stop();
-            
-            IsFocusing = false;
-            CameraAnchor = null;
-            CameraAnchorObject = null;
-        } else
-        {
-/*            if(Controller.InputType == InputType.TOUCH)
+                    TriggerFadeOut(FadeOutCount);
+
+
+                    if(InitialDistance * 0.25f < TargetThreshold * 2)
+                    {
+                        CancelFocus();
+                    }
+                }
+                if (Vector3.Distance(_transform.position, CameraAnchor.position) <= InitialDistance * 0.1f) {
+                    TurnTowardsTarget(0.1f);
+                }*/
+    }
+
+    public void CancelFocus()
+    {
+        Debug.Log("CancelFocus");
+        CountDistance = 0;
+        IsFocusing = false;
+        CanSnap = false;
+        FadeOutCount = 0;
+        FadeInCount = 0;
+        _timeToSnap = _resetTimeToSnap;
+        CameraAnchor = null;
+        CameraAnchorObject = null;
+        TurnTowardsTarget(0.1f);
+        //StartCoroutine(AudioHelper.FadeOut(Controller.TravelSound, Controller.FadeTime * 2));
+    }
+
+    public float GetDistanceToTarget()
+    {
+
+            if (CameraTarget.GetComponent<StellarObject>())
             {
-                RotateAroundObject();
-            }*/
-        }
-        
+                CameraAnchor = CameraTarget.GetComponent<StellarObject>().CameraAnchor;
+            }
+            else if (CameraTarget.GetComponent<Star>())
+            {
+                CameraAnchor = CameraTarget.GetComponent<Star>().CameraAnchor;
+            }
 
+            float distanceToTarget = Vector3.Distance(_transform.position, CameraAnchor.position);
+
+            //Debug.Log($"DistanceToTarget: {distanceToTarget}");
+
+            return distanceToTarget;
+    }
+
+    private void TriggerFadeSound(int count, string OutIn)
+    {
+        if(count == 1)
+        {
+
+            switch(OutIn)
+            {
+                case "in":
+                    Debug.Log("FadeIn Sound");
+                    StartCoroutine(AudioHelper.FadeIn(Controller.TravelSound, Controller.FadeTime));
+                    break;
+                case "out":
+                    Debug.Log("FadeOut Sound");
+                    StartCoroutine(AudioHelper.FadeOut(Controller.TravelSound, Controller.FadeTime));
+                    break;
+            }
+
+        }
     }
 
     private void ZoomCamera()
@@ -477,6 +673,27 @@ public class CameraFollow : MonoBehaviour
                 _transform.position += _transform.forward * _scrollWheelChange * 10f;
             }
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.name == "CameraAnchor")
+        {
+            Debug.Log("Entering CameraAnchor");
+            CancelFocus();
+        }
+
+        if (other.transform.name == "Bubble")
+        {
+            TriggerFadeSound(FadeOutCount, "out");
+            Debug.Log("Entering Bubble");
+            CanSnap = true;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log($"OnCollisionEnter: {collision.transform.parent.name}");
     }
 
     public static Quaternion SmoothDamp(Quaternion rot, Quaternion target, ref Quaternion deriv, float time)

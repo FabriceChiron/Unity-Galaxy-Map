@@ -85,6 +85,7 @@ public class ToggleStellarSystem : MonoBehaviour
             if(StellarSystemTargetScale > 0)
             {
                 _controller.TriggerSetScales("ToggleStellarSystem");
+                Camera.main.GetComponent<CameraFollow>().ResetCameraTarget(false);
             }
 
             StellarSystemCurrentScale = Mathf.SmoothDamp(StellarSystemCurrentScale, StellarSystemTargetScale, ref velocity, _currentDeployDuration);
@@ -97,7 +98,7 @@ public class ToggleStellarSystem : MonoBehaviour
                 IsScaleChanging = false;
 
 
-                Camera.main.GetComponent<CameraFollow>().ResetCameraTarget(false);
+                //Camera.main.GetComponent<CameraFollow>().ResetCameraTarget(false);
             }
 
         }
