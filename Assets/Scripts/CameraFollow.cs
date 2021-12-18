@@ -43,8 +43,13 @@ public class CameraFollow : MonoBehaviour
     private float _targetThreshold = 0.1f;
 
     private float _initialDistance;
+    private float _distanceRatio;
     //private float _timeBeforeRotate = 0.2f;
     //private float _totalClickTime;
+
+    private SphereCollider _cameraCollider;
+
+    private Rigidbody _targetRigidBody;
 
     private float _timeToSnap = 5f;
     private float _resetTimeToSnap;
@@ -85,6 +90,9 @@ public class CameraFollow : MonoBehaviour
     public int CountDistance { get => _countDistance; set => _countDistance = value; }
     public Transform PreviousCameraTarget { get => _previousCameraTarget; set => _previousCameraTarget = value; }
     public bool CanSnap { get => _canSnap; set => _canSnap = value; }
+    public Rigidbody TargetRigidBody { get => _targetRigidBody; set => _targetRigidBody = value; }
+    public float DistanceRatio { get => _distanceRatio; set => _distanceRatio = value; }
+    public SphereCollider CameraCollider { get => _cameraCollider; set => _cameraCollider = value; }
 
     // Start is called before the first frame update
     void Awake()
@@ -95,6 +103,8 @@ public class CameraFollow : MonoBehaviour
         InitRotation = _transform.rotation;
 
         _resetTimeToSnap = _timeToSnap;
+
+        CameraCollider = GetComponent<SphereCollider>();
 
         /*if(GameObject.FindGameObjectWithTag("Star") != null)
         {
@@ -210,6 +220,7 @@ public class CameraFollow : MonoBehaviour
 
         if (CameraTarget)
         {
+
             if (IsFocusing)
             {
 
@@ -221,7 +232,7 @@ public class CameraFollow : MonoBehaviour
 
                 float distanceBetweenTargets = Vector3.Distance(PreviousCameraTarget.position, CameraTarget.position);
 
-                float distanceRatio = currentDistance / InitialDistance;
+                DistanceRatio = currentDistance / InitialDistance;
                 //Debug.Log($"distanceRatio: {distanceRatio} - remainingDistance: {remainingDistance} - InitialDistance: {InitialDistance}");
                 //float turnSpeed = Controller.FadeTime * distanceRatio * (currentDistance > TargetThreshold ? 1f : 3f);
                 float turnSpeed;
@@ -252,7 +263,8 @@ public class CameraFollow : MonoBehaviour
                     turnSpeed = Controller.FadeTime * distanceRatio;
                 }*/
 
-                turnSpeed = Controller.FadeTime * distanceRatio * (CanSnap ? Mathf.Lerp(1f, 0.5f, Time.deltaTime) : 1f);
+                //turnSpeed = Controller.FadeTime * distanceRatio * (CanSnap ? Mathf.Lerp(1f, 0.5f, 2f * Time.deltaTime) : 1f);
+                turnSpeed = Controller.FadeTime * DistanceRatio * (CanSnap ? 0.25f : 1f);
 
                 /*Debug.Log($"turnSpeed: {turnSpeed}");
 
@@ -266,7 +278,7 @@ public class CameraFollow : MonoBehaviour
 
                 //Debug.Log($"currentDistance: {currentDistance}\nTargetThreshold: {TargetThreshold}");
 
-                if (distanceRatio <= .25f)
+                if (DistanceRatio <= .25f)
                 {
                     FadeOutCount++;
                     //Debug.Log(FadeOutCount);
@@ -277,18 +289,25 @@ public class CameraFollow : MonoBehaviour
                     //Debug.Log($"turnSpeed * distanceRatio: {turnSpeed * distanceRatio}");
                     //TurnTowardsTarget(turnSpeed * distanceRatio);
 
-                    if(turnSpeed * distanceRatio > 0.002)
+                    DetectCollidersOverlap(transform.position, CameraCollider.radius);
+
+                    if (turnSpeed * DistanceRatio > 0.002)
                     {
 
                     }
 
-
-                    _timeToSnap -= Time.deltaTime;
-
-                    if (_timeToSnap <= 0f)
+                    if (CanSnap)
                     {
-                        //Debug.Log("Snap to target");
+                        _timeToSnap -= Time.deltaTime;
+
+                        if (_timeToSnap <= 0f)
+                        {
+                            //Debug.Log("Snap to target");
+                            CancelFocus();
+                        }
+
                     }
+
                 }
 
                 /*if (distanceRatio <= 0.025f)
@@ -324,6 +343,15 @@ public class CameraFollow : MonoBehaviour
             {
                 FocusOnTarget("Galaxy");
             }
+        }
+    }
+
+    void DetectCollidersOverlap(Vector3 center, float radius)
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(center, radius);
+        foreach (var hitCollider in hitColliders)
+        {
+            Debug.Log(hitCollider.transform.name);
         }
     }
 
@@ -519,6 +547,8 @@ public class CameraFollow : MonoBehaviour
 
         CameraTarget = newCameraTarget;
 
+        TargetRigidBody = CameraTarget.GetComponent<Rigidbody>();
+
         InitialDistance = GetDistanceToTarget();
 
         ChangeSelectionInDropdown(newCameraTarget.name);
@@ -531,6 +561,8 @@ public class CameraFollow : MonoBehaviour
         PreviousCameraTarget = CameraTarget;
 
         CameraTarget = GameObject.Find($"{StrippedPlanetName}").transform;
+
+        TargetRigidBody = CameraTarget.GetComponent<Rigidbody>();
 
         InitialDistance = GetDistanceToTarget();
 
@@ -560,7 +592,7 @@ public class CameraFollow : MonoBehaviour
         }
 
         //Move Camera towards target
-        Vector3 newPos = Vector3.SmoothDamp(_transform.position, CameraAnchor.position, ref velocity, Controller.FadeTime);
+        Vector3 newPos = Vector3.SmoothDamp(_transform.position, CameraAnchor.position, ref velocity, (CanSnap ? Controller.FadeTime * 0.25f : Controller.FadeTime));
         _transform.position = newPos;
 
         //While Camera keeps looking at the target
@@ -695,6 +727,13 @@ public class CameraFollow : MonoBehaviour
                 TriggerFadeSound(FadeOutCount, "out");
             }
         }
+
+        /*if ((other.transform.parent.tag == "Planet" || other.transform.parent.tag == "Star") && other.transform.parent == CameraTarget)
+        {
+            Debug.Log($"Entering Stellar Object: {other.transform.parent.name}");
+            CanSnap = true;
+            TriggerFadeSound(FadeOutCount, "out");
+        }*/
     }
 
     private void OnCollisionEnter(Collision collision)
