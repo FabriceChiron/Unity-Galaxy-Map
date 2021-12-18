@@ -302,7 +302,7 @@ public class Star : MonoBehaviour
 
         GeneratedObjectSize = ObjectSize;
 
-        CameraAnchor.GetChild(0).localScale = new Vector3(Mathf.Min(ObjectSize, 1f) * 10f, Mathf.Min(ObjectSize, 1f) * 10f, Mathf.Min(ObjectSize, 1f) * 10f);
+        CameraAnchor.GetChild(0).localScale = new Vector3(ObjectSize * 10f, ObjectSize * 10f, ObjectSize * 10f);
 
         //StarBody.localScale = new Vector3(ObjectSize, ObjectSize, ObjectSize);
     }

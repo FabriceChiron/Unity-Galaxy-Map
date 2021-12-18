@@ -344,7 +344,7 @@ public class StellarObject : MonoBehaviour
         if (StellarBody)
         {
             StellarBody.localScale = new Vector3(ObjectSize, ObjectSize, ObjectSize);
-            CameraAnchor.GetChild(0).localScale = new Vector3(Mathf.Min(ObjectSize, 1f) * 10f, Mathf.Min(ObjectSize, 1f) * 10f, Mathf.Min(ObjectSize, 1f) * 10f);
+            CameraAnchor.GetChild(0).localScale = new Vector3(ObjectSize * 10f, ObjectSize * 10f, ObjectSize * 10f);
 
             if (ObjectTrail.startWidth > ObjectSize)
             {

@@ -581,8 +581,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 266.5833, y: 0}
-  m_SizeDelta: {x: 533.1666, y: 0}
+  m_AnchoredPosition: {x: 404.1249, y: 0}
+  m_SizeDelta: {x: 808.2498, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &8118629942466838946
 CanvasRenderer:
@@ -1524,7 +1524,7 @@ MonoBehaviour:
   _loopLists: {fileID: 0}
   scales: {fileID: 11400000, guid: c0c8336a971c09743bc6a866d7f5a944, type: 2}
   _starData: {fileID: 0}
-  _cameraAnchor: {fileID: 0}
+  _cameraAnchor: {fileID: 13211450498863373}
   _displayOrbitCircle: {fileID: 9207564512054611084}
   _objectTrail: {fileID: 5767595532550473743}
   _UIName: {fileID: 3831911152596800815}
@@ -13300,7 +13300,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 5539523941454990137}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.4790606
+  m_Size: 0.6991188
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
