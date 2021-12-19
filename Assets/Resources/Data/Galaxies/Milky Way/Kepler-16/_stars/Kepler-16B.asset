@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Kepler-16B
   StarDescription: Kepler-16B is an M-type red dwarf
-  starType: 2
+  starType: 3
   Material: {fileID: 2100000, guid: c575297c6d9b36843a12e99e55943111, type: 2}
   Orbit: 0.07
   OrbitTilt: 0
   Size: 24.65907
   YearLength: 0.1123288
   Coords: se
+  ChildrenItem: []
+  AsteroidBeltItem: []

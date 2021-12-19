@@ -26,7 +26,7 @@ public class ToggleFocus : MonoBehaviour
 
     private void Awake()
     {
-        _camera = Camera.main.GetComponent<CameraFollow>();
+        _camera = _controller.MainCamera.GetComponent<CameraFollow>();
         Toggle = GetComponent<Toggle>();
     }
 
@@ -108,9 +108,15 @@ public class ToggleFocus : MonoBehaviour
                 _camera.IsFocusing = true;
             }
         }
-        else if (_targetedObject != null)
+
+        else
         {
-            _targetedObject = null;
+            _camera.CancelFocus();
+            
+            if (_targetedObject != null)
+            {
+                _targetedObject = null;
+            }
         }
     }
 }

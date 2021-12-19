@@ -55,10 +55,10 @@ public class SliderSetting : MonoBehaviour
         switch (prefName)
         {
             case "Orbit":
-                value = Scales.Orbit;
+                value = _controller.HasPlayer ? 200f : Scales.Orbit;
                 break;
             case "Planet Radius":
-                value = Scales.Planet;
+                value = _controller.HasPlayer ? 5f : Scales.Planet;
                 break;
             case "Year":
                 value = Scales.Year;
@@ -85,7 +85,7 @@ public class SliderSetting : MonoBehaviour
 
         if (_controller.LoopLists.StellarSystemGenerated)
         {
-            _controller.SetScales();
+            _controller.TriggerSetScales("SliderSetting");
         }
     }
 

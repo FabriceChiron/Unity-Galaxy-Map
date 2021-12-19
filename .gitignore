@@ -33,4 +33,6 @@ MemoryCaptures/
 
 *.apk
 
-.DS_Store
+Assets/HiRezSpaceshipsCreatorFree/
+
+Assets/HiRezSpaceshipsCreatorFree.meta

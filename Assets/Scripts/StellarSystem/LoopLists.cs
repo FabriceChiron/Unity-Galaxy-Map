@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 using TMPro;
 
 public class LoopLists : MonoBehaviour
@@ -68,17 +69,20 @@ public class LoopLists : MonoBehaviour
             {
                 if (StellarObjectCount == StellarObjectTotal)
                 {
-                    Debug.Log($"StellarObjectTotal: {StellarObjectTotal}");
+                    //Debug.Log($"StellarObjectTotal: {StellarObjectTotal}");
 
                     if (AsteroidCount == AsteroidTotal)
                     {
-                        _controller.SetScales();
+                        _controller.TriggerSetScales("LoopLists");
 
                         DeployStellarSystem();
 
                         StellarSystemGenerated = true;
 
-                        Camera.main.GetComponent<CameraFollow>().ResetCameraTarget(false);
+                        if (!_controller.HasPlayer)
+                        {
+                            _controller.MainCamera.GetComponent<CameraFollow>().ResetCameraTarget(false);
+                        }
 
                     }
                 }

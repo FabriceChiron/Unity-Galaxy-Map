@@ -13,6 +13,9 @@ public class StellarObject : MonoBehaviour
     private Scales scales;
 
     [SerializeField]
+    private Scales scalesStarship;
+
+    [SerializeField]
     private string _parentStellarObject;
 
     [SerializeField]
@@ -45,11 +48,14 @@ public class StellarObject : MonoBehaviour
     [SerializeField]
     private float _widthThreshold;
 
+    [SerializeField]
+    private float _generatedObjectSize;
+
     private CameraFollow _camera;
 
     private Star _star;
 
-    private float _revolutionTime, _rotationTime, _objectSize, _orbitSize, _bodyTiltAngle, _orbitTiltAngle, _revolutionDegreesPerSecond, rotationDegreesPerSecond, _trailStartTime;
+    private float _revolutionTime, _rotationTime, _objectSize, _orbitSize, _bodyTiltAngle, _orbitTiltAngle, _revolutionDegreesPerSecond, rotationDegreesPerSecond, _trailStartTime, _angularSpeed, _travelSpeed;
 
     private Transform _stellarBody, _stellarAnchor, _orbit, _orbitAnchor;
 
@@ -83,6 +89,9 @@ public class StellarObject : MonoBehaviour
     public CameraFollow Camera { get => _camera; set => _camera = value; }
     public bool IsHovered { get => _isHovered; set => _isHovered = value; }
     public Star Star { get => _star; set => _star = value; }
+    public float GeneratedObjectSize { get => _generatedObjectSize; set => _generatedObjectSize = value; }
+    public float AngularSpeed { get => _angularSpeed; set => _angularSpeed = value; }
+    public float TravelSpeed { get => _travelSpeed; set => _travelSpeed = value; }
 
     private void Awake()
     {
@@ -128,8 +137,8 @@ public class StellarObject : MonoBehaviour
             PlanetRotation();
         }
 
-        Controller.StickToObject(PlanetButton.transform, StellarBody);
-        Controller.StickToObject(UIName.transform, StellarBody);
+        Controller.StickToObject(PlanetButton.transform, StellarBody, 0f);
+        Controller.StickToObject(UIName.transform.parent, StellarBody, 10f);
 
         CameraAnchor.parent.LookAt(Star.transform.position);
 
@@ -334,10 +343,20 @@ public class StellarObject : MonoBehaviour
     private void SetObjectSize()
     {
         ObjectSize = PlanetData.Size * scales.Planet;
+
+        GeneratedObjectSize = ObjectSize;
+
         if (StellarBody)
         {
             StellarBody.localScale = new Vector3(ObjectSize, ObjectSize, ObjectSize);
+            CameraAnchor.GetChild(0).localScale = new Vector3(ObjectSize * 10f, ObjectSize * 10f, ObjectSize * 10f);
+
+            if (ObjectTrail.startWidth > ObjectSize)
+            {
+                ObjectTrail.startWidth = ObjectSize * .75f;
+            }
         }
+
     }
 
     //Set Orbit size
@@ -386,6 +405,7 @@ public class StellarObject : MonoBehaviour
                     break;
             }
 
+
             DisplayOrbitCircle.localScale = new Vector3(StellarAnchor.localPosition.z / 5f, StellarAnchor.localPosition.z / 5f, StellarAnchor.localPosition.z / 5f);
         }
     }
@@ -409,6 +429,7 @@ public class StellarObject : MonoBehaviour
             ScaleFactorInfo.text = "";
         }
     }
+
 
     private void DetectClick()
     {

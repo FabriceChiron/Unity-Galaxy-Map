@@ -7,8 +7,12 @@ public class CameraFollow : MonoBehaviour
 {
     private Transform _transform;
     private Transform _cameraTarget;
+    private Transform _previousCameraTarget;
 
     private UITest _UITest;
+
+    [SerializeField]
+    private Camera MainCamera;
 
     [SerializeField]
     private float _sensitivity = 3f;
@@ -19,6 +23,9 @@ public class CameraFollow : MonoBehaviour
     [SerializeField]
     private Controller _controller;
 
+    [SerializeField]
+    private Transform _cameraFollower;
+
     private float _scrollWheelChange;
 
     [SerializeField]
@@ -28,11 +35,30 @@ public class CameraFollow : MonoBehaviour
     private bool _isRotating;
     private bool _gettingLongClick;
     private bool _isFocusing;
+    private bool _soundFadeOut;
+    private bool _canSnap;
+    private int _fadeOutCount;
+    private int _fadeInCount;
+    private int _countDistance;
 
     private float mouseHorizontal;
     private float mouseVertical;
+    private float _targetThreshold = 0.1f;
+
+    private float _initialDistance;
+    private float _distanceRatio;
+    private float _remainingDistance;
+    private float _turnSpeed;
+    private float _focusSpeed;
     //private float _timeBeforeRotate = 0.2f;
     //private float _totalClickTime;
+
+    private SphereCollider _cameraCollider;
+
+    private Rigidbody _targetRigidBody;
+
+    private float _timeToSnap = 5f;
+    private float _resetTimeToSnap;
 
     private Vector3 velocity = Vector3.zero;
     private Quaternion nullQuaternion = Quaternion.identity;
@@ -53,15 +79,29 @@ public class CameraFollow : MonoBehaviour
     public Transform CameraTarget { get => _cameraTarget; set => _cameraTarget = value; }
     public UITest UITest { get => _UITest; set => _UITest = value; }
     public bool MouseOnUI { get => _mouseOnUI; set => _mouseOnUI = value; }
-    public bool IsRotating { get => _isRotating; set => _isRotating = value; }
     public bool GettingLongClick { get => _gettingLongClick; set => _gettingLongClick = value; }
+    public bool IsRotating { get => _isRotating; set => _isRotating = value; }
     public bool IsFocusing { get => _isFocusing; set => _isFocusing = value; }
+    public bool SoundFadeOut { get => _soundFadeOut; set => _soundFadeOut = value; }
 
     public Transform CameraAnchor { get => _cameraAnchor; set => _cameraAnchor = value; }
     public GameObject CameraAnchorObject { get => _cameraAnchorObject; set => _cameraAnchorObject = value; }
     public Vector3 InitPosition { get => _initPosition; set => _initPosition = value; }
     public Quaternion InitRotation { get => _initRotation; set => _initRotation = value; }
     public Controller Controller { get => _controller; set => _controller = value; }
+    public int FadeInCount { get => _fadeInCount; set => _fadeInCount = value; }
+    public int FadeOutCount { get => _fadeOutCount; set => _fadeOutCount = value; }
+    public float InitialDistance { get => _initialDistance; set => _initialDistance = value; }
+    public float TargetThreshold { get => _targetThreshold; set => _targetThreshold = value; }
+    public float DistanceRatio { get => _distanceRatio; set => _distanceRatio = value; }
+    public float RemainingDistance { get => _remainingDistance; set => _remainingDistance = value; }
+    public int CountDistance { get => _countDistance; set => _countDistance = value; }
+    public Transform PreviousCameraTarget { get => _previousCameraTarget; set => _previousCameraTarget = value; }
+    public bool CanSnap { get => _canSnap; set => _canSnap = value; }
+    public Rigidbody TargetRigidBody { get => _targetRigidBody; set => _targetRigidBody = value; }
+    public SphereCollider CameraCollider { get => _cameraCollider; set => _cameraCollider = value; }
+    public float TurnSpeed { get => _turnSpeed; set => _turnSpeed = value; }
+    public float FocusSpeed { get => _focusSpeed; set => _focusSpeed = value; }
 
     // Start is called before the first frame update
     void Awake()
@@ -70,7 +110,11 @@ public class CameraFollow : MonoBehaviour
 
         InitPosition = _transform.position;
         InitRotation = _transform.rotation;
-        
+
+        _resetTimeToSnap = _timeToSnap;
+
+        CameraCollider = GetComponent<SphereCollider>();
+
         /*if(GameObject.FindGameObjectWithTag("Star") != null)
         {
             ResetCameraTarget();
@@ -108,6 +152,8 @@ public class CameraFollow : MonoBehaviour
         ChangeTarget(Star);
 
         CameraAnchor = Star.GetComponent<Star>().CameraAnchor;
+
+        Debug.Log($"Distance to star target: {Vector3.Distance(CameraTarget.position, transform.position)}");
         
         if (init)
         {
@@ -118,41 +164,51 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!Controller.HasPlayer)
+        {
+            _cameraFollower.position = transform.position;
 
-        if (UITest != null)
-        {
-            //Detect if mouse if over UI Elements
-            MouseOnUI = UITest.IsPointerOverUIElement();
-        }
-        if (!MouseOnUI)
-        {
-            //Allow zoomin/zoomout only when mouse is not over UI Elements
-            ZoomCamera();
+            if (UITest != null)
+            {
+                //Detect if mouse if over UI Elements
+                MouseOnUI = UITest.IsPointerOverUIElement();
+            }
+            if (!MouseOnUI)
+            {
+                //Allow zoomin/zoomout only when mouse is not over UI Elements
+                ZoomCamera();
+            }
+
+            //Set camera parent (when a stellar object is clicked)
+            if(CameraTarget != Star && CameraTarget != null)
+            {
+                _transform.parent = CameraTarget.parent;
+            }
+            else
+            {
+                _transform.parent = null;
+            };
+
+            //Rotate Camera towards targeted stellar object
+        
+
+            //Set cursor visibility and lockstate depending on camera rotation by mouse/touch inputs
+            Cursor.visible = !IsRotating;
+            Cursor.lockState = IsRotating ? CursorLockMode.Locked : CursorLockMode.None;
         }
 
-        //Set camera parent (when a stellar object is clicked)
-        if(CameraTarget != Star && CameraTarget != null)
-        {
-            _transform.parent = CameraTarget.parent;
-        }
-        else
-        {
-            _transform.parent = null;
-        }
+    }
 
-        //Rotate Camera towards targeted stellar object
+    private void TurnTowardsTarget(float speed)
+    {
+        //Debug.Log(speed);
         if (CameraTarget)
         {
             Vector3 lookDirection = CameraTarget.position - _transform.position;
             lookDirection.Normalize();
 
-            _transform.rotation = SmoothDamp(_transform.rotation, Quaternion.LookRotation(lookDirection), ref nullQuaternion, 0.1f);
+            _transform.rotation = SmoothDamp(_transform.rotation, Quaternion.LookRotation(lookDirection), ref nullQuaternion, speed);
         }
-
-        //Set cursor visibility and lockstate depending on camera rotation by mouse/touch inputs
-        Cursor.visible = !IsRotating;
-        Cursor.lockState = IsRotating ? CursorLockMode.Locked : CursorLockMode.None;
-
     }
 
     private void FixedUpdate()
@@ -162,36 +218,173 @@ public class CameraFollow : MonoBehaviour
 
         _scrollWheelChange = Input.GetAxis("Mouse ScrollWheel");
 
-
-        //Separate Mouse/Touch input functions to avoid conflicts (hopefully)
-        if (Controller.InputType == InputType.MOUSE || Controller.InputType == InputType.BOTH)
+        if (!Controller.HasPlayer)
         {
-            MouseInteractions();
-        }
-
-        if (Controller.InputType == InputType.TOUCH || Controller.InputType == InputType.BOTH)
-        {
-            if(Input.touchCount > 0)
+            //Separate Mouse/Touch input functions to avoid conflicts (hopefully)
+            if (Controller.InputType == InputType.MOUSE || Controller.InputType == InputType.BOTH)
             {
-                TouchInteractions();
+                MouseInteractions();
+            }
+
+            if (Controller.InputType == InputType.TOUCH || Controller.InputType == InputType.BOTH)
+            {
+                if (Input.touchCount > 0)
+                {
+                    TouchInteractions();
+                }
+            }
+
+
+            if (CameraTarget)
+            {
+
+                if (IsFocusing)
+                {
+
+                    //Debug.Log($"InitialDistance: {InitialDistance}");
+
+                    FadeInCount++;
+                    TriggerFadeSound(FadeInCount, "in");
+                    float currentDistance = GetDistanceToTarget();
+
+                    float distanceBetweenTargets = Vector3.Distance(PreviousCameraTarget.position, CameraTarget.position);
+
+                    DistanceRatio = currentDistance / InitialDistance;
+                    RemainingDistance = InitialDistance - currentDistance;
+
+
+
+                    //Debug.Log($"distanceRatio: {DistanceRatio} - remainingDistance: {RemainingDistance} - InitialDistance: {InitialDistance}");
+                    //float turnSpeed = Controller.FadeTime * distanceRatio * (currentDistance > TargetThreshold ? 1f : 3f);
+
+
+                    //Debug.Log($"distanceBetweenTargets: {distanceBetweenTargets}\ncurrentDistance: {currentDistance}");
+
+                    /*if (CameraTarget.GetComponent<StellarObject>() != null && PreviousCameraTarget.GetComponent<StellarObject>() != null)
+                    {
+                        //Debug.Log($"Current: {CameraTarget.name} parent: {CameraTarget.GetComponent<StellarObject>().ParentStellarObject}");
+
+                        //Debug.Log($"Prev: {PreviousCameraTarget.name} parent: {PreviousCameraTarget.GetComponent<StellarObject>().ParentStellarObject}");
+
+                        if (CameraTarget.GetComponent<StellarObject>().ParentStellarObject == PreviousCameraTarget.name
+                            || PreviousCameraTarget.GetComponent<StellarObject>().ParentStellarObject == CameraTarget.name)
+                        {
+                            //Debug.Log($"{CameraTarget.name} and {PreviousCameraTarget.name} are related");
+                            turnSpeed = Controller.FadeTime * distanceRatio / 25f;
+                        }
+
+                        else
+                        {
+                            turnSpeed = Controller.FadeTime * distanceRatio;
+                        }
+                    }
+                    else
+                    {
+                        turnSpeed = Controller.FadeTime * distanceRatio;
+                    }*/
+
+                    //turnSpeed = Controller.FadeTime * distanceRatio * (CanSnap ? Mathf.Lerp(1f, 0.5f, 2f * Time.deltaTime) : 1f);
+                    TurnSpeed = Controller.FadeTime * DistanceRatio * (CanSnap ? 0.25f : 1f);
+
+                    /*Debug.Log($"turnSpeed: {turnSpeed}");
+
+                    Debug.Log($"currentDistance: {currentDistance}");
+                    Debug.Log($"currentDistance / TargetThreshold: {currentDistance / TargetThreshold}");*/
+
+                    Controller.DeviceInfo.text = $"currentDistance: {currentDistance}\n" +
+                        $"distanceRatio: {DistanceRatio}\n" +
+                        $"remainingDistance: {RemainingDistance}\n" +
+                        $"InitialDistance: {InitialDistance}\n" +
+                        $"TurnSpeed: {TurnSpeed}\n" +
+                        $"FocusSpeed: {FocusSpeed}";
+
+                    TurnTowardsTarget(TurnSpeed);
+
+                    //Debug.Log($"distanceRatio: {distanceRatio}");
+                    //Debug.Log($"currentDistance / (TargetThreshold): {currentDistance / (TargetThreshold)}");
+
+                    //Debug.Log($"currentDistance: {currentDistance}\nTargetThreshold: {TargetThreshold}");
+
+                    if (DistanceRatio <= .25f)
+                    {
+                        FadeOutCount++;
+                        //Debug.Log(FadeOutCount);
+                        SoundFadeOut = true;
+
+                        TriggerFadeSound(FadeOutCount, "out");
+
+                        //Debug.Log($"turnSpeed * distanceRatio: {turnSpeed * distanceRatio}");
+                        //TurnTowardsTarget(turnSpeed * distanceRatio);
+
+                        DetectCollidersOverlap(CameraTarget.position, CameraCollider.radius);
+
+                        if (TurnSpeed * DistanceRatio > 0.002)
+                        {
+
+                        }
+
+
+                    }
+
+                    if (CanSnap)
+                    {
+                        _timeToSnap -= Time.deltaTime;
+
+                        if (_timeToSnap <= 0f)
+                        {
+                            Debug.Log("Snap to target");
+                            CancelFocus();
+                        }
+
+                    }
+                    /*if (distanceRatio <= 0.025f)
+                    {
+                        //Debug.Log("By distanceRatio:");
+                        CancelFocus();
+                    }*/
+
+
+                }
+                else
+                {
+                    TurnTowardsTarget(0.1f);
+                    InitialDistance = GetDistanceToTarget();
+                }
+            }
+
+
+            //If "Focus" is toggled ON, fire FocusOnTarget function
+            if (IsFocusing && CameraTarget != null)
+            {
+
+                if (CameraTarget.GetComponent<StellarObject>() != null)
+                {
+                    FocusOnTarget("Planet");
+
+                }
+                else if (CameraTarget.GetComponent<Star>() != null)
+                {
+                    FocusOnTarget("Star");
+                }
+                else if (CameraAnchorObject.GetComponent<Galaxy>() != null)
+                {
+                    FocusOnTarget("Galaxy");
+                }
             }
         }
 
-        //If "Focus" is toggled ON, fire FocusOnTarget function
-        if(IsFocusing && CameraTarget != null)
+        
+    }
+
+    void DetectCollidersOverlap(Vector3 center, float radius)
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(center, radius);
+        foreach (var hitCollider in hitColliders)
         {
-            if (CameraTarget.GetComponent<StellarObject>() != null)
+            Debug.Log($"DetectCollidersOverlap: {hitCollider.transform.name}");
+            if(hitCollider.GetComponent<GetMainBody>() != null && hitCollider.GetComponent<GetMainBody>().MainBody == CameraTarget)
             {
-                FocusOnTarget("Planet");
-                
-            }
-            else if (CameraTarget.GetComponent<Star>() != null)
-            {
-                FocusOnTarget("Star");
-            }
-            else if (CameraAnchorObject.GetComponent<Galaxy>() != null)
-            {
-                FocusOnTarget("Galaxy");
+                CanSnap = true;
             }
         }
     }
@@ -310,16 +503,16 @@ public class CameraFollow : MonoBehaviour
     private void OnStartSwipe(Touch touch)
     {
         // On calcule la position du doigt DANS LE WORLD (touch.position renvoie la position du doigt SUR L'ECRAN en pixels)
-        Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+        Vector2 touchPos = MainCamera.ScreenToWorldPoint(touch.position);
     }
 
     // Si le doigt vient de bouger
     private void OnMoveSwipe(Touch touch)
     {
         // On calcule la position du doigt DANS LE WORLD (touch.position renvoie la position du doigt SUR L'ECRAN en pixels)
-        Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+        Vector2 touchPos = MainCamera.ScreenToWorldPoint(touch.position);
         // On calcule la position du doigt à la dernière frame DANS LE WORLD (touch.deltaPosition renvoie la différence entre la position actuelle et la dernière position du doigt sur l'ecran en pixels)
-        Vector2 touchPreviousPosition = Camera.main.ScreenToWorldPoint(touch.position - touch.deltaPosition);
+        Vector2 touchPreviousPosition = MainCamera.ScreenToWorldPoint(touch.position - touch.deltaPosition);
 
         Debug.Log($"deltaPosition: {touch.deltaPosition}");
 
@@ -384,7 +577,13 @@ public class CameraFollow : MonoBehaviour
 
     public void ChangeTarget(Transform newCameraTarget)
     {
+        PreviousCameraTarget = CameraTarget;
+
         CameraTarget = newCameraTarget;
+
+        TargetRigidBody = CameraTarget.GetComponent<Rigidbody>();
+
+        InitialDistance = GetDistanceToTarget();
 
         ChangeSelectionInDropdown(newCameraTarget.name);
     }
@@ -393,7 +592,13 @@ public class CameraFollow : MonoBehaviour
     {
         string StrippedPlanetName = PlanetName.Replace("    ", "").Replace("<b>", "").Replace("</b>", "");
 
+        PreviousCameraTarget = CameraTarget;
+
         CameraTarget = GameObject.Find($"{StrippedPlanetName}").transform;
+
+        TargetRigidBody = CameraTarget.GetComponent<Rigidbody>();
+
+        InitialDistance = GetDistanceToTarget();
 
         ChangeSelectionInDropdown(StrippedPlanetName);
     }
@@ -414,44 +619,113 @@ public class CameraFollow : MonoBehaviour
 
     public void FocusOnTarget(string componentType)
     {
+        CountDistance++;
+        if(CountDistance == 1)
+        {
+            InitialDistance = GetDistanceToTarget();
+        }
+
+        FocusSpeed = CanSnap ? Controller.FadeTime * 0.25f : Controller.FadeTime;
+
         //Move Camera towards target
-        Vector3 newPos = Vector3.SmoothDamp(_transform.position, CameraAnchor.position, ref velocity, 1f);
+        Vector3 newPos = Vector3.SmoothDamp(_transform.position, CameraAnchor.position, ref velocity, FocusSpeed);
         _transform.position = newPos;
 
         //While Camera keeps looking at the target
-        _transform.LookAt(CameraTarget);
 
-        float targetThreshold = 0.1f;
+
+
 
         switch (componentType)
         {
             case "Planet":
-                targetThreshold = CameraTarget.GetComponent<StellarObject>().ObjectSize * 0.5f;
+                TargetThreshold = CameraTarget.GetComponent<StellarObject>().ObjectSize * 0.5f;
                 break;
-            
+
             case "Galaxy":
-                targetThreshold = 0.5f;
+                TargetThreshold = 0.5f;
                 break;
 
             case "Star":
-                targetThreshold = CameraTarget.GetComponent<Star>().ObjectSize * 0.5f;
+                TargetThreshold = CameraTarget.GetComponent<Star>().ObjectSize * 0.5f;
                 break;
         }
-        
-        if (Vector3.Distance(_transform.position, CameraAnchor.position) <= targetThreshold)
+
+        /*
+                if (Vector3.Distance(_transform.position, CameraAnchor.position) <= InitialDistance * 0.25f)
+                {
+                    FadeOutCount++;
+                    //Debug.Log(FadeOutCount);
+                    SoundFadeOut = true;
+
+                    TriggerFadeOut(FadeOutCount);
+
+
+                    if(InitialDistance * 0.25f < TargetThreshold * 2)
+                    {
+                        CancelFocus();
+                    }
+                }
+                if (Vector3.Distance(_transform.position, CameraAnchor.position) <= InitialDistance * 0.1f) {
+                    TurnTowardsTarget(0.1f);
+                }*/
+    }
+
+    public void CancelFocus()
+    {
+        if(!Controller.HasPlayer)
         {
+            Debug.Log("CancelFocus");
+            CountDistance = 0;
             IsFocusing = false;
+            CanSnap = false;
+            FadeOutCount = 0;
+            FadeInCount = 0;
+            _timeToSnap = _resetTimeToSnap;
             CameraAnchor = null;
             CameraAnchorObject = null;
-        } else
-        {
-            if(Controller.InputType == InputType.TOUCH)
-            {
-                RotateAroundObject();
-            }
+            TurnTowardsTarget(0.1f);
+            StartCoroutine(AudioHelper.FadeOut(Controller.TravelSound, Controller.FadeTime * 2));
         }
-        
+    }
 
+    public float GetDistanceToTarget()
+    {
+
+            if (CameraTarget.GetComponent<StellarObject>())
+            {
+                CameraAnchor = CameraTarget.GetComponent<StellarObject>().CameraAnchor;
+            }
+            else if (CameraTarget.GetComponent<Star>())
+            {
+                CameraAnchor = CameraTarget.GetComponent<Star>().CameraAnchor;
+            }
+
+            float distanceToTarget = Vector3.Distance(_transform.position, CameraAnchor.position);
+
+            //Debug.Log($"DistanceToTarget: {distanceToTarget}");
+
+            return distanceToTarget;
+    }
+
+    private void TriggerFadeSound(int count, string OutIn)
+    {
+        if(count == 1)
+        {
+
+            switch(OutIn)
+            {
+                case "in":
+                    Debug.Log("FadeIn Sound");
+                    StartCoroutine(AudioHelper.FadeIn(Controller.TravelSound, Controller.FadeTime));
+                    break;
+                case "out":
+                    Debug.Log("FadeOut Sound");
+                    StartCoroutine(AudioHelper.FadeOut(Controller.TravelSound, Controller.FadeTime));
+                    break;
+            }
+
+        }
     }
 
     private void ZoomCamera()
@@ -470,6 +744,40 @@ public class CameraFollow : MonoBehaviour
                 _transform.position += _transform.forward * _scrollWheelChange * 10f;
             }
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.name == "CameraAnchor")
+        {
+            if(other.GetComponent<GetMainBody>().MainBody == CameraTarget)
+            {
+                Debug.Log("Entering CameraAnchor");
+                CancelFocus();
+            }
+        }
+
+        if (other.transform.name == "Bubble")
+        {
+            if (other.GetComponent<GetMainBody>().MainBody == CameraTarget)
+            {
+                Debug.Log("Entering Bubble");
+                CanSnap = true;
+                TriggerFadeSound(FadeOutCount, "out");
+            }
+        }
+
+        /*if ((other.transform.parent.tag == "Planet" || other.transform.parent.tag == "Star") && other.transform.parent == CameraTarget)
+        {
+            Debug.Log($"Entering Stellar Object: {other.transform.parent.name}");
+            CanSnap = true;
+            TriggerFadeSound(FadeOutCount, "out");
+        }*/
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log($"OnCollisionEnter: {collision.transform.parent.name}");
     }
 
     public static Quaternion SmoothDamp(Quaternion rot, Quaternion target, ref Quaternion deriv, float time)
