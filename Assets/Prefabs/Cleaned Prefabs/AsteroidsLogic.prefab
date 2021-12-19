@@ -66,6 +66,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _asteroidBeltData: {fileID: 0}
   scales: {fileID: 11400000, guid: c0c8336a971c09743bc6a866d7f5a944, type: 2}
+  scalesStarship: {fileID: 11400000, guid: 80199f57c70605e47b9415c087b76919, type: 2}
   _asteroidPrefab: {fileID: 7978633150232275278, guid: ef4b9d42d20c5904d89ce71430fe054b, type: 3}
   _icyAsteroidPrefab: {fileID: 7978633150232275278, guid: 1ce7a665a8a379b46ba15a9187918ca2, type: 3}
   _controller: {fileID: 0}

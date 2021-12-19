@@ -79,7 +79,10 @@ public class LoopLists : MonoBehaviour
 
                         StellarSystemGenerated = true;
 
-                        Camera.main.GetComponent<CameraFollow>().ResetCameraTarget(false);
+                        if (!_controller.HasPlayer)
+                        {
+                            _controller.MainCamera.GetComponent<CameraFollow>().ResetCameraTarget(false);
+                        }
 
                     }
                 }

@@ -134,7 +134,12 @@ public class ToggleStellarSystem : MonoBehaviour
         StartCoroutine(AudioHelper.FadeOut(_controller.TravelSound, _controller.FadeTime));
         
         _controller.TriggerSetScales("ToggleStellarSystem");
-        Camera.main.GetComponent<CameraFollow>().ResetCameraTarget(false);
+
+        if (!_controller.HasPlayer)
+        {
+            _controller.MainCamera.GetComponent<CameraFollow>().ResetCameraTarget(false);
+        }
+
 
     }
 
@@ -158,7 +163,11 @@ public class ToggleStellarSystem : MonoBehaviour
             stellarObject.Animator.SetBool("ShowName", false);
         }
 
-        Camera.main.GetComponent<CameraFollow>().ResetCameraTarget(false);
+        if (!_controller.HasPlayer)
+        {
+            Camera.main.GetComponent<CameraFollow>().ResetCameraTarget(false);
+        }
+
 
         IsScaleChanging = true;
         StellarSystemTargetScale = 0;

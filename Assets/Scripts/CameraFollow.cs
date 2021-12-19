@@ -12,6 +12,9 @@ public class CameraFollow : MonoBehaviour
     private UITest _UITest;
 
     [SerializeField]
+    private Camera MainCamera;
+
+    [SerializeField]
     private float _sensitivity = 3f;
 
     [SerializeField] 
@@ -161,36 +164,38 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        _cameraFollower.position = transform.position;
-
-        if (UITest != null)
+        if (!Controller.HasPlayer)
         {
-            //Detect if mouse if over UI Elements
-            MouseOnUI = UITest.IsPointerOverUIElement();
-        }
-        if (!MouseOnUI)
-        {
-            //Allow zoomin/zoomout only when mouse is not over UI Elements
-            ZoomCamera();
-        }
+            _cameraFollower.position = transform.position;
 
-        //Set camera parent (when a stellar object is clicked)
-        if(CameraTarget != Star && CameraTarget != null)
-        {
-            _transform.parent = CameraTarget.parent;
-        }
-        else
-        {
-            _transform.parent = null;
-        };
+            if (UITest != null)
+            {
+                //Detect if mouse if over UI Elements
+                MouseOnUI = UITest.IsPointerOverUIElement();
+            }
+            if (!MouseOnUI)
+            {
+                //Allow zoomin/zoomout only when mouse is not over UI Elements
+                ZoomCamera();
+            }
 
-        //Rotate Camera towards targeted stellar object
+            //Set camera parent (when a stellar object is clicked)
+            if(CameraTarget != Star && CameraTarget != null)
+            {
+                _transform.parent = CameraTarget.parent;
+            }
+            else
+            {
+                _transform.parent = null;
+            };
+
+            //Rotate Camera towards targeted stellar object
         
 
-        //Set cursor visibility and lockstate depending on camera rotation by mouse/touch inputs
-        Cursor.visible = !IsRotating;
-        Cursor.lockState = IsRotating ? CursorLockMode.Locked : CursorLockMode.None;
+            //Set cursor visibility and lockstate depending on camera rotation by mouse/touch inputs
+            Cursor.visible = !IsRotating;
+            Cursor.lockState = IsRotating ? CursorLockMode.Locked : CursorLockMode.None;
+        }
 
     }
 
@@ -213,158 +218,162 @@ public class CameraFollow : MonoBehaviour
 
         _scrollWheelChange = Input.GetAxis("Mouse ScrollWheel");
 
-
-        //Separate Mouse/Touch input functions to avoid conflicts (hopefully)
-        if (Controller.InputType == InputType.MOUSE || Controller.InputType == InputType.BOTH)
+        if (!Controller.HasPlayer)
         {
-            MouseInteractions();
-        }
-
-        if (Controller.InputType == InputType.TOUCH || Controller.InputType == InputType.BOTH)
-        {
-            if(Input.touchCount > 0)
+            //Separate Mouse/Touch input functions to avoid conflicts (hopefully)
+            if (Controller.InputType == InputType.MOUSE || Controller.InputType == InputType.BOTH)
             {
-                TouchInteractions();
+                MouseInteractions();
             }
-        }
+
+            if (Controller.InputType == InputType.TOUCH || Controller.InputType == InputType.BOTH)
+            {
+                if (Input.touchCount > 0)
+                {
+                    TouchInteractions();
+                }
+            }
 
 
-        if (CameraTarget)
-        {
-
-            if (IsFocusing)
+            if (CameraTarget)
             {
 
-                //Debug.Log($"InitialDistance: {InitialDistance}");
-
-                FadeInCount++;
-                TriggerFadeSound(FadeInCount, "in");
-                float currentDistance = GetDistanceToTarget();
-
-                float distanceBetweenTargets = Vector3.Distance(PreviousCameraTarget.position, CameraTarget.position);
-
-                DistanceRatio = currentDistance / InitialDistance;
-                RemainingDistance = InitialDistance - currentDistance;
-
-                
-
-                //Debug.Log($"distanceRatio: {DistanceRatio} - remainingDistance: {RemainingDistance} - InitialDistance: {InitialDistance}");
-                //float turnSpeed = Controller.FadeTime * distanceRatio * (currentDistance > TargetThreshold ? 1f : 3f);
-
-
-                //Debug.Log($"distanceBetweenTargets: {distanceBetweenTargets}\ncurrentDistance: {currentDistance}");
-
-                /*if (CameraTarget.GetComponent<StellarObject>() != null && PreviousCameraTarget.GetComponent<StellarObject>() != null)
+                if (IsFocusing)
                 {
-                    //Debug.Log($"Current: {CameraTarget.name} parent: {CameraTarget.GetComponent<StellarObject>().ParentStellarObject}");
 
-                    //Debug.Log($"Prev: {PreviousCameraTarget.name} parent: {PreviousCameraTarget.GetComponent<StellarObject>().ParentStellarObject}");
+                    //Debug.Log($"InitialDistance: {InitialDistance}");
 
-                    if (CameraTarget.GetComponent<StellarObject>().ParentStellarObject == PreviousCameraTarget.name
-                        || PreviousCameraTarget.GetComponent<StellarObject>().ParentStellarObject == CameraTarget.name)
+                    FadeInCount++;
+                    TriggerFadeSound(FadeInCount, "in");
+                    float currentDistance = GetDistanceToTarget();
+
+                    float distanceBetweenTargets = Vector3.Distance(PreviousCameraTarget.position, CameraTarget.position);
+
+                    DistanceRatio = currentDistance / InitialDistance;
+                    RemainingDistance = InitialDistance - currentDistance;
+
+
+
+                    //Debug.Log($"distanceRatio: {DistanceRatio} - remainingDistance: {RemainingDistance} - InitialDistance: {InitialDistance}");
+                    //float turnSpeed = Controller.FadeTime * distanceRatio * (currentDistance > TargetThreshold ? 1f : 3f);
+
+
+                    //Debug.Log($"distanceBetweenTargets: {distanceBetweenTargets}\ncurrentDistance: {currentDistance}");
+
+                    /*if (CameraTarget.GetComponent<StellarObject>() != null && PreviousCameraTarget.GetComponent<StellarObject>() != null)
                     {
-                        //Debug.Log($"{CameraTarget.name} and {PreviousCameraTarget.name} are related");
-                        turnSpeed = Controller.FadeTime * distanceRatio / 25f;
-                    }
+                        //Debug.Log($"Current: {CameraTarget.name} parent: {CameraTarget.GetComponent<StellarObject>().ParentStellarObject}");
 
+                        //Debug.Log($"Prev: {PreviousCameraTarget.name} parent: {PreviousCameraTarget.GetComponent<StellarObject>().ParentStellarObject}");
+
+                        if (CameraTarget.GetComponent<StellarObject>().ParentStellarObject == PreviousCameraTarget.name
+                            || PreviousCameraTarget.GetComponent<StellarObject>().ParentStellarObject == CameraTarget.name)
+                        {
+                            //Debug.Log($"{CameraTarget.name} and {PreviousCameraTarget.name} are related");
+                            turnSpeed = Controller.FadeTime * distanceRatio / 25f;
+                        }
+
+                        else
+                        {
+                            turnSpeed = Controller.FadeTime * distanceRatio;
+                        }
+                    }
                     else
                     {
                         turnSpeed = Controller.FadeTime * distanceRatio;
+                    }*/
+
+                    //turnSpeed = Controller.FadeTime * distanceRatio * (CanSnap ? Mathf.Lerp(1f, 0.5f, 2f * Time.deltaTime) : 1f);
+                    TurnSpeed = Controller.FadeTime * DistanceRatio * (CanSnap ? 0.25f : 1f);
+
+                    /*Debug.Log($"turnSpeed: {turnSpeed}");
+
+                    Debug.Log($"currentDistance: {currentDistance}");
+                    Debug.Log($"currentDistance / TargetThreshold: {currentDistance / TargetThreshold}");*/
+
+                    Controller.DeviceInfo.text = $"currentDistance: {currentDistance}\n" +
+                        $"distanceRatio: {DistanceRatio}\n" +
+                        $"remainingDistance: {RemainingDistance}\n" +
+                        $"InitialDistance: {InitialDistance}\n" +
+                        $"TurnSpeed: {TurnSpeed}\n" +
+                        $"FocusSpeed: {FocusSpeed}";
+
+                    TurnTowardsTarget(TurnSpeed);
+
+                    //Debug.Log($"distanceRatio: {distanceRatio}");
+                    //Debug.Log($"currentDistance / (TargetThreshold): {currentDistance / (TargetThreshold)}");
+
+                    //Debug.Log($"currentDistance: {currentDistance}\nTargetThreshold: {TargetThreshold}");
+
+                    if (DistanceRatio <= .25f)
+                    {
+                        FadeOutCount++;
+                        //Debug.Log(FadeOutCount);
+                        SoundFadeOut = true;
+
+                        TriggerFadeSound(FadeOutCount, "out");
+
+                        //Debug.Log($"turnSpeed * distanceRatio: {turnSpeed * distanceRatio}");
+                        //TurnTowardsTarget(turnSpeed * distanceRatio);
+
+                        DetectCollidersOverlap(CameraTarget.position, CameraCollider.radius);
+
+                        if (TurnSpeed * DistanceRatio > 0.002)
+                        {
+
+                        }
+
+
                     }
+
+                    if (CanSnap)
+                    {
+                        _timeToSnap -= Time.deltaTime;
+
+                        if (_timeToSnap <= 0f)
+                        {
+                            Debug.Log("Snap to target");
+                            CancelFocus();
+                        }
+
+                    }
+                    /*if (distanceRatio <= 0.025f)
+                    {
+                        //Debug.Log("By distanceRatio:");
+                        CancelFocus();
+                    }*/
+
+
                 }
                 else
                 {
-                    turnSpeed = Controller.FadeTime * distanceRatio;
-                }*/
-
-                //turnSpeed = Controller.FadeTime * distanceRatio * (CanSnap ? Mathf.Lerp(1f, 0.5f, 2f * Time.deltaTime) : 1f);
-                TurnSpeed = Controller.FadeTime * DistanceRatio * (CanSnap ? 0.25f : 1f);
-
-                /*Debug.Log($"turnSpeed: {turnSpeed}");
-
-                Debug.Log($"currentDistance: {currentDistance}");
-                Debug.Log($"currentDistance / TargetThreshold: {currentDistance / TargetThreshold}");*/
-
-                Controller.DeviceInfo.text = $"currentDistance: {currentDistance}\n" +
-                    $"distanceRatio: {DistanceRatio}\n" +
-                    $"remainingDistance: {RemainingDistance}\n" +
-                    $"InitialDistance: {InitialDistance}\n" +
-                    $"TurnSpeed: {TurnSpeed}\n" +
-                    $"FocusSpeed: {FocusSpeed}";
-
-                TurnTowardsTarget(TurnSpeed);
-
-                //Debug.Log($"distanceRatio: {distanceRatio}");
-                //Debug.Log($"currentDistance / (TargetThreshold): {currentDistance / (TargetThreshold)}");
-
-                //Debug.Log($"currentDistance: {currentDistance}\nTargetThreshold: {TargetThreshold}");
-
-                if (DistanceRatio <= .25f)
-                {
-                    FadeOutCount++;
-                    //Debug.Log(FadeOutCount);
-                    SoundFadeOut = true;
-
-                    TriggerFadeSound(FadeOutCount, "out");
-
-                    //Debug.Log($"turnSpeed * distanceRatio: {turnSpeed * distanceRatio}");
-                    //TurnTowardsTarget(turnSpeed * distanceRatio);
-
-                    DetectCollidersOverlap(CameraTarget.position, CameraCollider.radius);
-
-                    if (TurnSpeed * DistanceRatio > 0.002)
-                    {
-
-                    }
-
-
+                    TurnTowardsTarget(0.1f);
+                    InitialDistance = GetDistanceToTarget();
                 }
-
-                if (CanSnap)
-                {
-                    _timeToSnap -= Time.deltaTime;
-
-                    if (_timeToSnap <= 0f)
-                    {
-                        Debug.Log("Snap to target");
-                        CancelFocus();
-                    }
-
-                }
-                /*if (distanceRatio <= 0.025f)
-                {
-                    //Debug.Log("By distanceRatio:");
-                    CancelFocus();
-                }*/
-
-
             }
-            else
+
+
+            //If "Focus" is toggled ON, fire FocusOnTarget function
+            if (IsFocusing && CameraTarget != null)
             {
-                TurnTowardsTarget(0.1f);
-                InitialDistance = GetDistanceToTarget();
+
+                if (CameraTarget.GetComponent<StellarObject>() != null)
+                {
+                    FocusOnTarget("Planet");
+
+                }
+                else if (CameraTarget.GetComponent<Star>() != null)
+                {
+                    FocusOnTarget("Star");
+                }
+                else if (CameraAnchorObject.GetComponent<Galaxy>() != null)
+                {
+                    FocusOnTarget("Galaxy");
+                }
             }
         }
 
-
-        //If "Focus" is toggled ON, fire FocusOnTarget function
-        if (IsFocusing && CameraTarget != null)
-        {
-
-            if (CameraTarget.GetComponent<StellarObject>() != null)
-            {
-                FocusOnTarget("Planet");
-                
-            }
-            else if (CameraTarget.GetComponent<Star>() != null)
-            {
-                FocusOnTarget("Star");
-            }
-            else if (CameraAnchorObject.GetComponent<Galaxy>() != null)
-            {
-                FocusOnTarget("Galaxy");
-            }
-        }
+        
     }
 
     void DetectCollidersOverlap(Vector3 center, float radius)
@@ -494,16 +503,16 @@ public class CameraFollow : MonoBehaviour
     private void OnStartSwipe(Touch touch)
     {
         // On calcule la position du doigt DANS LE WORLD (touch.position renvoie la position du doigt SUR L'ECRAN en pixels)
-        Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+        Vector2 touchPos = MainCamera.ScreenToWorldPoint(touch.position);
     }
 
     // Si le doigt vient de bouger
     private void OnMoveSwipe(Touch touch)
     {
         // On calcule la position du doigt DANS LE WORLD (touch.position renvoie la position du doigt SUR L'ECRAN en pixels)
-        Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+        Vector2 touchPos = MainCamera.ScreenToWorldPoint(touch.position);
         // On calcule la position du doigt à la dernière frame DANS LE WORLD (touch.deltaPosition renvoie la différence entre la position actuelle et la dernière position du doigt sur l'ecran en pixels)
-        Vector2 touchPreviousPosition = Camera.main.ScreenToWorldPoint(touch.position - touch.deltaPosition);
+        Vector2 touchPreviousPosition = MainCamera.ScreenToWorldPoint(touch.position - touch.deltaPosition);
 
         Debug.Log($"deltaPosition: {touch.deltaPosition}");
 
@@ -664,17 +673,20 @@ public class CameraFollow : MonoBehaviour
 
     public void CancelFocus()
     {
-        Debug.Log("CancelFocus");
-        CountDistance = 0;
-        IsFocusing = false;
-        CanSnap = false;
-        FadeOutCount = 0;
-        FadeInCount = 0;
-        _timeToSnap = _resetTimeToSnap;
-        CameraAnchor = null;
-        CameraAnchorObject = null;
-        TurnTowardsTarget(0.1f);
-        StartCoroutine(AudioHelper.FadeOut(Controller.TravelSound, Controller.FadeTime * 2));
+        if(!Controller.HasPlayer)
+        {
+            Debug.Log("CancelFocus");
+            CountDistance = 0;
+            IsFocusing = false;
+            CanSnap = false;
+            FadeOutCount = 0;
+            FadeInCount = 0;
+            _timeToSnap = _resetTimeToSnap;
+            CameraAnchor = null;
+            CameraAnchorObject = null;
+            TurnTowardsTarget(0.1f);
+            StartCoroutine(AudioHelper.FadeOut(Controller.TravelSound, Controller.FadeTime * 2));
+        }
     }
 
     public float GetDistanceToTarget()

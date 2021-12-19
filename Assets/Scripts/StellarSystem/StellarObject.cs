@@ -13,6 +13,9 @@ public class StellarObject : MonoBehaviour
     private Scales scales;
 
     [SerializeField]
+    private Scales scalesStarship;
+
+    [SerializeField]
     private string _parentStellarObject;
 
     [SerializeField]

@@ -16,6 +16,15 @@ public enum InputType
 public class Controller : MonoBehaviour
 {
     [SerializeField]
+    private Camera _mainCamera;
+
+    [SerializeField]
+    private GameObject _player;
+
+    [SerializeField]
+    private bool _hasPlayer;
+
+    [SerializeField]
     private TextMeshProUGUI _deviceInfo;
 
     [SerializeField]
@@ -49,10 +58,23 @@ public class Controller : MonoBehaviour
     public AudioMixer AudioMixer { get => _audioMixer; set => _audioMixer = value; }
     public AudioSource TravelSound { get => _travelSound; set => _travelSound = value; }
     public float FadeTime { get => _fadeTime; set => _fadeTime = value; }
+    public GameObject Player { get => _player; set => _player = value; }
+    public bool HasPlayer { get => _hasPlayer; set => _hasPlayer = value; }
+    public Camera MainCamera { get => _mainCamera; set => _mainCamera = value; }
 
     private void Awake()
     {
-        Camera = UnityEngine.Camera.main.GetComponent<CameraFollow>();
+
+
+        Camera = MainCamera.GetComponent<CameraFollow>();
+        
+        if (HasPlayer)
+        {
+            Player.SetActive(true);
+            Camera.gameObject.SetActive(false);
+            //Camera.transform.parent = Player.transform;
+        }
+        
         UITest = GetComponent<UITest>();
         LoopLists = GetComponent<LoopLists>();
         IsPaused = false;
@@ -100,22 +122,26 @@ public class Controller : MonoBehaviour
     {
         MouseOnUI = UITest.IsPointerOverUIElement();
 
-        if (InputType == InputType.MOUSE || InputType == InputType.BOTH)
+        if (!HasPlayer)
         {
-            if (!MouseOnUI)
+            if (InputType == InputType.MOUSE || InputType == InputType.BOTH)
             {
-                DetectMouseClick();
+                if (!MouseOnUI)
+                {
+                    DetectMouseClick();
+                }
+
             }
 
-        }
-
-        if(InputType == InputType.TOUCH || InputType == InputType.BOTH)
-        {
-            if(Input.touchCount > 0)
+            if(InputType == InputType.TOUCH || InputType == InputType.BOTH)
             {
-                DetectTouchClick();
+                if(Input.touchCount > 0)
+                {
+                    DetectTouchClick();
+                }
             }
         }
+
 
 
 
@@ -219,7 +245,7 @@ public class Controller : MonoBehaviour
     private void DetectTouchClick()
     {
 
-        Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+        Ray ray = MainCamera.ScreenPointToRay(Input.GetTouch(0).position);
 
         RaycastHit hit;
 
@@ -249,7 +275,7 @@ public class Controller : MonoBehaviour
 
         _pointerPosition = Input.mousePosition;
 
-        Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = MainCamera.ScreenPointToRay(Input.mousePosition);
 
         // Visualize Ray on Scene (no impact on Game view)
         Debug.DrawRay(ray.origin, ray.direction * 20f);
@@ -326,7 +352,9 @@ public class Controller : MonoBehaviour
     public void StickToObject(Transform elemTransform, Transform targetTransform, float decalLeft)
     {
         Vector3 newPos = UnityEngine.Camera.main.WorldToScreenPoint(targetTransform.position);
+        
         elemTransform.position = new Vector3(newPos.x + decalLeft, newPos.y, newPos.z);
+        
     }
 
     public float GetOrbitOrientationStart(int index, int arrayLength)

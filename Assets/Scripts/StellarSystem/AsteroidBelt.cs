@@ -12,6 +12,10 @@ public class AsteroidBelt : MonoBehaviour
     private Scales scales;
 
     [SerializeField]
+    private Scales scalesStarship;
+
+
+    [SerializeField]
     private GameObject _asteroidPrefab;
 
     [SerializeField]

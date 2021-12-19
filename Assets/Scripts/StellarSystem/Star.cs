@@ -13,6 +13,9 @@ public class Star : MonoBehaviour
     private Scales scales;
 
     [SerializeField]
+    private Scales scalesStarship;
+
+    [SerializeField]
     private StarData _starData;
 
     [SerializeField]
