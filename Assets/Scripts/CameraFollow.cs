@@ -44,6 +44,9 @@ public class CameraFollow : MonoBehaviour
 
     private float _initialDistance;
     private float _distanceRatio;
+    private float _remainingDistance;
+    private float _turnSpeed;
+    private float _focusSpeed;
     //private float _timeBeforeRotate = 0.2f;
     //private float _totalClickTime;
 
@@ -87,12 +90,15 @@ public class CameraFollow : MonoBehaviour
     public int FadeOutCount { get => _fadeOutCount; set => _fadeOutCount = value; }
     public float InitialDistance { get => _initialDistance; set => _initialDistance = value; }
     public float TargetThreshold { get => _targetThreshold; set => _targetThreshold = value; }
+    public float DistanceRatio { get => _distanceRatio; set => _distanceRatio = value; }
+    public float RemainingDistance { get => _remainingDistance; set => _remainingDistance = value; }
     public int CountDistance { get => _countDistance; set => _countDistance = value; }
     public Transform PreviousCameraTarget { get => _previousCameraTarget; set => _previousCameraTarget = value; }
     public bool CanSnap { get => _canSnap; set => _canSnap = value; }
     public Rigidbody TargetRigidBody { get => _targetRigidBody; set => _targetRigidBody = value; }
-    public float DistanceRatio { get => _distanceRatio; set => _distanceRatio = value; }
     public SphereCollider CameraCollider { get => _cameraCollider; set => _cameraCollider = value; }
+    public float TurnSpeed { get => _turnSpeed; set => _turnSpeed = value; }
+    public float FocusSpeed { get => _focusSpeed; set => _focusSpeed = value; }
 
     // Start is called before the first frame update
     void Awake()
@@ -143,6 +149,8 @@ public class CameraFollow : MonoBehaviour
         ChangeTarget(Star);
 
         CameraAnchor = Star.GetComponent<Star>().CameraAnchor;
+
+        Debug.Log($"Distance to star target: {Vector3.Distance(CameraTarget.position, transform.position)}");
         
         if (init)
         {
@@ -189,10 +197,13 @@ public class CameraFollow : MonoBehaviour
     private void TurnTowardsTarget(float speed)
     {
         //Debug.Log(speed);
-        Vector3 lookDirection = CameraTarget.position - _transform.position;
-        lookDirection.Normalize();
+        if (CameraTarget)
+        {
+            Vector3 lookDirection = CameraTarget.position - _transform.position;
+            lookDirection.Normalize();
 
-        _transform.rotation = SmoothDamp(_transform.rotation, Quaternion.LookRotation(lookDirection), ref nullQuaternion, speed);
+            _transform.rotation = SmoothDamp(_transform.rotation, Quaternion.LookRotation(lookDirection), ref nullQuaternion, speed);
+        }
     }
 
     private void FixedUpdate()
@@ -233,9 +244,12 @@ public class CameraFollow : MonoBehaviour
                 float distanceBetweenTargets = Vector3.Distance(PreviousCameraTarget.position, CameraTarget.position);
 
                 DistanceRatio = currentDistance / InitialDistance;
-                //Debug.Log($"distanceRatio: {distanceRatio} - remainingDistance: {remainingDistance} - InitialDistance: {InitialDistance}");
+                RemainingDistance = InitialDistance - currentDistance;
+
+                
+
+                //Debug.Log($"distanceRatio: {DistanceRatio} - remainingDistance: {RemainingDistance} - InitialDistance: {InitialDistance}");
                 //float turnSpeed = Controller.FadeTime * distanceRatio * (currentDistance > TargetThreshold ? 1f : 3f);
-                float turnSpeed;
 
 
                 //Debug.Log($"distanceBetweenTargets: {distanceBetweenTargets}\ncurrentDistance: {currentDistance}");
@@ -264,14 +278,21 @@ public class CameraFollow : MonoBehaviour
                 }*/
 
                 //turnSpeed = Controller.FadeTime * distanceRatio * (CanSnap ? Mathf.Lerp(1f, 0.5f, 2f * Time.deltaTime) : 1f);
-                turnSpeed = Controller.FadeTime * DistanceRatio * (CanSnap ? 0.25f : 1f);
+                TurnSpeed = Controller.FadeTime * DistanceRatio * (CanSnap ? 0.25f : 1f);
 
                 /*Debug.Log($"turnSpeed: {turnSpeed}");
 
                 Debug.Log($"currentDistance: {currentDistance}");
                 Debug.Log($"currentDistance / TargetThreshold: {currentDistance / TargetThreshold}");*/
 
-                TurnTowardsTarget(turnSpeed);
+                Controller.DeviceInfo.text = $"currentDistance: {currentDistance}\n" +
+                    $"distanceRatio: {DistanceRatio}\n" +
+                    $"remainingDistance: {RemainingDistance}\n" +
+                    $"InitialDistance: {InitialDistance}\n" +
+                    $"TurnSpeed: {TurnSpeed}\n" +
+                    $"FocusSpeed: {FocusSpeed}";
+
+                TurnTowardsTarget(TurnSpeed);
 
                 //Debug.Log($"distanceRatio: {distanceRatio}");
                 //Debug.Log($"currentDistance / (TargetThreshold): {currentDistance / (TargetThreshold)}");
@@ -289,27 +310,27 @@ public class CameraFollow : MonoBehaviour
                     //Debug.Log($"turnSpeed * distanceRatio: {turnSpeed * distanceRatio}");
                     //TurnTowardsTarget(turnSpeed * distanceRatio);
 
-                    DetectCollidersOverlap(transform.position, CameraCollider.radius);
+                    DetectCollidersOverlap(CameraTarget.position, CameraCollider.radius);
 
-                    if (turnSpeed * DistanceRatio > 0.002)
+                    if (TurnSpeed * DistanceRatio > 0.002)
                     {
 
                     }
 
-                    if (CanSnap)
-                    {
-                        _timeToSnap -= Time.deltaTime;
-
-                        if (_timeToSnap <= 0f)
-                        {
-                            //Debug.Log("Snap to target");
-                            CancelFocus();
-                        }
-
-                    }
 
                 }
 
+                if (CanSnap)
+                {
+                    _timeToSnap -= Time.deltaTime;
+
+                    if (_timeToSnap <= 0f)
+                    {
+                        Debug.Log("Snap to target");
+                        CancelFocus();
+                    }
+
+                }
                 /*if (distanceRatio <= 0.025f)
                 {
                     //Debug.Log("By distanceRatio:");
@@ -351,7 +372,11 @@ public class CameraFollow : MonoBehaviour
         Collider[] hitColliders = Physics.OverlapSphere(center, radius);
         foreach (var hitCollider in hitColliders)
         {
-            Debug.Log(hitCollider.transform.name);
+            Debug.Log($"DetectCollidersOverlap: {hitCollider.transform.name}");
+            if(hitCollider.GetComponent<GetMainBody>() != null && hitCollider.GetComponent<GetMainBody>().MainBody == CameraTarget)
+            {
+                CanSnap = true;
+            }
         }
     }
 
@@ -591,8 +616,10 @@ public class CameraFollow : MonoBehaviour
             InitialDistance = GetDistanceToTarget();
         }
 
+        FocusSpeed = CanSnap ? Controller.FadeTime * 0.25f : Controller.FadeTime;
+
         //Move Camera towards target
-        Vector3 newPos = Vector3.SmoothDamp(_transform.position, CameraAnchor.position, ref velocity, (CanSnap ? Controller.FadeTime * 0.25f : Controller.FadeTime));
+        Vector3 newPos = Vector3.SmoothDamp(_transform.position, CameraAnchor.position, ref velocity, FocusSpeed);
         _transform.position = newPos;
 
         //While Camera keeps looking at the target
@@ -647,7 +674,7 @@ public class CameraFollow : MonoBehaviour
         CameraAnchor = null;
         CameraAnchorObject = null;
         TurnTowardsTarget(0.1f);
-        //StartCoroutine(AudioHelper.FadeOut(Controller.TravelSound, Controller.FadeTime * 2));
+        StartCoroutine(AudioHelper.FadeOut(Controller.TravelSound, Controller.FadeTime * 2));
     }
 
     public float GetDistanceToTarget()

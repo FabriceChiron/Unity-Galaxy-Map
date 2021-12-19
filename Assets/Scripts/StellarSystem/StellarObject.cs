@@ -52,7 +52,7 @@ public class StellarObject : MonoBehaviour
 
     private Star _star;
 
-    private float _revolutionTime, _rotationTime, _objectSize, _orbitSize, _bodyTiltAngle, _orbitTiltAngle, _revolutionDegreesPerSecond, rotationDegreesPerSecond, _trailStartTime;
+    private float _revolutionTime, _rotationTime, _objectSize, _orbitSize, _bodyTiltAngle, _orbitTiltAngle, _revolutionDegreesPerSecond, rotationDegreesPerSecond, _trailStartTime, _angularSpeed, _travelSpeed;
 
     private Transform _stellarBody, _stellarAnchor, _orbit, _orbitAnchor;
 
@@ -87,6 +87,8 @@ public class StellarObject : MonoBehaviour
     public bool IsHovered { get => _isHovered; set => _isHovered = value; }
     public Star Star { get => _star; set => _star = value; }
     public float GeneratedObjectSize { get => _generatedObjectSize; set => _generatedObjectSize = value; }
+    public float AngularSpeed { get => _angularSpeed; set => _angularSpeed = value; }
+    public float TravelSpeed { get => _travelSpeed; set => _travelSpeed = value; }
 
     private void Awake()
     {

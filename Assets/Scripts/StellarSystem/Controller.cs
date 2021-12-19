@@ -385,7 +385,7 @@ public class Controller : MonoBehaviour
     public void RotateObject(Transform objTransform, float RotationTime, bool inverted)
     {
 
-        RotationTime = Mathf.Max(RotationTime, 0.01f);
+        //RotationTime = Mathf.Max(RotationTime, 0.01f);
         rotationDegreesPerSecond = 360f / RotationTime * (inverted ? 1f : -1f);
         objTransform.Rotate(new Vector3(0, rotationDegreesPerSecond * Time.deltaTime, 0));
     }
