@@ -13,11 +13,16 @@ public class StarShipSetup : MonoBehaviour
     [SerializeField]
     private Controller _controller;
 
+    private Camera _activeCamera;
+
     public Controller Controller { get => _controller; set => _controller = value; }
+    public Camera ActiveCamera { get => _activeCamera; set => _activeCamera = value; }
+
 
     private void Awake()
     {
         _cameras[0].gameObject.SetActive(true);
+        ActiveCamera = _cameras[0];
         _toggleButtons.SetActive(false);
     }
 
@@ -43,6 +48,10 @@ public class StarShipSetup : MonoBehaviour
         foreach(Camera camera in _cameras)
         {
             camera.gameObject.SetActive(!camera.gameObject.activeSelf);
+            if (camera.gameObject.activeSelf)
+            {
+                ActiveCamera = camera;
+            }
         }
     }
 }

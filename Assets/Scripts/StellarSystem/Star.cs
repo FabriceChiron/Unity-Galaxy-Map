@@ -258,11 +258,12 @@ public class Star : MonoBehaviour
     public void SetScales()
     {
         //if the scales are not rationalized
-        if (!CurrentScales.RationalizeValues)
+        if (!CurrentScales.RationalizeValues && CurrentScales == scales)
         {
             //star scale is calculated with the star size (in Earth size) and the scales applied to planets
             transform.localScale = new Vector3(StarData.Size * CurrentScales.Planet, StarData.Size * CurrentScales.Planet, StarData.Size * CurrentScales.Planet);
         }
+
         //else, set a default size for the star (multiplied by the scales applied to planets
         else
         {

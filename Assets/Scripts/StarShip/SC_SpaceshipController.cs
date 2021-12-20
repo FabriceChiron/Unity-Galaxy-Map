@@ -26,6 +26,17 @@ public class SC_SpaceshipController : MonoBehaviour
     [SerializeField]
     private TrailRenderer[] _jetTrails;
 
+    [SerializeField]
+    private AudioClip _engineIdle;
+
+    [SerializeField]
+    private AudioClip _engineSlow;
+
+    [SerializeField]
+    private AudioClip _engineOn;
+
+    private AudioSource _audioSource;
+
     public Transform spaceshipRoot;
     public float rotationSpeed = 2.0f;
     public float cameraSmooth = 4f;
@@ -56,7 +67,9 @@ public class SC_SpaceshipController : MonoBehaviour
         defaultShipRotation = spaceshipRoot.localEulerAngles;
         rotationZ = defaultShipRotation.z;
 
+        _audioSource = GetComponent<AudioSource>();
 
+        _audioSource.Play();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -92,6 +105,13 @@ public class SC_SpaceshipController : MonoBehaviour
 
             speed = Mathf.Lerp(Input.GetAxis("Vertical") * maxSpeed, maxSpeed, Time.deltaTime * 3);
 
+
+            if (Input.GetButtonDown("Boost") || Input.GetButtonUp("Boost") || Input.GetButtonUp("Vertical") || Input.GetButtonDown("Vertical"))
+            {
+                ChangeAudioClip();
+            }
+
+
             _displaySpeed.text = $"Speed: {speed}\nRotationZ: {rotationZTmp}";
         
 
@@ -122,11 +142,30 @@ public class SC_SpaceshipController : MonoBehaviour
             mouseYSmooth = Mathf.Lerp(mouseYSmooth, Input.GetAxis("Mouse Y") * rotationSpeed, Time.deltaTime * cameraSmooth);
             Quaternion localRotation = Quaternion.Euler(-mouseYSmooth, mouseXSmooth, rotationZTmp * rotationSpeed);
             lookRotation = lookRotation * localRotation;
-            transform.rotation = lookRotation;
-            rotationZ -= mouseXSmooth;
-            rotationZ = Mathf.Clamp(rotationZ, -45, 45);
-            spaceshipRoot.transform.localEulerAngles = new Vector3(defaultShipRotation.x, defaultShipRotation.y, rotationZ);
-            rotationZ = Mathf.Lerp(rotationZ, defaultShipRotation.z, Time.deltaTime * cameraSmooth);
+
+            if (Input.GetMouseButton(1) && StarShipSetup.ActiveCamera.name == "Cockpit Camera")
+            {
+                StarShipSetup.ActiveCamera.transform.rotation = lookRotation;
+                
+                if (Input.GetMouseButtonUp(1) && StarShipSetup.ActiveCamera.name == "Cockpit Camera")
+                {
+                    Debug.Log("go back to normal");
+                    StarShipSetup.ActiveCamera.transform.rotation = Quaternion.Lerp(lookRotation, Quaternion.identity, Time.deltaTime * cameraSmooth);
+                    //StarShipSetup.ActiveCamera.transform.rotation = Quaternion.identity;
+                }
+                
+            }
+
+            else
+            {
+                transform.rotation = lookRotation;
+                rotationZ -= mouseXSmooth;
+                rotationZ = Mathf.Clamp(rotationZ, -45, 45);
+                spaceshipRoot.transform.localEulerAngles = new Vector3(defaultShipRotation.x, defaultShipRotation.y, rotationZ);
+                rotationZ = Mathf.Lerp(rotationZ, defaultShipRotation.z, Time.deltaTime * cameraSmooth);
+            }
+
+
 
             //Update crosshair texture
             if (crosshairTexture)
@@ -135,5 +174,26 @@ public class SC_SpaceshipController : MonoBehaviour
             }
         }
 
+
+    }
+    private void ChangeAudioClip()
+    {
+        if (speed <= 1.5f)
+        {
+            _audioSource.clip = _engineIdle;
+        }
+        else
+        {
+            if (speed <= normalSpeed)
+            {
+                _audioSource.clip = _engineSlow;
+            }
+            else
+            {
+                _audioSource.clip = _engineOn;
+            }
+        }
+
+        _audioSource.Play();
     }
 }
