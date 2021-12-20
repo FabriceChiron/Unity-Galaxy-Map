@@ -17,6 +17,7 @@ public class SelectSystemsList : MonoBehaviour
 
     private TMP_Dropdown _systemsDropdown;
 
+    [SerializeField]
     private Controller _controller;
     
     private bool _changeStellarSystem = false;
@@ -92,7 +93,10 @@ public class SelectSystemsList : MonoBehaviour
     {
         if (ChangeStellarSystem)
         {
-            Camera.main.GetComponent<CameraFollow>().ResetCameraTarget(true);
+            if (!_controller.HasPlayer)
+            {
+                _controller.MainCamera.GetComponent<CameraFollow>().ResetCameraTarget(true);
+            }
 
             if(LoopLists.NewStellarSystem.GetComponent<Animator>().GetFloat("Scale") == 0) {
 

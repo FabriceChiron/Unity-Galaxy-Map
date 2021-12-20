@@ -15,6 +15,8 @@ public class StellarObject : MonoBehaviour
     [SerializeField]
     private Scales scalesStarship;
 
+    private Scales _currentScales;
+
     [SerializeField]
     private string _parentStellarObject;
 
@@ -92,6 +94,7 @@ public class StellarObject : MonoBehaviour
     public float GeneratedObjectSize { get => _generatedObjectSize; set => _generatedObjectSize = value; }
     public float AngularSpeed { get => _angularSpeed; set => _angularSpeed = value; }
     public float TravelSpeed { get => _travelSpeed; set => _travelSpeed = value; }
+    public Scales CurrentScales { get => _currentScales; set => _currentScales = value; }
 
     private void Awake()
     {
@@ -102,7 +105,11 @@ public class StellarObject : MonoBehaviour
     void Start()
     {
         Controller = LoopLists.GetComponent<Controller>();
+
+        CurrentScales = Controller.HasPlayer ? scalesStarship : scales;
+
         Camera = UnityEngine.Camera.main.GetComponent<CameraFollow>();
+
         Star = GameObject.FindObjectOfType<Star>();
 
         StellarBody = transform;
@@ -210,7 +217,7 @@ public class StellarObject : MonoBehaviour
 
     private void PlanetRevolution()
     {
-        RevolutionTime = Mathf.Max(PlanetData.YearLength, 0.5f) * scales.Year;
+        RevolutionTime = Mathf.Max(PlanetData.YearLength, 0.5f) * CurrentScales.Year;
 
         Controller.RotateObject(StellarAnchor, RevolutionTime, true);
 
@@ -228,7 +235,7 @@ public class StellarObject : MonoBehaviour
         if (PlanetData.TidallyLocked)
         {
             inverted = Mathf.Abs(PlanetData.YearLength) != PlanetData.YearLength;
-            RotationTime = Mathf.Abs(Mathf.Max(PlanetData.YearLength, 0.5f)) * scales.Year;
+            RotationTime = Mathf.Abs(Mathf.Max(PlanetData.YearLength, 0.5f)) * CurrentScales.Year;
         }
         else
         {
@@ -238,7 +245,7 @@ public class StellarObject : MonoBehaviour
                 _dayLength = 1f;
             }
             inverted = Mathf.Abs(_dayLength) != _dayLength;
-            RotationTime = Mathf.Abs(_dayLength) * scales.Day;
+            RotationTime = Mathf.Abs(_dayLength) * CurrentScales.Day;
         }
 
         Controller.RotateObject(StellarBody, RotationTime, inverted);
@@ -342,7 +349,7 @@ public class StellarObject : MonoBehaviour
     //Set Stellar Object size
     private void SetObjectSize()
     {
-        ObjectSize = PlanetData.Size * scales.Planet;
+        ObjectSize = PlanetData.Size * CurrentScales.Planet;
 
         GeneratedObjectSize = ObjectSize;
 
@@ -363,7 +370,7 @@ public class StellarObject : MonoBehaviour
     private void SetOrbitSize()
     {
         //Calculate the size of the orbit, based on its real orbit size, the scale factor (if set), and if values are rationalized or not
-        OrbitSize = PlanetData.Orbit * LoopLists.dimRet(scales.Orbit, 3.5f, scales.RationalizeValues) * (PlayerPrefs.GetInt("ScaleFactor") != 0 ? LoopLists.StellarSystemData.ScaleFactor : 1f);
+        OrbitSize = PlanetData.Orbit * LoopLists.dimRet(CurrentScales.Orbit, 3.5f, CurrentScales.RationalizeValues) * (PlayerPrefs.GetInt("ScaleFactor") != 0 ? LoopLists.StellarSystemData.ScaleFactor : 1f);
     }
 
     // Position the Stellar object Anchor point, based on its orbit size and the size of its parent

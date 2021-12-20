@@ -10,6 +10,11 @@ public class StarShipSetup : MonoBehaviour
     [SerializeField]
     private GameObject _toggleButtons;
 
+    [SerializeField]
+    private Controller _controller;
+
+    public Controller Controller { get => _controller; set => _controller = value; }
+
     private void Awake()
     {
         _cameras[0].gameObject.SetActive(true);

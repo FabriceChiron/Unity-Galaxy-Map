@@ -32,9 +32,10 @@ public class RescaleUI : MonoBehaviour
 
         //_UIScaleFactor = _baseDPI / _screenDPI;
 
+        Debug.Log($"DPI Ratio: {_dpiRatio}");
 
         _canvasScaler = GetComponent<CanvasScaler>();
-        if(_dpiRatio > 2f && _UIScaleFactor > 0f)
+        if(_dpiRatio > 2f && _UIScaleFactor > 0f && Screen.height > Screen.width)
         {
             _canvasScaler.scaleFactor = _UIScaleFactor;
         }

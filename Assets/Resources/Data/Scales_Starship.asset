@@ -16,4 +16,4 @@ MonoBehaviour:
   Planet: 6
   Year: 36500
   Day: 100
-  RationalizeValues: 0
+  RationalizeValues: 1

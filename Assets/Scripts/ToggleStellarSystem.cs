@@ -97,9 +97,9 @@ public class ToggleStellarSystem : MonoBehaviour
                 Animator.SetFloat("Scale", StellarSystemTargetScale);
                 IsScaleChanging = false;
 
-                if(StellarSystemTargetScale == 0)
+                if(StellarSystemTargetScale == 0 && !_controller.HasPlayer)
                 {
-                    Camera.main.GetComponent<CameraFollow>().InitCamera();
+                    _controller.MainCamera.GetComponent<CameraFollow>().InitCamera();
                 }
             }
 

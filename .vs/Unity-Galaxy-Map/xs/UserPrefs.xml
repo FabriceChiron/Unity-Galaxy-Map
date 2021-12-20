@@ -1,19 +1,36 @@
 ﻿<Properties StartupConfiguration="{D3087C6B-F4F7-0F5A-3251-0221814DCEB3}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Planet.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/UITest.cs">
     <Files>
       <File FileName="Assets/Scripts/UI/SelectSystemsList.cs" Line="100" Column="53" />
-      <File FileName="Assets/Scripts/ToggleStellarSystem.cs" Line="21" Column="45" />
-      <File FileName="Assets/Scripts/GeneratePlanets.cs" Line="69" Column="13" />
-      <File FileName="Assets/Scripts/UI/DropDownMenu.cs" Line="46" Column="73" />
-      <File FileName="Assets/Scripts/Planet.cs" Line="391" Column="1" />
+      <File FileName="Assets/Scripts/ToggleStellarSystem.cs" />
+      <File FileName="Assets/Scripts/UI/DropDownMenu.cs" />
+      <File FileName="Assets/Scripts/CameraFollow.cs" Line="197" Column="89" />
+      <File FileName="Assets/Scripts/StarShip/SC_SpaceshipController.cs" Line="65" Column="67" />
+      <File FileName="Assets/Scripts/StarShip/StarShipSetup.cs" Line="15" Column="1" />
+      <File FileName="Assets/Scripts/UI/SliderSetting.cs" />
+      <File FileName="Assets/Scripts/UI/ToggleSetting.cs" Line="83" Column="1" />
+      <File FileName="Assets/Scripts/UI/ResizeUI.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/UI/RescaleUI.cs" Line="35" Column="46" />
+      <File FileName="Assets/Scripts/StellarSystem/Controller.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/StellarSystem/LoopLists.cs" Line="12" Column="27" />
+      <File FileName="Assets/Scripts/StellarSystem/Star.cs" Line="97" Column="59" />
+      <File FileName="Assets/Scripts/StellarSystem/StellarObject.cs" Line="16" Column="35" />
+      <File FileName="Assets/Scripts/StellarSystem/AsteroidBelt.cs" Line="127" Column="1" />
+      <File FileName="Assets/Scripts/UI/UITest.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="Unity-Galaxy-Map" expanded="True" selected="True">
+          <Node name="Unity-Galaxy-Map" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Prefabs" expanded="True" />
-              <Node name="Scripts" expanded="True" />
+              <Node name="Scripts" expanded="True">
+                <Node name="StarShip" expanded="True" />
+                <Node name="StellarSystem" expanded="True" />
+                <Node name="UI" expanded="True">
+                  <Node name="UITest.cs" selected="True" />
+                </Node>
+              </Node>
             </Node>
           </Node>
         </State>
@@ -22,7 +39,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="39d36af4-9f79-4dc4-a647-64d1f2f5e9e1" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="41bd0244-ee70-4ef5-93b6-c086190f58cd" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

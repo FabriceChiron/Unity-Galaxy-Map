@@ -5031,7 +5031,7 @@ Transform:
   m_GameObject: {fileID: 669400658}
   m_LocalRotation: {x: 0.23344536, y: -0, z: -0, w: 0.97236997}
   m_LocalPosition: {x: 0, y: 76.7, z: -150.14}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2024259902}
   - {fileID: 2138560648}
@@ -5070,6 +5070,7 @@ MonoBehaviour:
   - {fileID: 662437592}
   - {fileID: 1717360151}
   _toggleButtons: {fileID: 931115403}
+  _controller: {fileID: 495509697}
 --- !u!114 &669400662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5087,6 +5088,10 @@ MonoBehaviour:
   _displaySpeed: {fileID: 412775613}
   rearCameraPosition: {fileID: 1717360144}
   rearCamera: {fileID: 1717360151}
+  _starShipSetup: {fileID: 669400661}
+  _jetTrails:
+  - {fileID: 1038061896}
+  - {fileID: 2127828230}
   spaceshipRoot: {fileID: 2024259902}
   rotationSpeed: 2
   cameraSmooth: 4
@@ -8117,6 +8122,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1032338552}
   m_CullTransparentMesh: 1
+--- !u!96 &1038061896 stripped
+TrailRenderer:
+  m_CorrespondingSourceObject: {fileID: 6858127304956083041, guid: ab3157939a85f5b4d845b46249912a03, type: 3}
+  m_PrefabInstance: {fileID: 2024259901}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1040428383
 GameObject:
   m_ObjectHideFlags: 0
@@ -14192,6 +14202,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6d46e837f69548a4a85caace038a9a8b, type: 2}
   _loopLists: {fileID: 495509696}
   _stellarSystemPrefab: {fileID: 7701551589869002505, guid: ee6cf1a64376112489e6f19b56335ad2, type: 3}
+  _controller: {fileID: 495509697}
 --- !u!114 &1999791610 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1982498355667602534, guid: e04326d909c04ca4f8003d435e58c36b, type: 3}
@@ -14953,6 +14964,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!96 &2127828230 stripped
+TrailRenderer:
+  m_CorrespondingSourceObject: {fileID: 8097446297111523269, guid: ab3157939a85f5b4d845b46249912a03, type: 3}
+  m_PrefabInstance: {fileID: 2024259901}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2138560647
 GameObject:
   m_ObjectHideFlags: 0
@@ -16404,7 +16420,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -4.999878, y: 0}
+  m_AnchoredPosition: {x: -4.99984, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &2027654167732374067
@@ -17827,7 +17843,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -4.999878, y: 0}
+  m_AnchoredPosition: {x: -4.99984, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &8329624914897119217
@@ -17847,7 +17863,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -4.999878, y: 0}
+  m_AnchoredPosition: {x: -4.99984, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &8329624915016843803
@@ -17867,7 +17883,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -4.999878, y: 0}
+  m_AnchoredPosition: {x: -4.99984, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8356673585417624607

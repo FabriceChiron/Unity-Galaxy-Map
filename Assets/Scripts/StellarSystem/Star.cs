@@ -15,6 +15,8 @@ public class Star : MonoBehaviour
     [SerializeField]
     private Scales scalesStarship;
 
+    private Scales _currentScales;
+
     [SerializeField]
     private StarData _starData;
 
@@ -86,12 +88,21 @@ public class Star : MonoBehaviour
     public PlanetButton PlanetButton { get => _planetButton; set => _planetButton = value; }
     public StarData StarData { get => _starData; set => _starData = value; }
     public float GeneratedObjectSize { get => _generatedObjectSize; set => _generatedObjectSize = value; }
+    public Scales CurrentScales { get => _currentScales; set => _currentScales = value; }
 
     // Start is called before the first frame update
     void Start()
     {
 
         Controller = LoopLists.GetComponent<Controller>();
+
+        CurrentScales = Controller.HasPlayer ? scalesStarship : scales;
+
+        Debug.Log($"Orbit: {CurrentScales.Orbit}\n" +
+            $"Planet: {CurrentScales.Planet}\n" +
+            $"Day: {CurrentScales.Day}\n" +
+            $"Year: {CurrentScales.Year}");
+
         Camera = UnityEngine.Camera.main.GetComponent<CameraFollow>();
 
         starType = StarData.starType;
@@ -198,7 +209,7 @@ public class Star : MonoBehaviour
 
     private void StarRevolution()
     {
-        RevolutionTime = Mathf.Max(StarData.YearLength, 0.5f) * scales.Year;
+        RevolutionTime = Mathf.Max(StarData.YearLength, 0.5f) * CurrentScales.Year;
 
         Controller.RotateObject(StarAnchor, RevolutionTime, true);
 
@@ -247,10 +258,10 @@ public class Star : MonoBehaviour
     public void SetScales()
     {
         //if the scales are not rationalized
-        if (!scales.RationalizeValues)
+        if (!CurrentScales.RationalizeValues)
         {
             //star scale is calculated with the star size (in Earth size) and the scales applied to planets
-            transform.localScale = new Vector3(StarData.Size * scales.Planet, StarData.Size * scales.Planet, StarData.Size * scales.Planet);
+            transform.localScale = new Vector3(StarData.Size * CurrentScales.Planet, StarData.Size * CurrentScales.Planet, StarData.Size * CurrentScales.Planet);
         }
         //else, set a default size for the star (multiplied by the scales applied to planets
         else
@@ -287,7 +298,7 @@ public class Star : MonoBehaviour
                     starSize = 5f;
                     break;
             }
-            transform.localScale = new Vector3(starSize * scales.Planet, starSize * scales.Planet, starSize * scales.Planet);
+            transform.localScale = new Vector3(starSize * CurrentScales.Planet, starSize * CurrentScales.Planet, starSize * CurrentScales.Planet);
         }
 
         SetOrbitSize();
@@ -313,7 +324,7 @@ public class Star : MonoBehaviour
     private void SetOrbitSize()
     {
         //Calculate the size of the orbit, based on its real orbit size, the scale factor (if set), and if values are rationalized or not
-        OrbitSize = StarData.Orbit * scales.Orbit * (PlayerPrefs.GetInt("ScaleFactor") != 0 ? LoopLists.StellarSystemData.ScaleFactor : 1f);
+        OrbitSize = StarData.Orbit * CurrentScales.Orbit * (PlayerPrefs.GetInt("ScaleFactor") != 0 ? LoopLists.StellarSystemData.ScaleFactor : 1f);
 
         if(FindObjectsOfType<Star>().Length > 1)
         {

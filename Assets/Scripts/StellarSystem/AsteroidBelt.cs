@@ -14,6 +14,7 @@ public class AsteroidBelt : MonoBehaviour
     [SerializeField]
     private Scales scalesStarship;
 
+    private Scales _currentScales;
 
     [SerializeField]
     private GameObject _asteroidPrefab;
@@ -47,10 +48,13 @@ public class AsteroidBelt : MonoBehaviour
     public float OrbitSize { get => _orbitSize; set => _orbitSize = value; }
     public float RevolutionTime { get => _revolutionTime; set => _revolutionTime = value; }
     public float PosY { get => _posY; set => _posY = value; }
+    public Scales CurrentScales { get => _currentScales; set => _currentScales = value; }
 
     // Start is called before the first frame update
     void Start()
     {
+        CurrentScales = Controller.HasPlayer ? scalesStarship : scales;
+
         _asteroidList = new List<Transform>();
 
         for (int i = 0; i < AsteroidBeltData.Quantity; i++)
@@ -97,14 +101,14 @@ public class AsteroidBelt : MonoBehaviour
 
     private void AsteroidsRevolution()
     {
-        RevolutionTime = Mathf.Max(AsteroidBeltData.YearLength, 0.5f) * scales.Year;
+        RevolutionTime = Mathf.Max(AsteroidBeltData.YearLength, 0.5f) * CurrentScales.Year;
 
         Controller.RotateObject(transform.GetChild(0), RevolutionTime, false);
     }
 
     public void SetScales()
     {
-        //Debug.Log(AsteroidBeltData.Orbit * LoopLists.dimRet(scales.Orbit, 3.5f, scales.RationalizeValues) * (PlayerPrefs.GetInt("ScaleFactor") != 0 ? LoopLists.StellarSystemData.ScaleFactor : 1f) + LoopLists.NewStar.transform.localScale.z);
+        //Debug.Log(AsteroidBeltData.Orbit * LoopLists.dimRet(CurrentScales.Orbit, 3.5f, CurrentScales.RationalizeValues) * (PlayerPrefs.GetInt("ScaleFactor") != 0 ? LoopLists.StellarSystemData.ScaleFactor : 1f) + LoopLists.NewStar.transform.localScale.z);
 
         foreach(Transform asteroid in _asteroidList)
         {
@@ -115,22 +119,22 @@ public class AsteroidBelt : MonoBehaviour
             Transform asteroidBody = asteroid.GetComponentInChildren<MeshRenderer>().transform;
 
             float asteroidBaseScale = asteroid.GetComponent<Asteroid>().Scale;
-            asteroidBody.localScale = new Vector3(asteroidBaseScale * scales.Planet, asteroidBaseScale * scales.Planet, asteroidBaseScale * scales.Planet);
+            asteroidBody.localScale = new Vector3(asteroidBaseScale * CurrentScales.Planet, asteroidBaseScale * CurrentScales.Planet, asteroidBaseScale * CurrentScales.Planet);
 
-            //asteroidBody.localPosition = new Vector3(0f, 0f, Random.Range(scales.Orbit * -.5f, scales.Orbit * .5f));
+            //asteroidBody.localPosition = new Vector3(0f, 0f, Random.Range(CurrentScales.Orbit * -.5f, CurrentScales.Orbit * .5f));
         }
     }
 
     private void SetOrbitSize(Transform asteroid)
     {
         //Calculate the size of the orbit, based on its real orbit size, the scale factor (if set), and if values are rationalized or not
-        OrbitSize = asteroid.GetComponent<Asteroid>().Orbit * LoopLists.dimRet(scales.Orbit, 3.5f, scales.RationalizeValues) * (PlayerPrefs.GetInt("ScaleFactor") != 0 ? LoopLists.StellarSystemData.ScaleFactor : 1f) + LoopLists.NewStar.transform.localScale.z;
+        OrbitSize = asteroid.GetComponent<Asteroid>().Orbit * LoopLists.dimRet(CurrentScales.Orbit, 3.5f, CurrentScales.RationalizeValues) * (PlayerPrefs.GetInt("ScaleFactor") != 0 ? LoopLists.StellarSystemData.ScaleFactor : 1f) + LoopLists.NewStar.transform.localScale.z;
 
-        PosY = asteroid.GetComponent<Asteroid>().PosY * scales.Planet;
+        PosY = asteroid.GetComponent<Asteroid>().PosY * CurrentScales.Planet;
 
         
 
-        //OrbitSize = AsteroidBeltData.Orbit * LoopLists.dimRet(scales.Orbit, 3.5f, scales.RationalizeValues) * (PlayerPrefs.GetInt("ScaleFactor") != 0 ? LoopLists.StellarSystemData.ScaleFactor : 1f) + LoopLists.NewStar.transform.localScale.z;
+        //OrbitSize = AsteroidBeltData.Orbit * LoopLists.dimRet(CurrentScales.Orbit, 3.5f, CurrentScales.RationalizeValues) * (PlayerPrefs.GetInt("ScaleFactor") != 0 ? LoopLists.StellarSystemData.ScaleFactor : 1f) + LoopLists.NewStar.transform.localScale.z;
 
     }
 

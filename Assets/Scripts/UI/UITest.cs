@@ -18,10 +18,11 @@ public class UITest : MonoBehaviour
 
     private void Update()
     {
-/*        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             IsPaused = !IsPaused;
-        }*/
+            Debug.Log($"IsPaused: {IsPaused}");
+        }
         //print(IsPointerOverUIElement() ? "Over UI" : "Not over UI");
     }
 
