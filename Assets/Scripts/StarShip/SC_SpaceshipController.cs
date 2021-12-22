@@ -12,6 +12,9 @@ public class SC_SpaceshipController : MonoBehaviour
     public float accelerationSpeed = 45f;
 
     [SerializeField]
+    private float _maxSpeed;
+
+    [SerializeField]
     private TextMeshProUGUI _displaySpeed;
 
     [SerializeField]
@@ -40,9 +43,15 @@ public class SC_SpaceshipController : MonoBehaviour
     public Transform spaceshipRoot;
     public float rotationSpeed = 2.0f;
     public float cameraSmooth = 4f;
+    private float verticalAxis;
+    private bool _isBoosting;
+    private bool _wasBoosting;
+
     public RectTransform crosshairTexture;
 
+    [SerializeField]
     private float _timeToMaxSpeed = 3f;
+    private float _resetTimeToMaxSpeed;
 
     float speed;
     float rotationZTmp;
@@ -58,9 +67,12 @@ public class SC_SpaceshipController : MonoBehaviour
 
     public StarShipSetup StarShipSetup { get => _starShipSetup; set => _starShipSetup = value; }
     public TrailRenderer[] JetTrails { get => _jetTrails; set => _jetTrails = value; }
+    public float TimeToMaxSpeed { get => _timeToMaxSpeed; set => _timeToMaxSpeed = value; }
+    public bool IsBoosting { get => _isBoosting; set => _isBoosting = value; }
 
     private void Awake()
     {
+        _resetTimeToMaxSpeed = _timeToMaxSpeed;
     }
 
     // Start is called before the first frame update
@@ -82,6 +94,8 @@ public class SC_SpaceshipController : MonoBehaviour
 
     private void Update()
     {
+        IsBoosting = Input.GetButton("Boost");
+
         Cursor.lockState = StarShipSetup.Controller.UITest.IsPaused ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = StarShipSetup.Controller.UITest.IsPaused;
 
@@ -89,6 +103,8 @@ public class SC_SpaceshipController : MonoBehaviour
         {
             jetTrail.time = speed * .5f;
         }
+
+        verticalAxis = Input.GetAxis("Vertical");
     }
 
     void FixedUpdate()
@@ -106,47 +122,15 @@ public class SC_SpaceshipController : MonoBehaviour
         if(!StarShipSetup.Controller.UITest.IsPaused)
         {
 
-            /*float maxSpeed = Mathf.Lerp(speed, Input.GetButton("Boost") ? accelerationSpeed : normalSpeed, Time.deltaTime * 3f);
-
-            speed = Mathf.Lerp(speed, maxSpeed, Time.deltaTime *3f);*/
-
-            float maxSpeed = Input.GetButton("Boost") ? accelerationSpeed : normalSpeed;
-
-            speed = Mathf.Lerp(Input.GetAxis("Vertical") * maxSpeed, maxSpeed, Time.deltaTime * 3);
-
-            speed = Mathf.Round(speed);
+            ApplyThrust();
 
             ChangeAudioClip(speed);
-            
-            _displaySpeed.text = $"Speed: {speed}\nRotationZ: {rotationZTmp}";
-        
-            //Set moveDirection to the vertical axis (up and down keys) * speed
-            Vector3 moveDirection = new Vector3(0, 0, speed);
-
-            Debug.Log($"{moveDirection} - {transform.TransformDirection(moveDirection)}");
-
-            //Transform the vector3 to local space
-            moveDirection = transform.TransformDirection(moveDirection);
-            //Set the velocity, so you can move
-            r.velocity = new Vector3(moveDirection.x, moveDirection.y, moveDirection.z);
 
             //Camera follow
             rearCamera.transform.position = Vector3.Lerp(rearCamera.transform.position, rearCameraPosition.position, Time.deltaTime * cameraSmooth);
             rearCamera.transform.rotation = Quaternion.Lerp(rearCamera.transform.rotation, rearCameraPosition.rotation, Time.deltaTime * cameraSmooth);
 
             //Rotation
-            rotationZTmp = 0;
-/*            //if (Input.GetKey(KeyCode.Q))
-            if (Input.GetAxis("Horizontal") < 0)
-            {
-                rotationZTmp = 1;
-            }
-            //else if (Input.GetKey(KeyCode.D))
-            else if (Input.GetAxis("Horizontal") > 0)
-            {
-                rotationZTmp = -1;
-            }*/
-
             rotationZTmp = Input.GetAxis("Horizontal") * -1f;
 
             mouseXSmooth = Mathf.Lerp(mouseXSmooth, Input.GetAxis("Mouse X") * rotationSpeed, Time.deltaTime * cameraSmooth);
@@ -157,14 +141,14 @@ public class SC_SpaceshipController : MonoBehaviour
             if (Input.GetMouseButton(1) && StarShipSetup.ActiveCamera.name == "Cockpit Camera")
             {
                 StarShipSetup.ActiveCamera.transform.rotation = lookRotation;
-                
+
                 if (Input.GetMouseButtonUp(1) && StarShipSetup.ActiveCamera.name == "Cockpit Camera")
                 {
                     Debug.Log("go back to normal");
                     StarShipSetup.ActiveCamera.transform.rotation = Quaternion.Lerp(lookRotation, Quaternion.identity, Time.deltaTime * cameraSmooth);
                     //StarShipSetup.ActiveCamera.transform.rotation = Quaternion.identity;
                 }
-                
+
             }
 
             else
@@ -187,25 +171,82 @@ public class SC_SpaceshipController : MonoBehaviour
 
 
     }
+
+    private void ApplyThrust()
+    {
+
+
+
+        if (verticalAxis != 0)
+        {
+            float maxSpeed = goToSpeed(speed, IsBoosting ? accelerationSpeed : normalSpeed, 0.1f);
+
+            _timeToMaxSpeed -= Time.deltaTime;
+
+            speed += verticalAxis * Time.deltaTime * Mathf.Max(speed, _wasBoosting ? 10f : 1f);
+
+            if (speed >= maxSpeed)
+            {
+                speed = maxSpeed;
+            }
+
+        }
+        else
+        {
+            speed = goToSpeed(speed, 0f, 3f);
+        }
+
+        speed = Mathf.Round(speed * 100f) / 100f;
+
+        _displaySpeed.text = $"Speed: {speed}\nRotationZ: {rotationZTmp}";
+
+        //Set moveDirection to the vertical axis (up and down keys) * speed
+        Vector3 moveDirection = new Vector3(0, 0, speed);
+
+        //Debug.Log($"{moveDirection} - {transform.TransformDirection(moveDirection)}");
+
+        //Transform the vector3 to local space
+        moveDirection = transform.TransformDirection(moveDirection);
+        //Set the velocity, so you can move
+        r.velocity = new Vector3(moveDirection.x, moveDirection.y, moveDirection.z);
+
+        _wasBoosting = IsBoosting && speed > normalSpeed;
+    }
+
+    private float goToSpeed(float thisSpeed, float targetSpeed, float thrust)
+    {
+        if (Mathf.Abs(thisSpeed) - targetSpeed <= 0.1)
+        {
+            thisSpeed = targetSpeed;
+        }
+        else
+        {
+            thisSpeed = Mathf.Lerp(speed, targetSpeed, Time.deltaTime * thrust);
+        }
+
+        return thisSpeed;
+    }
+
     private void ChangeAudioClip(float speed)
     {
         AudioClip currentAudioClip = _audioSource.clip;
         AudioClip newAudioClip;
 
 
-        if (speed <= 4f)
+        if (verticalAxis == 0f)
         {
             newAudioClip = _engineIdle;
         }
         else
         {
-            if (speed <= normalSpeed)
+            if(verticalAxis > 0)
             {
-                newAudioClip = _engineSlow;
+                newAudioClip = IsBoosting ? _engineOn : _engineSlow;
             }
+
             else
             {
-                newAudioClip = _engineOn;
+                newAudioClip = _engineSlow;
             }
         }
 

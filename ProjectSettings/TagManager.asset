@@ -17,6 +17,7 @@ TagManager:
   - Controller
   - ScaleFactorInfo
   - StarShip
+  - Platinum
   layers:
   - Default
   - TransparentFX

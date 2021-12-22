@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: AsteroidBelt
   m_EditorClassIdentifier: 
   Quantity: 100
+  AsteroidsWithPlatinum: 50
   asteroidType: 0
   Orbit: 3
   OrbitMin: 3
