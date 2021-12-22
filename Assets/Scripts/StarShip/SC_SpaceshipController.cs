@@ -30,6 +30,9 @@ public class SC_SpaceshipController : MonoBehaviour
     private TrailRenderer[] _jetTrails;
 
     [SerializeField]
+    private ParticleSystem[] _mainThrusters;
+
+    [SerializeField]
     private AudioClip _engineIdle;
 
     [SerializeField]
@@ -124,7 +127,9 @@ public class SC_SpaceshipController : MonoBehaviour
 
             ApplyThrust();
 
-            ChangeAudioClip(speed);
+            ChangeAudioClip();
+
+            Thrusters();
 
             //Camera follow
             rearCamera.transform.position = Vector3.Lerp(rearCamera.transform.position, rearCameraPosition.position, Time.deltaTime * cameraSmooth);
@@ -179,11 +184,11 @@ public class SC_SpaceshipController : MonoBehaviour
 
         if (verticalAxis != 0)
         {
-            float maxSpeed = goToSpeed(speed, IsBoosting ? accelerationSpeed : normalSpeed, 0.1f);
+            float maxSpeed = goToSpeed(speed, IsBoosting ? accelerationSpeed : normalSpeed, 3f);
 
             _timeToMaxSpeed -= Time.deltaTime;
 
-            speed += verticalAxis * Time.deltaTime * Mathf.Max(speed, _wasBoosting ? 10f : 1f);
+            speed += verticalAxis * Time.deltaTime * Mathf.Max(speed, _wasBoosting ? 10f : 5f);
 
             if (speed >= maxSpeed)
             {
@@ -227,7 +232,7 @@ public class SC_SpaceshipController : MonoBehaviour
         return thisSpeed;
     }
 
-    private void ChangeAudioClip(float speed)
+    private void ChangeAudioClip()
     {
         AudioClip currentAudioClip = _audioSource.clip;
         AudioClip newAudioClip;
@@ -256,5 +261,34 @@ public class SC_SpaceshipController : MonoBehaviour
             _audioSource.clip = newAudioClip;
             _audioSource.Play();
         }
+    }
+
+    private void Thrusters()
+    {
+
+        foreach(ParticleSystem _thruster in _mainThrusters)
+        {
+            Vector3 _thrusterSCale;
+            if (verticalAxis == 0f)
+            {
+
+                _thrusterSCale = new Vector3(1f, 1f, 0.1f);
+            }
+            else
+            {
+                if (verticalAxis > 0)
+                {
+                    _thrusterSCale = new Vector3(IsBoosting ? 1.5f : 1f, IsBoosting ? 1.5f : 1f, IsBoosting ? 1.5f : 1f);
+                }
+
+                else
+                {
+                    _thrusterSCale = new Vector3(1f, 1f, 0.1f);
+                }
+            }
+
+            _thruster.transform.localScale = Vector3.Lerp(_thruster.transform.localScale, _thrusterSCale, Time.deltaTime * 3f);
+        }
+
     }
 }

@@ -9,6 +9,7 @@ public class StarShipCollect : MonoBehaviour
     private int _platinumScore = 0;
 
     private bool _flyToStarShip;
+    private bool _isPatinumCollected;
 
     public int PlatinumScore { get => _platinumScore; set => _platinumScore = value; }
 
@@ -41,6 +42,11 @@ public class StarShipCollect : MonoBehaviour
 
     public void CollectPlatinum(int quantity)
     {
-        _platinumScore += quantity;
+        if (_isPatinumCollected)
+        {
+            PlatinumScore += quantity;
+            Debug.Log(PlatinumScore);
+            _isPatinumCollected = true;
+        }
     }
 }

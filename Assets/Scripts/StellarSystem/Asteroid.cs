@@ -58,10 +58,13 @@ public class Asteroid : MonoBehaviour
             Debug.Log(Starship.position);
 
             Platinum.transform.position = Vector3.Lerp(Platinum.transform.position, Starship.position, Time.deltaTime * 1.5f);
+            Platinum.transform.localScale = Vector3.Lerp(Platinum.transform.localScale, Vector3.zero, Time.deltaTime * 1.5f);
 
             if(Vector3.Distance(Platinum.transform.position, Starship.position) <= 1f)
             {
                 Starship.GetComponent<StarShipCollect>().CollectPlatinum(PlatinumQuantity);
+
+                Destroy(Platinum);
             }
         }
     }

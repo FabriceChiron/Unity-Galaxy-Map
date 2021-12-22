@@ -153,7 +153,7 @@ public class AsteroidBelt : MonoBehaviour
             if (asteroidScript.HasPlatinum)
             {
                 asteroidScript.Platinum.transform.localScale = asteroidBody.localScale * .5f;
-                asteroidScript.PlatinumQuantity = Mathf.RoundToInt(asteroidBody.localScale.x * 10);
+                asteroidScript.PlatinumQuantity = Mathf.RoundToInt(asteroidBaseScale * 10);
             }
             //asteroidBody.localPosition = new Vector3(0f, 0f, Random.Range(CurrentScales.Orbit * -.5f, CurrentScales.Orbit * .5f));
         }
