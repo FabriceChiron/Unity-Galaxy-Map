@@ -15,6 +15,7 @@ public class StarShipSetup : MonoBehaviour
 
     private Camera _activeCamera;
 
+
     public Controller Controller { get => _controller; set => _controller = value; }
     public Camera ActiveCamera { get => _activeCamera; set => _activeCamera = value; }
 
@@ -24,12 +25,12 @@ public class StarShipSetup : MonoBehaviour
         _cameras[0].gameObject.SetActive(true);
         ActiveCamera = _cameras[0];
         _toggleButtons.SetActive(false);
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame

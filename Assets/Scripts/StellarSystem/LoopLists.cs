@@ -26,7 +26,7 @@ public class LoopLists : MonoBehaviour
 
     private List<string> _stellarBodiesList;
 
-    private bool _stellarSystemGenerated;
+    private bool _stellarSystemGenerated, _isStarShipPlaced;
 
     private int _starCount, _stellarObjectCount, _asteroidCount, _stellarObjectTotal, _asteroidTotal;
 
@@ -41,6 +41,7 @@ public class LoopLists : MonoBehaviour
     public int AsteroidCount { get => _asteroidCount; set => _asteroidCount = value; }
     public int StellarObjectTotal { get => _stellarObjectTotal; set => _stellarObjectTotal = value; }
     public int AsteroidTotal { get => _asteroidTotal; set => _asteroidTotal = value; }
+    public bool IsStarShipPlaced { get => _isStarShipPlaced; set => _isStarShipPlaced = value; }
 
     private void Awake()
     {
@@ -84,11 +85,22 @@ public class LoopLists : MonoBehaviour
                             _controller.MainCamera.GetComponent<CameraFollow>().ResetCameraTarget(false);
                         }
 
+                        else { 
+                            if(IsStarShipPlaced == false)
+                            {
+                                _controller.Player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+                                _controller.Player.SetActive(true);
+                                _controller.Camera.gameObject.SetActive(false);
+
+                                IsStarShipPlaced = true;
+                            }
+                        }
                     }
                 }
             }
 
         }
+
 
         foreach (Star star in GameObject.FindObjectsOfType<Star>())
         {

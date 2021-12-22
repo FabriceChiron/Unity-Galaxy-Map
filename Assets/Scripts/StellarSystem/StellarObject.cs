@@ -53,6 +53,9 @@ public class StellarObject : MonoBehaviour
     [SerializeField]
     private float _generatedObjectSize;
 
+    [SerializeField]
+    private SphereCollider[] _sphereCollidersForCamera;
+
     private CameraFollow _camera;
 
     private Star _star;
@@ -263,6 +266,15 @@ public class StellarObject : MonoBehaviour
     //Creating stellar object (planet, moon)
     private void CreateStellarObject()
     {
+
+        if (Controller.HasPlayer)
+        {
+            foreach(SphereCollider sphereCollider in _sphereCollidersForCamera)
+            {
+                sphereCollider.enabled = false;
+            }
+        }
+
         SetMaterial();
 
         SetClouds();

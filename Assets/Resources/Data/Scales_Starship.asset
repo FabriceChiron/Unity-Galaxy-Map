@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Scales_Starship
   m_EditorClassIdentifier: 
   Orbit: 1000
-  Planet: 50
+  Planet: 100
   Year: 36500
   Day: 100
   RationalizeValues: 0

@@ -42,6 +42,8 @@ public class SC_SpaceshipController : MonoBehaviour
     public float cameraSmooth = 4f;
     public RectTransform crosshairTexture;
 
+    private float _timeToMaxSpeed = 3f;
+
     float speed;
     float rotationZTmp;
     Rigidbody r;
@@ -50,6 +52,9 @@ public class SC_SpaceshipController : MonoBehaviour
     float mouseXSmooth = 0;
     float mouseYSmooth = 0;
     Vector3 defaultShipRotation;
+
+    float _normalAcceleration = 3f;
+    float _boostAcceleration = 5f;
 
     public StarShipSetup StarShipSetup { get => _starShipSetup; set => _starShipSetup = value; }
     public TrailRenderer[] JetTrails { get => _jetTrails; set => _jetTrails = value; }
@@ -101,22 +106,25 @@ public class SC_SpaceshipController : MonoBehaviour
         if(!StarShipSetup.Controller.UITest.IsPaused)
         {
 
+            /*float maxSpeed = Mathf.Lerp(speed, Input.GetButton("Boost") ? accelerationSpeed : normalSpeed, Time.deltaTime * 3f);
+
+            speed = Mathf.Lerp(speed, maxSpeed, Time.deltaTime *3f);*/
+
             float maxSpeed = Input.GetButton("Boost") ? accelerationSpeed : normalSpeed;
 
             speed = Mathf.Lerp(Input.GetAxis("Vertical") * maxSpeed, maxSpeed, Time.deltaTime * 3);
 
+            speed = Mathf.Round(speed);
 
-            if (Input.GetButtonDown("Boost") || Input.GetButtonUp("Boost") || Input.GetButtonUp("Vertical") || Input.GetButtonDown("Vertical"))
-            {
-                ChangeAudioClip();
-            }
-
-
+            ChangeAudioClip(speed);
+            
             _displaySpeed.text = $"Speed: {speed}\nRotationZ: {rotationZTmp}";
         
-
             //Set moveDirection to the vertical axis (up and down keys) * speed
             Vector3 moveDirection = new Vector3(0, 0, speed);
+
+            Debug.Log($"{moveDirection} - {transform.TransformDirection(moveDirection)}");
+
             //Transform the vector3 to local space
             moveDirection = transform.TransformDirection(moveDirection);
             //Set the velocity, so you can move
@@ -128,7 +136,7 @@ public class SC_SpaceshipController : MonoBehaviour
 
             //Rotation
             rotationZTmp = 0;
-            //if (Input.GetKey(KeyCode.Q))
+/*            //if (Input.GetKey(KeyCode.Q))
             if (Input.GetAxis("Horizontal") < 0)
             {
                 rotationZTmp = 1;
@@ -137,7 +145,10 @@ public class SC_SpaceshipController : MonoBehaviour
             else if (Input.GetAxis("Horizontal") > 0)
             {
                 rotationZTmp = -1;
-            }
+            }*/
+
+            rotationZTmp = Input.GetAxis("Horizontal") * -1f;
+
             mouseXSmooth = Mathf.Lerp(mouseXSmooth, Input.GetAxis("Mouse X") * rotationSpeed, Time.deltaTime * cameraSmooth);
             mouseYSmooth = Mathf.Lerp(mouseYSmooth, Input.GetAxis("Mouse Y") * rotationSpeed, Time.deltaTime * cameraSmooth);
             Quaternion localRotation = Quaternion.Euler(-mouseYSmooth, mouseXSmooth, rotationZTmp * rotationSpeed);
@@ -176,24 +187,33 @@ public class SC_SpaceshipController : MonoBehaviour
 
 
     }
-    private void ChangeAudioClip()
+    private void ChangeAudioClip(float speed)
     {
-        if (speed <= 1.5f)
+        AudioClip currentAudioClip = _audioSource.clip;
+        AudioClip newAudioClip;
+
+
+        if (speed <= 4f)
         {
-            _audioSource.clip = _engineIdle;
+            newAudioClip = _engineIdle;
         }
         else
         {
             if (speed <= normalSpeed)
             {
-                _audioSource.clip = _engineSlow;
+                newAudioClip = _engineSlow;
             }
             else
             {
-                _audioSource.clip = _engineOn;
+                newAudioClip = _engineOn;
             }
         }
 
-        _audioSource.Play();
+
+        if(newAudioClip != currentAudioClip)
+        {
+            _audioSource.clip = newAudioClip;
+            _audioSource.Play();
+        }
     }
 }

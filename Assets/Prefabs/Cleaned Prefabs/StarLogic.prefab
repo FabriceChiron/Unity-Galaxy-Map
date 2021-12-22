@@ -595,8 +595,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 381.125, y: 0}
-  m_SizeDelta: {x: 762.25, y: 0}
+  m_AnchoredPosition: {x: 377.5, y: 0}
+  m_SizeDelta: {x: 755, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &8118629942466838946
 CanvasRenderer:
@@ -1554,6 +1554,11 @@ MonoBehaviour:
   _animator: {fileID: 895197225622233526}
   _widthThreshold: 0
   _generatedObjectSize: 0
+  _sphereCollidersForCamera:
+  - {fileID: 6578311877218168598}
+  - {fileID: 2336392537424277579}
+  - {fileID: 6406843891784749953}
+  - {fileID: 3475299267091509940}
 --- !u!54 &2485489672502935993
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -13087,7 +13092,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 1.2578692
+  m_AspectRatio: 1.3196582
 --- !u!1 &7339924979650250425
 GameObject:
   m_ObjectHideFlags: 0
@@ -13250,7 +13255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 0.6289346
+  m_AspectRatio: 0.6598291
 --- !u!1 &8650243798634411468
 GameObject:
   m_ObjectHideFlags: 0

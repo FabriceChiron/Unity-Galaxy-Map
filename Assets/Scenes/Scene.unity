@@ -4862,7 +4862,7 @@ SphereCollider:
   m_GameObject: {fileID: 662437584}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -4983,7 +4983,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 10000
+  far clip plane: 150000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -5016,13 +5016,14 @@ GameObject:
   - component: {fileID: 669400662}
   - component: {fileID: 669400663}
   - component: {fileID: 669400664}
+  - component: {fileID: 669400665}
   m_Layer: 0
   m_Name: StarShip
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &669400659
 Transform:
   m_ObjectHideFlags: 0
@@ -5031,8 +5032,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 669400658}
   m_LocalRotation: {x: 0.23344536, y: -0, z: -0, w: 0.97236997}
-  m_LocalPosition: {x: 0, y: 76.7, z: -150.14}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalPosition: {x: 0, y: 76.7, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2024259902}
   - {fileID: 2138560648}
@@ -5053,7 +5054,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!114 &669400661
 MonoBehaviour:
@@ -5084,8 +5085,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4694346099201d9489b9a0ad2cbc03aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalSpeed: 10
-  accelerationSpeed: 25
+  normalSpeed: 1000
+  accelerationSpeed: 2500
   _displaySpeed: {fileID: 412775613}
   rearCameraPosition: {fileID: 1717360144}
   rearCamera: {fileID: 1717360151}
@@ -5093,9 +5094,9 @@ MonoBehaviour:
   _jetTrails:
   - {fileID: 1038061896}
   - {fileID: 2127828230}
-  _engineIdle: {fileID: 8300000, guid: 8ff56dc23b52341b09fda37fe6fa8bed, type: 3}
-  _engineSlow: {fileID: 8300000, guid: 4cdc5bc024d414bacb2a02ec054cf320, type: 3}
-  _engineOn: {fileID: 8300000, guid: 766b628cf73774f6d9410be6dc9c6063, type: 3}
+  _engineIdle: {fileID: 8300000, guid: 5a9126041338b40b9b3b598dfd4ac2e6, type: 3}
+  _engineSlow: {fileID: 8300000, guid: dc95151b86cdd41eaa9fae1949429186, type: 3}
+  _engineOn: {fileID: 8300000, guid: c4c7b58f070924066b249c7c6a6c304a, type: 3}
   spaceshipRoot: {fileID: 2024259902}
   rotationSpeed: 2
   cameraSmooth: 4
@@ -5116,7 +5117,7 @@ MonoBehaviour:
   _blasters:
   - {fileID: 2024259904}
   - {fileID: 2024259903}
-  _blasterSpeed: 200
+  _blasterSpeed: 10000
   _delayBetweenShots: 0.25
 --- !u!82 &669400664
 AudioSource:
@@ -5130,9 +5131,9 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 7108750686712045630, guid: dda84934c5570394aa06c20938c9fb0f, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.6
+  m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -5214,6 +5215,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &669400665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669400658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f634e3d7a283c3e4c9a58b784ea7a770, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _orbit: 2
+  _coords: sw
+  _position: {x: -1, y: 0, z: -5.2}
+  scales: {fileID: 11400000, guid: 80199f57c70605e47b9415c087b76919, type: 2}
+  _controller: {fileID: 0}
 --- !u!1 &671902709
 GameObject:
   m_ObjectHideFlags: 0
@@ -12246,7 +12264,7 @@ SphereCollider:
   m_GameObject: {fileID: 1717360143}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -12367,7 +12385,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 10000
+  far clip plane: 150000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -14501,18 +14519,6 @@ PrefabInstance:
     - target: {fileID: 783250417167524803, guid: ab3157939a85f5b4d845b46249912a03, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6858127304956083041, guid: ab3157939a85f5b4d845b46249912a03, type: 3}
-      propertyPath: m_Time
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6858127304956083041, guid: ab3157939a85f5b4d845b46249912a03, type: 3}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
-      value: 0.07
-      objectReference: {fileID: 0}
-    - target: {fileID: 8097446297111523269, guid: ab3157939a85f5b4d845b46249912a03, type: 3}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
-      value: 0.07
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab3157939a85f5b4d845b46249912a03, type: 3}

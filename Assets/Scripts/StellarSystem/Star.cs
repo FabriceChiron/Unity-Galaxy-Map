@@ -51,6 +51,9 @@ public class Star : MonoBehaviour
     [SerializeField]
     private float _generatedObjectSize;
 
+    [SerializeField]
+    private SphereCollider[] _sphereCollidersForCamera;
+
     private Material _material;
 
     private CameraFollow _camera;
@@ -223,11 +226,21 @@ public class Star : MonoBehaviour
 
     private void CreateStar()
     {
+        if (Controller.HasPlayer)
+        {
+            foreach (SphereCollider sphereCollider in _sphereCollidersForCamera)
+            {
+                sphereCollider.enabled = false;
+            }
+        }
+
         SetMaterial();
 
         SetOrbit();
 
         LoopLists.StarCount++;
+
+
     }
 
 
@@ -242,6 +255,11 @@ public class Star : MonoBehaviour
         if (!renderer.material.name.Contains("sun-texture"))
         {
             GetComponent<Light>().color = Color.Lerp(Color.white, renderer.material.GetColor("_EmissionColor"), 0.1f);
+        }
+
+        if (Controller.HasPlayer)
+        {
+            GetComponent<Light>().range = 100000f;
         }
     }
 
