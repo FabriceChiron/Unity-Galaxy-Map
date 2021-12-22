@@ -203,7 +203,7 @@ public class SC_SpaceshipController : MonoBehaviour
         //Set moveDirection to the vertical axis (up and down keys) * speed
         Vector3 moveDirection = new Vector3(0, 0, speed);
 
-        Debug.Log($"{moveDirection} - {transform.TransformDirection(moveDirection)}");
+        //Debug.Log($"{moveDirection} - {transform.TransformDirection(moveDirection)}");
 
         //Transform the vector3 to local space
         moveDirection = transform.TransformDirection(moveDirection);

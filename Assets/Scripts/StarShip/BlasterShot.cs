@@ -5,11 +5,25 @@ using UnityEngine;
 public class BlasterShot : MonoBehaviour
 {
     [SerializeField]
-    private float _blasterSpeed;
+    private float _blasterSpeed, _durationBeforeDestroy;
+    private float _destroyTimer;
+
+    [SerializeField]
+    private int _damage = 25;
+
     private Transform _transform;
     private Rigidbody _rigidbody;
 
+    [SerializeField]
+    private Transform _starShip;
+
+    [SerializeField]
+    private ParticleSystem _explosion;
+
     private AudioSource _audioSource;
+
+    public Transform StarShip { get => _starShip; set => _starShip = value; }
+    public ParticleSystem Explosion { get => _explosion; set => _explosion = value; }
 
     private void Awake()
     {
@@ -28,7 +42,12 @@ public class BlasterShot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        _destroyTimer -= Time.deltaTime;
 
+        if(_destroyTimer <= 0f)
+        {
+            Destroy(gameObject);
+        }
     }
     private void FixedUpdate()
     {
@@ -45,5 +64,34 @@ public class BlasterShot : MonoBehaviour
     {
         _blasterSpeed = speed;
         _audioSource.PlayOneShot(_audioSource.clip);
+        _destroyTimer = _durationBeforeDestroy;
+    }
+
+    public void Explode()
+    {
+        Explosion.Play();
+        _destroyTimer = Explosion.main.duration;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!collision.transform.IsChildOf(StarShip))
+        {
+            Debug.Log($"collision: {collision.transform.name}");
+
+            if(collision.transform.name == "Rock")
+            {
+                Explode();
+                //Asteroid asteroid = collision.transform.parent.GetComponent<Asteroid>();
+                Asteroid asteroid = collision.transform.GetComponentInParent<Asteroid>();
+
+                asteroid.HealthPoints -= _damage;
+
+                if(asteroid.HealthPoints <= 0)
+                {
+                    asteroid.Explode();
+                }
+            }
+        }
     }
 }

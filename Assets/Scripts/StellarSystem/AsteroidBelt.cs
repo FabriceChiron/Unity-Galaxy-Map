@@ -40,6 +40,9 @@ public class AsteroidBelt : MonoBehaviour
 
     private int _asteroidCount;
 
+    [SerializeField]
+    private int _asteroidsWithPlatinum;
+
     public AsteroidBeltData AsteroidBeltData { get => _asteroidBeltData; set => _asteroidBeltData = value; }
     public GameObject AsteroidPrefab { get => _asteroidPrefab; set => _asteroidPrefab = value; }
     public GameObject IcyAsteroidPrefab { get => _icyAsteroidPrefab; set => _icyAsteroidPrefab = value; }
@@ -62,6 +65,11 @@ public class AsteroidBelt : MonoBehaviour
             GenerateAsteroid(i, AsteroidBeltData.Quantity);
         }
 
+        if (Controller.HasPlayer)
+        {
+            InsertPlatinum();
+        }
+
 /*        if(_asteroidCount == _asteroidList.Count)
         {
             SetScales();
@@ -74,6 +82,24 @@ public class AsteroidBelt : MonoBehaviour
         if (!Controller.IsPaused)
         {
             AsteroidsRevolution();
+        }
+    }
+
+    private void InsertPlatinum()
+    {
+        _asteroidsWithPlatinum = AsteroidBeltData.AsteroidsWithPlatinum;
+
+        Debug.Log($"_asteroidList: {_asteroidList}");
+
+        for(int i = 0; i < _asteroidsWithPlatinum; i++)
+        {
+            int targetAsteroidIndex = Random.Range(0, _asteroidList.Count - 1);
+
+            Debug.Log($"targetAsteroidIndex: {targetAsteroidIndex}");
+
+            Asteroid targetAsteroid = _asteroidList[targetAsteroidIndex].GetComponent<Asteroid>();
+            targetAsteroid.HasPlatinum = true;
+            targetAsteroid.AddPlatinum();
         }
     }
 
@@ -118,9 +144,17 @@ public class AsteroidBelt : MonoBehaviour
 
             Transform asteroidBody = asteroid.GetComponentInChildren<MeshRenderer>().transform;
 
-            float asteroidBaseScale = asteroid.GetComponent<Asteroid>().Scale;
+            Asteroid asteroidScript = asteroid.GetComponent<Asteroid>();
+
+            float asteroidBaseScale = asteroidScript.Scale;
             asteroidBody.localScale = new Vector3(asteroidBaseScale * CurrentScales.Planet, asteroidBaseScale * CurrentScales.Planet, asteroidBaseScale * CurrentScales.Planet);
 
+            asteroidScript.Explosion.gameObject.transform.localScale = asteroidBody.localScale;
+            if (asteroidScript.HasPlatinum)
+            {
+                asteroidScript.Platinum.transform.localScale = asteroidBody.localScale * .5f;
+                asteroidScript.PlatinumQuantity = Mathf.RoundToInt(asteroidBody.localScale.x * 10);
+            }
             //asteroidBody.localPosition = new Vector3(0f, 0f, Random.Range(CurrentScales.Orbit * -.5f, CurrentScales.Orbit * .5f));
         }
     }
@@ -138,25 +172,4 @@ public class AsteroidBelt : MonoBehaviour
 
     }
 
-    private void SetMaterial()
-    {
-        Renderer renderer = GetComponentInChildren<Renderer>();
-
-        Debug.Log($"{AsteroidBeltData.asteroidType}");
-
-        if (AsteroidBeltData.asteroidType == AsteroidType.Icy)
-        {
-            //renderer.material.mainTexture = _icyTexture;
-            renderer.material = _materials[1];
-
-        }
-
-        Debug.Log($"{renderer.material}");
-
-        /*        
-        //Make the texture emit light (to be visible even in the darkness of space)
-        renderer.material.EnableKeyword("_EMISSION");
-        renderer.material.SetTexture("_EmissionMap", renderer.material.mainTexture);
-        renderer.material.SetColor("_EmissionColor", new Vector4(1f, 1f, 1f));*/
-    }
 }

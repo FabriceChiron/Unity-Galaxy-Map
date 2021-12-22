@@ -33,6 +33,7 @@ public class StarShipShootBlaster : MonoBehaviour
         GameObject newBlasterShot = Instantiate(_blasterPrefab, _blasters[blasterIndex].position, _blasters[blasterIndex].rotation);
 
         BlasterShot blasterShot = newBlasterShot.GetComponent<BlasterShot>();
+        blasterShot.StarShip = transform;
 
         blasterShot.Shoot(_blasterSpeed);
 
@@ -48,11 +49,8 @@ public class StarShipShootBlaster : MonoBehaviour
         {
             if (Input.GetButton("Fire1"))
             {
-                Debug.Log("FireBlaster");
                 FireBlaster();
-
                 _nextShotTime = Time.time + _delayBetweenShots;
-
             }
         }
     }
