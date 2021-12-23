@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Orbit: 1000
   Planet: 100
-  Year: 36500
-  Day: 100
+  Year: 3650
+  Day: 10
   RationalizeValues: 0
