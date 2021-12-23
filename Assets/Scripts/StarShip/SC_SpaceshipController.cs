@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR;
+using UnityEngine.XR.Management;
 using TMPro;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -84,6 +86,8 @@ public class SC_SpaceshipController : MonoBehaviour
     private void Awake()
     {
         _resetTimeToMaxSpeed = _timeToMaxSpeed;
+        Debug.Log($"XR Device: {XRSettings.isDeviceActive}");
+        
     }
 
     // Start is called before the first frame update
@@ -173,7 +177,7 @@ public class SC_SpaceshipController : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(1))
                 {
-                    Debug.Log("yo");
+                    //Debug.Log("yo");
                     Freelook = true;
                     IsCameraAligned = false;
                 }
@@ -220,7 +224,7 @@ public class SC_SpaceshipController : MonoBehaviour
 
     private void MoveJoystick()
     {
-        Debug.Log($"Z: {Input.GetAxis("Mouse X")}, \nX:  {Input.GetAxis("Mouse Y")}");
+        //Debug.Log($"Z: {Input.GetAxis("Mouse X")}, \nX:  {Input.GetAxis("Mouse Y")}");
         //_joystick.localRotation = Quaternion.Euler(Input.GetAxis("Mouse X") * -45f, _joystick.localRotation.y, Input.GetAxis("Mouse X") * -45f);
         _joystick.localRotation = Quaternion.Euler(mouseYSmooth * -45f, _joystick.localRotation.y, mouseXSmooth * -45f);
     }
@@ -230,8 +234,8 @@ public class SC_SpaceshipController : MonoBehaviour
         if(!IsCameraAligned)
         {
             Quaternion cameraRotation = StarShipSetup.ActiveCamera.transform.rotation;
-            Debug.Log($"Camera: {cameraRotation}\n" +
-                $"Starship: {transform.rotation}");
+            //Debug.Log($"Camera: {cameraRotation}\n" +
+            //    $"Starship: {transform.rotation}");
             StarShipSetup.ActiveCamera.transform.rotation = Quaternion.Lerp(cameraRotation, transform.rotation, Time.deltaTime * cameraSmooth);
 
             if(cameraRotation == transform.rotation)
