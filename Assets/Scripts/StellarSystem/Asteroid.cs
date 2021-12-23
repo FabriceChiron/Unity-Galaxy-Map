@@ -55,16 +55,17 @@ public class Asteroid : MonoBehaviour
         if (FlyToStarShip && HasPlatinum)
         {
             Starship = GameObject.FindGameObjectWithTag("Player").transform;
-            Debug.Log(Starship.position);
 
-            Platinum.transform.position = Vector3.Lerp(Platinum.transform.position, Starship.position, Time.deltaTime * 1.5f);
-            Platinum.transform.localScale = Vector3.Lerp(Platinum.transform.localScale, Vector3.zero, Time.deltaTime * 1.5f);
+            Platinum.transform.position = Vector3.Lerp(Platinum.transform.position, Starship.position, Time.deltaTime * 15f);
+            Platinum.transform.localScale = Vector3.Lerp(Platinum.transform.localScale, Vector3.zero, Time.deltaTime * 15f);
 
             if(Vector3.Distance(Platinum.transform.position, Starship.position) <= 1f)
             {
                 Starship.GetComponent<StarShipCollect>().CollectPlatinum(PlatinumQuantity);
 
-                Destroy(Platinum);
+                //Destroy(Platinum);
+                FlyToStarShip = false;
+
             }
         }
     }

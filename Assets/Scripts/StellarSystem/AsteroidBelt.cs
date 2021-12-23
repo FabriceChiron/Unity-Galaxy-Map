@@ -89,13 +89,13 @@ public class AsteroidBelt : MonoBehaviour
     {
         _asteroidsWithPlatinum = AsteroidBeltData.AsteroidsWithPlatinum;
 
-        Debug.Log($"_asteroidList: {_asteroidList}");
+        //Debug.Log($"_asteroidList: {_asteroidList}");
 
         for(int i = 0; i < _asteroidsWithPlatinum; i++)
         {
             int targetAsteroidIndex = Random.Range(0, _asteroidList.Count - 1);
 
-            Debug.Log($"targetAsteroidIndex: {targetAsteroidIndex}");
+            //Debug.Log($"targetAsteroidIndex: {targetAsteroidIndex}");
 
             Asteroid targetAsteroid = _asteroidList[targetAsteroidIndex].GetComponent<Asteroid>();
             targetAsteroid.HasPlatinum = true;
