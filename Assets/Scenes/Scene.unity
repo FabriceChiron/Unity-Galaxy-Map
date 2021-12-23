@@ -9417,6 +9417,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1340824130}
   m_CullTransparentMesh: 1
+--- !u!4 &1342449794 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8609728524374274594, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+  m_PrefabInstance: {fileID: 9059584690247314030}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1358666601
 GameObject:
   m_ObjectHideFlags: 0
@@ -17716,22 +17721,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8590978910147985172, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: m_CastShadows
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8590978910147985172, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8605988882598617384, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: m_Name
       value: StarShipModel
       objectReference: {fileID: 0}
-    - target: {fileID: 8609615931351443906, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8609615931351443906, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.215
-      objectReference: {fileID: 0}
-    - target: {fileID: 8609615931351443906, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.129
-      objectReference: {fileID: 0}
+    - target: {fileID: 9059584689750414392, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: _joystick
+      value: 
+      objectReference: {fileID: 1342449794}
     - target: {fileID: 9059584689750414392, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _displaySpeed
       value: 

@@ -21,6 +21,9 @@ public class SC_SpaceshipController : MonoBehaviour
     private Transform rearCameraPosition;
 
     [SerializeField]
+    private Transform _joystick;
+
+    [SerializeField]
     private Camera rearCamera;
 
     [SerializeField]
@@ -144,6 +147,7 @@ public class SC_SpaceshipController : MonoBehaviour
             if (!Freelook)
             {
                 rotationZTmp = Input.GetAxis("Horizontal") * -1f;
+                MoveJoystick();
             }
 
             mouseXSmooth = Mathf.Lerp(mouseXSmooth, Input.GetAxis("Mouse X") * rotationSpeed, Time.deltaTime * cameraSmooth);
@@ -212,6 +216,13 @@ public class SC_SpaceshipController : MonoBehaviour
         }
 
 
+    }
+
+    private void MoveJoystick()
+    {
+        Debug.Log($"Z: {Input.GetAxis("Mouse X")}, \nX:  {Input.GetAxis("Mouse Y")}");
+        //_joystick.localRotation = Quaternion.Euler(Input.GetAxis("Mouse X") * -45f, _joystick.localRotation.y, Input.GetAxis("Mouse X") * -45f);
+        _joystick.localRotation = Quaternion.Euler(mouseYSmooth * -45f, _joystick.localRotation.y, mouseXSmooth * -45f);
     }
 
     private void AlignCamera()
