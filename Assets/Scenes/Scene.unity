@@ -2171,6 +2171,46 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 415.155, y: 50}
   m_Pivot: {x: 0, y: 0.5}
+--- !u!1 &251870842 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9059584690815433825, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+  m_PrefabInstance: {fileID: 9059584690247314030}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &251870850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 251870842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2483b9bd782f9449a5972b61b7d51a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CameraFloorOffsetObject: {fileID: 1737261529}
+  m_RequestedTrackingMode: 1
+  m_TrackingOriginMode: 1
+  m_TrackingSpace: 0
+  m_CameraYOffset: 0.94
+--- !u!114 &251870851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 251870842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a2a9c34df4095f47b9ca8f975175f5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Device: 0
+  m_PoseSource: 2
+  m_PoseProviderComponent: {fileID: 0}
+  m_TrackingType: 0
+  m_UpdateType: 0
+  m_UseRelativeTransform: 0
 --- !u!1 &260917509
 GameObject:
   m_ObjectHideFlags: 0
@@ -11899,6 +11939,11 @@ RectTransform:
   m_AnchoredPosition: {x: 600, y: 0}
   m_SizeDelta: {x: 600, y: 0}
   m_Pivot: {x: 1, y: 0.5}
+--- !u!1 &1737261529 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9059584689969097228, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+  m_PrefabInstance: {fileID: 9059584690247314030}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1742956053
 GameObject:
   m_ObjectHideFlags: 0
@@ -17901,6 +17946,10 @@ PrefabInstance:
     - target: {fileID: 9059584689760228543, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9059584689969097229, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8.07
       objectReference: {fileID: 0}
     - target: {fileID: 9059584690313208153, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: m_LocalPosition.y
