@@ -908,8 +908,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 262, y: 0}
-  m_SizeDelta: {x: 524, y: 0}
+  m_AnchoredPosition: {x: 313.99994, y: 0}
+  m_SizeDelta: {x: 627.9999, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &8118629942466838946
 CanvasRenderer:
@@ -2677,6 +2677,7 @@ GameObject:
   - component: {fileID: 6446286323642882385}
   - component: {fileID: 1845057368200545828}
   - component: {fileID: 3209728783911043761}
+  - component: {fileID: 1645390913762589919}
   m_Layer: 0
   m_Name: Planet
   m_TagString: Planet
@@ -2831,6 +2832,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1645390913762589919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5713132408691743885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c47c6c3a2e178c540afd1aaab9017216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5935795710916386943
 GameObject:
   m_ObjectHideFlags: 0
@@ -3697,7 +3710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 0.81353384
+  m_AspectRatio: 1.1256542
 --- !u!1 &7339924979650250425
 GameObject:
   m_ObjectHideFlags: 0
@@ -3892,7 +3905,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 0.40676692
+  m_AspectRatio: 0.5628271
 --- !u!1 &8650243798634411468
 GameObject:
   m_ObjectHideFlags: 0
@@ -4514,7 +4527,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 5539523941454990137}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.4790606
+  m_Size: 0.5685349
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

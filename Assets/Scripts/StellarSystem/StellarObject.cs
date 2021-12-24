@@ -275,6 +275,8 @@ public class StellarObject : MonoBehaviour
             }
         }
 
+        SetMass();
+
         SetMaterial();
 
         SetClouds();
@@ -286,6 +288,11 @@ public class StellarObject : MonoBehaviour
         SetUIElements();
 
         LoopLists.StellarObjectCount++;
+    }
+
+    private void SetMass()
+    {
+        GetComponent<Rigidbody>().mass = PlanetData.Size * 1000;
     }
 
     //Apply Material to stellar object
