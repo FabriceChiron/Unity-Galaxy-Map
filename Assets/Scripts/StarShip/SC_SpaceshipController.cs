@@ -23,7 +23,7 @@ public class SC_SpaceshipController : MonoBehaviour
     private Transform rearCameraPosition;
 
     [SerializeField]
-    private Transform _joystick;
+    private Transform _joystick, _throttleControl;
 
     [SerializeField]
     private Camera rearCamera;
@@ -51,6 +51,7 @@ public class SC_SpaceshipController : MonoBehaviour
     public Transform spaceshipRoot;
     public float rotationSpeed = 2.0f;
     public float cameraSmooth = 4f;
+    private float throttleAmount;
     private float verticalAxis;
     private bool _isBoosting;
     private bool _wasBoosting;
@@ -151,6 +152,7 @@ public class SC_SpaceshipController : MonoBehaviour
             {
                 rotationZTmp = Input.GetAxis("Horizontal") * -1f;
                 MoveJoystick();
+                MoveThrottleControl();
             }
 
             mouseXSmooth = Mathf.Lerp(mouseXSmooth, Input.GetAxis("Mouse X") * rotationSpeed, Time.deltaTime * cameraSmooth);
@@ -223,9 +225,15 @@ public class SC_SpaceshipController : MonoBehaviour
 
     private void MoveJoystick()
     {
-        //Debug.Log($"Z: {Input.GetAxis("Mouse X")}, \nX:  {Input.GetAxis("Mouse Y")}");
-        //_joystick.localRotation = Quaternion.Euler(Input.GetAxis("Mouse X") * -45f, _joystick.localRotation.y, Input.GetAxis("Mouse X") * -45f);
-        _joystick.localRotation = Quaternion.Euler(mouseYSmooth * -45f, _joystick.localRotation.y, mouseXSmooth * -45f);
+        
+        _joystick.localRotation = Quaternion.Euler(Mathf.Clamp(-1f, mouseYSmooth, 1f) * -45f, _joystick.localRotation.y, Mathf.Clamp(-1f, mouseXSmooth, 1f) * -45f);
+    }
+
+    private void MoveThrottleControl()
+    {
+        throttleAmount = Mathf.Lerp(throttleAmount, IsBoosting ? verticalAxis : verticalAxis * 0.5f, Time.deltaTime * cameraSmooth);
+
+        _throttleControl.localRotation = Quaternion.Euler(throttleAmount * 60f, _throttleControl.localRotation.y, _throttleControl.localRotation.z);
     }
 
     private void AlignCamera()

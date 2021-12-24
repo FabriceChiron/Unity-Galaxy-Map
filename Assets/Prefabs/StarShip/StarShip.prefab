@@ -357,7 +357,8 @@ MonoBehaviour:
   _maxSpeed: 0
   _displaySpeed: {fileID: 0}
   rearCameraPosition: {fileID: 9059584690815433854}
-  _joystick: {fileID: 0}
+  _joystick: {fileID: 8609728524374274594}
+  _throttleControl: {fileID: 8609341121908911250}
   rearCamera: {fileID: 9059584690815433849}
   _starShipSetup: {fileID: 9059584689750414395}
   _jetTrails:
@@ -1076,9 +1077,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab3157939a85f5b4d845b46249912a03, type: 3}
---- !u!4 &8603201694825154704 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 783250417167524803, guid: ab3157939a85f5b4d845b46249912a03, type: 3}
+--- !u!96 &1001475630334182550 stripped
+TrailRenderer:
+  m_CorrespondingSourceObject: {fileID: 8097446297111523269, guid: ab3157939a85f5b4d845b46249912a03, type: 3}
   m_PrefabInstance: {fileID: 9059584690912357203}
   m_PrefabAsset: {fileID: 0}
 --- !u!198 &2763181908081877523 stripped
@@ -1089,6 +1090,21 @@ ParticleSystem:
 --- !u!96 &2492436954972786738 stripped
 TrailRenderer:
   m_CorrespondingSourceObject: {fileID: 6858127304956083041, guid: ab3157939a85f5b4d845b46249912a03, type: 3}
+  m_PrefabInstance: {fileID: 9059584690912357203}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8609341121908911250 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 774788890395330497, guid: ab3157939a85f5b4d845b46249912a03, type: 3}
+  m_PrefabInstance: {fileID: 9059584690912357203}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8609728524374274594 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 775175750004611441, guid: ab3157939a85f5b4d845b46249912a03, type: 3}
+  m_PrefabInstance: {fileID: 9059584690912357203}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8603201694825154704 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 783250417167524803, guid: ab3157939a85f5b4d845b46249912a03, type: 3}
   m_PrefabInstance: {fileID: 9059584690912357203}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1013146181924067292 stripped
@@ -1104,10 +1120,5 @@ Transform:
 --- !u!198 &3187371274425700910 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 5873200856346163581, guid: ab3157939a85f5b4d845b46249912a03, type: 3}
-  m_PrefabInstance: {fileID: 9059584690912357203}
-  m_PrefabAsset: {fileID: 0}
---- !u!96 &1001475630334182550 stripped
-TrailRenderer:
-  m_CorrespondingSourceObject: {fileID: 8097446297111523269, guid: ab3157939a85f5b4d845b46249912a03, type: 3}
   m_PrefabInstance: {fileID: 9059584690912357203}
   m_PrefabAsset: {fileID: 0}
