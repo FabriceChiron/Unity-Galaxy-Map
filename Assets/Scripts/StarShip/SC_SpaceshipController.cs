@@ -57,6 +57,8 @@ public class SC_SpaceshipController : MonoBehaviour
     private bool _freelook;
     private bool _isCameraAligned = true;
 
+    private Quaternion nullQuaternion = Quaternion.identity;
+
     public RectTransform crosshairTexture;
 
     [SerializeField]
@@ -72,9 +74,6 @@ public class SC_SpaceshipController : MonoBehaviour
     float mouseXSmooth = 0;
     float mouseYSmooth = 0;
     Vector3 defaultShipRotation;
-
-    float _normalAcceleration = 3f;
-    float _boostAcceleration = 5f;
 
     public StarShipSetup StarShipSetup { get => _starShipSetup; set => _starShipSetup = value; }
     public TrailRenderer[] JetTrails { get => _jetTrails; set => _jetTrails = value; }
