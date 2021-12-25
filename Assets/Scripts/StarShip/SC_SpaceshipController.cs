@@ -120,6 +120,11 @@ public class SC_SpaceshipController : MonoBehaviour
         }
 
         verticalAxis = Input.GetAxis("Vertical");
+
+        if (XRSettings.isDeviceActive)
+        {
+            CheckOculusInputs();
+        }
     }
 
     void FixedUpdate()
@@ -223,6 +228,221 @@ public class SC_SpaceshipController : MonoBehaviour
 
     }
 
+    private void CheckOculusInputs()
+    {
+        string message = "";
+
+        /* AXIS*/
+        if (Input.GetAxis("Tilia.Input.UnityInputManager_Axis1") != 0)
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis1 - {Input.GetAxis("Tilia.Input.UnityInputManager_Axis1")}";
+        }
+
+        if (Input.GetAxis("Tilia.Input.UnityInputManager_Axis2") != 0)
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis2 - {Input.GetAxis("Tilia.Input.UnityInputManager_Axis2")}";
+        }
+
+        if (Input.GetAxis("Tilia.Input.UnityInputManager_Axis3") != 0)
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis3 - {Input.GetAxis("Tilia.Input.UnityInputManager_Axis3")}";
+        }
+
+        if (Input.GetAxis("Tilia.Input.UnityInputManager_Axis4") != 0)
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis4 - {Input.GetAxis("Tilia.Input.UnityInputManager_Axis4")}";
+        }
+
+        if (Input.GetAxis("Tilia.Input.UnityInputManager_Axis5") != 0)
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis5 - {Input.GetAxis("Tilia.Input.UnityInputManager_Axis5")}";
+        }
+
+        if (Input.GetAxis("Tilia.Input.UnityInputManager_Axis6") != 0)
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis6 - {Input.GetAxis("Tilia.Input.UnityInputManager_Axis6")}";
+        }
+
+        if (Input.GetAxis("Tilia.Input.UnityInputManager_Axis7") != 0)
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis7 - {Input.GetAxis("Tilia.Input.UnityInputManager_Axis7")}";
+        }
+
+        if (Input.GetAxis("Tilia.Input.UnityInputManager_Axis8") != 0)
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis8 - {Input.GetAxis("Tilia.Input.UnityInputManager_Axis8")}";
+        }
+
+        if (Input.GetAxis("Tilia.Input.UnityInputManager_Axis9") != 0)
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis9 - {Input.GetAxis("Tilia.Input.UnityInputManager_Axis9")}";
+        }
+
+        if (Input.GetAxis("Tilia.Input.UnityInputManager_Axis10") != 0)
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis10 - {Input.GetAxis("Tilia.Input.UnityInputManager_Axis10")}";
+        }
+
+        if (Input.GetAxis("Tilia.Input.UnityInputManager_Axis11") != 0)
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis11 - {Input.GetAxis("Tilia.Input.UnityInputManager_Axis11")}";
+        }
+
+        if (Input.GetAxis("Tilia.Input.UnityInputManager_Axis12") != 0)
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis12 - {Input.GetAxis("Tilia.Input.UnityInputManager_Axis12")}";
+        }
+
+        if (Input.GetAxis("Tilia.Input.UnityInputManager_Axis13") != 0)
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis13 - {Input.GetAxis("Tilia.Input.UnityInputManager_Axis13")}";
+        }
+
+        if (Input.GetAxis("Tilia.Input.UnityInputManager_Axis14") != 0)
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis14 - {Input.GetAxis("Tilia.Input.UnityInputManager_Axis14")}";
+        }
+
+        if (Input.GetAxis("Tilia.Input.UnityInputManager_Axis15") != 0)
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis15 - {Input.GetAxis("Tilia.Input.UnityInputManager_Axis15")}";
+        }
+
+        if (Input.GetAxis("Tilia.Input.UnityInputManager_Axis16") != 0)
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis16 - {Input.GetAxis("Tilia.Input.UnityInputManager_Axis16")}";
+        }
+
+        if (Input.GetAxis("Tilia.Input.UnityInputManager_Axis17") != 0)
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis17 - {Input.GetAxis("Tilia.Input.UnityInputManager_Axis17")}";
+        }
+
+        if (Input.GetAxis("Tilia.Input.UnityInputManager_Axis18") != 0)
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis18 - {Input.GetAxis("Tilia.Input.UnityInputManager_Axis18")}";
+        }
+
+        if (Input.GetAxis("Tilia.Input.UnityInputManager_Axis19") != 0)
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis19 - {Input.GetAxis("Tilia.Input.UnityInputManager_Axis19")}";
+        }
+
+        if (Input.GetAxis("Tilia.Input.UnityInputManager_Axis20") != 0)
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis20 - {Input.GetAxis("Tilia.Input.UnityInputManager_Axis20")}";
+        }
+
+        /*BUTTONS*/
+        if (Input.GetButton("Tilia.Input.UnityInputManager_Axis1"))
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis1 - {Input.GetButton("Tilia.Input.UnityInputManager_Axis1")}";
+        }
+
+        if (Input.GetButton("Tilia.Input.UnityInputManager_Axis2"))
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis2 - {Input.GetButton("Tilia.Input.UnityInputManager_Axis2")}";
+        }
+
+        if (Input.GetButton("Tilia.Input.UnityInputManager_Axis3"))
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis3 - {Input.GetButton("Tilia.Input.UnityInputManager_Axis3")}";
+        }
+
+        if (Input.GetButton("Tilia.Input.UnityInputManager_Axis4"))
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis4 - {Input.GetButton("Tilia.Input.UnityInputManager_Axis4")}";
+        }
+
+        if (Input.GetButton("Tilia.Input.UnityInputManager_Axis5"))
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis5 - {Input.GetButton("Tilia.Input.UnityInputManager_Axis5")}";
+        }
+
+        if (Input.GetButton("Tilia.Input.UnityInputManager_Axis6"))
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis6 - {Input.GetButton("Tilia.Input.UnityInputManager_Axis6")}";
+        }
+
+        if (Input.GetButton("Tilia.Input.UnityInputManager_Axis7"))
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis7 - {Input.GetButton("Tilia.Input.UnityInputManager_Axis7")}";
+        }
+
+        if (Input.GetButton("Tilia.Input.UnityInputManager_Axis8"))
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis8 - {Input.GetButton("Tilia.Input.UnityInputManager_Axis8")}";
+        }
+
+        if (Input.GetButton("Tilia.Input.UnityInputManager_Axis9"))
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis9 - {Input.GetButton("Tilia.Input.UnityInputManager_Axis9")}";
+        }
+
+        if (Input.GetButton("Tilia.Input.UnityInputManager_Axis10"))
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis10 - {Input.GetButton("Tilia.Input.UnityInputManager_Axis10")}";
+        }
+
+        if (Input.GetButton("Tilia.Input.UnityInputManager_Axis11"))
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis11 - {Input.GetButton("Tilia.Input.UnityInputManager_Axis11")}";
+        }
+
+        if (Input.GetButton("Tilia.Input.UnityInputManager_Axis12"))
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis12 - {Input.GetButton("Tilia.Input.UnityInputManager_Axis12")}";
+        }
+
+        if (Input.GetButton("Tilia.Input.UnityInputManager_Axis13"))
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis13 - {Input.GetButton("Tilia.Input.UnityInputManager_Axis13")}";
+        }
+
+        if (Input.GetButton("Tilia.Input.UnityInputManager_Axis14"))
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis14 - {Input.GetButton("Tilia.Input.UnityInputManager_Axis14")}";
+        }
+
+        if (Input.GetButton("Tilia.Input.UnityInputManager_Axis15"))
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis15 - {Input.GetButton("Tilia.Input.UnityInputManager_Axis15")}";
+        }
+
+        if (Input.GetButton("Tilia.Input.UnityInputManager_Axis16"))
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis16 - {Input.GetButton("Tilia.Input.UnityInputManager_Axis16")}";
+        }
+
+        if (Input.GetButton("Tilia.Input.UnityInputManager_Axis17"))
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis17 - {Input.GetButton("Tilia.Input.UnityInputManager_Axis17")}";
+        }
+
+        if (Input.GetButton("Tilia.Input.UnityInputManager_Axis18"))
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis18 - {Input.GetButton("Tilia.Input.UnityInputManager_Axis18")}";
+        }
+
+        if (Input.GetButton("Tilia.Input.UnityInputManager_Axis19"))
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis19 - {Input.GetButton("Tilia.Input.UnityInputManager_Axis19")}";
+        }
+
+        if (Input.GetButton("Tilia.Input.UnityInputManager_Axis20"))
+        {
+            message = $"Tilia.Input.UnityInputManager_Axis20 - {Input.GetButton("Tilia.Input.UnityInputManager_Axis20")}";
+        }
+
+
+        if (message != "")
+        {
+            _displaySpeed.text = message;
+            Debug.Log(message);
+        }
+
+    }
+
     private void MoveJoystick()
     {
         
@@ -288,7 +508,7 @@ public class SC_SpaceshipController : MonoBehaviour
 
         speed = Mathf.Round(speed * 100f) / 100f;
 
-        _displaySpeed.text = $"Speed: {speed}\nRotationZ: {rotationZTmp}";
+        //_displaySpeed.text = $"Speed: {speed}\nRotationZ: {rotationZTmp}";
 
         //Set moveDirection to the vertical axis (up and down keys) * speed
         Vector3 moveDirection = new Vector3(0, 0, speed);
