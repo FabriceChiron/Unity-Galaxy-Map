@@ -717,21 +717,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 9059584689760228542, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
   m_PrefabInstance: {fileID: 9059584690247314030}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &64028218
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 64028217}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad1f677c94c144cf28656ff071d9fd7b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  threshold: 100
-  physicsThreshold: 1000
-  defaultSleepThreshold: 0.14
 --- !u!114 &64028219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -767,6 +752,21 @@ MonoBehaviour:
   m_TrackingOriginMode: 1
   m_TrackingSpace: 0
   m_CameraYOffset: 0.94
+--- !u!114 &64028227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 64028217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad1f677c94c144cf28656ff071d9fd7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  threshold: 100
+  physicsThreshold: 1000
+  defaultSleepThreshold: 0.14
 --- !u!1 &74408782
 GameObject:
   m_ObjectHideFlags: 0
@@ -2191,21 +2191,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 9059584690815433825, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
   m_PrefabInstance: {fileID: 9059584690247314030}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &251870843
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 251870842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad1f677c94c144cf28656ff071d9fd7b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  threshold: 100
-  physicsThreshold: 1000
-  defaultSleepThreshold: 0.14
 --- !u!114 &251870850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2241,6 +2226,21 @@ MonoBehaviour:
   m_TrackingType: 0
   m_UpdateType: 0
   m_UseRelativeTransform: 0
+--- !u!114 &251870852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 251870842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad1f677c94c144cf28656ff071d9fd7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  threshold: 100
+  physicsThreshold: 1000
+  defaultSleepThreshold: 0.14
 --- !u!1 &260917509
 GameObject:
   m_ObjectHideFlags: 0
@@ -17918,6 +17918,14 @@ PrefabInstance:
     - target: {fileID: 8605988882598617384, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: m_Name
       value: StarShipModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8609615931351443906, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8609615931351443906, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.254
       objectReference: {fileID: 0}
     - target: {fileID: 8609728524374274594, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: m_LocalRotation.w

@@ -12,6 +12,7 @@ public class SC_SpaceshipController : MonoBehaviour
 {
     public float normalSpeed = 25f;
     public float accelerationSpeed = 45f;
+    public float warpSpeed = 1000f;
 
     [SerializeField]
     private float _maxSpeed;
@@ -53,8 +54,8 @@ public class SC_SpaceshipController : MonoBehaviour
     public float cameraSmooth = 4f;
     private float throttleAmount;
     private float verticalAxis;
-    private bool _isBoosting;
-    private bool _wasBoosting;
+    private bool _isBoosting, _isWarping;
+    private bool _wasBoosting, _wasWarping;
     private bool _freelook;
     private bool _isCameraAligned = true;
 
@@ -80,6 +81,7 @@ public class SC_SpaceshipController : MonoBehaviour
     public TrailRenderer[] JetTrails { get => _jetTrails; set => _jetTrails = value; }
     public float TimeToMaxSpeed { get => _timeToMaxSpeed; set => _timeToMaxSpeed = value; }
     public bool IsBoosting { get => _isBoosting; set => _isBoosting = value; }
+    public bool IsWarping { get => _isWarping; set => _isWarping = value; }
     public bool Freelook { get => _freelook; set => _freelook = value; }
     public bool IsCameraAligned { get => _isCameraAligned; set => _isCameraAligned = value; }
 
@@ -110,6 +112,7 @@ public class SC_SpaceshipController : MonoBehaviour
     private void Update()
     {
         IsBoosting = Input.GetButton("Boost");
+        IsWarping = Input.GetButton("Warp");
 
         Cursor.lockState = StarShipSetup.Controller.UITest.IsPaused ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = StarShipSetup.Controller.UITest.IsPaused;
@@ -489,11 +492,26 @@ public class SC_SpaceshipController : MonoBehaviour
 
         if (verticalAxis != 0)
         {
-            float maxSpeed = goToSpeed(speed, IsBoosting ? accelerationSpeed : normalSpeed, 3f);
+            float maxSpeed = goToSpeed(
+                speed,
+                IsWarping ?
+                    warpSpeed :
+                    IsBoosting ?
+                        accelerationSpeed :
+                        normalSpeed,
+                3f);
 
             _timeToMaxSpeed -= Time.deltaTime;
 
-            speed += verticalAxis * Time.deltaTime * Mathf.Max(speed, _wasBoosting ? 10f : 5f);
+            speed += verticalAxis *
+                Time.deltaTime *
+                Mathf.Max(
+                    speed,
+                    _wasWarping ?
+                        50f :
+                        _wasBoosting ?
+                            10f :
+                            5f);
 
             if (speed >= maxSpeed)
             {
@@ -521,6 +539,7 @@ public class SC_SpaceshipController : MonoBehaviour
         r.velocity = new Vector3(moveDirection.x, moveDirection.y, moveDirection.z);
 
         _wasBoosting = IsBoosting && speed > normalSpeed;
+        _wasWarping = IsWarping && speed > accelerationSpeed;
     }
 
     private float goToSpeed(float thisSpeed, float targetSpeed, float thrust)
@@ -588,9 +607,16 @@ public class SC_SpaceshipController : MonoBehaviour
             {
                 if (verticalAxis > 0)
                 {
-                    _thrusterColor = IsBoosting ? new Color(0, 138, 255, 255) : new Color(255, 162, 0, 255);
+                    _thrusterColor = (IsBoosting || IsWarping) ? new Color(0, 138, 255, 255) : new Color(255, 162, 0, 255);
                     //_thrusterSCale = new Vector3(IsBoosting ? 1.5f : 1f, IsBoosting ? 1.5f : 1f, IsBoosting ? 1.5f : 1f);
-                    _thrusterSCale = new Vector3(1f, 1f, IsBoosting ? 1.5f : 1f);
+                    _thrusterSCale = new Vector3(
+                        1f,
+                        1f,
+                        IsWarping ?
+                            2.0f :
+                            IsBoosting ?
+                                1.5f :
+                                1f);
                 }
 
                 else
