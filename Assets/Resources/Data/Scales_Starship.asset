@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e113e7395c9f3742870d9ffb8791fd0, type: 3}
   m_Name: Scales_Starship
   m_EditorClassIdentifier: 
-  Orbit: 1000
-  Planet: 100
+  Orbit: 5000
+  Planet: 500
   Year: 3650
   Day: 10
   RationalizeValues: 0
