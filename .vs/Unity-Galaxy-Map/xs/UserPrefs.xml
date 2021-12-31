@@ -1,24 +1,34 @@
 ﻿<Properties StartupConfiguration="{D3087C6B-F4F7-0F5A-3251-0221814DCEB3}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/DetectMobile.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Library/PackageCache/io.extendreality.zinnia.unity@1.39.0/Runtime/Process/Moment/MomentProcess.cs">
     <Files>
-      <File FileName="Assets/Scripts/StarShip/SC_SpaceshipController.cs" Line="191" Column="93" />
-      <File FileName="Assets/Scripts/StarShip/StarShipSetup.cs" Line="15" Column="1" />
-      <File FileName="Assets/Scripts/StellarSystem/AsteroidBelt.cs" Line="156" Column="85" />
-      <File FileName="Assets/Scripts/StarShip/StarShipCollect.cs" Line="48" Column="38" />
-      <File FileName="Assets/Scripts/StellarSystem/Asteroid.cs" Line="67" Column="35" />
-      <File FileName="Assets/Scripts/DetectMobile.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/StarShip/SC_SpaceshipController.cs" Line="24" Column="42" />
+      <File FileName="Assets/Scripts/StarShip/StarShipSetup.cs" Line="68" Column="1" />
+      <File FileName="Assets/Scripts/StellarSystem/AsteroidBelt.cs" />
+      <File FileName="Assets/Scripts/StarShip/StarShipCollect.cs" Line="85" Column="1" />
+      <File FileName="Assets/Scripts/StellarSystem/Asteroid.cs" />
+      <File FileName="Assets/Scripts/StarShip/EnergyShield.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/StarShip/StarShipShootBlaster.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/StarShip/BlasterShot.cs" Line="97" Column="1" />
+      <File FileName="Assets/Scripts/StellarSystem/Attractor.cs" Line="41" Column="15" />
+      <File FileName="Assets/Scripts/UI/SelectSystemsList.cs" Line="26" Column="30" />
+      <File FileName="Assets/Scripts/ToggleStellarSystem.cs" Line="98" Column="32" />
+      <File FileName="Assets/Scripts/Camera/FloatingOrigin.cs" Line="58" Column="49" />
+      <File FileName="Assets/Scripts/StellarSystem/Star.cs" Line="262" Column="49" />
+      <File FileName="Assets/Scripts/StellarSystem/StellarObject.cs" Line="276" Column="1" />
+      <File FileName="Library/PackageCache/io.extendreality.tilia.input.unityinputmanager@1.4.9/Runtime/SharedResources/Scripts/UnityInputManagerAxis1DAction.cs" Line="1" Column="1" />
+      <File FileName="Library/PackageCache/io.extendreality.zinnia.unity@1.39.0/Runtime/Process/Moment/MomentProcess.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Unity-Galaxy-Map" expanded="True">
             <Node name="Assets" expanded="True">
-              <Node name="Prefabs" expanded="True" />
               <Node name="Scripts" expanded="True">
-                <Node name="StarShip" expanded="True" />
+                <Node name="Camera" expanded="True" />
+                <Node name="StarShip" expanded="True">
+                  <Node name="StarShipSetup.cs" selected="True" />
+                </Node>
                 <Node name="StellarSystem" expanded="True" />
-                <Node name="UI" expanded="True" />
-                <Node name="DetectMobile.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -28,7 +38,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="c6c7257f-4512-4933-af52-4c3764b94a67" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="9ad6f95b-9f8f-4aa6-896a-7ece483fab00" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

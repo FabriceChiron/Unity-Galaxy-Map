@@ -117,11 +117,6 @@ public class SC_SpaceshipController : MonoBehaviour
         Cursor.lockState = StarShipSetup.Controller.UITest.IsPaused ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = StarShipSetup.Controller.UITest.IsPaused;
 
-        foreach(TrailRenderer jetTrail in JetTrails)
-        {
-            jetTrail.time = speed * .5f;
-        }
-
         verticalAxis = Input.GetAxis("Vertical");
 
         if (XRSettings.isDeviceActive)
@@ -132,15 +127,6 @@ public class SC_SpaceshipController : MonoBehaviour
 
     void FixedUpdate()
     {
-        //Press Right Mouse Button to accelerate
-        /*if (Input.GetMouseButton(1))
-        {
-            speed = Mathf.Lerp(speed, accelerationSpeed, Time.deltaTime * 3);
-        }
-        else
-        {
-            speed = Mathf.Lerp(speed, normalSpeed, Time.deltaTime * 10);
-        }*/
 
         if(!StarShipSetup.Controller.UITest.IsPaused)
         {
@@ -150,10 +136,6 @@ public class SC_SpaceshipController : MonoBehaviour
             ChangeAudioClip();
 
             Thrusters();
-
-            //Camera follow
-            /*rearCamera.transform.position = Vector3.Lerp(rearCamera.transform.position, rearCameraPosition.position, Time.deltaTime * cameraSmooth);
-            rearCamera.transform.rotation = Quaternion.Lerp(rearCamera.transform.rotation, rearCameraPosition.rotation, Time.deltaTime * cameraSmooth);*/
 
             //Rotation
             if (!Freelook)
@@ -167,20 +149,6 @@ public class SC_SpaceshipController : MonoBehaviour
             mouseYSmooth = Mathf.Lerp(mouseYSmooth, Input.GetAxis("Mouse Y") * rotationSpeed, Time.deltaTime * cameraSmooth);
             Quaternion localRotation = Quaternion.Euler(-mouseYSmooth, mouseXSmooth, rotationZTmp * rotationSpeed);
             lookRotation = lookRotation * localRotation;
-
-
-            /*if (Input.GetMouseButton(1) && StarShipSetup.ActiveCamera.name == "Cockpit Camera")
-            {
-                StarShipSetup.ActiveCamera.transform.rotation = lookRotation;
-
-                if (Input.GetMouseButtonUp(1) && StarShipSetup.ActiveCamera.name == "Cockpit Camera")
-                {
-                    Debug.Log("go back to normal");
-                    StarShipSetup.ActiveCamera.transform.rotation = Quaternion.Lerp(lookRotation, transform.rotation, Time.deltaTime * cameraSmooth);
-                    //StarShipSetup.ActiveCamera.transform.rotation = Quaternion.identity;
-                }
-
-            }*/
 
             if(StarShipSetup.ActiveCamera.name == "Cockpit Camera")
             {
@@ -229,6 +197,11 @@ public class SC_SpaceshipController : MonoBehaviour
         }
 
 
+    }
+
+    public float GetMovementX()
+    {
+        return Input.GetAxis("Mouse X");
     }
 
     private void CheckOculusInputs()
@@ -508,10 +481,10 @@ public class SC_SpaceshipController : MonoBehaviour
                 Mathf.Max(
                     speed,
                     _wasWarping ?
-                        50f :
+                        warpSpeed :
                         _wasBoosting ?
-                            10f :
-                            5f);
+                            accelerationSpeed :
+                            normalSpeed);
 
             if (speed >= maxSpeed)
             {
