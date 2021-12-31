@@ -15,7 +15,7 @@ public class StarShipSetup : MonoBehaviour
     private Controller _controller;
 
     [SerializeField]
-    private int _health = 100;
+    private float _health = 100;
 
     [SerializeField]
     private Image healthDisplay;
@@ -29,7 +29,7 @@ public class StarShipSetup : MonoBehaviour
 
     public Controller Controller { get => _controller; set => _controller = value; }
     public Camera ActiveCamera { get => _activeCamera; set => _activeCamera = value; }
-    public int Health { get => _health; set => _health = value; }
+    public float Health { get => _health; set => _health = value; }
 
     private void Awake()
     {
@@ -82,27 +82,31 @@ public class StarShipSetup : MonoBehaviour
     {
         Debug.Log($"StarShipSetup OnCollisionEnter: {collision.transform.name}");
 
-        if(collision.transform.GetComponent<StellarObject>() != null)
+        if (Time.time >= _nextHitTime)
         {
+            if (collision.transform.GetComponent<StellarObject>() != null)
+            {
+                HitOnce();
+            }
+
+            if(collision.transform.name == "Rock")
+            {
+                HitOnce();
+            }
 
         }
         
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log($"StarShipSetup OnTriggerEnter: {other.name}");
+    //private void OnTriggerEnter(Collider other)
+    //{
 
-        if(other.GetComponent<StellarObject>() != null && Time.time >= _nextHitTime)
-        {
-            Hit();
-        }
-    }
+    //}
 
-    public void Hit()
+    public void HitOnce()
     {
 
-        Health -= 10;
+        Health -= 10f;
         _nextHitTime = Time.time + _delayBetweenHits;
 
     }
