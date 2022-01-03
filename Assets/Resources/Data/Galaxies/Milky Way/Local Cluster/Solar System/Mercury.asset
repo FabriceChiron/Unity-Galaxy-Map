@@ -18,6 +18,7 @@ MonoBehaviour:
     the Solar System. It is named after the Roman deity Mercury, the messenger to
     the gods.
   Texture: {fileID: 2800000, guid: 5f60439e2503a5649ab49b4e1b80e04a, type: 3}
+  Gaseous: 0
   Material: {fileID: 2100000, guid: 690effc1c7063be4a91d5e0c7ac4ba9c, type: 2}
   Clouds: 0
   CloudsMaterial: {fileID: 0}
@@ -25,6 +26,7 @@ MonoBehaviour:
   Orbit: 0.387
   OrbitTilt: 0
   Size: 0.383
+  Mass: 328.5
   BodyTilt: 0
   YearLength: 0.24
   DayLength: 58.646

@@ -18,6 +18,7 @@ MonoBehaviour:
     Earth formed over 4 billion years ago. Earth's gravity interacts with other objects
     in space, especially the Sun and the Moon, Earth's only natural satellite.
   Texture: {fileID: 2800000, guid: b9b392f4a4d8f224b88756d6e26e68e4, type: 3}
+  Gaseous: 0
   Material: {fileID: 2100000, guid: 457212928d58bf742b8c8560c8b40f63, type: 2}
   Clouds: 1
   CloudsMaterial: {fileID: 2100000, guid: 7ae4316f44d34824a8700648034b43d0, type: 2}
@@ -25,6 +26,7 @@ MonoBehaviour:
   Orbit: 1
   OrbitTilt: 0
   Size: 1
+  Mass: 5972
   BodyTilt: -23.5
   YearLength: 1
   DayLength: 1

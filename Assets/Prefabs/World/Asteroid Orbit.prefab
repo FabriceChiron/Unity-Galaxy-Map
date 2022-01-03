@@ -4979,6 +4979,7 @@ MonoBehaviour:
   _explosion: {fileID: 9188887028108793512}
   _platinum: {fileID: 4993034162204681924}
   _platinumQuantity: 0
+  _flyToStarShip: 0
 --- !u!1 &7978633150869073715
 GameObject:
   m_ObjectHideFlags: 0

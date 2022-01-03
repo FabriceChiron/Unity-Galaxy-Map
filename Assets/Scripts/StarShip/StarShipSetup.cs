@@ -18,7 +18,22 @@ public class StarShipSetup : MonoBehaviour
     private float _health = 100;
 
     [SerializeField]
+    private int _shield = 100;
+
+    [SerializeField]
+    private TextMesh _healthGauge, _shieldGauge;
+
+    [SerializeField]
     private Image healthDisplay;
+
+    [SerializeField]
+    private Image energyShieldDisplay;
+
+    [SerializeField]
+    private MeshRenderer[] _shields;
+
+    [SerializeField]
+    private Canvas _starShipUI;
 
     private Camera _activeCamera;
 
@@ -30,6 +45,8 @@ public class StarShipSetup : MonoBehaviour
     public Controller Controller { get => _controller; set => _controller = value; }
     public Camera ActiveCamera { get => _activeCamera; set => _activeCamera = value; }
     public float Health { get => _health; set => _health = value; }
+    public int Shield { get => _shield; set => _shield = value; }
+    public Canvas StarShipUI { get => _starShipUI; set => _starShipUI = value; }
 
     private void Awake()
     {
@@ -55,7 +72,7 @@ public class StarShipSetup : MonoBehaviour
         }
 
         UpdateHealthDisplay();
-
+        UpdateEnergyDisplay();
     }
 
     private void UpdateHealthDisplay()
@@ -64,6 +81,18 @@ public class StarShipSetup : MonoBehaviour
             Health,
             healthDisplay.rectTransform.sizeDelta.y
             );
+
+        _healthGauge.text = Health.ToString();
+    }
+
+    private void UpdateEnergyDisplay()
+    {
+        energyShieldDisplay.rectTransform.sizeDelta = new Vector2(
+            Shield,
+            energyShieldDisplay.rectTransform.sizeDelta.y
+            );
+
+        _shieldGauge.text = Shield.ToString();
     }
 
     private void SwitchCamera()
@@ -73,6 +102,7 @@ public class StarShipSetup : MonoBehaviour
             camera.gameObject.SetActive(!camera.gameObject.activeSelf);
             if (camera.gameObject.activeSelf)
             {
+
                 ActiveCamera = camera;
             }
         }
@@ -84,29 +114,55 @@ public class StarShipSetup : MonoBehaviour
 
         if (Time.time >= _nextHitTime)
         {
-            if (collision.transform.GetComponent<StellarObject>() != null)
+            if (collision.transform.GetComponent<StellarObject>() != null 
+                || collision.transform.name == "Rock")
             {
+                ToggleShowShield(true);
                 HitOnce();
             }
-
-            if(collision.transform.name == "Rock")
-            {
-                HitOnce();
-            }
-
         }
         
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
+    private void OnCollisionExit(Collision collision)
+    {
+        ToggleShowShield(false);
+    }
 
-    //}
+    private void ToggleShowShield(bool action)
+    {
+        switch (action)
+        {
+            case true:
+                if(Shield > 0)
+                {
+                    foreach (MeshRenderer shield in _shields)
+                    {
+                        shield.enabled = true;
+                    }
+                }
+                break;
+
+            case false:
+                foreach (MeshRenderer shield in _shields)
+                {
+                    shield.enabled = false;
+                }
+                break;
+        }
+    }
 
     public void HitOnce()
     {
+        if(Shield > 0)
+        {
+            Shield -= 10;
+        }
+        else
+        {
+            Health -= 10f;
+        }
 
-        Health -= 10f;
         _nextHitTime = Time.time + _delayBetweenHits;
 
     }

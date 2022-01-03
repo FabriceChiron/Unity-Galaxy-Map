@@ -29,6 +29,7 @@ MonoBehaviour:
   Orbit: 39.5
   OrbitTilt: -17.16
   Size: 0.18046409
+  Mass: 13.09
   BodyTilt: 0
   YearLength: 247.7
   DayLength: 0.39166668

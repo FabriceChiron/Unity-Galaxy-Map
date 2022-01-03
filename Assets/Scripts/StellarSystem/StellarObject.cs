@@ -292,7 +292,8 @@ public class StellarObject : MonoBehaviour
 
     private void SetMass()
     {
-        GetComponent<Rigidbody>().mass = PlanetData.Size * 1000;
+        GetComponent<Rigidbody>().mass = PlanetData.Mass;
+        //GetComponent<Rigidbody>().mass = (4f / 3f) * Mathf.PI * Mathf.Pow(PlanetData.Size, 3) * 250f;
     }
 
     //Apply Material to stellar object

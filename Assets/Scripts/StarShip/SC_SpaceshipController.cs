@@ -18,7 +18,7 @@ public class SC_SpaceshipController : MonoBehaviour
     private float _maxSpeed;
 
     [SerializeField]
-    private TextMeshProUGUI _displaySpeed;
+    private TextMesh _displaySpeed;
 
     [SerializeField]
     private Transform rearCameraPosition;
@@ -39,13 +39,7 @@ public class SC_SpaceshipController : MonoBehaviour
     private ParticleSystem[] _mainThrusters;
 
     [SerializeField]
-    private AudioClip _engineIdle;
-
-    [SerializeField]
-    private AudioClip _engineSlow;
-
-    [SerializeField]
-    private AudioClip _engineOn;
+    private AudioClip _engineIdle, _engineSlow, _engineOn, _engineWarp;
 
     private AudioSource _audioSource;
 
@@ -59,13 +53,13 @@ public class SC_SpaceshipController : MonoBehaviour
     private bool _freelook;
     private bool _isCameraAligned = true;
 
-    private Quaternion nullQuaternion = Quaternion.identity;
+    //private Quaternion nullQuaternion = Quaternion.identity;
 
     public RectTransform crosshairTexture;
 
     [SerializeField]
     private float _timeToMaxSpeed = 3f;
-    private float _resetTimeToMaxSpeed;
+    //private float _resetTimeToMaxSpeed;
 
     float speed;
     float rotationZTmp;
@@ -87,7 +81,7 @@ public class SC_SpaceshipController : MonoBehaviour
 
     private void Awake()
     {
-        _resetTimeToMaxSpeed = _timeToMaxSpeed;
+        //_resetTimeToMaxSpeed = _timeToMaxSpeed;
         Debug.Log($"XR Device: {XRSettings.isDeviceActive}");
         
     }
@@ -413,7 +407,7 @@ public class SC_SpaceshipController : MonoBehaviour
 
         if (message != "")
         {
-            _displaySpeed.text = message;
+            //_displaySpeed.text = message;
             Debug.Log(message);
         }
 
@@ -465,7 +459,7 @@ public class SC_SpaceshipController : MonoBehaviour
 
         if (verticalAxis != 0)
         {
-            float maxSpeed = goToSpeed(
+            float maxSpeed = GoToSpeed(
                 speed,
                 IsWarping ?
                     warpSpeed :
@@ -494,10 +488,13 @@ public class SC_SpaceshipController : MonoBehaviour
         }
         else
         {
-            speed = goToSpeed(speed, 0f, 3f);
+            speed = GoToSpeed(speed, 0f, 3f);
         }
 
+        
         speed = Mathf.Round(speed * 100f) / 100f;
+
+        _displaySpeed.text = Mathf.RoundToInt(speed).ToString();
 
         //_displaySpeed.text = $"Speed: {speed}\nRotationZ: {rotationZTmp}";
 
@@ -515,7 +512,7 @@ public class SC_SpaceshipController : MonoBehaviour
         _wasWarping = IsWarping && speed > accelerationSpeed;
     }
 
-    private float goToSpeed(float thisSpeed, float targetSpeed, float thrust)
+    private float GoToSpeed(float thisSpeed, float targetSpeed, float thrust)
     {
         if (Mathf.Abs(thisSpeed) - targetSpeed <= 0.1)
         {
@@ -543,7 +540,7 @@ public class SC_SpaceshipController : MonoBehaviour
         {
             if(verticalAxis > 0)
             {
-                newAudioClip = IsBoosting ? _engineOn : _engineSlow;
+                newAudioClip = IsWarping ? _engineWarp : IsBoosting ? _engineOn : _engineSlow;
             }
 
             else

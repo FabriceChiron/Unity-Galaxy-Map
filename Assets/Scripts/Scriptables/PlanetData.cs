@@ -36,6 +36,8 @@ public class PlanetData : ScriptableObject
     //Size (relative to Earth)
     public float Size;
 
+    public float Mass;
+
     //Tilt (in degrees)
     public float BodyTilt;
 
