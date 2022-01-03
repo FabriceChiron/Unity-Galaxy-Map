@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
+using UnityEngine.XR;
+using UnityEngine.XR.Management;
 using TMPro;
 
 public enum InputType
@@ -60,12 +62,19 @@ public class Controller : MonoBehaviour
     public float FadeTime { get => _fadeTime; set => _fadeTime = value; }
     public GameObject Player { get => _player; set => _player = value; }
     public bool HasPlayer { get => _hasPlayer; set => _hasPlayer = value; }
+
+    private bool _isVR;
+
     public Camera MainCamera { get => _mainCamera; set => _mainCamera = value; }
     public Quaternion NullQuaternion { get => nullQuaternion; set => nullQuaternion = value; }
+    public bool IsVR { get => _isVR; set => _isVR = value; }
 
     private void Awake()
     {
-
+        if (XRSettings.isDeviceActive)
+        {
+            IsVR = true;
+        }
 
         Camera = MainCamera.GetComponent<CameraFollow>();
         

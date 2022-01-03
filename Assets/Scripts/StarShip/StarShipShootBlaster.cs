@@ -11,6 +11,9 @@ public class StarShipShootBlaster : MonoBehaviour
     [SerializeField] private float _delayBetweenShots;
     //[SerializeField] private float _destroyTime = 3f;
 
+    [SerializeField]
+    private SC_SpaceshipController _starShipController;
+
     private int blasterIndex = 0;
 
     private float _nextShotTime;
@@ -47,7 +50,7 @@ public class StarShipShootBlaster : MonoBehaviour
 
         if (Time.time >= _nextShotTime)
         {
-            if (Input.GetButton("Fire1"))
+            if (Input.GetButton("Fire1") && !_starShipController.IsWarping)
             {
                 FireBlaster();
                 _nextShotTime = Time.time + _delayBetweenShots;

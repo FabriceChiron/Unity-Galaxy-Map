@@ -17,6 +17,9 @@ public class StarShipCollect : MonoBehaviour
     [SerializeField] 
     private float _delayBetweenLidars;
 
+    [SerializeField]
+    private TextMesh _platinumGauge;
+
     private float _nextLidarTime;
 
     private bool _flyToStarShip;
@@ -81,6 +84,7 @@ public class StarShipCollect : MonoBehaviour
         if (!_isPatinumCollected)
         {
             PlatinumScore += quantity;
+            _platinumGauge.text = PlatinumScore.ToString();
             Debug.Log(PlatinumScore);
             _isPatinumCollected = true;
         }

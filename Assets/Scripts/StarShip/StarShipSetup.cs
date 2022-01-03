@@ -21,7 +21,10 @@ public class StarShipSetup : MonoBehaviour
     private int _shield = 100;
 
     [SerializeField]
-    private TextMesh _healthGauge, _shieldGauge;
+    private GameObject _healthGauge, _shieldGauge;
+
+    private TextMesh _healthGaugeText, _shieldGaugeText;
+    private Material _healthGaugeCircle, _shieldGaugeCircle;
 
     [SerializeField]
     private Image healthDisplay;
@@ -54,6 +57,12 @@ public class StarShipSetup : MonoBehaviour
         ActiveCamera = _cameras[0];
         _toggleButtons.SetActive(false);
 
+        _healthGaugeText = _healthGauge.transform.GetChild(0).GetComponent<TextMesh>();
+        _shieldGaugeText = _shieldGauge.transform.GetChild(0).GetComponent<TextMesh>();
+        
+        _healthGaugeCircle = _healthGauge.transform.GetChild(1).GetComponent<MeshRenderer>().material;
+        _shieldGaugeCircle = _shieldGauge.transform.GetChild(1).GetComponent<MeshRenderer>().material;
+
     }
 
     // Start is called before the first frame update
@@ -82,7 +91,8 @@ public class StarShipSetup : MonoBehaviour
             healthDisplay.rectTransform.sizeDelta.y
             );
 
-        _healthGauge.text = Health.ToString();
+        _healthGaugeText.text = Health.ToString();
+        _healthGaugeCircle.color = new Vector4(_healthGaugeCircle.color.r, _healthGaugeCircle.color.g, _healthGaugeCircle.color.b, Health / 100f);
     }
 
     private void UpdateEnergyDisplay()
@@ -92,7 +102,8 @@ public class StarShipSetup : MonoBehaviour
             energyShieldDisplay.rectTransform.sizeDelta.y
             );
 
-        _shieldGauge.text = Shield.ToString();
+        _shieldGaugeText.text = Shield.ToString();
+        _shieldGaugeCircle.color = new Vector4(_shieldGaugeCircle.color.r, _shieldGaugeCircle.color.g, _shieldGaugeCircle.color.b, Shield / 100f);
     }
 
     private void SwitchCamera()

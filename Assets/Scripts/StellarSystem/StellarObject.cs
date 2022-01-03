@@ -147,6 +147,11 @@ public class StellarObject : MonoBehaviour
             PlanetRotation();
         }
 
+/*        if (Controller.IsVR)
+        {
+            transform.parent.GetComponentInChildren<Canvas>().worldCamera = GameObject.FindObjectOfType<StarShipSetup>().ActiveCamera;
+        }*/
+
         Controller.StickToObject(PlanetButton.transform, StellarBody, 0f);
         Controller.StickToObject(UIName.transform.parent, StellarBody, 10f);
 
@@ -172,6 +177,12 @@ public class StellarObject : MonoBehaviour
 
     private void FillUIElements()
     {
+/*        if (Controller.IsVR)
+        {
+            transform.parent.GetComponentInChildren<Canvas>().renderMode = RenderMode.ScreenSpaceCamera;
+            transform.parent.GetComponentInChildren<Canvas>().worldCamera = GameObject.FindObjectOfType<StarShipSetup>().ActiveCamera;
+        }*/
+
         name = PlanetData.Name;
         UIName.text = PlanetData.name;
         UIDetails.GetComponentsInChildren<TextMeshProUGUI>(true)[0].text = PlanetData.name;

@@ -18,6 +18,9 @@ public class SC_SpaceshipController : MonoBehaviour
     private float _maxSpeed;
 
     [SerializeField]
+    private int _gas = 1000;
+
+    [SerializeField]
     private TextMesh _displaySpeed;
 
     [SerializeField]
@@ -33,13 +36,13 @@ public class SC_SpaceshipController : MonoBehaviour
     private StarShipSetup _starShipSetup;
 
     [SerializeField]
-    private TrailRenderer[] _jetTrails;
-
-    [SerializeField]
-    private ParticleSystem[] _mainThrusters;
+    private ParticleSystem[] _mainThrusters, _backThrusters;
 
     [SerializeField]
     private AudioClip _engineIdle, _engineSlow, _engineOn, _engineWarp;
+
+    [SerializeField]
+    private Animator _animator;
 
     private AudioSource _audioSource;
 
@@ -72,12 +75,12 @@ public class SC_SpaceshipController : MonoBehaviour
     Vector3 defaultShipRotation;
 
     public StarShipSetup StarShipSetup { get => _starShipSetup; set => _starShipSetup = value; }
-    public TrailRenderer[] JetTrails { get => _jetTrails; set => _jetTrails = value; }
     public float TimeToMaxSpeed { get => _timeToMaxSpeed; set => _timeToMaxSpeed = value; }
     public bool IsBoosting { get => _isBoosting; set => _isBoosting = value; }
     public bool IsWarping { get => _isWarping; set => _isWarping = value; }
     public bool Freelook { get => _freelook; set => _freelook = value; }
     public bool IsCameraAligned { get => _isCameraAligned; set => _isCameraAligned = value; }
+    public Animator Animator { get => _animator; set => _animator = value; }
 
     private void Awake()
     {
@@ -121,6 +124,8 @@ public class SC_SpaceshipController : MonoBehaviour
 
     void FixedUpdate()
     {
+
+        Animator.SetFloat("Veering", Input.GetAxis("Horizontal") != 0 ? Input.GetAxis("Horizontal") : Input.GetAxis("Mouse X"));
 
         if(!StarShipSetup.Controller.UITest.IsPaused)
         {
@@ -178,6 +183,7 @@ public class SC_SpaceshipController : MonoBehaviour
 
             else
             {
+                Input.GetAxis("Mouse X");
                 RotateShip();
             }
 
@@ -450,6 +456,8 @@ public class SC_SpaceshipController : MonoBehaviour
         rotationZ = Mathf.Clamp(rotationZ, -45, 45);
         spaceshipRoot.transform.localEulerAngles = new Vector3(defaultShipRotation.x, defaultShipRotation.y, rotationZ);
         rotationZ = Mathf.Lerp(rotationZ, defaultShipRotation.z, Time.deltaTime * cameraSmooth);
+
+        Debug.Log($"rotationZ: {rotationZ}");
     }
 
     private void ApplyThrust()
@@ -470,6 +478,7 @@ public class SC_SpaceshipController : MonoBehaviour
 
             _timeToMaxSpeed -= Time.deltaTime;
 
+
             speed += verticalAxis *
                 Time.deltaTime *
                 Mathf.Max(
@@ -480,6 +489,10 @@ public class SC_SpaceshipController : MonoBehaviour
                             accelerationSpeed :
                             normalSpeed);
 
+            if(speed <= 50f)
+            {
+                speed = 50f;
+            }
             if (speed >= maxSpeed)
             {
                 speed = maxSpeed;
@@ -543,6 +556,11 @@ public class SC_SpaceshipController : MonoBehaviour
                 newAudioClip = IsWarping ? _engineWarp : IsBoosting ? _engineOn : _engineSlow;
             }
 
+            else if(verticalAxis < 0)
+            {
+                newAudioClip = _engineOn;
+            }
+
             else
             {
                 newAudioClip = _engineSlow;
@@ -559,6 +577,23 @@ public class SC_SpaceshipController : MonoBehaviour
 
     private void Thrusters()
     {
+        foreach(ParticleSystem _backThruster in _backThrusters)
+        {
+            var main = _backThruster.main;
+
+            Vector3 _backThrusterScale;
+
+            if(verticalAxis < 0f)
+            {
+                _backThrusterScale = new Vector3(0.5f, 1f, 1f);
+            }
+            else
+            {
+                _backThrusterScale = new Vector3(0.5f, 1f, 0f);
+            }
+            
+            _backThruster.transform.localScale = Vector3.Lerp(_backThruster.transform.localScale, _backThrusterScale, Time.deltaTime * 6f);
+        }
 
         foreach(ParticleSystem _thruster in _mainThrusters)
         {
