@@ -67,11 +67,15 @@ public class ToggleSetting : MonoBehaviour
                 PlayerPrefs.SetInt(PrefName, (Toggle.isOn) ? 1 : 0);
                 Scales.RationalizeValues = Toggle.isOn;
 
-                _toggleStellarSystem = _controller.LoopLists.NewStellarSystem.GetComponent<ToggleStellarSystem>();
+                if(_controller != null)
+                {
+                    _toggleStellarSystem = _controller.LoopLists.NewStellarSystem.GetComponent<ToggleStellarSystem>();
 
-                _toggleStellarSystem.GetTargetScale();
+                    _toggleStellarSystem.GetTargetScale();
 
-                _toggleStellarSystem.IsScaleChanging = true;
+                    _toggleStellarSystem.IsScaleChanging = true;
+                }
+
 
                 break;
 
@@ -80,7 +84,7 @@ public class ToggleSetting : MonoBehaviour
                 break;
         }
 
-        if(_controller.LoopLists && _controller.LoopLists.StellarSystemGenerated)
+        if(_controller && _controller.LoopLists && _controller.LoopLists.StellarSystemGenerated)
         {
             _controller.TriggerSetScales("ToggleSetting");
         }

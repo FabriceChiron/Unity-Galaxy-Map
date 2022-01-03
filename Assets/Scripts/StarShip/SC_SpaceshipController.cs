@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR;
 using UnityEngine.XR.Management;
+using UnityEngine.XR.LegacyInputHelpers;
 using TMPro;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -18,10 +19,10 @@ public class SC_SpaceshipController : MonoBehaviour
     private float _maxSpeed;
 
     [SerializeField]
-    private int _gas = 1000;
-
-    [SerializeField]
     private TextMesh _displaySpeed;
+    
+    [SerializeField]
+    private TextMeshProUGUI _displayInfo;
 
     [SerializeField]
     private Transform rearCameraPosition;
@@ -34,6 +35,9 @@ public class SC_SpaceshipController : MonoBehaviour
 
     [SerializeField]
     private StarShipSetup _starShipSetup;
+
+    [SerializeField]
+    private PlayerInput _playerInput;
 
     [SerializeField]
     private ParticleSystem[] _mainThrusters, _backThrusters;
@@ -82,11 +86,12 @@ public class SC_SpaceshipController : MonoBehaviour
     public bool IsCameraAligned { get => _isCameraAligned; set => _isCameraAligned = value; }
     public Animator Animator { get => _animator; set => _animator = value; }
 
+    private int gasQuantity;
+
     private void Awake()
     {
         //_resetTimeToMaxSpeed = _timeToMaxSpeed;
         Debug.Log($"XR Device: {XRSettings.isDeviceActive}");
-        
     }
 
     // Start is called before the first frame update
@@ -104,17 +109,17 @@ public class SC_SpaceshipController : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+
     }
 
     private void Update()
     {
-        IsBoosting = Input.GetButton("Boost");
-        IsWarping = Input.GetButton("Warp");
+        IsBoosting = _playerInput.BoostAxis != 0;
+        IsWarping = _playerInput.WarpAxis != 0;
 
         Cursor.lockState = StarShipSetup.Controller.UITest.IsPaused ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = StarShipSetup.Controller.UITest.IsPaused;
-
-        verticalAxis = Input.GetAxis("Vertical");
 
         if (XRSettings.isDeviceActive)
         {
@@ -125,7 +130,7 @@ public class SC_SpaceshipController : MonoBehaviour
     void FixedUpdate()
     {
 
-        Animator.SetFloat("Veering", Input.GetAxis("Horizontal") != 0 ? Input.GetAxis("Horizontal") : Input.GetAxis("Mouse X"));
+        Animator.SetFloat("Veering", _playerInput.HorizontalAxis != 0 ? _playerInput.HorizontalAxis : _playerInput.HorizontalDirection);
 
         if(!StarShipSetup.Controller.UITest.IsPaused)
         {
@@ -139,13 +144,13 @@ public class SC_SpaceshipController : MonoBehaviour
             //Rotation
             if (!Freelook)
             {
-                rotationZTmp = Input.GetAxis("Horizontal") * -1f;
+                rotationZTmp = _playerInput.HorizontalAxis * -1f;
                 MoveJoystick();
                 MoveThrottleControl();
             }
 
-            mouseXSmooth = Mathf.Lerp(mouseXSmooth, Input.GetAxis("Mouse X") * rotationSpeed, Time.deltaTime * cameraSmooth);
-            mouseYSmooth = Mathf.Lerp(mouseYSmooth, Input.GetAxis("Mouse Y") * rotationSpeed, Time.deltaTime * cameraSmooth);
+            mouseXSmooth = Mathf.Lerp(mouseXSmooth, _playerInput.HorizontalDirection * rotationSpeed, Time.deltaTime * cameraSmooth);
+            mouseYSmooth = Mathf.Lerp(mouseYSmooth, _playerInput.VerticalDirection * rotationSpeed, Time.deltaTime * cameraSmooth);
             Quaternion localRotation = Quaternion.Euler(-mouseYSmooth, mouseXSmooth, rotationZTmp * rotationSpeed);
             lookRotation = lookRotation * localRotation;
 
@@ -183,7 +188,6 @@ public class SC_SpaceshipController : MonoBehaviour
 
             else
             {
-                Input.GetAxis("Mouse X");
                 RotateShip();
             }
 
@@ -197,11 +201,6 @@ public class SC_SpaceshipController : MonoBehaviour
         }
 
 
-    }
-
-    public float GetMovementX()
-    {
-        return Input.GetAxis("Mouse X");
     }
 
     private void CheckOculusInputs()
@@ -427,7 +426,7 @@ public class SC_SpaceshipController : MonoBehaviour
 
     private void MoveThrottleControl()
     {
-        throttleAmount = Mathf.Lerp(throttleAmount, IsBoosting ? verticalAxis : verticalAxis * 0.5f, Time.deltaTime * cameraSmooth);
+        throttleAmount = Mathf.Lerp(throttleAmount, IsBoosting ? _playerInput.VerticalAxis : _playerInput.VerticalAxis * 0.5f, Time.deltaTime * cameraSmooth);
 
         _throttleControl.localRotation = Quaternion.Euler(throttleAmount * 60f, _throttleControl.localRotation.y, _throttleControl.localRotation.z);
     }
@@ -456,8 +455,6 @@ public class SC_SpaceshipController : MonoBehaviour
         rotationZ = Mathf.Clamp(rotationZ, -45, 45);
         spaceshipRoot.transform.localEulerAngles = new Vector3(defaultShipRotation.x, defaultShipRotation.y, rotationZ);
         rotationZ = Mathf.Lerp(rotationZ, defaultShipRotation.z, Time.deltaTime * cameraSmooth);
-
-        Debug.Log($"rotationZ: {rotationZ}");
     }
 
     private void ApplyThrust()
@@ -465,7 +462,7 @@ public class SC_SpaceshipController : MonoBehaviour
 
 
 
-        if (verticalAxis != 0)
+        if (_playerInput.VerticalAxis != 0)
         {
             float maxSpeed = GoToSpeed(
                 speed,
@@ -479,7 +476,7 @@ public class SC_SpaceshipController : MonoBehaviour
             _timeToMaxSpeed -= Time.deltaTime;
 
 
-            speed += verticalAxis *
+            speed += _playerInput.VerticalAxis *
                 Time.deltaTime *
                 Mathf.Max(
                     speed,
@@ -545,18 +542,18 @@ public class SC_SpaceshipController : MonoBehaviour
         AudioClip newAudioClip;
 
 
-        if (verticalAxis == 0f)
+        if (_playerInput.VerticalAxis == 0f)
         {
             newAudioClip = _engineIdle;
         }
         else
         {
-            if(verticalAxis > 0)
+            if(_playerInput.VerticalAxis > 0)
             {
                 newAudioClip = IsWarping ? _engineWarp : IsBoosting ? _engineOn : _engineSlow;
             }
 
-            else if(verticalAxis < 0)
+            else if(_playerInput.VerticalAxis < 0)
             {
                 newAudioClip = _engineOn;
             }
@@ -583,7 +580,7 @@ public class SC_SpaceshipController : MonoBehaviour
 
             Vector3 _backThrusterScale;
 
-            if(verticalAxis < 0f)
+            if(_playerInput.VerticalAxis < 0f)
             {
                 _backThrusterScale = new Vector3(0.5f, 1f, 1f);
             }
@@ -592,7 +589,7 @@ public class SC_SpaceshipController : MonoBehaviour
                 _backThrusterScale = new Vector3(0.5f, 1f, 0f);
             }
             
-            _backThruster.transform.localScale = Vector3.Lerp(_backThruster.transform.localScale, _backThrusterScale, Time.deltaTime * 6f);
+            _backThruster.transform.localScale = Vector3.Lerp(_backThruster.transform.localScale, _backThrusterScale, Time.deltaTime * 20f);
         }
 
         foreach(ParticleSystem _thruster in _mainThrusters)
@@ -602,7 +599,7 @@ public class SC_SpaceshipController : MonoBehaviour
             Vector3 _thrusterSCale;
             Color _thrusterColor;
             Color _defaultColor = new Color(255, 162, 0, 255);
-            if (verticalAxis == 0f)
+            if (_playerInput.VerticalAxis == 0f)
             {
                 _thrusterColor = new Color(255, 162, 0, 255);
                 //var main =_thruster.main.startColor = new Color(255, 162, 0, 255);
@@ -610,7 +607,7 @@ public class SC_SpaceshipController : MonoBehaviour
             }
             else
             {
-                if (verticalAxis > 0)
+                if (_playerInput.VerticalAxis > 0)
                 {
                     _thrusterColor = (IsBoosting || IsWarping) ? new Color(0, 138, 255, 255) : new Color(255, 162, 0, 255);
                     //_thrusterSCale = new Vector3(IsBoosting ? 1.5f : 1f, IsBoosting ? 1.5f : 1f, IsBoosting ? 1.5f : 1f);
@@ -631,8 +628,8 @@ public class SC_SpaceshipController : MonoBehaviour
                 }
             }
 
-            main.startColor = Color.Lerp(_defaultColor, _thrusterColor, Time.deltaTime * 6f);
-            _thruster.transform.localScale = Vector3.Lerp(_thruster.transform.localScale, _thrusterSCale, Time.deltaTime * 6f);
+            main.startColor = Color.Lerp(_defaultColor, _thrusterColor, Time.deltaTime * 20f);
+            _thruster.transform.localScale = Vector3.Lerp(_thruster.transform.localScale, _thrusterSCale, Time.deltaTime * 20f);
         }
 
     }

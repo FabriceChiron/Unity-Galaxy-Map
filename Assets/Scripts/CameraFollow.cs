@@ -737,7 +737,7 @@ public class CameraFollow : MonoBehaviour
 
             if (CameraTarget || Star)
             {
-                _transform.position += _transform.forward * _scrollWheelChange * Vector3.Distance(_transform.position, CameraTarget ? CameraTarget.position : Star.position) / 10f;
+                _transform.position += _transform.forward * _scrollWheelChange * Vector3.Distance(_transform.position, CameraTarget ? CameraTarget.position : Star.position) * 0.1f;
             }
             else
             {

@@ -56,6 +56,9 @@ public class StellarObject : MonoBehaviour
     [SerializeField]
     private SphereCollider[] _sphereCollidersForCamera;
 
+    [SerializeField]
+    private SphereCollider _gasCollider;
+
     private CameraFollow _camera;
 
     private Star _star;
@@ -98,6 +101,7 @@ public class StellarObject : MonoBehaviour
     public float AngularSpeed { get => _angularSpeed; set => _angularSpeed = value; }
     public float TravelSpeed { get => _travelSpeed; set => _travelSpeed = value; }
     public Scales CurrentScales { get => _currentScales; set => _currentScales = value; }
+    public SphereCollider GasCollider { get => _gasCollider; set => _gasCollider = value; }
 
     private void Awake()
     {
@@ -284,6 +288,11 @@ public class StellarObject : MonoBehaviour
             {
                 sphereCollider.enabled = false;
             }
+        }
+
+        if (PlanetData.Gaseous)
+        {
+            _gasCollider.enabled = true;
         }
 
         SetMass();

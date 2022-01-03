@@ -15,15 +15,21 @@ public class StarShipSetup : MonoBehaviour
     private Controller _controller;
 
     [SerializeField]
+    private PlayerInput _playerInput;
+
+    [SerializeField]
     private float _health = 100;
 
     [SerializeField]
     private int _shield = 100;
 
     [SerializeField]
-    private GameObject _healthGauge, _shieldGauge;
+    private int _gasQuantity = 1000;
 
-    private TextMesh _healthGaugeText, _shieldGaugeText;
+    [SerializeField]
+    private GameObject _healthGauge, _shieldGauge, _gasGauge;
+
+    private TextMesh _healthGaugeText, _shieldGaugeText, _gasGaugeText;
     private Material _healthGaugeCircle, _shieldGaugeCircle;
 
     [SerializeField]
@@ -49,6 +55,7 @@ public class StarShipSetup : MonoBehaviour
     public Camera ActiveCamera { get => _activeCamera; set => _activeCamera = value; }
     public float Health { get => _health; set => _health = value; }
     public int Shield { get => _shield; set => _shield = value; }
+    public int GasQuantity { get => _gasQuantity; set => _gasQuantity = value; }
     public Canvas StarShipUI { get => _starShipUI; set => _starShipUI = value; }
 
     private void Awake()
@@ -59,6 +66,7 @@ public class StarShipSetup : MonoBehaviour
 
         _healthGaugeText = _healthGauge.transform.GetChild(0).GetComponent<TextMesh>();
         _shieldGaugeText = _shieldGauge.transform.GetChild(0).GetComponent<TextMesh>();
+        _gasGaugeText = _gasGauge.GetComponent<TextMesh>();
         
         _healthGaugeCircle = _healthGauge.transform.GetChild(1).GetComponent<MeshRenderer>().material;
         _shieldGaugeCircle = _shieldGauge.transform.GetChild(1).GetComponent<MeshRenderer>().material;
@@ -74,7 +82,7 @@ public class StarShipSetup : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
+        if (_playerInput.SwitchCameraButton)
         {
 
             SwitchCamera();
@@ -82,6 +90,7 @@ public class StarShipSetup : MonoBehaviour
 
         UpdateHealthDisplay();
         UpdateEnergyDisplay();
+        UpdateGasDisplay();
     }
 
     private void UpdateHealthDisplay()
@@ -104,6 +113,11 @@ public class StarShipSetup : MonoBehaviour
 
         _shieldGaugeText.text = Shield.ToString();
         _shieldGaugeCircle.color = new Vector4(_shieldGaugeCircle.color.r, _shieldGaugeCircle.color.g, _shieldGaugeCircle.color.b, Shield / 100f);
+    }
+
+    private void UpdateGasDisplay()
+    {
+        _gasGaugeText.text = GasQuantity.ToString();
     }
 
     private void SwitchCamera()

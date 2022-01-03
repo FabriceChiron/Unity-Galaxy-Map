@@ -28,6 +28,8 @@ public class StarShipCollect : MonoBehaviour
 
     public int PlatinumScore { get => _platinumScore; set => _platinumScore = value; }
 
+    private GameObject _platinum;
+
     void Start()
     {
         _nextLidarTime = Time.time;
@@ -50,6 +52,17 @@ public class StarShipCollect : MonoBehaviour
         {
 
         }
+
+        if (_platinum)
+        {
+            _platinum.transform.position = Vector3.Lerp(_platinum.transform.position, transform.position, Time.deltaTime * 15f);
+            _platinum.transform.localScale = Vector3.Lerp(_platinum.transform.localScale, Vector3.zero, Time.deltaTime * 15f);
+
+            if(Vector3.Distance(transform.position, _platinum.transform.position) < 5f)
+            {
+                CollectPlatinum(_platinum.GetComponentInParent<Asteroid>().PlatinumQuantity);
+            }
+        }
     }
 
     private void FireLidar()
@@ -69,7 +82,13 @@ public class StarShipCollect : MonoBehaviour
         if(other.tag == "Platinum")
         {
             Debug.Log($"There's platinum here!");
-            other.GetComponentInParent<Asteroid>().FlyToStarShip = true;
+            //other.GetComponentInParent<Asteroid>().FlyToStarShip = true;
+            _platinum = other.GetComponentInParent<Asteroid>().Platinum;
+        }
+
+        if(other.tag == "Gas")
+        {
+            Debug.Log("Entering gas layer!");
         }
 
     }
@@ -81,12 +100,11 @@ public class StarShipCollect : MonoBehaviour
 
     public void CollectPlatinum(int quantity)
     {
-        if (!_isPatinumCollected)
-        {
-            PlatinumScore += quantity;
-            _platinumGauge.text = PlatinumScore.ToString();
-            Debug.Log(PlatinumScore);
-            _isPatinumCollected = true;
-        }
+        PlatinumScore += quantity;
+        _platinumGauge.text = PlatinumScore.ToString();
+        Debug.Log(PlatinumScore);
+        //_isPatinumCollected = true;
+        _platinum = null;
     }
+
 }

@@ -4923,6 +4923,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4694346099201d9489b9a0ad2cbc03aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &669400670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669400658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7688a80b924e1b645b99e0ba0b92217f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HorizontalAxis: 0
+  VerticalAxis: 0
+  HorizontalDirection: 0
+  VerticalDirection: 0
+  FireAxis: 0
+  BoostAxis: 0
+  WarpAxis: 0
+  SwitchCameraButton: 0
 --- !u!1 &671902709
 GameObject:
   m_ObjectHideFlags: 0
@@ -7596,6 +7616,16 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 0
+--- !u!1 &1012783849 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9108040220372333764, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+  m_PrefabInstance: {fileID: 9059584690247314030}
+  m_PrefabAsset: {fileID: 0}
+--- !u!102 &1012783851 stripped
+TextMesh:
+  m_CorrespondingSourceObject: {fileID: 532348793588347799, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+  m_PrefabInstance: {fileID: 9059584690247314030}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1016613035
 GameObject:
   m_ObjectHideFlags: 0
@@ -12060,7 +12090,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 600.00006, y: 0}
+  m_AnchoredPosition: {x: 600, y: 0}
   m_SizeDelta: {x: 600, y: 0}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!1 &1737261529 stripped
@@ -13766,7 +13796,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1982498356575902483, guid: e04326d909c04ca4f8003d435e58c36b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000024795532
+      value: 0.000022888184
       objectReference: {fileID: 0}
     - target: {fileID: 1982498356980352936, guid: e04326d909c04ca4f8003d435e58c36b, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -15886,7 +15916,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1982498356575902483, guid: e04326d909c04ca4f8003d435e58c36b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000024795532
+      value: 0.000022888184
       objectReference: {fileID: 0}
     - target: {fileID: 1982498356980352936, guid: e04326d909c04ca4f8003d435e58c36b, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -15919,7 +15949,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -4.999817, y: 0}
+  m_AnchoredPosition: {x: -4.9997864, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &2027654167732374067
@@ -17342,7 +17372,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -4.999817, y: 0}
+  m_AnchoredPosition: {x: -4.9997864, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &8329624914897119217
@@ -17362,7 +17392,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -4.999817, y: 0}
+  m_AnchoredPosition: {x: -4.9997864, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &8329624915016843803
@@ -17382,7 +17412,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -4.999817, y: 0}
+  m_AnchoredPosition: {x: -4.9997864, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8356673585417624607
@@ -17952,6 +17982,10 @@ PrefabInstance:
       value: 0.5019608
       objectReference: {fileID: 0}
     - target: {fileID: 1732505910471647293, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: _gasGauge
+      value: 
+      objectReference: {fileID: 1012783851}
+    - target: {fileID: 1732505910471647293, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _platinumGauge
       value: 
       objectReference: {fileID: 1431371988}
@@ -18156,9 +18190,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1342449794}
     - target: {fileID: 9059584689750414392, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: warpSpeed
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 9059584689750414392, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: normalSpeed
+      value: 125
+      objectReference: {fileID: 0}
+    - target: {fileID: 9059584689750414392, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: _playerInput
+      value: 
+      objectReference: {fileID: 669400670}
+    - target: {fileID: 9059584689750414392, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _displaySpeed
       value: 
       objectReference: {fileID: 1324015205}
+    - target: {fileID: 9059584689750414392, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: accelerationSpeed
+      value: 500
+      objectReference: {fileID: 0}
     - target: {fileID: 9059584689750414392, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _backThrusters.Array.size
       value: 2
@@ -18172,6 +18222,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9059584690247314031}
     - target: {fileID: 9059584689750414393, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: _playerInput
+      value: 
+      objectReference: {fileID: 669400670}
+    - target: {fileID: 9059584689750414393, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _blasterSpeed
       value: 2000
       objectReference: {fileID: 0}
@@ -18184,6 +18238,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: _gasGauge
+      value: 
+      objectReference: {fileID: 1012783849}
+    - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _controller
       value: 
       objectReference: {fileID: 495509697}
@@ -18191,6 +18249,10 @@ PrefabInstance:
       propertyPath: _healthGauge
       value: 
       objectReference: {fileID: 1550940402}
+    - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: _playerInput
+      value: 
+      objectReference: {fileID: 669400670}
     - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _shieldGauge
       value: 

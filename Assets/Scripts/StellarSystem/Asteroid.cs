@@ -52,14 +52,14 @@ public class Asteroid : MonoBehaviour
 
     private void Update()
     {
-        if (FlyToStarShip && HasPlatinum)
+/*        if (FlyToStarShip && HasPlatinum)
         {
             Starship = GameObject.FindGameObjectWithTag("Player").transform;
 
             Platinum.transform.position = Vector3.Lerp(Platinum.transform.position, Starship.position, Time.deltaTime * 15f);
             Platinum.transform.localScale = Vector3.Lerp(Platinum.transform.localScale, Vector3.zero, Time.deltaTime * 15f);
 
-            if(Vector3.Distance(Platinum.transform.position, Starship.position) <= 1f)
+            if(Vector3.Distance(Platinum.transform.position, Starship.position) <= 3f)
             {
                 Starship.GetComponent<StarShipCollect>().CollectPlatinum(PlatinumQuantity);
 
@@ -67,7 +67,7 @@ public class Asteroid : MonoBehaviour
                 FlyToStarShip = false;
 
             }
-        }
+        }*/
     }
 
     public void AddPlatinum()
