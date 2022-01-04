@@ -48,7 +48,11 @@ public class PlayerInput : MonoBehaviour
         BoostAxis = Input.GetAxis("XRI_Right_Grip") != 0 ? Input.GetAxis("XRI_Right_Grip") : Input.GetAxis("Boost");
         WarpAxis = Input.GetAxis("XRI_Right_Trigger")  !=0 ? Input.GetAxis("XRI_Right_Trigger") : Input.GetAxis("Warp");
 
-        SwitchCameraButton = Input.GetButton("XRI_Right_PrimaryButton") ? Input.GetButton("XRI_Right_PrimaryButton") : Input.GetKeyDown(KeyCode.C);
+        SwitchCameraButton = Input.GetButtonDown("XRI_Right_PrimaryButton") ? 
+            Input.GetButtonDown("XRI_Right_PrimaryButton") :
+                Input.GetButtonDown("XRI_Left_PrimaryButton") ?
+                    Input.GetButtonDown("XRI_Left_PrimaryButton") :
+                Input.GetKeyDown(KeyCode.C);
 
     }
 }

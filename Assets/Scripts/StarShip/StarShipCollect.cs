@@ -60,6 +60,7 @@ public class StarShipCollect : MonoBehaviour
 
             if(Vector3.Distance(transform.position, _platinum.transform.position) < 5f)
             {
+                _isPatinumCollected = false;
                 CollectPlatinum(_platinum.GetComponentInParent<Asteroid>().PlatinumQuantity);
             }
         }
@@ -100,11 +101,14 @@ public class StarShipCollect : MonoBehaviour
 
     public void CollectPlatinum(int quantity)
     {
-        PlatinumScore += quantity;
-        _platinumGauge.text = PlatinumScore.ToString();
-        Debug.Log(PlatinumScore);
-        //_isPatinumCollected = true;
-        _platinum = null;
+        if (!_isPatinumCollected)
+        {
+            PlatinumScore += quantity;
+            _platinumGauge.text = PlatinumScore.ToString();
+            Debug.Log(PlatinumScore);
+            _isPatinumCollected = true;
+            _platinum = null;
+        }
     }
 
 }
