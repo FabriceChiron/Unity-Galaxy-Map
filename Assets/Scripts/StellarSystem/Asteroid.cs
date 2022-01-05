@@ -21,7 +21,7 @@ public class Asteroid : MonoBehaviour
     private ParticleSystem _explosion;
 
     [SerializeField]
-    private GameObject _platinum;
+    private GameObject _platinum, _platinumMiniMap;
 
     [SerializeField]
     private int _platinumQuantity;
@@ -38,6 +38,7 @@ public class Asteroid : MonoBehaviour
     public MeshRenderer Rock { get => _rock; set => _rock = value; }
     public ParticleSystem Explosion { get => _explosion; set => _explosion = value; }
     public GameObject Platinum { get => _platinum; set => _platinum = value; }
+    public GameObject PlatinumMiniMap { get => _platinumMiniMap; set => _platinumMiniMap = value; }
     public int PlatinumQuantity { get => _platinumQuantity; set => _platinumQuantity = value; }
     public bool FlyToStarShip { get => _flyToStarShip; set => _flyToStarShip = value; }
     public Transform Starship { get => _starship; set => _starship = value; }
@@ -73,6 +74,7 @@ public class Asteroid : MonoBehaviour
     public void AddPlatinum()
     {
         Rock.material.EnableKeyword("_EMISSION");
+        PlatinumMiniMap.SetActive(true);
     }
 
     public void Explode()

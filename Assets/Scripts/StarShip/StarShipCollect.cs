@@ -105,7 +105,6 @@ public class StarShipCollect : MonoBehaviour
         {
             PlatinumScore += quantity;
             _platinumGauge.text = PlatinumScore.ToString();
-            Debug.Log(PlatinumScore);
             _isPatinumCollected = true;
             _platinum = null;
         }

@@ -44,6 +44,9 @@ public class StarShipSetup : MonoBehaviour
     [SerializeField]
     private Canvas _starShipUI;
 
+    [SerializeField]
+    private AudioClip _lightSpeedJump;
+
     private Camera _activeCamera;
 
     private float _delayBetweenHits = 1f;
@@ -57,6 +60,7 @@ public class StarShipSetup : MonoBehaviour
     public int Shield { get => _shield; set => _shield = value; }
     public int GasQuantity { get => _gasQuantity; set => _gasQuantity = value; }
     public Canvas StarShipUI { get => _starShipUI; set => _starShipUI = value; }
+    public AudioClip LightSpeedJump { get => _lightSpeedJump; set => _lightSpeedJump = value; }
 
     private void Awake()
     {

@@ -160,6 +160,24 @@ public class Star : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (Controller.HasPlayer)
+        {
+            float _distanceToPlayer = Vector3.Distance(transform.position, Controller.Player.transform.position);
+            if (_distanceToPlayer > 75000f)
+            {
+                GetComponent<Light>().range = _distanceToPlayer * 1.3333f;
+            }
+            else
+            {
+                GetComponent<Light>().range = 100000f;
+            }
+
+            //Debug.Log($"Distance to player: {Vector3.Distance(transform.position, Controller.Player.transform.position)}");
+        }
+    }
+
     private void InitElemsByPlayerPrefs()
     {
         DisplayOrbitCircle.gameObject.SetActive(PlayerPrefs.GetInt("ShowOrbitCircles") != 0);

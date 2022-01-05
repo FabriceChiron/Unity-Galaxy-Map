@@ -259,6 +259,12 @@ public class LoopLists : MonoBehaviour
     private void DeployStellarSystem()
     {
         NewStellarSystem.GetComponent<ToggleStellarSystem>().DeployStellarSystem();
+        if (_controller.HasPlayer)
+        {
+            AudioSource _audioSource = _controller.Player.GetComponent<AudioSource>();
+            //_audioSource.clip = _controller.Player.GetComponent<StarShipSetup>().LightSpeedJump;
+            _audioSource.PlayOneShot(_controller.Player.GetComponent<StarShipSetup>().LightSpeedJump);
+        }
     }
     public void FillPlanetsDropDownList(List<string> stellarBodiesList, TMP_Dropdown planetsListDropDown)
     {

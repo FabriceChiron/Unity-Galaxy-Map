@@ -18,6 +18,8 @@ TagManager:
   - ScaleFactorInfo
   - StarShip
   - Platinum
+  - Gas
+  - Minimap
   layers:
   - Default
   - TransparentFX
@@ -27,7 +29,7 @@ TagManager:
   - UI
   - Post-Processing
   - Lidar
-  - 
+  - Minimap
   - 
   - 
   - 
