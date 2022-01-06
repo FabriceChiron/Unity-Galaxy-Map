@@ -101,10 +101,10 @@ public class Star : MonoBehaviour
 
         CurrentScales = Controller.HasPlayer ? scalesStarship : scales;
 
-        Debug.Log($"Orbit: {CurrentScales.Orbit}\n" +
+        /*Debug.Log($"Orbit: {CurrentScales.Orbit}\n" +
             $"Planet: {CurrentScales.Planet}\n" +
             $"Day: {CurrentScales.Day}\n" +
-            $"Year: {CurrentScales.Year}");
+            $"Year: {CurrentScales.Year}");*/
 
         Camera = UnityEngine.Camera.main.GetComponent<CameraFollow>();
 
@@ -162,7 +162,7 @@ public class Star : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Controller.HasPlayer)
+/*        if (Controller.HasPlayer)
         {
             float _distanceToPlayer = Vector3.Distance(transform.position, Controller.Player.transform.position);
             if (_distanceToPlayer > 75000f)
@@ -175,7 +175,7 @@ public class Star : MonoBehaviour
             }
 
             //Debug.Log($"Distance to player: {Vector3.Distance(transform.position, Controller.Player.transform.position)}");
-        }
+        }*/
     }
 
     private void InitElemsByPlayerPrefs()
@@ -277,7 +277,7 @@ public class Star : MonoBehaviour
 
         if (Controller.HasPlayer)
         {
-            GetComponent<Light>().range = 100000f;
+            GetComponent<Light>().range = 200000f;
         }
     }
 
