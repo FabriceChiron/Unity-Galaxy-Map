@@ -15,6 +15,9 @@ public class StarShipSetup : MonoBehaviour
     private Controller _controller;
 
     [SerializeField]
+    private Animator _animator;
+
+    [SerializeField]
     private PlayerInput _playerInput;
 
     [SerializeField]
@@ -40,6 +43,12 @@ public class StarShipSetup : MonoBehaviour
 
     [SerializeField]
     private MeshRenderer[] _shields;
+    
+    private float _shieldFadeTime, _shieldOpacity = 0.48235f, _shieldEmissionOpacity = 1f;
+
+    private float _baseAlphaStart, _baseAphaEnd, _emissionAlphaStart, _emissionAphaEnd;
+
+    private float _fadeSpeed;
 
     [SerializeField]
     private Canvas _starShipUI;
@@ -52,7 +61,6 @@ public class StarShipSetup : MonoBehaviour
     private float _delayBetweenHits = 1f;
 
     private float _nextHitTime;
-
 
     public Controller Controller { get => _controller; set => _controller = value; }
     public Camera ActiveCamera { get => _activeCamera; set => _activeCamera = value; }
@@ -75,12 +83,21 @@ public class StarShipSetup : MonoBehaviour
         _healthGaugeCircle = _healthGauge.transform.GetChild(1).GetComponent<MeshRenderer>().material;
         _shieldGaugeCircle = _shieldGauge.transform.GetChild(1).GetComponent<MeshRenderer>().material;
 
+        _fadeSpeed = 0f;
+
+        _baseAlphaStart = _shieldOpacity;
+        _baseAphaEnd = 0f;
+        _emissionAlphaStart = _shieldEmissionOpacity;
+        _emissionAphaEnd = 0f;
+        _fadeSpeed = 5f;
     }
 
     // Start is called before the first frame update
     void Start()
     {
         _nextHitTime = Time.time;
+
+        //FadeShieldOpacity(2f);
     }
 
     // Update is called once per frame
@@ -95,6 +112,9 @@ public class StarShipSetup : MonoBehaviour
         UpdateHealthDisplay();
         UpdateEnergyDisplay();
         UpdateGasDisplay();
+
+        //ShieldOpacity();
+        //FadeShieldOpacity();
     }
 
     private void UpdateHealthDisplay()
@@ -139,13 +159,21 @@ public class StarShipSetup : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log($"StarShipSetup OnCollisionEnter: {collision.transform.name}");
 
         if (Time.time >= _nextHitTime)
         {
             if (collision.transform.GetComponent<StellarObject>() != null 
                 || collision.transform.name == "Rock")
             {
+                Debug.Log($"StarShipSetup OnCollisionEnter: {collision.transform.name}");
+                if(Shield > 0f)
+                {
+                    foreach (MeshRenderer shield in _shields)
+                    {
+                        shield.enabled = true;
+                    }
+                }
+                _fadeSpeed = 0.5f;
                 ToggleShowShield(true);
                 HitOnce();
             }
@@ -155,15 +183,47 @@ public class StarShipSetup : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
+        Debug.Log($"StarShipSetup OnCollisionExit: {collision.transform.name}");
         ToggleShowShield(false);
     }
 
+/*    private void FadeShieldOpacity()
+    {
+        Debug.Log($"_baseAlphaStart: {_baseAlphaStart}, _baseAphaEnd: {_baseAphaEnd}");
+
+        foreach (MeshRenderer shield in _shields)
+        {
+            *//*Debug.Log($"{shield.material.GetColor("_Color")}\n{shield.material.GetColor("_EmissionColor")}");
+            Debug.Log($"{new Color(0.54533f, 0.90027f, 0.95283f, _shieldOpacity)}");*//*
+            shield.enabled = true;
+
+            Color baseColor = shield.material.GetColor("_Color");
+            Color emissionColor = shield.material.GetColor("_EmissionColor");
+
+            Debug.Log($"Before: {shield.material.GetColor("_Color")}");
+
+            baseColor.a = Mathf.Lerp(_baseAlphaStart, _baseAphaEnd, Time.deltaTime);
+            emissionColor.a = Mathf.Lerp(_emissionAlphaStart, _emissionAphaEnd, Time.deltaTime);
+            Debug.Log($"After: {shield.material.GetColor("_Color")}");
+
+            //Color newBaseColor = new Color(baseColor.r, baseColor.g, baseColor.g, baseColor.a);
+            //Color newEmissionColor = new Color(emissionColor.r, emissionColor.g, emissionColor.g, emissionColor.a);
+
+            shield.material.SetColor("_Color", new Color(baseColor.r, baseColor.g, baseColor.g, baseColor.a));
+            shield.material.SetColor("_EmissionColor", new Color(emissionColor.r, emissionColor.g, emissionColor.b, emissionColor.a));
+
+        }
+    }*/
+
     private void ToggleShowShield(bool action)
     {
+        //_animator.SetBool("IsShieldOn", action);
+
+
         switch (action)
         {
             case true:
-                if(Shield > 0)
+                if (Shield > 0)
                 {
                     foreach (MeshRenderer shield in _shields)
                     {
@@ -190,6 +250,10 @@ public class StarShipSetup : MonoBehaviour
         else
         {
             Health -= 10f;
+            foreach (MeshRenderer shield in _shields)
+            {
+                shield.enabled = false;
+            }
         }
 
         _nextHitTime = Time.time + _delayBetweenHits;

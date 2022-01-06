@@ -10,7 +10,7 @@ Material:
   m_Name: Energy Shield Inside
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _ALPHABLEND_ON _EMISSION
-  m_LightmapFlags: 2
+  m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
@@ -78,7 +78,7 @@ Material:
     - _UVSec: 0
     - _ZWrite: 0
     m_Colors:
-    - _Color: {r: 0.54533046, g: 0.90027326, b: 0.9528302, a: 0.48235294}
+    - _Color: {r: 0.54533046, g: 0.90027326, b: 0.9528302, a: 0.5019608}
     - _EmissionColor: {r: 0.2581829, g: 0.79129815, b: 0.89626956, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []
