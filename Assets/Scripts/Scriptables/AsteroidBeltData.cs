@@ -11,7 +11,7 @@ public class AsteroidBeltData : ScriptableObject
 {
     public int Quantity;
 
-    public int AsteroidsWithPlatinum;
+    public int AsteroidsWithPlatinum, AsteroidsWithTurrets;
 
     public AsteroidType asteroidType;
 

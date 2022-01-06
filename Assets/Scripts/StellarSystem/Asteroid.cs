@@ -12,7 +12,7 @@ public class Asteroid : MonoBehaviour
     private int _healthPoints;
 
     [SerializeField]
-    private bool _hasPlatinum;
+    private bool _hasPlatinum, _hasTurret;
 
     [SerializeField]
     private MeshRenderer _rock;
@@ -21,7 +21,7 @@ public class Asteroid : MonoBehaviour
     private ParticleSystem _explosion;
 
     [SerializeField]
-    private GameObject _platinum, _platinumMiniMap;
+    private GameObject _platinum, _platinumMiniMap, _turret;
 
     [SerializeField]
     private int _platinumQuantity;
@@ -39,9 +39,11 @@ public class Asteroid : MonoBehaviour
     public ParticleSystem Explosion { get => _explosion; set => _explosion = value; }
     public GameObject Platinum { get => _platinum; set => _platinum = value; }
     public GameObject PlatinumMiniMap { get => _platinumMiniMap; set => _platinumMiniMap = value; }
+    public GameObject Turret { get => _turret; set => _turret = value; }
     public int PlatinumQuantity { get => _platinumQuantity; set => _platinumQuantity = value; }
     public bool FlyToStarShip { get => _flyToStarShip; set => _flyToStarShip = value; }
     public Transform Starship { get => _starship; set => _starship = value; }
+    public bool HasTurret { get => _hasTurret; set => _hasTurret = value; }
 
     private void Awake()
     {
@@ -74,7 +76,16 @@ public class Asteroid : MonoBehaviour
     public void AddPlatinum()
     {
         Rock.material.EnableKeyword("_EMISSION");
-        PlatinumMiniMap.SetActive(true);
+        //PlatinumMiniMap.SetActive(true);
+    }
+
+    
+
+    public void ActivateTurret()
+    {
+        Debug.Log($"Activating turret!");
+
+        Turret.SetActive(true);
     }
 
     public void Explode()
@@ -85,6 +96,11 @@ public class Asteroid : MonoBehaviour
         if(HasPlatinum)
         {
             Platinum.SetActive(true);
+        }
+
+        if(HasTurret && !Turret.activeSelf)
+        {
+            ActivateTurret();
         }
 
     }

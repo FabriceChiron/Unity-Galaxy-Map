@@ -41,7 +41,7 @@ public class AsteroidBelt : MonoBehaviour
     private int _asteroidCount;
 
     [SerializeField]
-    private int _asteroidsWithPlatinum;
+    private int _asteroidsWithPlatinum, _asteroidsWithTurrets;
 
     public AsteroidBeltData AsteroidBeltData { get => _asteroidBeltData; set => _asteroidBeltData = value; }
     public GameObject AsteroidPrefab { get => _asteroidPrefab; set => _asteroidPrefab = value; }
@@ -68,6 +68,7 @@ public class AsteroidBelt : MonoBehaviour
         if (Controller.HasPlayer)
         {
             InsertPlatinum();
+            InsertTurrets();
         }
 
 /*        if(_asteroidCount == _asteroidList.Count)
@@ -100,6 +101,20 @@ public class AsteroidBelt : MonoBehaviour
             Asteroid targetAsteroid = _asteroidList[targetAsteroidIndex].GetComponent<Asteroid>();
             targetAsteroid.HasPlatinum = true;
             targetAsteroid.AddPlatinum();
+        }
+    }
+
+    private void InsertTurrets()
+    {
+        _asteroidsWithTurrets = AsteroidBeltData.AsteroidsWithTurrets;
+
+        for(int i = 0; i < _asteroidsWithTurrets; i++)
+        {
+            int targetAsteroidIndex = Random.Range(0, _asteroidList.Count - 1);
+
+            Asteroid targetAsteroid = _asteroidList[targetAsteroidIndex].GetComponent<Asteroid>();
+
+            targetAsteroid.HasTurret = true;
         }
     }
 
@@ -148,6 +163,7 @@ public class AsteroidBelt : MonoBehaviour
 
             float asteroidBaseScale = asteroidScript.Scale;
             asteroidBody.localScale = new Vector3(asteroidBaseScale * CurrentScales.Planet, asteroidBaseScale * CurrentScales.Planet, asteroidBaseScale * CurrentScales.Planet);
+            asteroidBody.localPosition = new Vector3(asteroidBody.localScale.x * .5f, asteroidBody.localScale.y * .5f, asteroidBody.localScale.z * .5f);
 
             asteroidScript.Explosion.gameObject.transform.localScale = asteroidBody.localScale;
             if (asteroidScript.HasPlatinum)
