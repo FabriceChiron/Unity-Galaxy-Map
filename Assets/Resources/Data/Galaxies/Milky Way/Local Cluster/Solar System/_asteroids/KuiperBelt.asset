@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: KuiperBelt
   m_EditorClassIdentifier: 
   Quantity: 1000
+  AsteroidsWithPlatinum: 100
+  AsteroidsWithTurrets: 0
   asteroidType: 1
   Orbit: 30.103
   OrbitMin: 30
