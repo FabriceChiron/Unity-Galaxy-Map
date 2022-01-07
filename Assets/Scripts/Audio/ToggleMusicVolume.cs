@@ -47,6 +47,12 @@ public class ToggleMusicVolume : MonoBehaviour
             PlayerPrefs.SetInt("MusicOn", _toggle.isOn ? 1 : 0);
         }
 
+        if (_controller.HasPlayer)
+        {
+            PlayerPrefs.SetInt("MusicOn", 1);
+            _toggle.isOn = PlayerPrefs.GetInt("MusicOn") != 0;
+        }
+
         SetMusicVolume();
     }
 
