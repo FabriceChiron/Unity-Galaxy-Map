@@ -178,7 +178,7 @@ MonoBehaviour:
   _blasterSpeed: 50
   _durationBeforeDestroy: 3
   _damage: 25
-  _starShip: {fileID: 0}
+  _origin: {fileID: 0}
   _explosion: {fileID: 1733445725551798164}
 --- !u!82 &4603051381311953889
 AudioSource:
@@ -192,7 +192,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 7108750686712045630, guid: dda84934c5570394aa06c20938c9fb0f, type: 2}
   m_audioClip: {fileID: 8300000, guid: aa356d1c6d18d4747a60a725ec2bab0f, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0

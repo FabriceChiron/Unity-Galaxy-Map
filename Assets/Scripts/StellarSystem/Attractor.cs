@@ -6,11 +6,14 @@ public class Attractor : MonoBehaviour
 {
     private Rigidbody rb;
 
+    private Controller _controller;
+
     const float G = 66740f;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        _controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<Controller>();
     }
 
     private void FixedUpdate()
@@ -19,7 +22,7 @@ public class Attractor : MonoBehaviour
 
         foreach(Attractor attractor in attractors)
         {
-            if(attractor != this)
+            if(attractor != this && !_controller.IsPaused)
             {
                 Attract(attractor);
             }

@@ -165,7 +165,7 @@ public class StarShipSetup : MonoBehaviour
             if (collision.transform.GetComponent<StellarObject>() != null 
                 || collision.transform.name == "Rock")
             {
-                Debug.Log($"StarShipSetup OnCollisionEnter: {collision.transform.name}");
+                //Debug.Log($"StarShipSetup OnCollisionEnter: {collision.transform.name}");
                 if(Shield > 0f)
                 {
                     foreach (MeshRenderer shield in _shields)
@@ -183,7 +183,7 @@ public class StarShipSetup : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        Debug.Log($"StarShipSetup OnCollisionExit: {collision.transform.name}");
+        //Debug.Log($"StarShipSetup OnCollisionExit: {collision.transform.name}");
         ToggleShowShield(false);
     }
 

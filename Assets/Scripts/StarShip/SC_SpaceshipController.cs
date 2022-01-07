@@ -89,10 +89,14 @@ public class SC_SpaceshipController : MonoBehaviour
 
     private int gasQuantity;
 
+    private Controller _controller;
+
     private void Awake()
     {
         //_resetTimeToMaxSpeed = _timeToMaxSpeed;
         Debug.Log($"XR Device: {XRSettings.isDeviceActive}");
+
+        _controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<Controller>();
 
     }
 
@@ -117,22 +121,26 @@ public class SC_SpaceshipController : MonoBehaviour
 
     private void Update()
     {
-        IsBoosting = _playerInput.BoostAxis != 0;
-        IsWarping = _playerInput.WarpAxis != 0;
+        if (!_controller.IsPaused)
+        {
+            IsBoosting = _playerInput.BoostAxis != 0;
+            IsWarping = _playerInput.WarpAxis != 0;
 
-        Cursor.lockState = StarShipSetup.Controller.UITest.IsPaused ? CursorLockMode.None : CursorLockMode.Locked;
-        Cursor.visible = StarShipSetup.Controller.UITest.IsPaused;
+            TurretAnchor.localPosition = new Vector3(0f, 0f, speed * 0.1f);
+        }
 
-        TurretAnchor.localPosition = new Vector3(0f, 0f, speed * 0.1f);
+        Cursor.lockState = _controller.IsPaused ? CursorLockMode.None : CursorLockMode.Locked;
+        Cursor.visible = _controller.IsPaused;
     }
 
     void FixedUpdate()
     {
-
-        Animator.SetFloat("Veering", _playerInput.HorizontalAxis != 0 ? _playerInput.HorizontalAxis : _playerInput.HorizontalDirection);
-
-        if(!StarShipSetup.Controller.UITest.IsPaused)
+        
+        if(!_controller.IsPaused)
         {
+
+            Animator.SetFloat("Veering", _playerInput.HorizontalAxis != 0 ? _playerInput.HorizontalAxis : _playerInput.HorizontalDirection);
+
 
             ApplyThrust();
 

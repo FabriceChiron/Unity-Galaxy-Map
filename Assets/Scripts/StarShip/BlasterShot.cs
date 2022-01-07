@@ -15,14 +15,14 @@ public class BlasterShot : MonoBehaviour
     private Rigidbody _rigidbody;
 
     [SerializeField]
-    private Transform _starShip;
+    private Transform _origin;
 
     [SerializeField]
     private ParticleSystem _explosion;
 
     private AudioSource _audioSource;
 
-    public Transform StarShip { get => _starShip; set => _starShip = value; }
+    public Transform Origin { get => _origin; set => _origin = value; }
     public ParticleSystem Explosion { get => _explosion; set => _explosion = value; }
 
     private void Awake()
@@ -75,9 +75,9 @@ public class BlasterShot : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!collision.transform.IsChildOf(StarShip))
+        if (!collision.transform.IsChildOf(Origin))
         {
-            Debug.Log($"collision: {collision.transform.name}");
+            Debug.Log($"{Origin.name} collision: {collision.transform.name}");
 
             if(collision.transform.name == "Rock")
             {
@@ -92,6 +92,8 @@ public class BlasterShot : MonoBehaviour
                     asteroid.Explode();
                 }
             }
+
+            
         }
     }
 }

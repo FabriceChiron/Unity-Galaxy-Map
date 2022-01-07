@@ -1,15 +1,6 @@
 {
-  "scopedRegistries": [
-    {
-      "name": "npmjs",
-      "url": "https://registry.npmjs.org/",
-      "scopes": [
-        "io.extendreality"
-      ]
-    }
-  ],
+  "scopedRegistries": [],
   "dependencies": {
-    "io.extendreality.tilia.input.unityinputmanager": "1.4.9",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.spriteshape": "5.1.7",
     "com.unity.collab-proxy": "1.11.2",

@@ -36,8 +36,22 @@ public class Detector : MonoBehaviour
             }
         }
 
+        if(other.name == "SpaceTurret")
+        {
+            Debug.Log("Turret detected");
+            other.GetComponent<TurretControl>().AttackMode = true;
+        }
 
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.name == "SpaceTurret")
+        {
+            other.GetComponent<TurretControl>().AttackMode = false;
+        }
+    }
+
 
     private void OnCollisionEnter(Collision collision)
     {

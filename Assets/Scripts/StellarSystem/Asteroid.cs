@@ -83,9 +83,9 @@ public class Asteroid : MonoBehaviour
 
     public void ActivateTurret()
     {
-        Debug.Log($"Activating turret!");
-
         GameObject newTurret = Instantiate(_turretPrefab, Turret.transform);
+
+        newTurret.GetComponent<TurretControl>().AttackMode = true;
 
     }
 

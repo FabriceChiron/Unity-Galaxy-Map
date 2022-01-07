@@ -39347,8 +39347,11 @@ MonoBehaviour:
   _blasters:
   - {fileID: 1013146181924067292}
   - {fileID: 1611144148365983898}
-  _blasterSpeed: 500
+  _blasterSpeed: 2000
   _delayBetweenShots: 0.25
+  _isEnemy: 0
+  _turretControl: {fileID: 0}
+  _delayBetweenSalvoes: 0
   _starShipController: {fileID: 0}
   _playerInput: {fileID: 0}
 --- !u!114 &9059584689750414391

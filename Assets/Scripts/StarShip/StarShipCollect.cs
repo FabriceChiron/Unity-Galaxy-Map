@@ -82,7 +82,7 @@ public class StarShipCollect : MonoBehaviour
     {
         if(other.tag == "Platinum")
         {
-            Debug.Log($"There's platinum here!");
+            //Debug.Log($"There's platinum here!");
             //other.GetComponentInParent<Asteroid>().FlyToStarShip = true;
             _platinum = other.GetComponentInParent<Asteroid>().Platinum;
         }
@@ -91,11 +91,6 @@ public class StarShipCollect : MonoBehaviour
         {
             Debug.Log("Entering gas layer!");
         }
-
-    }
-
-    public void FlyToStarShip()
-    {
 
     }
 

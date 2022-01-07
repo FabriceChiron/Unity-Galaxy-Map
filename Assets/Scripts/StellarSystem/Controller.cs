@@ -132,6 +132,12 @@ public class Controller : MonoBehaviour
     {
         MouseOnUI = UITest.IsPointerOverUIElement();
 
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            IsPaused = !IsPaused;
+            Debug.Log($"IsPaused: {IsPaused}");
+        }
+
         if (!HasPlayer)
         {
             if (InputType == InputType.MOUSE || InputType == InputType.BOTH)
@@ -158,9 +164,9 @@ public class Controller : MonoBehaviour
         if (IsEscapePressed())
         {
             Application.Quit();
-            #if UNITY_EDITOR
+            /*#if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
-            #endif
+            #endif*/
         }
     }
     bool IsEscapePressed()
