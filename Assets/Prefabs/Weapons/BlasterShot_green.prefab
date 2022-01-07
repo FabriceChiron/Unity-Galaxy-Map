@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3811980858239133546}
   - component: {fileID: 4603051381311953889}
   m_Layer: 0
-  m_Name: BlasterShot
+  m_Name: BlasterShot_green
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

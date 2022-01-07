@@ -21,7 +21,7 @@ public class Asteroid : MonoBehaviour
     private ParticleSystem _explosion;
 
     [SerializeField]
-    private GameObject _platinum, _platinumMiniMap, _turret;
+    private GameObject _platinum, _platinumMiniMap, _turret, _turretPrefab;
 
     [SerializeField]
     private int _platinumQuantity;
@@ -85,15 +85,19 @@ public class Asteroid : MonoBehaviour
     {
         Debug.Log($"Activating turret!");
 
-        Turret.SetActive(true);
+        GameObject newTurret = Instantiate(_turretPrefab, Turret.transform);
+
     }
 
     public void Explode()
     {
-        Destroy(Rock.gameObject);
-        Explosion.Play();
+        if(Rock != null)
+        {
+            Destroy(Rock.gameObject);
+            Explosion.Play();
+        }
 
-        if(HasPlatinum)
+        if(HasPlatinum && Platinum != null)
         {
             Platinum.SetActive(true);
         }

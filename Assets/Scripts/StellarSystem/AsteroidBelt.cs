@@ -159,11 +159,17 @@ public class AsteroidBelt : MonoBehaviour
 
             Transform asteroidBody = asteroid.GetComponentInChildren<MeshRenderer>().transform;
 
+            Transform asteroidExplosion = asteroid.GetComponentInChildren<ParticleSystem>().transform;
+
             Asteroid asteroidScript = asteroid.GetComponent<Asteroid>();
 
             float asteroidBaseScale = asteroidScript.Scale;
+            
             asteroidBody.localScale = new Vector3(asteroidBaseScale * CurrentScales.Planet, asteroidBaseScale * CurrentScales.Planet, asteroidBaseScale * CurrentScales.Planet);
-            asteroidBody.localPosition = new Vector3(asteroidBody.localScale.x * .5f, asteroidBody.localScale.y * .5f, asteroidBody.localScale.z * .5f);
+
+            asteroidExplosion.localScale = asteroidBody.localScale;
+
+            asteroidBody.localPosition = new Vector3(asteroidBody.localScale.x * -.5f, asteroidBody.localScale.y * -.5f, asteroidBody.localScale.z * -.5f);
 
             asteroidScript.Explosion.gameObject.transform.localScale = asteroidBody.localScale;
             if (asteroidScript.HasPlatinum)

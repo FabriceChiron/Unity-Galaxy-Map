@@ -28,7 +28,7 @@ public class SC_SpaceshipController : MonoBehaviour
     private Transform rearCameraPosition;
 
     [SerializeField]
-    private Transform _joystick, _throttleControl;
+    private Transform _joystick, _throttleControl, _turretAnchor;
 
     [SerializeField]
     private Camera rearCamera;
@@ -85,6 +85,7 @@ public class SC_SpaceshipController : MonoBehaviour
     public bool Freelook { get => _freelook; set => _freelook = value; }
     public bool IsCameraAligned { get => _isCameraAligned; set => _isCameraAligned = value; }
     public Animator Animator { get => _animator; set => _animator = value; }
+    public Transform TurretAnchor { get => _turretAnchor; set => _turretAnchor = value; }
 
     private int gasQuantity;
 
@@ -121,6 +122,8 @@ public class SC_SpaceshipController : MonoBehaviour
 
         Cursor.lockState = StarShipSetup.Controller.UITest.IsPaused ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = StarShipSetup.Controller.UITest.IsPaused;
+
+        TurretAnchor.localPosition = new Vector3(0f, 0f, speed * 0.1f);
     }
 
     void FixedUpdate()
@@ -243,7 +246,7 @@ public class SC_SpaceshipController : MonoBehaviour
 
 
 
-        if (_playerInput.VerticalAxis != 0)
+        if (_playerInput.VerticalAxis > 0)
         {
             float maxSpeed = GoToSpeed(
                 speed,
@@ -277,6 +280,18 @@ public class SC_SpaceshipController : MonoBehaviour
             }
 
         }
+
+        else if(_playerInput.VerticalAxis < 0)
+        {
+            speed += _playerInput.VerticalAxis * Time.deltaTime * Mathf.Min(
+                    speed, normalSpeed * -1f);
+
+            if(speed >= -125f)
+            {
+                speed = -125f;
+            }
+        }
+
         else
         {
             speed = GoToSpeed(speed, 0f, 3f);

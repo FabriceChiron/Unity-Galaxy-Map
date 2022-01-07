@@ -22,14 +22,20 @@ public class Detector : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        Asteroid asteroid = other.GetComponent<Asteroid>();
-        Debug.Log($"OnTriggerEnter: Detected armed {other.name}! Asteroid is {!!asteroid}");
 
-        if(asteroid != null && asteroid.HasTurret)
+        if(other.name == "Asteroid")
         {
-            asteroid.Explode();
-            asteroid.ActivateTurret();
+            Debug.Log("Asteroid detected");
+            Asteroid asteroid = other.GetComponentInParent<Asteroid>();
+
+            if (asteroid != null && asteroid.HasTurret)
+            {
+                Debug.Log($"asteroid should explode and spawn turret");
+                asteroid.Explode();
+                asteroid.ActivateTurret();
+            }
         }
+
 
     }
 

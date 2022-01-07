@@ -106,7 +106,8 @@ public class StarShipCollect : MonoBehaviour
             PlatinumScore += quantity;
             _platinumGauge.text = PlatinumScore.ToString();
             _isPatinumCollected = true;
-            _platinum = null;
+            Destroy(_platinum);
+            //_platinum = null;
         }
     }
 
