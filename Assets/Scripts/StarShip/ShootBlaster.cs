@@ -51,7 +51,7 @@ public class ShootBlaster : MonoBehaviour
         {
             blasterIndex = 0;
         }
-        Debug.Log($"blasterIndex: {blasterIndex}, _blasters[{blasterIndex}].position: {_blasters[blasterIndex].position}");
+        //Debug.Log($"blasterIndex: {blasterIndex}, _blasters[{blasterIndex}].position: {_blasters[blasterIndex].position}");
         GameObject newBlasterShot = Instantiate(_blasterPrefab, _blasters[blasterIndex].position, _blasters[blasterIndex].rotation);
 
         BlasterShot blasterShot = newBlasterShot.GetComponent<BlasterShot>();

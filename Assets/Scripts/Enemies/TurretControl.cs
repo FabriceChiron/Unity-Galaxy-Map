@@ -8,7 +8,7 @@ public class TurretControl : MonoBehaviour
     private Transform _player;
 
     [SerializeField]
-    private int _turretStartHealth;
+    private int _turretStartHealth, _turretCurrentHealth;
 
     [SerializeField]
     private Transform _turretAim;
@@ -16,20 +16,37 @@ public class TurretControl : MonoBehaviour
     [SerializeField]
     private float _aimingSpeed = 5f;
 
-    private int _turretCurrentHealth;
+    [SerializeField]
+    private ParticleSystem _explosion;
+
     private Transform _playerBeacon;
 
     private ShootBlaster _shootBalster;
 
     private bool _attackMode;
 
+    private bool _isDead;
+    private float _timeToDestroy;
+
+    [SerializeField]
+    private AudioClip _hitSound, _explosionSound;
+
     private Transform Player { get => _player; set => _player = value; }
     public bool AttackMode { get => _attackMode; set => _attackMode = value; }
+    
+    [SerializeField]
+    private ParticleSystem Explosion { get => _explosion; set => _explosion = value; }
+    public bool IsDead { get => _isDead; set => _isDead = value; }
+
+    private AudioSource _audioSource;
 
     // Start is called before the first frame update
     void Start()
     {
         _turretStartHealth = 100;
+        _turretCurrentHealth = _turretStartHealth;
+
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void OnEnable()
@@ -44,6 +61,18 @@ public class TurretControl : MonoBehaviour
         transform.LookAt(_playerBeacon);
 
         AimAtPlayer();
+
+        if (IsDead)
+        {
+            _timeToDestroy -= Time.deltaTime;
+
+            Debug.Log($"_timeToDestroy: {_timeToDestroy}");
+
+            if (_timeToDestroy <= 0f)
+            {
+                Destroy(this.gameObject);
+            }
+        }
     }
 
     private void AimAtPlayer()
@@ -67,6 +96,15 @@ public class TurretControl : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log($"Turret TriggerEnter: {other.name}");
+
+        BlasterShot blasterShot = other.GetComponent<BlasterShot>();
+        
+        if(blasterShot != null && blasterShot.Origin != transform)
+        {
+            Debug.Log("Blaster!");
+            blasterShot.Explode();
+            HitOnce();
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -74,4 +112,31 @@ public class TurretControl : MonoBehaviour
         Debug.Log($"Turret TriggerExit: {other.name}");
     }
 
+    public void Explode()
+    {
+        Explosion.Play();
+        IsDead = true;
+        _timeToDestroy = 2.5f;
+
+        foreach (MeshRenderer childMeshRenderer in GetComponentsInChildren<MeshRenderer>())
+        {
+            Destroy(childMeshRenderer.gameObject);
+        }
+    }
+
+    public void HitOnce()
+    {
+        _turretCurrentHealth -= 10;
+
+        if(_turretCurrentHealth <= 0)
+        {
+            _audioSource.PlayOneShot(_explosionSound);
+            Explode();
+        }
+        else
+        {
+            _audioSource.PlayOneShot(_hitSound);
+        }
+
+    }
 }

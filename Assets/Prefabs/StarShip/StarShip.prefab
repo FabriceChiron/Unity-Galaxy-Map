@@ -91,7 +91,7 @@ MeshCollider:
   m_GameObject: {fileID: 786981650130879624}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -21033,7 +21033,7 @@ MeshCollider:
   m_GameObject: {fileID: 5954826536037915084}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -39277,21 +39277,23 @@ MonoBehaviour:
   - {fileID: 9059584690815433849}
   _toggleButtons: {fileID: 0}
   _controller: {fileID: 0}
-  _animator: {fileID: 0}
+  _animator: {fileID: 2878889426620508545}
   _playerInput: {fileID: 0}
   _health: 100
   _shield: 100
   _gasQuantity: 1000
-  _healthGauge: {fileID: 0}
-  _shieldGauge: {fileID: 0}
-  _gasGauge: {fileID: 0}
+  _healthGauge: {fileID: 8604289175786453208}
+  _shieldGauge: {fileID: 8605724294353866542}
+  _gasGauge: {fileID: 9108040220372333764}
   healthDisplay: {fileID: 1545213316019272862}
   energyShieldDisplay: {fileID: 9148551228985711375}
   _shields:
   - {fileID: 4341756878626064127}
   - {fileID: 7684004618439287223}
   _starShipUI: {fileID: 8848986703372674895}
-  _lightSpeedJump: {fileID: 0}
+  _lightSpeedJump: {fileID: 8300000, guid: 08bba422e6c8c47ea92a187bee8d95cb, type: 3}
+  _blasterHitShield: {fileID: 8300000, guid: 578e7752a2be54884879bb06b1e8d4c2, type: 3}
+  _blasterHitShip: {fileID: 8300000, guid: e934bf0bcd00946e785ae34179b2027a, type: 3}
 --- !u!114 &9059584689750414392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39352,6 +39354,7 @@ MonoBehaviour:
   _isEnemy: 0
   _turretControl: {fileID: 0}
   _delayBetweenSalvoes: 0
+  _salvoDuration: 1
   _starShipController: {fileID: 0}
   _playerInput: {fileID: 0}
 --- !u!114 &9059584689750414391

@@ -54,13 +54,15 @@ public class StarShipSetup : MonoBehaviour
     private Canvas _starShipUI;
 
     [SerializeField]
-    private AudioClip _lightSpeedJump;
+    private AudioClip _lightSpeedJump, _blasterHitShield, _blasterHitShip;
 
     private Camera _activeCamera;
 
     private float _delayBetweenHits = 1f;
 
     private float _nextHitTime;
+
+    private AudioSource _audioSource;
 
     public Controller Controller { get => _controller; set => _controller = value; }
     public Camera ActiveCamera { get => _activeCamera; set => _activeCamera = value; }
@@ -90,6 +92,8 @@ public class StarShipSetup : MonoBehaviour
         _emissionAlphaStart = _shieldEmissionOpacity;
         _emissionAphaEnd = 0f;
         _fadeSpeed = 5f;
+
+        _audioSource = GetComponent<AudioSource>();
     }
 
     // Start is called before the first frame update
@@ -157,6 +161,18 @@ public class StarShipSetup : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+
+        BlasterShot blasterShot = other.GetComponent<BlasterShot>();
+
+        if(blasterShot != null && blasterShot.Origin != transform)
+        {
+            HitOnce(blasterShot);
+        }
+
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
 
@@ -175,7 +191,7 @@ public class StarShipSetup : MonoBehaviour
                 }
                 _fadeSpeed = 0.5f;
                 ToggleShowShield(true);
-                HitOnce();
+                HitOnce(null);
             }
         }
         
@@ -241,11 +257,15 @@ public class StarShipSetup : MonoBehaviour
         }
     }
 
-    public void HitOnce()
+    public void HitOnce(BlasterShot blasterShot)
     {
         if(Shield > 0)
         {
             Shield -= 10;
+            if(blasterShot != null)
+            {
+                _audioSource.PlayOneShot(_blasterHitShield);
+            }
         }
         else
         {
@@ -253,6 +273,11 @@ public class StarShipSetup : MonoBehaviour
             foreach (MeshRenderer shield in _shields)
             {
                 shield.enabled = false;
+            }
+
+            if (blasterShot != null)
+            {
+                _audioSource.PlayOneShot(_blasterHitShip);
             }
         }
 
