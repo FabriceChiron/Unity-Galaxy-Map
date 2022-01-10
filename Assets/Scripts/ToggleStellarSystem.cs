@@ -29,6 +29,8 @@ public class ToggleStellarSystem : MonoBehaviour
     private bool _isAnimating;
     private bool _isScaleChanging;
 
+    private Controller _controller;
+    private Detector _detector;
 
     public Animator Animator { get => _animator; set => _animator = value; }
     public bool IsAnimating { get => _isAnimating; set => _isAnimating = value; }
@@ -36,8 +38,8 @@ public class ToggleStellarSystem : MonoBehaviour
     public float StellarSystemCurrentScale { get => _stellarSystemCurrentScale; set => _stellarSystemCurrentScale = value; }
     public float StellarSystemTargetScale { get => _stellarSystemTargetScale; set => _stellarSystemTargetScale = value; }
     public bool IsScaleChanging { get => _isScaleChanging; set => _isScaleChanging = value; }
+    public Detector Detector { get => _detector; set => _detector = value; }
 
-    private Controller _controller;
 
 
 

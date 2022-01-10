@@ -2761,9 +2761,10 @@ GameObject:
   - component: {fileID: 339274830}
   - component: {fileID: 339274829}
   - component: {fileID: 339274833}
+  - component: {fileID: 339274834}
   m_Layer: 5
-  m_Name: UI
-  m_TagString: Untagged
+  m_Name: UI - Menu
+  m_TagString: Menu
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2871,6 +2872,20 @@ MonoBehaviour:
   - {fileID: 26046057}
   - {fileID: 1387438962}
   _displayScreenRatio: {fileID: 0}
+--- !u!114 &339274834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 339274828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &346388126
 GameObject:
   m_ObjectHideFlags: 0
@@ -4926,27 +4941,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9059584689750414397, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
   m_PrefabInstance: {fileID: 9059584690247314030}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &669400670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 669400658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7688a80b924e1b645b99e0ba0b92217f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HorizontalAxis: 0
-  VerticalAxis: 0
-  HorizontalDirection: 0
-  VerticalDirection: 0
-  FireAxis: 0
-  BoostAxis: 0
-  WarpAxis: 0
-  SwitchCameraButton: 0
-  IsPaused: 0
 --- !u!1 &671902709
 GameObject:
   m_ObjectHideFlags: 0
@@ -11360,6 +11354,58 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &1535788809
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1535788811}
+  - component: {fileID: 1535788810}
+  m_Layer: 0
+  m_Name: PlayerInput
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1535788810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535788809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7688a80b924e1b645b99e0ba0b92217f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HorizontalAxis: 0
+  VerticalAxis: 0
+  HorizontalDirection: 0
+  VerticalDirection: 0
+  FireAxis: 0
+  BoostAxis: 0
+  WarpAxis: 0
+  SwitchCameraButton: 0
+  TogglePause: 0
+--- !u!4 &1535788811
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535788809}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1589546895
 GameObject:
   m_ObjectHideFlags: 0
@@ -18598,6 +18644,10 @@ PrefabInstance:
       propertyPath: m_Volume
       value: 0.8
       objectReference: {fileID: 0}
+    - target: {fileID: 9059584689750414391, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: _position.y
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 9059584689750414392, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _animator
       value: 
@@ -18617,7 +18667,7 @@ PrefabInstance:
     - target: {fileID: 9059584689750414392, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _playerInput
       value: 
-      objectReference: {fileID: 669400670}
+      objectReference: {fileID: 1535788810}
     - target: {fileID: 9059584689750414392, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _displaySpeed
       value: 
@@ -18641,7 +18691,7 @@ PrefabInstance:
     - target: {fileID: 9059584689750414393, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _playerInput
       value: 
-      objectReference: {fileID: 669400670}
+      objectReference: {fileID: 1535788810}
     - target: {fileID: 9059584689750414393, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _blasterSpeed
       value: 2000
@@ -18655,6 +18705,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: _menu
+      value: 
+      objectReference: {fileID: 339274831}
+    - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _explosion
       value: 
       objectReference: {fileID: 474561547}
@@ -18665,7 +18719,7 @@ PrefabInstance:
     - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _playerInput
       value: 
-      objectReference: {fileID: 669400670}
+      objectReference: {fileID: 1535788810}
     - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _starShipModel
       value: 
@@ -18698,6 +18752,18 @@ PrefabInstance:
       propertyPath: _shieldMaterials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 975914627862b8f42bde65f7054d6956, type: 2}
+    - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: _gameObjectsToDeactivate.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: _gameObjectsToDeactivate.Array.data[0]
+      value: 
+      objectReference: {fileID: 931115403}
+    - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: _gameObjectsToDeactivate.Array.data[1]
+      value: 
+      objectReference: {fileID: 173263869}
     - target: {fileID: 9059584689750414396, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: m_Name
       value: StarShip

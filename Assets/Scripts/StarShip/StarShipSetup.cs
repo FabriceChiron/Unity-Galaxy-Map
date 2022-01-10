@@ -9,7 +9,7 @@ public class StarShipSetup : MonoBehaviour
     private Camera[] _cameras;
 
     [SerializeField]
-    private GameObject _toggleButtons;
+    private GameObject[] _gameObjectsToDeactivate;
 
     [SerializeField]
     private Controller _controller;
@@ -57,6 +57,9 @@ public class StarShipSetup : MonoBehaviour
     private float _fadeSpeed;
 
     [SerializeField]
+    private Canvas _menu;
+
+    [SerializeField]
     private Canvas _starShipUI;
 
     [SerializeField]
@@ -86,7 +89,11 @@ public class StarShipSetup : MonoBehaviour
     {
         _cameras[0].gameObject.SetActive(true);
         ActiveCamera = _cameras[0];
-        _toggleButtons.SetActive(false);
+        
+        foreach(GameObject gameObjectToDeactivate in _gameObjectsToDeactivate)
+        {
+            gameObjectToDeactivate.SetActive(false);
+        }
 
         _healthGaugeText = _healthGauge.transform.GetChild(0).GetComponent<TextMesh>();
         _shieldGaugeText = _shieldGauge.transform.GetChild(0).GetComponent<TextMesh>();
@@ -114,12 +121,19 @@ public class StarShipSetup : MonoBehaviour
         _nextHitTime = Time.time;
 
         //FadeShieldOpacity(2f);
+
+        AttachMenuToStarShip();
+        
+        
+        LinkMenuToCamera();
     }
 
 
     // Update is called once per frame
     void Update()
     {
+        _menu.enabled = _controller.IsPaused;
+
         if (!IsDead)
         {
             if (_playerInput.SwitchCameraButton)
@@ -138,6 +152,22 @@ public class StarShipSetup : MonoBehaviour
             TurnShieldOff();
             RechargeShield();
         }
+    }
+
+    private void AttachMenuToStarShip()
+    {
+        _menu.renderMode = RenderMode.WorldSpace;
+
+        _menu.transform.parent = transform;
+        _menu.transform.localPosition = new Vector3(0f, 0f, 100f);
+        _menu.transform.localRotation = Quaternion.identity;
+        _menu.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        _menu.GetComponent<RectTransform>().sizeDelta = new Vector2(400, 300);
+    }
+
+    private void LinkMenuToCamera()
+    {
+        _menu.worldCamera = Camera.main;
     }
 
     private void UpdateHealthDisplay()
@@ -194,6 +224,8 @@ public class StarShipSetup : MonoBehaviour
                 ActiveCamera = camera;
             }
         }
+
+        LinkMenuToCamera();
     }
 
     private void TurnShieldOff()

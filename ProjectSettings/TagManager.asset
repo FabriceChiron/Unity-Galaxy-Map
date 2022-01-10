@@ -20,6 +20,7 @@ TagManager:
   - Platinum
   - Gas
   - Minimap
+  - Menu
   layers:
   - Default
   - TransparentFX

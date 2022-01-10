@@ -30,6 +30,9 @@ public class Controller : MonoBehaviour
     private TextMeshProUGUI _deviceInfo;
 
     [SerializeField]
+    private PlayerInput _playerInput;
+
+    [SerializeField]
     private InputType _inputType;
 
     [SerializeField]
@@ -132,10 +135,11 @@ public class Controller : MonoBehaviour
     {
         MouseOnUI = UITest.IsPointerOverUIElement();
 
-        if (Input.GetKeyDown(KeyCode.P))
+        if (_playerInput.TogglePause)
         {
             IsPaused = !IsPaused;
             Debug.Log($"IsPaused: {IsPaused}");
+
         }
 
         if (!HasPlayer)

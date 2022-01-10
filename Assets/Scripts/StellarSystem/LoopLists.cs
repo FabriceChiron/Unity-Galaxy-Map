@@ -261,6 +261,7 @@ public class LoopLists : MonoBehaviour
         NewStellarSystem.GetComponent<ToggleStellarSystem>().DeployStellarSystem();
         if (_controller.HasPlayer)
         {
+            GameObject.FindObjectOfType<SpawnStarShip>().PlaceStarShipOnScene();
             AudioSource _audioSource = _controller.Player.GetComponent<AudioSource>();
             //_audioSource.clip = _controller.Player.GetComponent<StarShipSetup>().LightSpeedJump;
             _audioSource.PlayOneShot(_controller.Player.GetComponent<StarShipSetup>().LightSpeedJump);

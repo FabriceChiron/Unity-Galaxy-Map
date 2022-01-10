@@ -37,7 +37,7 @@ public class SpawnStarShip : MonoBehaviour
 
     }
 
-    private void PlaceStarShipOnScene()
+    public void PlaceStarShipOnScene()
     {
         //transform.parent.localRotation = Quaternion.Euler(0f, _controller.GetOrbitOrientationStart(_coords), 0f);
 
@@ -46,7 +46,7 @@ public class SpawnStarShip : MonoBehaviour
 
     private void SetScales()
     {
-        float OrbitSize = _orbit * _controller.LoopLists.dimRet(scales.Orbit, 3.5f, scales.RationalizeValues) * (PlayerPrefs.GetInt("ScaleFactor") != 0 ? _controller.LoopLists.StellarSystemData.ScaleFactor : 1f);
+        float OrbitSize = _orbit * _controller.LoopLists.dimRet(scales.Orbit, 3.5f, scales.RationalizeValues) / (PlayerPrefs.GetInt("ScaleFactor") != 0 ? _controller.LoopLists.StellarSystemData.ScaleFactor : 1f);
 
         //Debug.Log($"Starship position z: {OrbitSize}");
 

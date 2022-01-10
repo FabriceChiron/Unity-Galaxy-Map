@@ -14,7 +14,7 @@ public class PlayerInput : MonoBehaviour
     public float FireAxis;
     public float BoostAxis;
     public float WarpAxis;
-    public bool SwitchCameraButton, IsPaused;
+    public bool SwitchCameraButton, TogglePause;
 
     private void Awake()
     {
@@ -54,7 +54,7 @@ public class PlayerInput : MonoBehaviour
                 Input.GetButtonDown("XRI_Right_PrimaryButton") :
                     Input.GetButtonDown("XRI_Left_PrimaryButton");
 
-            IsPaused = Input.GetButtonDown("XRI_Left_MenuButton");
+            TogglePause = Input.GetButtonDown("XRI_Left_MenuButton");
         }
         else
         {
@@ -73,7 +73,7 @@ public class PlayerInput : MonoBehaviour
                         Input.GetButtonDown("XRI_Left_PrimaryButton") :
                     Input.GetKeyDown(KeyCode.C);
 
-            IsPaused = Input.GetButtonDown("XRI_Left_MenuButton") ? Input.GetButtonDown("XRI_Left_MenuButton") : Input.GetKeyDown(KeyCode.P);
+            TogglePause = Input.GetButtonDown("XRI_Left_MenuButton") ? Input.GetButtonDown("XRI_Left_MenuButton") : Input.GetKeyDown(KeyCode.P);
         }
 
 

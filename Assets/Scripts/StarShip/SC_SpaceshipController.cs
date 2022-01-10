@@ -127,6 +127,12 @@ public class SC_SpaceshipController : MonoBehaviour
             IsWarping = _playerInput.WarpAxis != 0;
 
             TurretAnchor.localPosition = new Vector3(0f, 0f, speed * 0.1f);
+            r.constraints = RigidbodyConstraints.None;
+        }
+
+        else
+        {
+            r.constraints = RigidbodyConstraints.FreezeAll;
         }
 
         Cursor.lockState = _controller.IsPaused ? CursorLockMode.None : CursorLockMode.Locked;

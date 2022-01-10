@@ -70,6 +70,11 @@ public class SelectSystemsList : MonoBehaviour
     {
         SwitchStellarSystems();
         //FireResetCamera();
+
+        if (!_controller.IsPaused)
+        {
+            _systemsDropdown.Hide();
+        }
     }
 
 /*    private void FireResetCamera()
@@ -142,5 +147,7 @@ public class SelectSystemsList : MonoBehaviour
         LoopLists.NewStellarSystem.GetComponent<ToggleStellarSystem>().FoldStellarSystem();
 
         ChangeStellarSystem = true;
+
+        _controller.IsPaused = false;
     }
 }

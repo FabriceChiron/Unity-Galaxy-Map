@@ -10,6 +10,9 @@ public class ShootBlaster : MonoBehaviour
     [SerializeField] private float _blasterSpeed = 50f;
     [SerializeField] private float _delayBetweenShots;
 
+    [SerializeField]
+    private Controller _controller;
+
     [Header("Enemies")]
     [SerializeField] private bool _isEnemy;
     [SerializeField]
@@ -35,6 +38,8 @@ public class ShootBlaster : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<Controller>();
+
         _nextShotTime = Time.time;
 
         if (_isEnemy)
@@ -46,24 +51,26 @@ public class ShootBlaster : MonoBehaviour
 
     private void FireBlaster()
     {
-
-        if(blasterIndex >= _blasters.Length)
+        if (!_controller.IsPaused)
         {
-            blasterIndex = 0;
-        }
-        //Debug.Log($"blasterIndex: {blasterIndex}, _blasters[{blasterIndex}].position: {_blasters[blasterIndex].position}");
+            if(blasterIndex >= _blasters.Length)
+            {
+                blasterIndex = 0;
+            }
+            //Debug.Log($"blasterIndex: {blasterIndex}, _blasters[{blasterIndex}].position: {_blasters[blasterIndex].position}");
 
-        if(_blasters[blasterIndex] != null)
-        {
-            GameObject newBlasterShot = Instantiate(_blasterPrefab, _blasters[blasterIndex].position, _blasters[blasterIndex].rotation);
+            if(_blasters[blasterIndex] != null)
+            {
+                GameObject newBlasterShot = Instantiate(_blasterPrefab, _blasters[blasterIndex].position, _blasters[blasterIndex].rotation);
 
-            BlasterShot blasterShot = newBlasterShot.GetComponent<BlasterShot>();
-            blasterShot.Origin = transform;
+                BlasterShot blasterShot = newBlasterShot.GetComponent<BlasterShot>();
+                blasterShot.Origin = transform;
 
-            blasterShot.Shoot(_blasterSpeed);
+                blasterShot.Shoot(_blasterSpeed);
 
-            blasterIndex++;
-            //Destroy(bullet.gameObject, _destroyTime);
+                blasterIndex++;
+                //Destroy(bullet.gameObject, _destroyTime);
+            }
         }
 
 
