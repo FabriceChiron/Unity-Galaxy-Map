@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TurretControl : MonoBehaviour
 {
@@ -18,6 +19,11 @@ public class TurretControl : MonoBehaviour
 
     [SerializeField]
     private ParticleSystem _explosion;
+
+    [SerializeField]
+    private Canvas _UI;
+    [SerializeField]
+    private Image healthDisplay;
 
     private Transform _playerBeacon;
 
@@ -47,6 +53,7 @@ public class TurretControl : MonoBehaviour
         _turretCurrentHealth = _turretStartHealth;
 
         _audioSource = GetComponent<AudioSource>();
+
     }
 
     private void OnEnable()
@@ -62,6 +69,8 @@ public class TurretControl : MonoBehaviour
 
         AimAtPlayer();
 
+        UpdateHealthDisplay();
+
         if (IsDead)
         {
             _timeToDestroy -= Time.deltaTime;
@@ -74,6 +83,17 @@ public class TurretControl : MonoBehaviour
             }
         }
     }
+
+    private void UpdateHealthDisplay()
+    {
+        _UI.worldCamera = Camera.main;
+
+        healthDisplay.rectTransform.sizeDelta = new Vector2(
+            _turretCurrentHealth,
+            healthDisplay.rectTransform.sizeDelta.y
+            );
+    }
+
 
     private void AimAtPlayer()
     {

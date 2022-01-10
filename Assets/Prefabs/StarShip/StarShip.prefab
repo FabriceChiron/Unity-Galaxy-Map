@@ -20809,9 +20809,9 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
-  m_Camera: {fileID: 9059584689760228534}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_Camera: {fileID: 9059584690815433849}
+  m_PlaneDistance: 10
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -39280,6 +39280,7 @@ MonoBehaviour:
   _controller: {fileID: 0}
   _animator: {fileID: 2878889426620508545}
   _playerInput: {fileID: 0}
+  _explosion: {fileID: 0}
   _health: 100
   _timeBeforeRecharge: 5
   _shield: 100
@@ -39287,6 +39288,7 @@ MonoBehaviour:
   _healthGauge: {fileID: 8604289175786453208}
   _shieldGauge: {fileID: 8605724294353866542}
   _gasGauge: {fileID: 9108040220372333764}
+  _starShipModel: {fileID: 0}
   healthDisplay: {fileID: 1545213316019272862}
   energyShieldDisplay: {fileID: 9148551228985711375}
   _shields:

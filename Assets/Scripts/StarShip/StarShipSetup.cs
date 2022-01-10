@@ -353,12 +353,15 @@ public class StarShipSetup : MonoBehaviour
 
     public void Die()
     {
-        Health = 0;
-        Explosion.Play();
-        AudioSource audioSourceExplosion = Explosion.GetComponent<AudioSource>();
-        audioSourceExplosion.PlayOneShot(audioSourceExplosion.clip);
-        Destroy(_starShipModel);
-        Destroy(_shields[0].gameObject);
-        IsDead = true;
+        if (!IsDead)
+        {
+            Health = 0;
+            Explosion.Play();
+            AudioSource audioSourceExplosion = Explosion.GetComponent<AudioSource>();
+            audioSourceExplosion.PlayOneShot(audioSourceExplosion.clip);
+            Destroy(_starShipModel);
+            Destroy(_shields[0].gameObject);
+            IsDead = true;
+        }
     }
 }
