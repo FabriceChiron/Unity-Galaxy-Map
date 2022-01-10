@@ -39,22 +39,43 @@ public class PlayerInput : MonoBehaviour
 
     public void GetInputs()
     {
-        HorizontalAxis = Input.GetAxis("XRI_Left_Primary2DAxis_Horizontal") != 0 ? Input.GetAxis("XRI_Left_Primary2DAxis_Horizontal") : Input.GetAxis("Horizontal");
-        VerticalAxis = Input.GetAxis("XRI_Left_Primary2DAxis_Vertical") != 0 ? Input.GetAxis("XRI_Left_Primary2DAxis_Vertical") * -1f : Input.GetAxis("Vertical");
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            HorizontalAxis = Input.GetAxis("XRI_Left_Primary2DAxis_Horizontal");
+            VerticalAxis = Input.GetAxis("XRI_Left_Primary2DAxis_Vertical") * -1f;
 
-        HorizontalDirection = Input.GetAxis("XRI_Right_Primary2DAxis_Horizontal") != 0 ? Input.GetAxis("XRI_Right_Primary2DAxis_Horizontal") : Input.GetAxis("Mouse X");
-        VerticalDirection = Input.GetAxis("XRI_Right_Primary2DAxis_Vertical") != 0 ? Input.GetAxis("XRI_Right_Primary2DAxis_Vertical") : Input.GetAxis("Mouse Y");
-        FireAxis = Input.GetAxis("XRI_Right_Trigger") != 0 ? Input.GetAxis("XRI_Right_Trigger") : Input.GetAxis("Fire1");
-        BoostAxis = Input.GetAxis("XRI_Left_Grip") != 0 ? Input.GetAxis("XRI_Left_Grip") : Input.GetAxis("Boost");
-        WarpAxis = Input.GetAxis("XRI_Left_Trigger")  !=0 ? Input.GetAxis("XRI_Left_Trigger") : Input.GetAxis("Warp");
+            HorizontalDirection = Input.GetAxis("XRI_Right_Primary2DAxis_Horizontal");
+            VerticalDirection = Input.GetAxis("XRI_Right_Primary2DAxis_Vertical");
+            FireAxis = Input.GetAxis("XRI_Right_Trigger");
+            BoostAxis = Input.GetAxis("XRI_Left_Grip");
+            WarpAxis = Input.GetAxis("XRI_Left_Trigger");
 
-        SwitchCameraButton = Input.GetButtonDown("XRI_Right_PrimaryButton") ? 
-            Input.GetButtonDown("XRI_Right_PrimaryButton") :
-                Input.GetButtonDown("XRI_Left_PrimaryButton") ?
-                    Input.GetButtonDown("XRI_Left_PrimaryButton") :
-                Input.GetKeyDown(KeyCode.C);
+            SwitchCameraButton = Input.GetButtonDown("XRI_Right_PrimaryButton") ?
+                Input.GetButtonDown("XRI_Right_PrimaryButton") :
+                    Input.GetButtonDown("XRI_Left_PrimaryButton");
 
-        IsPaused = Input.GetButtonDown("XRI_Left_MenuButton") ? Input.GetButtonDown("XRI_Left_MenuButton") : Input.GetKeyDown(KeyCode.P);
+            IsPaused = Input.GetButtonDown("XRI_Left_MenuButton");
+        }
+        else
+        {
+            HorizontalAxis = Input.GetAxis("XRI_Left_Primary2DAxis_Horizontal") != 0 ? Input.GetAxis("XRI_Left_Primary2DAxis_Horizontal") : Input.GetAxis("Horizontal");
+            VerticalAxis = Input.GetAxis("XRI_Left_Primary2DAxis_Vertical") != 0 ? Input.GetAxis("XRI_Left_Primary2DAxis_Vertical") * -1f : Input.GetAxis("Vertical");
+
+            HorizontalDirection = Input.GetAxis("XRI_Right_Primary2DAxis_Horizontal") != 0 ? Input.GetAxis("XRI_Right_Primary2DAxis_Horizontal") : Input.GetAxis("Mouse X");
+            VerticalDirection = Input.GetAxis("XRI_Right_Primary2DAxis_Vertical") != 0 ? Input.GetAxis("XRI_Right_Primary2DAxis_Vertical") : Input.GetAxis("Mouse Y");
+            FireAxis = Input.GetAxis("XRI_Right_Trigger") != 0 ? Input.GetAxis("XRI_Right_Trigger") : Input.GetAxis("Fire1");
+            BoostAxis = Input.GetAxis("XRI_Left_Grip") != 0 ? Input.GetAxis("XRI_Left_Grip") : Input.GetAxis("Boost");
+            WarpAxis = Input.GetAxis("XRI_Left_Trigger") != 0 ? Input.GetAxis("XRI_Left_Trigger") : Input.GetAxis("Warp");
+
+            SwitchCameraButton = Input.GetButtonDown("XRI_Right_PrimaryButton") ?
+                Input.GetButtonDown("XRI_Right_PrimaryButton") :
+                    Input.GetButtonDown("XRI_Left_PrimaryButton") ?
+                        Input.GetButtonDown("XRI_Left_PrimaryButton") :
+                    Input.GetKeyDown(KeyCode.C);
+
+            IsPaused = Input.GetButtonDown("XRI_Left_MenuButton") ? Input.GetButtonDown("XRI_Left_MenuButton") : Input.GetKeyDown(KeyCode.P);
+        }
+
 
     }
 }
