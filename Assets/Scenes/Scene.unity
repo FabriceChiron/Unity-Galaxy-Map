@@ -9488,6 +9488,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1250108363 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8605988882598617384, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+  m_PrefabInstance: {fileID: 9059584690247314030}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1271899288
 GameObject:
   m_ObjectHideFlags: 0
@@ -18677,6 +18682,10 @@ PrefabInstance:
       propertyPath: _playerInput
       value: 
       objectReference: {fileID: 669400670}
+    - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: _starShipModel
+      value: 
+      objectReference: {fileID: 1250108363}
     - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _toggleButtons
       value: 

@@ -170,7 +170,11 @@ public class StarShipSetup : MonoBehaviour
 
         if (_timeWithoutDamage >= _timeBeforeRecharge && _shield <= _maxShield)
         {
-            Shield += Time.deltaTime * 3f;
+            Shield += Time.deltaTime * 3f * _timeWithoutDamage;
+            if(Shield > _maxShield)
+            {
+                Shield = _maxShield;
+            }
         }
     }
 
@@ -194,8 +198,6 @@ public class StarShipSetup : MonoBehaviour
 
     private void TurnShieldOff()
     {
-        Debug.Log($"_timeToTurnShieldOff: {_timeToTurnShieldOff}");
-
         if (_timeToTurnShieldOff >= 0f && _isShieldHit)
         {
             _timeToTurnShieldOff -= Time.deltaTime;
