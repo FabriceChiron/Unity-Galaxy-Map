@@ -21,16 +21,22 @@ public class StarShipSetup : MonoBehaviour
     private PlayerInput _playerInput;
 
     [SerializeField]
-    private float _health = 100;
+    private ParticleSystem _explosion;
 
     [SerializeField]
-    private int _shield = 100;
+    private float _health = 100, _timeBeforeRecharge = 5f;
+
+    private float _timeWithoutDamage;
+
+    [SerializeField]
+    private float _shield = 100f;
+    private float _maxShield;
 
     [SerializeField]
     private int _gasQuantity = 1000;
 
     [SerializeField]
-    private GameObject _healthGauge, _shieldGauge, _gasGauge;
+    private GameObject _healthGauge, _shieldGauge, _gasGauge, _starShipModel;
 
     private TextMesh _healthGaugeText, _shieldGaugeText, _gasGaugeText;
     private Material _healthGaugeCircle, _shieldGaugeCircle;
@@ -60,17 +66,21 @@ public class StarShipSetup : MonoBehaviour
 
     private float _delayBetweenHits = 1f;
 
-    private float _nextHitTime;
+    private float _nextHitTime, _timeToTurnShieldOff;
+
+    private bool _isShieldHit, _isDead;
 
     private AudioSource _audioSource;
 
     public Controller Controller { get => _controller; set => _controller = value; }
     public Camera ActiveCamera { get => _activeCamera; set => _activeCamera = value; }
     public float Health { get => _health; set => _health = value; }
-    public int Shield { get => _shield; set => _shield = value; }
+    public float Shield { get => _shield; set => _shield = value; }
     public int GasQuantity { get => _gasQuantity; set => _gasQuantity = value; }
     public Canvas StarShipUI { get => _starShipUI; set => _starShipUI = value; }
     public AudioClip LightSpeedJump { get => _lightSpeedJump; set => _lightSpeedJump = value; }
+    public ParticleSystem Explosion { get => _explosion; set => _explosion = value; }
+    public bool IsDead { get => _isDead; set => _isDead = value; }
 
     private void Awake()
     {
@@ -84,6 +94,8 @@ public class StarShipSetup : MonoBehaviour
         
         _healthGaugeCircle = _healthGauge.transform.GetChild(1).GetComponent<MeshRenderer>().material;
         _shieldGaugeCircle = _shieldGauge.transform.GetChild(1).GetComponent<MeshRenderer>().material;
+
+        _maxShield = Shield;
 
         _fadeSpeed = 0f;
 
@@ -104,21 +116,28 @@ public class StarShipSetup : MonoBehaviour
         //FadeShieldOpacity(2f);
     }
 
+
     // Update is called once per frame
     void Update()
     {
-        if (_playerInput.SwitchCameraButton)
+        if (!IsDead)
         {
+            if (_playerInput.SwitchCameraButton)
+            {
 
-            SwitchCamera();
+                SwitchCamera();
+            }
+
+            UpdateHealthDisplay();
+            UpdateEnergyDisplay();
+            UpdateGasDisplay();
+
+            _timeWithoutDamage += Time.deltaTime;
+
+
+            TurnShieldOff();
+            RechargeShield();
         }
-
-        UpdateHealthDisplay();
-        UpdateEnergyDisplay();
-        UpdateGasDisplay();
-
-        //ShieldOpacity();
-        //FadeShieldOpacity();
     }
 
     private void UpdateHealthDisplay()
@@ -130,17 +149,29 @@ public class StarShipSetup : MonoBehaviour
 
         _healthGaugeText.text = Health.ToString();
         _healthGaugeCircle.color = new Vector4(_healthGaugeCircle.color.r, _healthGaugeCircle.color.g, _healthGaugeCircle.color.b, Health / 100f);
+
     }
 
     private void UpdateEnergyDisplay()
     {
         energyShieldDisplay.rectTransform.sizeDelta = new Vector2(
-            Shield,
+            Mathf.RoundToInt(Shield),
             energyShieldDisplay.rectTransform.sizeDelta.y
             );
 
-        _shieldGaugeText.text = Shield.ToString();
-        _shieldGaugeCircle.color = new Vector4(_shieldGaugeCircle.color.r, _shieldGaugeCircle.color.g, _shieldGaugeCircle.color.b, Shield / 100f);
+
+        _shieldGaugeText.text = Mathf.RoundToInt(Shield).ToString();
+        _shieldGaugeCircle.color = new Vector4(_shieldGaugeCircle.color.r, _shieldGaugeCircle.color.g, _shieldGaugeCircle.color.b, Mathf.RoundToInt(Shield) / 100f);
+
+    }
+
+    private void RechargeShield()
+    {
+
+        if (_timeWithoutDamage >= _timeBeforeRecharge && _shield <= _maxShield)
+        {
+            Shield += Time.deltaTime * 3f;
+        }
     }
 
     private void UpdateGasDisplay()
@@ -161,6 +192,21 @@ public class StarShipSetup : MonoBehaviour
         }
     }
 
+    private void TurnShieldOff()
+    {
+        Debug.Log($"_timeToTurnShieldOff: {_timeToTurnShieldOff}");
+
+        if (_timeToTurnShieldOff >= 0f && _isShieldHit)
+        {
+            _timeToTurnShieldOff -= Time.deltaTime;
+        }
+
+        if (_timeToTurnShieldOff <= 0f)
+        {
+            ToggleShowShield(false);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
 
@@ -178,8 +224,7 @@ public class StarShipSetup : MonoBehaviour
 
         if (Time.time >= _nextHitTime)
         {
-            if (collision.transform.GetComponent<StellarObject>() != null 
-                || collision.transform.name == "Rock")
+            if (collision.transform.name == "Rock")
             {
                 //Debug.Log($"StarShipSetup OnCollisionEnter: {collision.transform.name}");
                 if(Shield > 0f)
@@ -190,8 +235,13 @@ public class StarShipSetup : MonoBehaviour
                     }
                 }
                 _fadeSpeed = 0.5f;
-                ToggleShowShield(true);
+                //ToggleShowShield(true);
                 HitOnce(null);
+            }
+
+            if(collision.transform.GetComponent<StellarObject>() != null)
+            {
+                Die();
             }
         }
         
@@ -231,7 +281,7 @@ public class StarShipSetup : MonoBehaviour
         }
     }*/
 
-    private void ToggleShowShield(bool action)
+    public void ToggleShowShield(bool action)
     {
         //_animator.SetBool("IsShieldOn", action);
 
@@ -253,22 +303,31 @@ public class StarShipSetup : MonoBehaviour
                 {
                     shield.enabled = false;
                 }
+                _isShieldHit = false;
                 break;
         }
     }
 
     public void HitOnce(BlasterShot blasterShot)
     {
-        if(Shield > 0)
+        _timeWithoutDamage = 0f;
+
+        ToggleShowShield(true);
+
+        if (Shield > 0)
         {
             Shield -= 10;
             if(blasterShot != null)
             {
                 _audioSource.PlayOneShot(_blasterHitShield);
+                
+                _isShieldHit = true;
+                _timeToTurnShieldOff = 0.5f;
             }
         }
         else
         {
+            Shield = 0;
             Health -= 10f;
             foreach (MeshRenderer shield in _shields)
             {
@@ -279,9 +338,25 @@ public class StarShipSetup : MonoBehaviour
             {
                 _audioSource.PlayOneShot(_blasterHitShip);
             }
+
+            if(Health <= 0f)
+            {
+                Die();
+            }
         }
 
         _nextHitTime = Time.time + _delayBetweenHits;
 
+    }
+
+    public void Die()
+    {
+        Health = 0;
+        Explosion.Play();
+        AudioSource audioSourceExplosion = Explosion.GetComponent<AudioSource>();
+        audioSourceExplosion.PlayOneShot(audioSourceExplosion.clip);
+        Destroy(_starShipModel);
+        Destroy(_shields[0].gameObject);
+        IsDead = true;
     }
 }

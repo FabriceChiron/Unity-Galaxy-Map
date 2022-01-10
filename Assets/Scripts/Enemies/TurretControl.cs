@@ -66,7 +66,7 @@ public class TurretControl : MonoBehaviour
         {
             _timeToDestroy -= Time.deltaTime;
 
-            Debug.Log($"_timeToDestroy: {_timeToDestroy}");
+            //Debug.Log($"_timeToDestroy: {_timeToDestroy}");
 
             if (_timeToDestroy <= 0f)
             {
@@ -86,16 +86,16 @@ public class TurretControl : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log($"Turret CollisionEnter: {collision.transform.name}");
+        //Debug.Log($"Turret CollisionEnter: {collision.transform.name}");
     }
     private void OnCollisionExit(Collision collision)
     {
-        Debug.Log($"Turret CollisionExit: {collision.transform.name}");
+        //Debug.Log($"Turret CollisionExit: {collision.transform.name}");
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"Turret TriggerEnter: {other.name}");
+        //Debug.Log($"Turret TriggerEnter: {other.name}");
 
         BlasterShot blasterShot = other.GetComponent<BlasterShot>();
         

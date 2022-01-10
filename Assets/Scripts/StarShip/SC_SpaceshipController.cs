@@ -121,7 +121,7 @@ public class SC_SpaceshipController : MonoBehaviour
 
     private void Update()
     {
-        if (!_controller.IsPaused)
+        if (!_controller.IsPaused && !StarShipSetup.IsDead)
         {
             IsBoosting = _playerInput.BoostAxis != 0;
             IsWarping = _playerInput.WarpAxis != 0;
@@ -136,7 +136,7 @@ public class SC_SpaceshipController : MonoBehaviour
     void FixedUpdate()
     {
         
-        if(!_controller.IsPaused)
+        if(!_controller.IsPaused && !StarShipSetup.IsDead)
         {
 
             Animator.SetFloat("Veering", _playerInput.HorizontalAxis != 0 ? _playerInput.HorizontalAxis : _playerInput.HorizontalDirection);
@@ -308,7 +308,10 @@ public class SC_SpaceshipController : MonoBehaviour
         
         speed = Mathf.Round(speed * 100f) / 100f;
 
-        _displaySpeed.text = Mathf.RoundToInt(speed).ToString();
+        if(_displaySpeed != null)
+        {
+            _displaySpeed.text = Mathf.RoundToInt(speed).ToString();
+        }
 
         //_displaySpeed.text = $"Speed: {speed}\nRotationZ: {rotationZTmp}";
 

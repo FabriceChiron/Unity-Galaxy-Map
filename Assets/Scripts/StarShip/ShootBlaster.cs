@@ -52,15 +52,20 @@ public class ShootBlaster : MonoBehaviour
             blasterIndex = 0;
         }
         //Debug.Log($"blasterIndex: {blasterIndex}, _blasters[{blasterIndex}].position: {_blasters[blasterIndex].position}");
-        GameObject newBlasterShot = Instantiate(_blasterPrefab, _blasters[blasterIndex].position, _blasters[blasterIndex].rotation);
 
-        BlasterShot blasterShot = newBlasterShot.GetComponent<BlasterShot>();
-        blasterShot.Origin = transform;
+        if(_blasters[blasterIndex] != null)
+        {
+            GameObject newBlasterShot = Instantiate(_blasterPrefab, _blasters[blasterIndex].position, _blasters[blasterIndex].rotation);
 
-        blasterShot.Shoot(_blasterSpeed);
+            BlasterShot blasterShot = newBlasterShot.GetComponent<BlasterShot>();
+            blasterShot.Origin = transform;
 
-        blasterIndex++;
-        //Destroy(bullet.gameObject, _destroyTime);
+            blasterShot.Shoot(_blasterSpeed);
+
+            blasterIndex++;
+            //Destroy(bullet.gameObject, _destroyTime);
+        }
+
 
     }
 

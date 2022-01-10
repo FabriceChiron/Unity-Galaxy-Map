@@ -30,7 +30,6 @@ public class BlasterShot : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         _rigidbody = GetComponent<Rigidbody>();
         _transform = GetComponent<Transform>();
-        
     }
 
     // Start is called before the first frame update

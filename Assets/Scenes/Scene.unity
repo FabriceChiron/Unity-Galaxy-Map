@@ -3776,6 +3776,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!198 &474561547 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 9090913554513488695, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+  m_PrefabInstance: {fileID: 9059584690247314030}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &484247373
 GameObject:
   m_ObjectHideFlags: 0
@@ -18324,6 +18329,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4360191892609708239, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 41ba1dca6b42646acb3a69ee68d6c91a, type: 3}
     - target: {fileID: 4642987951170487966, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: m_Name
       value: Flame Left
@@ -18657,6 +18666,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: _explosion
+      value: 
+      objectReference: {fileID: 474561547}
+    - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _controller
       value: 
       objectReference: {fileID: 495509697}
@@ -18672,6 +18685,10 @@ PrefabInstance:
       propertyPath: _shieldMaterial
       value: 
       objectReference: {fileID: 2100000, guid: ad23227d818ef014eaee304a3980f1d0, type: 2}
+    - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: _timeBeforeRecharge
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _shieldInnerMaterial
       value: 
