@@ -378,6 +378,7 @@ public class StarShipSetup : MonoBehaviour
         switch (action)
         {
             case true:
+                //Debug.Log($"ToggleShowShield: {action}");
                 if (Shield > 0)
                 {
                     foreach (MeshRenderer shield in _shields)

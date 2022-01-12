@@ -20108,6 +20108,10 @@ PrefabInstance:
       propertyPath: m_Volume
       value: 0.8
       objectReference: {fileID: 0}
+    - target: {fileID: 9059584689750414390, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9059584689750414391, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _position.y
       value: 0.1

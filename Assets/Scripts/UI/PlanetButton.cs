@@ -12,12 +12,15 @@ public class PlanetButton : MonoBehaviour
     [SerializeField]
     private Star _starObject;
 
+    private Controller _controller;
+
     public StellarObject StellarObject { get => _stellarObject; set => _stellarObject = value; }
     public Star StarObject { get => _starObject; set => _starObject = value; }
 
     // Start is called before the first frame update
     void Start()
     {
+        _controller = GameObject.FindObjectOfType<Controller>();
     }
 
     // Update is called once per frame
@@ -27,7 +30,7 @@ public class PlanetButton : MonoBehaviour
 
     public void SelectPlanet()
     {
-        if (StellarObject)
+        if (StellarObject && !_controller.HasPlayer)
         {
             if (StellarObject.Camera.CameraTarget == StellarObject.StellarBody)
             {

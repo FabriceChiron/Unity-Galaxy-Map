@@ -64,11 +64,6 @@ public class TurretControl : MonoBehaviour
     {
         transform.LookAt(_playerBeacon);
 
-        if(AttackMode == !AttackMode)
-        {
-            Debug.Log("Attack mode change!");
-        }
-
         AimAtPlayer();
 
         UpdateHealthDisplay();
@@ -84,6 +79,18 @@ public class TurretControl : MonoBehaviour
                 Destroy(this.gameObject);
             }
         }
+    }
+
+    public void ChangeAttackMode()
+    {
+        AttackMode = !AttackMode;
+        Debug.Log(AttackMode);
+    }
+
+    public void ChangeAttackMode(bool newAttackMode)
+    {
+        AttackMode = newAttackMode;
+        Debug.Log(AttackMode);
     }
 
     private void UpdateHealthDisplay()
@@ -131,7 +138,7 @@ public class TurretControl : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log($"Turret TriggerExit: {other.name}");
+        //Debug.Log($"Turret TriggerExit: {other.name}");
     }
 
     public void Explode()

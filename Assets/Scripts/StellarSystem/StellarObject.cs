@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.PostProcessing;
 using TMPro;
 
 public class StellarObject : MonoBehaviour
@@ -58,6 +60,7 @@ public class StellarObject : MonoBehaviour
 
     [SerializeField]
     private SphereCollider _gasCollider;
+    private PostProcessVolume _gasPPVolume;
 
     private CameraFollow _camera;
 
@@ -124,6 +127,11 @@ public class StellarObject : MonoBehaviour
 
         Orbit = StellarAnchor.parent;
         OrbitAnchor = Orbit.parent;
+
+        if(_gasCollider != null)
+        {
+            _gasPPVolume = _gasCollider.GetComponent<PostProcessVolume>();
+        }
 
         //Debug.Log($"OrbitAnchor Name: {OrbitAnchor.name}");
 
@@ -290,11 +298,6 @@ public class StellarObject : MonoBehaviour
             }
         }
 
-        if (PlanetData.Gaseous)
-        {
-            _gasCollider.enabled = true;
-        }
-
         SetMass();
 
         SetMaterial();
@@ -405,6 +408,12 @@ public class StellarObject : MonoBehaviour
 
 
             GetComponent<Light>().range = ObjectSize * 3f;
+
+            if (PlanetData.Gaseous)
+            {
+                _gasCollider.gameObject.SetActive(true);
+                _gasPPVolume.blendDistance = ObjectSize * 2f;
+            }
         }
 
     }
