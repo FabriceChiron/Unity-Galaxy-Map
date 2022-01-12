@@ -27,7 +27,7 @@ public class ToggleStellarSystem : MonoBehaviour
 
     private Animator _animator;
     private bool _isAnimating;
-    private bool _isScaleChanging;
+    private bool _isScaleChanging = true;
 
     private Controller _controller;
     private Detector _detector;

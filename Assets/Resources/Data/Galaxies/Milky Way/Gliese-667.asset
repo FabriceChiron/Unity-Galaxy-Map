@@ -26,4 +26,5 @@ MonoBehaviour:
   Top: 0
   Left: 0
   ChildrenItem: []
-  AsteroidBeltItem: []
+  AsteroidBeltItem:
+  - {fileID: 11400000, guid: e9ddab1e20e3e074991f46e0ff4b9afb, type: 2}

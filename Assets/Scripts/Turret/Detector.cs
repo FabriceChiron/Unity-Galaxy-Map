@@ -28,7 +28,9 @@ public class Detector : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        
+
+        _toggleStellarSystem = GameObject.FindObjectOfType<ToggleStellarSystem>();
+
         if (_toggleStellarSystem != null && !_toggleStellarSystem.IsScaleChanging)
         {
             if(other.name == "Asteroid")

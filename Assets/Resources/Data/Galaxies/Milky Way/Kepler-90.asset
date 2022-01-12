@@ -38,3 +38,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ab7dd6e2472244e44985bd07fc6754c2, type: 2}
   - {fileID: 11400000, guid: a1fadd82dede48f41bd8d01a212d08f9, type: 2}
   - {fileID: 11400000, guid: 7bc04f24928511f4a9a46f6f7d8a9981, type: 2}
+  AsteroidBeltItem:
+  - {fileID: 11400000, guid: 89ca7671bd287b843b3a48ee31b0c32e, type: 2}
