@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using UnityEngine.XR;
+using UnityEngine.XR.Management;
+using UnityEngine.XR.LegacyInputHelpers;
 
 public class StarShipSetup : MonoBehaviour
 {
@@ -19,6 +23,9 @@ public class StarShipSetup : MonoBehaviour
 
     [SerializeField]
     private PlayerInput _playerInput;
+
+    [SerializeField]
+    private GameObject _VRControllers;
 
     [SerializeField]
     private ParticleSystem _explosion;
@@ -50,14 +57,20 @@ public class StarShipSetup : MonoBehaviour
     [SerializeField]
     private MeshRenderer[] _shields;
     
-    private float _shieldFadeTime, _shieldOpacity = 0.48235f, _shieldEmissionOpacity = 1f;
+    //private float _shieldFadeTime, _shieldOpacity = 0.48235f, _shieldEmissionOpacity = 1f;
 
-    private float _baseAlphaStart, _baseAphaEnd, _emissionAlphaStart, _emissionAphaEnd;
+    //private float _baseAlphaStart, _baseAphaEnd, _emissionAlphaStart, _emissionAphaEnd;
 
-    private float _fadeSpeed;
+    //private float _fadeSpeed;
 
     [SerializeField]
     private Canvas _menu;
+
+    [SerializeField]
+    private MeshRenderer _crosshair;
+
+    [SerializeField]
+    private GameObject _stellarSystemSelection;
 
     [SerializeField]
     private Canvas _starShipUI;
@@ -71,7 +84,7 @@ public class StarShipSetup : MonoBehaviour
 
     private float _nextHitTime, _timeToTurnShieldOff;
 
-    private bool _isShieldHit, _isDead;
+    private bool _isShieldHit, _isDead, _isInvincible;
 
     private AudioSource _audioSource;
 
@@ -84,11 +97,14 @@ public class StarShipSetup : MonoBehaviour
     public AudioClip LightSpeedJump { get => _lightSpeedJump; set => _lightSpeedJump = value; }
     public ParticleSystem Explosion { get => _explosion; set => _explosion = value; }
     public bool IsDead { get => _isDead; set => _isDead = value; }
+    public bool IsInvincible { get => _isInvincible; set => _isInvincible = value; }
 
     private void Awake()
     {
         _cameras[0].gameObject.SetActive(true);
         ActiveCamera = _cameras[0];
+
+        SetVRControllersParent(ActiveCamera);
         
         foreach(GameObject gameObjectToDeactivate in _gameObjectsToDeactivate)
         {
@@ -104,13 +120,13 @@ public class StarShipSetup : MonoBehaviour
 
         _maxShield = Shield;
 
-        _fadeSpeed = 0f;
+/*        _fadeSpeed = 0f;
 
         _baseAlphaStart = _shieldOpacity;
         _baseAphaEnd = 0f;
         _emissionAlphaStart = _shieldEmissionOpacity;
         _emissionAphaEnd = 0f;
-        _fadeSpeed = 5f;
+        _fadeSpeed = 5f;*/
 
         _audioSource = GetComponent<AudioSource>();
     }
@@ -122,9 +138,10 @@ public class StarShipSetup : MonoBehaviour
 
         //FadeShieldOpacity(2f);
 
-        AttachMenuToStarShip();
-        
-        
+        //AttachMenuToStarShip();
+        AttachStellarSystemSelectionToStarShip();
+
+
         LinkMenuToCamera();
     }
 
@@ -133,17 +150,20 @@ public class StarShipSetup : MonoBehaviour
     void Update()
     {
         _menu.enabled = _controller.IsPaused;
+        _crosshair.enabled = !_controller.IsPaused;
+
+        _VRControllers.SetActive(_menu.enabled);
 
         if (!IsDead)
         {
+            UpdateHealthDisplay();
+            UpdateEnergyDisplay();
+
             if (_playerInput.SwitchCameraButton)
             {
-
                 SwitchCamera();
             }
 
-            UpdateHealthDisplay();
-            UpdateEnergyDisplay();
             UpdateGasDisplay();
 
             _timeWithoutDamage += Time.deltaTime;
@@ -158,15 +178,35 @@ public class StarShipSetup : MonoBehaviour
     {
         _menu.renderMode = RenderMode.WorldSpace;
 
-        _menu.transform.parent = transform;
-        _menu.transform.localPosition = new Vector3(0f, 0f, 100f);
+/*        _menu.transform.parent = transform;*/
+        _menu.transform.SetParent(transform, false);
+        _menu.transform.localPosition = new Vector3(0f, 0f, 10f);
         _menu.transform.localRotation = Quaternion.identity;
-        _menu.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        _menu.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
         _menu.GetComponent<RectTransform>().sizeDelta = new Vector2(400, 300);
+    }
+
+    private void AttachStellarSystemSelectionToStarShip()
+    {
+        _stellarSystemSelection.transform.SetParent(_menu.transform, false);
+        RectTransform rt = _stellarSystemSelection.GetComponent<RectTransform>();
+        rt.pivot = new Vector2(0.5f, 0.5f);
+        _stellarSystemSelection.transform.localPosition = Vector3.zero;
+
+        foreach(Image img in _stellarSystemSelection.GetComponentsInChildren<Image>(true))
+        {
+            Debug.Log(img.name);
+            if(img.sprite == null)
+            {
+                img.color = new Color(img.color.r, img.color.g, img.color.b, 0f);
+            }
+        }
     }
 
     private void LinkMenuToCamera()
     {
+        _menu.transform.SetParent(Camera.main.transform.parent);
+        _menu.transform.localPosition = new Vector3(0f,0f,0.5f);
         _menu.worldCamera = Camera.main;
     }
 
@@ -215,17 +255,33 @@ public class StarShipSetup : MonoBehaviour
 
     private void SwitchCamera()
     {
-        foreach(Camera camera in _cameras)
+        if (!_controller.IsPaused)
         {
-            camera.gameObject.SetActive(!camera.gameObject.activeSelf);
-            if (camera.gameObject.activeSelf)
+            foreach(Camera camera in _cameras)
             {
+                camera.gameObject.SetActive(!camera.gameObject.activeSelf);
+                if (camera.gameObject.activeSelf)
+                {
 
-                ActiveCamera = camera;
+                    ActiveCamera = camera;
+                }
             }
-        }
 
-        LinkMenuToCamera();
+            SetVRControllersParent(ActiveCamera);
+
+            LinkMenuToCamera();
+        }
+    }
+
+    private void SetVRControllersParent(Camera activeCamera)
+    {
+        if (XRSettings.isDeviceActive)
+        {
+            _VRControllers.transform.parent = activeCamera.transform.parent;
+            _VRControllers.transform.localPosition = activeCamera.transform.localPosition;
+            _VRControllers.transform.localRotation = Quaternion.identity;
+            _VRControllers.transform.localScale = new Vector3(1f, 1f, 1f);
+        }
     }
 
     private void TurnShieldOff()
@@ -268,12 +324,12 @@ public class StarShipSetup : MonoBehaviour
                         shield.enabled = true;
                     }
                 }
-                _fadeSpeed = 0.5f;
+                //_fadeSpeed = 0.5f;
                 //ToggleShowShield(true);
                 HitOnce(null);
             }
 
-            if(collision.transform.GetComponent<StellarObject>() != null)
+            if(collision.transform.GetComponent<StellarObject>() != null && !IsInvincible)
             {
                 Die();
             }
@@ -344,6 +400,10 @@ public class StarShipSetup : MonoBehaviour
 
     public void HitOnce(BlasterShot blasterShot)
     {
+        if (!IsInvincible)
+        {
+
+        }
         _timeWithoutDamage = 0f;
 
         ToggleShowShield(true);

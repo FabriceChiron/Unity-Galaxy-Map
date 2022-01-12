@@ -9,16 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b741d97162f44e48ba42e5704d77c33, type: 3}
-  m_Name: KuiperBelt
+  m_Script: {fileID: 11500000, guid: 3863570e7e6387a40ae4f323d83291e5, type: 3}
+  m_Name: OculusRuntimeSettings
   m_EditorClassIdentifier: 
-  Quantity: 100
-  AsteroidsWithPlatinum: 100
-  AsteroidsWithTurrets: 0
-  asteroidType: 1
-  Orbit: 30.103
-  OrbitMin: 30
-  OrbitMax: 50
-  HeightMin: -5
-  HeightMax: 5
-  YearLength: 250
+  colorSpace: 4

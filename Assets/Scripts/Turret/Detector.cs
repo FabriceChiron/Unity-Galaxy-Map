@@ -11,14 +11,13 @@ public class Detector : MonoBehaviour
 
     private void Awake()
     {
-        _toggleStellarSystem = GameObject.FindObjectOfType<ToggleStellarSystem>();
-        _toggleStellarSystem.Detector = this;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        _toggleStellarSystem = GameObject.FindObjectOfType<ToggleStellarSystem>();
+        _toggleStellarSystem.Detector = this; 
     }
 
     // Update is called once per frame

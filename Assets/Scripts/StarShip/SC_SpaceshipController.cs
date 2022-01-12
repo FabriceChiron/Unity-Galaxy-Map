@@ -60,6 +60,8 @@ public class SC_SpaceshipController : MonoBehaviour
     private bool _freelook;
     private bool _isCameraAligned = true;
 
+    private Quaternion nullQuaternion = Quaternion.identity;
+
     //private Quaternion nullQuaternion = Quaternion.identity;
 
     public RectTransform crosshairTexture;
@@ -116,8 +118,19 @@ public class SC_SpaceshipController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-
     }
+
+    public void TurnTowardsTarget(Vector3 targetPosition, float speed)
+    {
+        //Debug.Log(speed);
+        Vector3 lookDirection = targetPosition - transform.position;
+        lookDirection.Normalize();
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDirection), speed);
+
+        //transform.rotation = Controller.SmoothDamp(transform.rotation, Quaternion.LookRotation(lookDirection), ref nullQuaternion, speed);
+    }
+
 
     private void Update()
     {

@@ -40,6 +40,10 @@ public class ToggleStellarSystem : MonoBehaviour
     public bool IsScaleChanging { get => _isScaleChanging; set => _isScaleChanging = value; }
     public Detector Detector { get => _detector; set => _detector = value; }
 
+    private Rigidbody _playerRB;
+    private SC_SpaceshipController _spaceshipController;
+    private StarShipSetup _starshipSetup;
+
 
 
 
@@ -60,6 +64,12 @@ public class ToggleStellarSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (_controller.HasPlayer)
+        {
+            _spaceshipController = _controller.Player.GetComponent<SC_SpaceshipController>();
+            _starshipSetup = _controller.Player.GetComponent<StarShipSetup>();
+        }
+
         GetTargetScale();
 
         StellarSystemCurrentScale = 0f;
@@ -73,6 +83,11 @@ public class ToggleStellarSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_starshipSetup != null) 
+        {
+            _starshipSetup.IsInvincible = IsScaleChanging;
+        } 
+
         if (Animator.GetBool("IsAnimating"))
         {
             _controller.ClearTrails();
@@ -82,7 +97,6 @@ public class ToggleStellarSystem : MonoBehaviour
         
         if (IsScaleChanging)
         {
-            
             _controller.ClearTrails();
             if(StellarSystemTargetScale > 0)
             {

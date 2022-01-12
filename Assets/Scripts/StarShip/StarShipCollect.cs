@@ -39,14 +39,14 @@ public class StarShipCollect : MonoBehaviour
     void Update()
     {
 
-        if (Time.time >= _nextLidarTime)
+/*        if (Time.time >= _nextLidarTime)
         {
             if (Input.GetButtonDown("Lidar"))
             {
                 FireLidar();
                 _nextLidarTime = Time.time + _delayBetweenLidars;
             }
-        }
+        }*/
 
         if (_isLidarFired)
         {

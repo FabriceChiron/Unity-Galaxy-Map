@@ -595,8 +595,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 354.25, y: 0}
-  m_SizeDelta: {x: 708.5, y: 0}
+  m_AnchoredPosition: {x: 416.4999, y: 0}
+  m_SizeDelta: {x: 832.9998, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &8118629942466838946
 CanvasRenderer:
@@ -1410,7 +1410,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2595254239194320221}
-  m_Mesh: {fileID: 4300000, guid: 0a2d5d5f259149c4186358bcd605c4a2, type: 2}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &2595254239194320217
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13188,7 +13188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 1.0132681
+  m_AspectRatio: 1.1871507
 --- !u!1 &7339924979650250425
 GameObject:
   m_ObjectHideFlags: 0
@@ -13351,7 +13351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 0.50663406
+  m_AspectRatio: 0.59357536
 --- !u!1 &8650243798634411468
 GameObject:
   m_ObjectHideFlags: 0
@@ -13688,7 +13688,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 5539523941454990137}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.62710553
+  m_Size: 0.6991188
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

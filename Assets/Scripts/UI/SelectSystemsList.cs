@@ -35,6 +35,8 @@ public class SelectSystemsList : MonoBehaviour
 
     private GameObject currentStellarSystem;
 
+    private SC_SpaceshipController _spaceshipController;
+
     private void Awake()
     {
         //_controller = LoopLists.GetComponent<Controller>();
@@ -62,7 +64,10 @@ public class SelectSystemsList : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (_controller.HasPlayer)
+        {
+            _spaceshipController = _controller.Player.GetComponent<SC_SpaceshipController>();
+        }
     }
 
     // Update is called once per frame
@@ -102,8 +107,14 @@ public class SelectSystemsList : MonoBehaviour
             {
                 _controller.MainCamera.GetComponent<CameraFollow>().ResetCameraTarget(true);
             }
+            /*
+            else
+            {
+                _spaceshipController.TurnTowardsTarget(LoopLists.NewStellarSystem.transform.position, 0.5f);
+            }
+            */
 
-            if(LoopLists.NewStellarSystem.GetComponent<Animator>().GetFloat("Scale") == 0) {
+            if (LoopLists.NewStellarSystem.GetComponent<Animator>().GetFloat("Scale") == 0) {
 
 
                 LoopLists.NewStellarSystem.SetActive(false);

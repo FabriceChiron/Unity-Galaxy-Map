@@ -54,3 +54,7 @@ Starvest-Builds/
 starvest-webgl-build/
 
 starvest-webgl-build-debug/
+
+Assets/Oculus/
+
+Assets/Oculus.meta

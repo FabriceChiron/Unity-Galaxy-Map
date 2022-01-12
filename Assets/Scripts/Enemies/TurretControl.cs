@@ -15,9 +15,6 @@ public class TurretControl : MonoBehaviour
     private Transform _turretAim;
 
     [SerializeField]
-    private float _aimingSpeed = 5f;
-
-    [SerializeField]
     private ParticleSystem _explosion;
 
     [SerializeField]
@@ -66,6 +63,11 @@ public class TurretControl : MonoBehaviour
     void Update()
     {
         transform.LookAt(_playerBeacon);
+
+        if(AttackMode == !AttackMode)
+        {
+            Debug.Log("Attack mode change!");
+        }
 
         AimAtPlayer();
 

@@ -325,7 +325,7 @@ public class StellarObject : MonoBehaviour
         //Make the texture emit light (to be visible even in the darkness of space)
         renderer.material.EnableKeyword("_EMISSION");
         renderer.material.SetTexture("_EmissionMap", renderer.material.mainTexture);
-        renderer.material.SetColor("_EmissionColor", new Vector4(0.05f, 0.05f, 0.05f));
+        renderer.material.SetColor("_EmissionColor", new Vector4(0.1f, 0.1f, 0.1f));
     }
 
     //Apply Cloud Material (if set in PlanetData)
@@ -402,6 +402,9 @@ public class StellarObject : MonoBehaviour
             {
                 ObjectTrail.startWidth = ObjectSize * .75f;
             }
+
+
+            GetComponent<Light>().range = ObjectSize * 3f;
         }
 
     }
@@ -411,6 +414,7 @@ public class StellarObject : MonoBehaviour
     {
         //Calculate the size of the orbit, based on its real orbit size, the scale factor (if set), and if values are rationalized or not
         OrbitSize = PlanetData.Orbit * LoopLists.dimRet(CurrentScales.Orbit, 3.5f, CurrentScales.RationalizeValues) * (PlayerPrefs.GetInt("ScaleFactor") != 0 ? LoopLists.StellarSystemData.ScaleFactor : 1f);
+
     }
 
     // Position the Stellar object Anchor point, based on its orbit size and the size of its parent
@@ -467,7 +471,7 @@ public class StellarObject : MonoBehaviour
     {
         TextMeshProUGUI ScaleFactorInfo = GameObject.FindGameObjectWithTag("ScaleFactorInfo").GetComponent<TextMeshProUGUI>();
 
-        if (PlayerPrefs.GetInt("ScaleFactor") != 0 && LoopLists.StellarSystemData.ScaleFactor != 1f)
+        if (PlayerPrefs.GetInt("ScaleFactor") != 0 && LoopLists.StellarSystemData.ScaleFactor != 1f && !_controller.HasPlayer)
         {
             ScaleFactorInfo.text = $"Orbits increased {LoopLists.StellarSystemData.ScaleFactor}x for better view";
         }
@@ -477,81 +481,4 @@ public class StellarObject : MonoBehaviour
         }
     }
 
-
-    private void DetectClick()
-    {
-
-        Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        // Visualize Ray on Scene (no impact on Game view)
-        Debug.DrawRay(ray.origin, ray.direction * 20f);
-
-        RaycastHit hit;
-
-        //if the mouse is on the sun and and is clicked
-        if (Physics.Raycast(ray, out hit) && hit.transform.tag == "Star" && Input.GetMouseButton(0))
-        {
-            Camera.ChangeTarget(hit.transform);
-        }
-
-
-        //else
-        //if the mouse is on a planet or moon...
-        else if (Physics.Raycast(ray, out hit) && (hit.transform == StellarBody))
-        {
-            IsHovered = true;
-            //and is clicked
-            if (Input.GetMouseButtonDown(0))
-            {
-
-                /*//if the camera is alreay focused on the planet or moon
-                if (Camera.CameraTarget == hit.transform)
-                {
-                    Debug.Log($"Should show description of {hit.transform.name}");
-
-                    //Set the animator boolean to true, which will start the animation to show the details
-                    //UIDetails.GetComponentsInChildren<TextMeshProUGUI>(true)[1].GetComponent<RectTransform>().position = Vector3.zero;
-                    Animator.SetBool("ShowDetails", !Animator.GetBool("ShowDetails"));
-
-                    //And hide the name
-                    Animator.SetBool("ShowName", false);
-                    Camera.CameraAnchor = CameraAnchor;
-                    Camera.CameraAnchorObject = gameObject;
-                }
-
-                //else
-                else
-                {
-                    //change the camera focus to the planet
-                }*/
-                Camera.ChangeTarget(hit.transform);
-
-
-            }
-
-            //and is not clicked and the details are not shown
-            else //if (!Animator.GetBool("ShowDetails"))
-            {
-                //Display the name
-                //UIName.gameObject.SetActive(true);
-                Animator.SetBool("ShowName", true);
-                //Position the name on the planet or moon
-                //UIName.transform.position = Camera.main.WorldToScreenPoint(_stellarObject.position);
-            }
-        }
-
-        //If the mouse is not on a planet or moon
-        else
-        {
-            IsHovered = true;
-
-            /*Animator.SetBool("ShowDetails", false);
-            if (PlayerPrefs.GetInt("ShowNames") == 0)
-            {
-                //UIName.gameObject.SetActive(false);
-                Animator.SetBool("ShowName", false);
-            }*/
-            Animator.SetBool("ShowName", false);
-        }
-    }
 }
