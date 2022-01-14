@@ -63,14 +63,12 @@ public class PlayerInput : MonoBehaviour
             VerticalAxis = Input.GetAxis("XRI_Left_Primary2DAxis_Vertical") * -1f;
 
             HorizontalDirection = Input.GetAxis("XRI_Right_Primary2DAxis_Horizontal");
-            VerticalDirection = Input.GetAxis("XRI_Right_Primary2DAxis_Vertical");
+            VerticalDirection = Input.GetAxis("XRI_Right_Primary2DAxis_Vertical") * -1f;
             FireAxis = Input.GetAxis("XRI_Right_Trigger");
             BoostAxis = Input.GetAxis("XRI_Left_Grip");
             WarpAxis = Input.GetAxis("XRI_Left_Trigger");
 
-            SwitchCameraButton = Input.GetButtonDown("XRI_Right_PrimaryButton") ?
-                Input.GetButtonDown("XRI_Right_PrimaryButton") :
-                    Input.GetButtonDown("XRI_Left_PrimaryButton");
+            SwitchCameraButton = Input.GetButtonDown("XRI_Left_PrimaryButton");
 
             TogglePause = Input.GetButtonDown("XRI_Left_MenuButton");
         }
