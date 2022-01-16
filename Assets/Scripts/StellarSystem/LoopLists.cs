@@ -149,21 +149,28 @@ public class LoopLists : MonoBehaviour
 
             Star starScript = NewStar.GetComponentInChildren<Star>();
 
-            StellarObjectTotal += starData.ChildrenItem.Length;
+            Debug.Log($"starData.name: {starData.name}");
+            Debug.Log($"starData.ChildrenItem: {starData.ChildrenItem}");
+
+            if(starData.ChildrenItem != null && starData.ChildrenItem.Length > 0)
+            {
+                StellarObjectTotal += starData.ChildrenItem.Length;
+            
+                //Generate planets orbiting a specific star in a stellar system with several planets;
+                foreach (PlanetData planetData in starData.ChildrenItem)
+                {
+                    Debug.Log($"Generating {planetData.Name}");
+                    GameObject newPlanet = GeneratePlanet(planetData, NewStar.transform.GetChild(0).GetChild(0).Find("PlanetsHolder").transform, starData.Name);
+
+                    foreach (PlanetData moonData in planetData.ChildrenItem)
+                    {
+                        GameObject newMoon = GenerateMoon(planetData, newPlanet, moonData);
+                    }
+                }
+            }
 
             
 
-            //Generate planets orbiting a specific star in a stellar system with several planets;
-            foreach (PlanetData planetData in starData.ChildrenItem)
-            {
-                Debug.Log($"Generating {planetData.Name}");
-                GameObject newPlanet = GeneratePlanet(planetData, NewStar.transform.GetChild(0).GetChild(0).Find("PlanetsHolder").transform, starData.Name);
-
-                foreach (PlanetData moonData in planetData.ChildrenItem)
-                {
-                    GameObject newMoon = GenerateMoon(planetData, newPlanet, moonData);
-                }
-            }
         }
 
         foreach(AsteroidBeltData asteroidBeltData in StellarSystemData.AsteroidBeltItem)

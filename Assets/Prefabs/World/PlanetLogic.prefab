@@ -908,8 +908,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 388.24988, y: 0}
-  m_SizeDelta: {x: 776.49976, y: 0}
+  m_AnchoredPosition: {x: 361.875, y: 0}
+  m_SizeDelta: {x: 723.75, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &8118629942466838946
 CanvasRenderer:
@@ -2641,7 +2641,7 @@ GameObject:
   - component: {fileID: 8708311509017034046}
   - component: {fileID: 5368765693362389461}
   - component: {fileID: 239023887759008923}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gas
   m_TagString: Gas
   m_Icon: {fileID: 0}
@@ -2657,7 +2657,7 @@ Transform:
   m_GameObject: {fileID: 5044234008421694676}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children: []
   m_Father: {fileID: 5713132408691743884}
   m_RootOrder: 7
@@ -2705,7 +2705,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sharedProfile: {fileID: 11400000, guid: 3181e70c755593543a2ba8c971a655ff, type: 2}
   isGlobal: 0
-  blendDistance: 0
+  blendDistance: 100
   weight: 1
   priority: 0
 --- !u!1 &5368773196337772629
@@ -3950,7 +3950,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 1.2004536
+  m_AspectRatio: 1.0909426
 --- !u!1 &7339924979650250425
 GameObject:
   m_ObjectHideFlags: 0
@@ -4145,7 +4145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 0.6002268
+  m_AspectRatio: 0.5454713
 --- !u!1 &8650243798634411468
 GameObject:
   m_ObjectHideFlags: 0
@@ -4767,7 +4767,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 5539523941454990137}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.6733374
+  m_Size: 0.64939964
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

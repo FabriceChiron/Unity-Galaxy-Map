@@ -13,51 +13,49 @@ public class VRControllers : MonoBehaviour
     private GameObject[] laserSources;
 
     [SerializeField]
-    private GraphicRaycaster graphicRaycaster;
-
-    private PointerEventData _pointerEventData;
+    private string[] triggerInputs;
 
     [SerializeField]
-    private EventSystem eventSystem;
-
-    [SerializeField]
-    private RectTransform canvasRect;
+    private GameObject[] overlays;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (!XRSettings.isDeviceActive)
+        {
+            this.gameObject.SetActive(false);
+
+            foreach(GameObject overlay in overlays)
+            {
+                overlay.SetActive(false);
+            }
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Set up the new Pointer Event
-        _pointerEventData = new PointerEventData(eventSystem);
-        //Set the Pointer Event Position to that of the game object
-        _pointerEventData.position = this.transform.localPosition;
 
-        //Create a list of Raycast Results
-        List<RaycastResult> results = new List<RaycastResult>();
-
-        //Raycast using the Graphics Raycaster and mouse click position
-        graphicRaycaster.Raycast(_pointerEventData, results);
-
-        if (results.Count > 0) Debug.Log("Hit " + results[0].gameObject.name);
-
-        /*foreach(GameObject laserSource in laserSources)
+        for(int i = 0; i < laserSources.Length; i++)
         {
+            
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.forward, out hit)) { 
+            if (Physics.Raycast(laserSources[i].transform.position, laserSources[i].transform.forward, out hit))
+            {
+                LinkGameObjectToUIElement UIElement = hit.collider.GetComponent<LinkGameObjectToUIElement>();
 
-                
+                if(hit.collider != null)
+                {
+                    Debug.Log(hit.collider.name);
+                }
 
-                if (hit.collider.gameObject.tag == "Tagged") { 
-                    Debug.DrawRay(transform.position, transform.forward, Color.green); print("Hit"); 
-                } 
+                if (hit.collider.GetComponent<LinkGameObjectToUIElement>() != null && Input.GetButtonDown($"{triggerInputs[i]}"))
+                {
+                    UIElement.TriggerUIElement();
+                }
             }
 
-        }*/
+        }
 
     }
 }

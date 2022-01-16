@@ -160,7 +160,6 @@ public class SC_SpaceshipController : MonoBehaviour
 
             Animator.SetFloat("Veering", _playerInput.HorizontalAxis != 0 ? _playerInput.HorizontalAxis : _playerInput.HorizontalDirection);
 
-
             ApplyThrust();
 
             ChangeAudioClip();
@@ -304,6 +303,11 @@ public class SC_SpaceshipController : MonoBehaviour
             if (speed >= maxSpeed)
             {
                 speed = maxSpeed;
+            }
+
+            if (IsWarping)
+            {
+                StarShipSetup.Hydrogen -= Time.deltaTime;
             }
 
         }

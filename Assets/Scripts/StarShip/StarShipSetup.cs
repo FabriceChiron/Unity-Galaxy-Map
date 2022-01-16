@@ -40,7 +40,7 @@ public class StarShipSetup : MonoBehaviour
     private float _maxShield;
 
     [SerializeField]
-    private int _gasQuantity = 1000;
+    private float _hydrogen = 1000;
 
     [SerializeField]
     private GameObject _healthGauge, _shieldGauge, _gasGauge, _starShipModel;
@@ -65,6 +65,9 @@ public class StarShipSetup : MonoBehaviour
 
     [SerializeField]
     private Canvas _menu;
+
+    [SerializeField]
+    private Image[] _menuImages;
 
     [SerializeField]
     private MeshRenderer _crosshair;
@@ -92,7 +95,7 @@ public class StarShipSetup : MonoBehaviour
     public Camera ActiveCamera { get => _activeCamera; set => _activeCamera = value; }
     public float Health { get => _health; set => _health = value; }
     public float Shield { get => _shield; set => _shield = value; }
-    public int GasQuantity { get => _gasQuantity; set => _gasQuantity = value; }
+    public float Hydrogen { get => _hydrogen; set => _hydrogen = value; }
     public Canvas StarShipUI { get => _starShipUI; set => _starShipUI = value; }
     public AudioClip LightSpeedJump { get => _lightSpeedJump; set => _lightSpeedJump = value; }
     public ParticleSystem Explosion { get => _explosion; set => _explosion = value; }
@@ -154,15 +157,16 @@ public class StarShipSetup : MonoBehaviour
 
         _VRControllers.SetActive(_menu.enabled);
 
+        if (_playerInput.SwitchCameraButton)
+        {
+            SwitchCamera();
+        }
+
         if (!IsDead)
         {
             UpdateHealthDisplay();
             UpdateEnergyDisplay();
 
-            if (_playerInput.SwitchCameraButton)
-            {
-                SwitchCamera();
-            }
 
             UpdateGasDisplay();
 
@@ -193,20 +197,17 @@ public class StarShipSetup : MonoBehaviour
         rt.pivot = new Vector2(0.5f, 0.5f);
         _stellarSystemSelection.transform.localPosition = Vector3.zero;
 
-        /*foreach (Image img in _stellarSystemSelection.GetComponentsInChildren<Image>())
+        foreach (Image img in _menuImages)
         {
-            if (img.name == "Image" || img.name == "StellarSystems List")
-            {
-                img.color = new Color(img.color.r, img.color.g, img.color.b, 0f);
-            }
-        }*/
+            img.color = new Color(img.color.r, img.color.g, img.color.b, 0f);
+        }
     }
 
     private void LinkMenuToCamera()
     {
-        _menu.transform.SetParent(Camera.main.transform.parent);
-        _menu.transform.localPosition = new Vector3(0f,0f,0.5f);
-        _menu.worldCamera = Camera.main;
+        _menu.transform.SetParent(ActiveCamera.transform.parent);
+        _menu.transform.localPosition = new Vector3(0f,0f,0.6f);
+        _menu.worldCamera = ActiveCamera;
     }
 
     private void UpdateHealthDisplay()
@@ -249,27 +250,23 @@ public class StarShipSetup : MonoBehaviour
 
     private void UpdateGasDisplay()
     {
-        _gasGaugeText.text = GasQuantity.ToString();
+        _gasGaugeText.text = Mathf.RoundToInt(Hydrogen).ToString();
     }
 
     private void SwitchCamera()
     {
-        if (!_controller.IsPaused)
+        foreach (Camera camera in _cameras)
         {
-            foreach(Camera camera in _cameras)
+            camera.gameObject.SetActive(!camera.gameObject.activeSelf);
+            if (camera.gameObject.activeSelf)
             {
-                camera.gameObject.SetActive(!camera.gameObject.activeSelf);
-                if (camera.gameObject.activeSelf)
-                {
-
-                    ActiveCamera = camera;
-                }
+                ActiveCamera = camera;
             }
-
-            SetVRControllersParent(ActiveCamera);
-
-            LinkMenuToCamera();
         }
+
+        SetVRControllersParent(ActiveCamera);
+
+        LinkMenuToCamera();
     }
 
     private void SetVRControllersParent(Camera activeCamera)

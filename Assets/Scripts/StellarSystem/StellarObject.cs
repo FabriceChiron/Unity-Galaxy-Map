@@ -412,7 +412,9 @@ public class StellarObject : MonoBehaviour
             if (PlanetData.Gaseous)
             {
                 _gasCollider.gameObject.SetActive(true);
-                _gasPPVolume.blendDistance = ObjectSize * 2f;
+                //_gasPPVolume.blendDistance = ObjectSize * 2f;
+                _gasPPVolume.blendDistance = ObjectSize * 0.25f;
+                //_gasPPVolume.blendDistance = 100f;
             }
         }
 

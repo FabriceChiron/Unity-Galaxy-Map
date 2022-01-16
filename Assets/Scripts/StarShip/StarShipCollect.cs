@@ -9,6 +9,9 @@ public class StarShipCollect : MonoBehaviour
     private int _platinumScore = 0;
 
     [SerializeField]
+    private StarShipSetup _starShipSetup;
+
+    [SerializeField]
     private GameObject _lidarPrefab;
 
     [SerializeField]
@@ -20,6 +23,9 @@ public class StarShipCollect : MonoBehaviour
     [SerializeField]
     private TextMesh _platinumGauge;
 
+    [SerializeField]
+    private bool _collectingHydrogen;
+
     private float _nextLidarTime;
 
     private bool _flyToStarShip;
@@ -27,6 +33,7 @@ public class StarShipCollect : MonoBehaviour
     private bool _isLidarFired;
 
     public int PlatinumScore { get => _platinumScore; set => _platinumScore = value; }
+    public StarShipSetup StarShipSetup { get => _starShipSetup; set => _starShipSetup = value; }
 
     private GameObject _platinum;
 
@@ -66,6 +73,11 @@ public class StarShipCollect : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        CollectHydrogen();
+    }
+
     private void FireLidar()
     {
         Debug.Log("LIDAR!");
@@ -76,6 +88,14 @@ public class StarShipCollect : MonoBehaviour
 /*        Lidar lidar = newLidar.GetComponent<Lidar>();
 
         lidar.Fire();*/
+    }
+
+    private void CollectHydrogen()
+    {
+        if (_collectingHydrogen)
+        {
+            StarShipSetup.Hydrogen += Time.deltaTime * 5f;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -90,8 +110,18 @@ public class StarShipCollect : MonoBehaviour
         if(other.tag == "Gas")
         {
             Debug.Log("Entering gas layer!");
+            _collectingHydrogen = true;
         }
 
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Gas")
+        {
+            Debug.Log("Leaving gas layer!");
+            _collectingHydrogen = false;
+        }
     }
 
     public void CollectPlatinum(int quantity)

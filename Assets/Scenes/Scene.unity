@@ -1138,6 +1138,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 538936559}
     m_Modifications:
+    - target: {fileID: 8188562793746528036, guid: 090b480ddf8ac2a4bbf6b8ba4f7120bc, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8577206637482459134, guid: 090b480ddf8ac2a4bbf6b8ba4f7120bc, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -5252,7 +5256,7 @@ MonoBehaviour:
   dimOnHideRequest: 1
   depthScaleMultiplier: 0.03
   matchNormalOnPhysicsColliders: 0
-  rayTransform: {fileID: 1299159301}
+  rayTransform: {fileID: 0}
 --- !u!1 &648107173
 GameObject:
   m_ObjectHideFlags: 0
@@ -5581,6 +5585,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9059584689750414397, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
   m_PrefabInstance: {fileID: 9059584690247314030}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &669400669 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+  m_PrefabInstance: {fileID: 9059584690247314030}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669400658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a70ea4e8a7e9f8a4699ef725523baf85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &671902709
 GameObject:
   m_ObjectHideFlags: 0
@@ -6626,7 +6641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f1a9a1d119a5944aacfb87d1ec283a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rayTransform: {fileID: 1299159301}
+  rayTransform: {fileID: 0}
   m_Cursor: {fileID: 641605804}
   joyPadClickButton: 1
   gazeClickKey: 32
@@ -6652,6 +6667,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1461522680}
     m_Modifications:
+    - target: {fileID: 1130643113987517263, guid: 245304362c561f140bdf6558e66166c6, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7049854016038765555, guid: 245304362c561f140bdf6558e66166c6, type: 3}
       propertyPath: m_Name
       value: OculusTouchForQuest2LeftModel
@@ -10743,11 +10762,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1276704348}
   m_CullTransparentMesh: 1
---- !u!4 &1299159301 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8577206637482459106, guid: 090b480ddf8ac2a4bbf6b8ba4f7120bc, type: 3}
-  m_PrefabInstance: {fileID: 115731522}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1302869677
 GameObject:
   m_ObjectHideFlags: 0
@@ -15414,6 +15428,17 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1999791612 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1982498355667602529, guid: e04326d909c04ca4f8003d435e58c36b, type: 3}
+  m_PrefabInstance: {fileID: 1999791606}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1999791608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2005422435
 GameObject:
   m_ObjectHideFlags: 0
@@ -19772,6 +19797,10 @@ PrefabInstance:
       propertyPath: _platinumGauge
       value: 
       objectReference: {fileID: 1431371988}
+    - target: {fileID: 1732505910471647293, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: _starShipSetup
+      value: 
+      objectReference: {fileID: 669400669}
     - target: {fileID: 2010478411194666959, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.0005
@@ -20229,9 +20258,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 975914627862b8f42bde65f7054d6956, type: 2}
     - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: _menuImages.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _stellarSystemSelection
       value: 
       objectReference: {fileID: 396339855}
+    - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: _menuImages.Array.data[0]
+      value: 
+      objectReference: {fileID: 471794785}
+    - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: _menuImages.Array.data[1]
+      value: 
+      objectReference: {fileID: 1999791612}
     - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _shieldMaterials.Array.size
       value: 2
@@ -20262,7 +20303,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9059584689750414396, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9059584689750414397, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: m_RootOrder
@@ -20379,6 +20420,14 @@ PrefabInstance:
     - target: {fileID: 9059584690313208153, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 9059584690815433849, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: far clip plane
+      value: 150000
+      objectReference: {fileID: 0}
+    - target: {fileID: 9059584690815433849, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: near clip plane
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 9059584690815433849, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: m_CullingMask.m_Bits

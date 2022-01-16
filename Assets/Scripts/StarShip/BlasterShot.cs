@@ -74,6 +74,8 @@ public class BlasterShot : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        //Debug.Log($"{transform.name} origin: {Origin}, {collision.transform.IsChildOf(Origin)}");
+
         if (!collision.transform.IsChildOf(Origin))
         {
             Debug.Log($"{Origin.name} collision: {collision.transform.name}");

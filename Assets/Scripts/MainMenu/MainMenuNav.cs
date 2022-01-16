@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class MainMenuNav : MonoBehaviour
 {
@@ -25,14 +27,27 @@ public class MainMenuNav : MonoBehaviour
         
     }
 
+    public void DebugMessage(string message)
+    {
+        Debug.Log(message);
+    }
+
     public void toggleGamePanel()
     {
+        Debug.Log("toggleGamePanel");
         DeployGamePanel = !DeployGamePanel;
         _animator.SetBool("DeployGamePanel", DeployGamePanel);
     }
 
+    public void NewGame()
+    {
+        Debug.Log("New Game!");
+        SceneManager.LoadScene("Scene", LoadSceneMode.Single);
+    }
+
     public void ExitGame()
     {
+        Debug.Log("Exit Game");
         Application.Quit();
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;

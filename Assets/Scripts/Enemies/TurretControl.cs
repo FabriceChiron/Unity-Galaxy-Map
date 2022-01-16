@@ -127,8 +127,12 @@ public class TurretControl : MonoBehaviour
         //Debug.Log($"Turret TriggerEnter: {other.name}");
 
         BlasterShot blasterShot = other.GetComponent<BlasterShot>();
+        if (blasterShot != null)
+        {
+            Debug.Log($"blasterShot.Origin: {blasterShot.Origin} - transform: {transform}");
+        }
         
-        if(blasterShot != null && blasterShot.Origin != transform)
+        if(blasterShot != null && blasterShot.Origin.name != transform.name)
         {
             Debug.Log("Blaster!");
             blasterShot.Explode();

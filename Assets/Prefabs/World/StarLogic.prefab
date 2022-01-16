@@ -595,8 +595,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 416.4999, y: 0}
-  m_SizeDelta: {x: 832.9998, y: 0}
+  m_AnchoredPosition: {x: 522.375, y: 0}
+  m_SizeDelta: {x: 1044.75, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &8118629942466838946
 CanvasRenderer:
@@ -1376,7 +1376,7 @@ GameObject:
   - component: {fileID: 2595254239194320223}
   - component: {fileID: 3898433511380490715}
   - component: {fileID: 2485489672502935993}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Star
   m_TagString: Star
   m_Icon: {fileID: 0}
@@ -2107,7 +2107,7 @@ GameObject:
   - component: {fileID: 3728994591196572521}
   - component: {fileID: 6118322722707306479}
   - component: {fileID: 6892032091845221273}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Particle System (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6910,7 +6910,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2771389687059455738}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Pulsar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7085,7 +7085,7 @@ GameObject:
   - component: {fileID: 3475299267091509940}
   - component: {fileID: 3301174887400894652}
   - component: {fileID: 4419497368035266556}
-  m_Layer: 2
+  m_Layer: 1
   m_Name: Bubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7425,7 +7425,7 @@ GameObject:
   - component: {fileID: 6406843891784749953}
   - component: {fileID: 1708604063483505743}
   - component: {fileID: 5490341895373993153}
-  m_Layer: 2
+  m_Layer: 1
   m_Name: Bubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7860,7 +7860,7 @@ GameObject:
   - component: {fileID: 9166173726809437892}
   - component: {fileID: 4813796439740340513}
   - component: {fileID: 5973549830763271918}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12884,7 +12884,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8402199268927893384}
   - component: {fileID: 5767595532550473743}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13015,7 +13015,7 @@ GameObject:
   - component: {fileID: 9099244165488141355}
   - component: {fileID: 6174416086258233606}
   - component: {fileID: 5364542637209537602}
-  m_Layer: 8
+  m_Layer: 1
   m_Name: Star_miniMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13188,7 +13188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 1.1871507
+  m_AspectRatio: 1.5636966
 --- !u!1 &7339924979650250425
 GameObject:
   m_ObjectHideFlags: 0
@@ -13351,7 +13351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 0.59357536
+  m_AspectRatio: 0.7818483
 --- !u!1 &8650243798634411468
 GameObject:
   m_ObjectHideFlags: 0
@@ -13688,7 +13688,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 5539523941454990137}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.6991188
+  m_Size: 0.8645997
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

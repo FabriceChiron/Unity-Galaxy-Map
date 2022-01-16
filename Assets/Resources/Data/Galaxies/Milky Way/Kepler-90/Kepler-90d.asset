@@ -17,7 +17,7 @@ MonoBehaviour:
     mass is 8.6 Earths, it takes 59.7 days to complete one orbit of its star, and
     is 0.32 AU from its star. Its discovery was announced in 2013.
   Texture: {fileID: 0}
-  Gaseous: 0
+  Gaseous: 1
   Material: {fileID: 2100000, guid: 90a8e28912eae02459feeb19e192e0b6, type: 2}
   Clouds: 0
   CloudsMaterial: {fileID: 2100000, guid: 63db2e6c38a4ee84c8a724db2f0f238f, type: 2}

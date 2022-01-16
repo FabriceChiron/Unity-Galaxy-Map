@@ -46,7 +46,9 @@ public class SpawnStarShip : MonoBehaviour
 
     private void SetScales()
     {
-        float OrbitSize = _orbit * _controller.LoopLists.dimRet(scales.Orbit, 3.5f, scales.RationalizeValues) / (PlayerPrefs.GetInt("ScaleFactor") != 0 ? _controller.LoopLists.StellarSystemData.ScaleFactor : 1f);
+        float OrbitSize = _orbit * _controller.LoopLists.dimRet(scales.Orbit, 3.5f, scales.RationalizeValues) / (PlayerPrefs.GetInt("ScaleFactor") != 1 ? _controller.LoopLists.StellarSystemData.ScaleFactor * 0.25f : 1f);
+        //float OrbitSize = _orbit * _controller.LoopLists.dimRet(scales.Orbit, 3.5f, scales.RationalizeValues) * (PlayerPrefs.GetInt("ScaleFactor") != 0 ? _controller.LoopLists.StellarSystemData.ScaleFactor * 0.5f : 1f);
+        //float OrbitSize = _orbit * _controller.LoopLists.dimRet(scales.Orbit, 3.5f, scales.RationalizeValues);
 
         //Debug.Log($"Starship position z: {OrbitSize}");
         //GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;

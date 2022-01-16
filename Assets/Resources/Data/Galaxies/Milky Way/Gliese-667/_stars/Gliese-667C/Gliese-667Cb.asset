@@ -21,7 +21,7 @@ MonoBehaviour:
     as we know it. Eccentricity analysis indicates that Gliese 667 Cb is not a rocky
     planet.
   Texture: {fileID: 0}
-  Gaseous: 0
+  Gaseous: 1
   Material: {fileID: 2100000, guid: 6f60cef520e950342b30892da55588c1, type: 2}
   Clouds: 0
   CloudsMaterial: {fileID: 2100000, guid: 410566c18cf757343b4bb0134ddab5ce, type: 2}

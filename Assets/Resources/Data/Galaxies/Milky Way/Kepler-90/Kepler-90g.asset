@@ -17,7 +17,7 @@ MonoBehaviour:
     is 0.8 Jupiters, it takes 210.6 days to complete one orbit of its star, and is
     0.71 AU from its star. Its discovery was announced in 2013.
   Texture: {fileID: 0}
-  Gaseous: 0
+  Gaseous: 1
   Material: {fileID: 2100000, guid: 1d5d3b37aa9b02f46824bdc9c66cff54, type: 2}
   Clouds: 0
   CloudsMaterial: {fileID: 0}
