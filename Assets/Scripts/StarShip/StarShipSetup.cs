@@ -64,7 +64,7 @@ public class StarShipSetup : MonoBehaviour
     //private float _fadeSpeed;
 
     [SerializeField]
-    private Canvas _menu;
+    private Canvas _menu, _gameOverMenu;
 
     [SerializeField]
     private Image[] _menuImages;
@@ -101,6 +101,7 @@ public class StarShipSetup : MonoBehaviour
     public ParticleSystem Explosion { get => _explosion; set => _explosion = value; }
     public bool IsDead { get => _isDead; set => _isDead = value; }
     public bool IsInvincible { get => _isInvincible; set => _isInvincible = value; }
+    public Canvas GameOverMenu { get => _gameOverMenu; set => _gameOverMenu = value; }
 
     private void Awake()
     {
@@ -208,6 +209,10 @@ public class StarShipSetup : MonoBehaviour
         _menu.transform.SetParent(ActiveCamera.transform.parent);
         _menu.transform.localPosition = new Vector3(0f,0f,0.6f);
         _menu.worldCamera = ActiveCamera;
+
+        GameOverMenu.transform.SetParent(ActiveCamera.transform.parent);
+        GameOverMenu.transform.localPosition = new Vector3(0f,0f,0.6f);
+        GameOverMenu.worldCamera = ActiveCamera;
     }
 
     private void UpdateHealthDisplay()
@@ -451,6 +456,8 @@ public class StarShipSetup : MonoBehaviour
             Destroy(_starShipModel);
             Destroy(_shields[0].gameObject);
             IsDead = true;
+
+            GameOverMenu.gameObject.SetActive(true);
         }
     }
 }

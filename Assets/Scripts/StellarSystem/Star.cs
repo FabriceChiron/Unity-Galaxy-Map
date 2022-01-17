@@ -336,6 +336,7 @@ public class Star : MonoBehaviour
                     break;
             }
             transform.localScale = new Vector3(starSize * CurrentScales.Planet, starSize * CurrentScales.Planet, starSize * CurrentScales.Planet);
+            //transform.localScale = new Vector3(StarData.Size * CurrentScales.Planet, StarData.Size * CurrentScales.Planet, StarData.Size * CurrentScales.Planet);
         }
 
         SetOrbitSize();

@@ -107,7 +107,7 @@ public class AsteroidBelt : MonoBehaviour
     private void InsertTurrets()
     {
         _asteroidsWithTurrets = AsteroidBeltData.AsteroidsWithTurrets;
-
+            
         for(int i = 0; i < _asteroidsWithTurrets; i++)
         {
             int targetAsteroidIndex = Random.Range(0, _asteroidList.Count - 1);

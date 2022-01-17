@@ -13641,6 +13641,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4319936315435910, guid: c6a74181d4000004887343fb87b3c53a, type: 3}
   m_PrefabInstance: {fileID: 1236171057}
   m_PrefabAsset: {fileID: 0}
+--- !u!223 &1798577358 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 8850858907501700915, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+  m_PrefabInstance: {fileID: 9059584690247314030}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1799522917
 GameObject:
   m_ObjectHideFlags: 0
@@ -15378,12 +15383,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8db6a2a0038e20143b49a4ef7dcccf19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stellarSystemsArray:
-  - {fileID: 11400000, guid: 997017bddba0fb1478b7d746c8e741f8, type: 2}
-  - {fileID: 11400000, guid: 6a596ff3616b90443b864c72298a88b6, type: 2}
-  - {fileID: 11400000, guid: 65a3ab57b4c16e84c9ca09b4e10d7412, type: 2}
-  - {fileID: 11400000, guid: 932f42da574b0e448a4ea1e7686bbbf9, type: 2}
-  - {fileID: 11400000, guid: 6d46e837f69548a4a85caace038a9a8b, type: 2}
+  _stellarSystemsArray: {fileID: 11400000, guid: 2cf56d4e8d988084a9978bd8cceb9a88, type: 2}
+  _memory: {fileID: 0}
   _loopLists: {fileID: 495509696}
   _stellarSystemPrefab: {fileID: 7701551589869002505, guid: ee6cf1a64376112489e6f19b56335ad2, type: 3}
   _controller: {fileID: 495509697}
@@ -19977,6 +19978,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.x
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 7099787400267935833, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7265550868926513095, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: m_LocalPosition.y
       value: 6.9100037
@@ -20028,6 +20033,10 @@ PrefabInstance:
     - target: {fileID: 7818623512159167099, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: m_RootOrder
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7839964289402930436, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8137915847393938244, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -20234,6 +20243,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1535788810}
     - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: _gameOverMenu
+      value: 
+      objectReference: {fileID: 1798577358}
+    - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _VRControllers
       value: 
       objectReference: {fileID: 754885980}
@@ -20259,7 +20272,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 975914627862b8f42bde65f7054d6956, type: 2}
     - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _menuImages.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _stellarSystemSelection
@@ -20273,6 +20286,14 @@ PrefabInstance:
       propertyPath: _menuImages.Array.data[1]
       value: 
       objectReference: {fileID: 1999791612}
+    - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: _menuImages.Array.data[2]
+      value: 
+      objectReference: {fileID: 276601744}
+    - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
+      propertyPath: _menuImages.Array.data[3]
+      value: 
+      objectReference: {fileID: 382712711}
     - target: {fileID: 9059584689750414395, guid: 11df1f7d55fcf094e92d87697faa4dd9, type: 3}
       propertyPath: _shieldMaterials.Array.size
       value: 2

@@ -148,8 +148,8 @@ public class SC_SpaceshipController : MonoBehaviour
             r.constraints = RigidbodyConstraints.FreezeAll;
         }
 
-        Cursor.lockState = _controller.IsPaused ? CursorLockMode.None : CursorLockMode.Locked;
-        Cursor.visible = _controller.IsPaused;
+        Cursor.lockState = _controller.IsPaused || StarShipSetup.IsDead ? CursorLockMode.None : CursorLockMode.Locked;
+        Cursor.visible = _controller.IsPaused || StarShipSetup.IsDead;
     }
 
     void FixedUpdate()

@@ -7,7 +7,10 @@ public class SelectSystemsList : MonoBehaviour
 {
 
     [SerializeField]
-    private StellarSystemData[] _stellarSystemsArray;
+    private StellarSystemsArray _stellarSystemsArray;
+
+    [SerializeField]
+    private Memory _memory;
 
     [SerializeField]
     private LoopLists _loopLists;
@@ -32,6 +35,8 @@ public class SelectSystemsList : MonoBehaviour
     public bool ChangeStellarSystem { get => _changeStellarSystem; set => _changeStellarSystem = value; }
     public bool ResetCamera { get => _resetCamera; set => _resetCamera = value; }
     public LoopLists LoopLists { get => _loopLists; set => _loopLists = value; }
+    public Memory Memory { get => _memory; set => _memory = value; }
+    public StellarSystemsArray StellarSystemsList { get => _stellarSystemsArray; set => _stellarSystemsArray = value; }
 
     private GameObject currentStellarSystem;
 
@@ -43,16 +48,37 @@ public class SelectSystemsList : MonoBehaviour
         //StartCoroutine(AudioHelper.FadeIn(_controller.TravelSound, _controller.FadeTime));
         _systemsDropdown = GetComponent<TMP_Dropdown>();
 
+        if(GameObject.FindGameObjectWithTag("SavedData") != null)
+        {
+            Memory = GameObject.FindGameObjectWithTag("SavedData").GetComponent<Memory>();
+        }
+
         _resetTimeBeforeDeploy = _timeBeforeDeploy;
         _resetTimeBeforeResetCam = _timeBeforeResetCam;
 
-        foreach (StellarSystemData stellarSystemItem in _stellarSystemsArray)
+        foreach (StellarSystemData stellarSystemItem in _stellarSystemsArray.stellarSystemsArray)
         {
             _systemsDropdown.AddOptions(new List<string> { stellarSystemItem.name });
         }
 
-        LoopLists.StellarSystemData = _stellarSystemsArray[0];
+        if(Memory != null && Memory.SavedStellarSystem.Item != null)
+        {
+            LoopLists.StellarSystemData = Memory.SavedStellarSystem.Item;
 
+            int i = 0;
+            foreach (StellarSystemData stellarSystemItem in _stellarSystemsArray.stellarSystemsArray)
+            {
+                if(stellarSystemItem == Memory.SavedStellarSystem.Item)
+                {
+                    _systemsDropdown.SetValueWithoutNotify(i);
+                }
+                i++;
+            }
+        }
+        else
+        {
+            LoopLists.StellarSystemData = _stellarSystemsArray.stellarSystemsArray[0];
+        }
 
         LoopLists.GenerateStellarSystem();
 
@@ -75,6 +101,11 @@ public class SelectSystemsList : MonoBehaviour
     {
         SwitchStellarSystems();
         //FireResetCamera();
+
+        if(Memory != null)
+        {
+            Memory.SelectedSystem = _stellarSystemsArray.stellarSystemsArray[_systemsDropdown.value];
+        }
 
         if (!_controller.IsPaused)
         {
@@ -121,7 +152,8 @@ public class SelectSystemsList : MonoBehaviour
                 Destroy(LoopLists.NewStellarSystem);
                 ChangeStellarSystem = false;
 
-                LoopLists.StellarSystemData = _stellarSystemsArray[_systemsDropdown.value];
+                //LoopLists.StellarSystemData = _stellarSystemsArray[_systemsDropdown.value];
+                LoopLists.StellarSystemData = _stellarSystemsArray.stellarSystemsArray[_systemsDropdown.value];
 
                 LoopLists.GenerateStellarSystem();
 
@@ -155,6 +187,10 @@ public class SelectSystemsList : MonoBehaviour
 
     public void SelectSolarSystem(TMP_Dropdown Dropdown)
     {
+        Debug.Log("yo");
+
+        
+
         LoopLists.NewStellarSystem.GetComponent<ToggleStellarSystem>().FoldStellarSystem();
 
         ChangeStellarSystem = true;
