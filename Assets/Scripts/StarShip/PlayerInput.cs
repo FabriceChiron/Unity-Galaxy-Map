@@ -9,6 +9,7 @@ using UnityEngine.XR.LegacyInputHelpers;
 public class PlayerInput : MonoBehaviour
 {
     public float HorizontalAxis;
+    public float HorizontalLook;
     public float VerticalAxis;
     public float HorizontalDirection;
     public float VerticalDirection;
@@ -75,6 +76,9 @@ public class PlayerInput : MonoBehaviour
         else
         {
             HorizontalAxis = Input.GetAxis("XRI_Left_Primary2DAxis_Horizontal") != 0 ? Input.GetAxis("XRI_Left_Primary2DAxis_Horizontal") : Input.GetAxis("Horizontal");
+            
+            HorizontalLook = Input.GetAxis("HorizontalLook");
+
             VerticalAxis = Input.GetAxis("XRI_Left_Primary2DAxis_Vertical") != 0 ? Input.GetAxis("XRI_Left_Primary2DAxis_Vertical") * -1f : Input.GetAxis("Vertical");
 
             HorizontalDirection = Input.GetAxis("XRI_Right_Primary2DAxis_Horizontal") != 0 ? Input.GetAxis("XRI_Right_Primary2DAxis_Horizontal") : Input.GetAxis("Mouse X");

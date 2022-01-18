@@ -198,10 +198,12 @@ public class StarShipSetup : MonoBehaviour
         rt.pivot = new Vector2(0.5f, 0.5f);
         _stellarSystemSelection.transform.localPosition = Vector3.zero;
 
+        /*
         foreach (Image img in _menuImages)
         {
             img.color = new Color(img.color.r, img.color.g, img.color.b, 0f);
         }
+        */
     }
 
     private void LinkMenuToCamera()

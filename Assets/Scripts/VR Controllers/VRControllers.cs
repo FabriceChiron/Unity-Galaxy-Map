@@ -16,19 +16,54 @@ public class VRControllers : MonoBehaviour
     private string[] triggerInputs;
 
     [SerializeField]
+    private Transform[] _UIContainers;
+
+    [SerializeField]
+    private List<GameObject> _VROverlaysUI;
+
+    [SerializeField]
+    private GameObject _VROverlayUIPrefab;
+
+    [SerializeField]
+    private List<GameObject> _UIImages;
+
+    [SerializeField]
     private GameObject[] overlays;
+
+    [SerializeField]
+    private GameObject _squareButtonOverlayPrefab, _rectangleButtonOverlayPrefab, _levelBtnPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (!XRSettings.isDeviceActive)
+        if (XRSettings.isDeviceActive)
         {
-            this.gameObject.SetActive(false);
+         
+            foreach(Transform UIContainer in _UIContainers)
+            {
+                GameObject newVROverlayUI = Instantiate(_VROverlayUIPrefab, UIContainer.transform.parent);
+                newVROverlayUI.transform.localPosition = new Vector3(
+                    UIContainer.transform.localPosition.x,
+                    UIContainer.transform.localPosition.y,
+                    UIContainer.transform.localPosition.z - 0.01f
+                ); ;
 
+                _VROverlaysUI.Add(newVROverlayUI);
+    
+                DuplicateUIElementsToGameObjects(UIContainer);
+            }
+
+
+            /*
             foreach(GameObject overlay in overlays)
             {
                 overlay.SetActive(false);
             }
+            */
+        }
+        else
+        {
+            //this.gameObject.SetActive(false);
         }
     }
 
@@ -58,4 +93,40 @@ public class VRControllers : MonoBehaviour
         }
 
     }
+
+    public void DuplicateUIElementsToGameObjects(Transform container)
+    {
+        foreach (GameObject VROverlayUI in _VROverlaysUI)
+        {
+            foreach (Image image in container.GetComponentsInChildren<Image>())
+            {
+                Debug.Log(image.name);
+                if (image.transform.childCount > 0)
+                {
+                    GameObject GODuplicate;
+                    if (image.enabled)
+                    {
+                        if (image.GetComponent<RectTransform>().sizeDelta.x == image.GetComponent<RectTransform>().sizeDelta.y)
+                        {
+                            GODuplicate = Instantiate(_squareButtonOverlayPrefab, VROverlayUI.transform);
+                        }
+                        else
+                        {
+                            GODuplicate = Instantiate(_rectangleButtonOverlayPrefab, VROverlayUI.transform);
+                        }
+
+                        GODuplicate.name = image.name.Replace("-", "Overlay -");
+
+
+                        GODuplicate.GetComponent<LinkGameObjectToUIElement>().UIElement = image.gameObject;
+                        GODuplicate.GetComponent<LinkGameObjectToUIElement>().VROverlayUI = VROverlayUI.transform;
+
+                        _UIImages.Add(GODuplicate);
+                    }
+                }
+            }
+
+        }    
+    }
+
 }

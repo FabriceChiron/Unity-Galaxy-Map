@@ -89,6 +89,9 @@ public class SC_SpaceshipController : MonoBehaviour
     public Animator Animator { get => _animator; set => _animator = value; }
     public Transform TurretAnchor { get => _turretAnchor; set => _turretAnchor = value; }
 
+    [SerializeField]
+    private Transform[] _cameraContainers;
+
     private int gasQuantity;
 
     private Controller _controller;
@@ -150,12 +153,18 @@ public class SC_SpaceshipController : MonoBehaviour
 
         Cursor.lockState = _controller.IsPaused || StarShipSetup.IsDead ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = _controller.IsPaused || StarShipSetup.IsDead;
+
+        
     }
 
     void FixedUpdate()
     {
-        
-        if(!_controller.IsPaused && !StarShipSetup.IsDead)
+        foreach (Transform cameraContainer in _cameraContainers)
+        {
+            cameraContainer.localRotation = Quaternion.Euler(cameraContainer.rotation.x, _playerInput.HorizontalLook * 90f, cameraContainer.rotation.z);
+        }
+
+        if (!_controller.IsPaused && !StarShipSetup.IsDead)
         {
 
             Animator.SetFloat("Veering", _playerInput.HorizontalAxis != 0 ? _playerInput.HorizontalAxis : _playerInput.HorizontalDirection);
@@ -179,42 +188,7 @@ public class SC_SpaceshipController : MonoBehaviour
             Quaternion localRotation = Quaternion.Euler(-mouseYSmooth, mouseXSmooth, rotationZTmp * rotationSpeed);
             lookRotation = lookRotation * localRotation;
 
-            if(StarShipSetup.ActiveCamera.name == "Cockpit Camera")
-            {
-                if (Input.GetMouseButtonDown(1))
-                {
-                    //Debug.Log("yo");
-                    Freelook = true;
-                    IsCameraAligned = false;
-                }
-                if (Input.GetMouseButtonUp(1))
-                {
-                    Freelook = false;
-                    
-                }
-
-                //Debug.Log($"Freelook: {Freelook}");
-
-                if(Freelook)
-                {
-                    cameraLookRotation = lookRotation;
-                    StarShipSetup.ActiveCamera.transform.rotation = cameraLookRotation;
-                }
-                else
-                {
-                    AlignCamera();
-                    if (IsCameraAligned)
-                    {
-                        RotateShip();
-                    }
-                }
-
-            }
-
-            else
-            {
-                RotateShip();
-            }
+            RotateShip();
 
 
 

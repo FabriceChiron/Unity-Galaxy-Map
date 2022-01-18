@@ -15,9 +15,15 @@ public class MainMenuNav : MonoBehaviour
 
     [SerializeField]
     private Memory _memory;
-        
+
     [SerializeField]
-    private Transform _VROverlayUI, _UIContainer;
+    private VRControllers _VRControllers;
+
+    [SerializeField]
+    private Transform _UIContainer;
+
+    [SerializeField]
+    private Transform _VROverlayUI;
 
     [SerializeField]
     private List<GameObject> _UIImages;
@@ -43,7 +49,7 @@ public class MainMenuNav : MonoBehaviour
 
         //FillLevelsList();
 
-        DuplicateUIElementsToGameObjects(_UIContainer);
+        //DuplicateUIElementsToGameObjects(_UIContainer);
     }
 
     // Update is called once per frame
@@ -79,10 +85,10 @@ public class MainMenuNav : MonoBehaviour
             newBtnLevel.name = $"Button - Select {stellarSystemData.Name}";
         }
 
-        DuplicateUIElementsToGameObjects(_levelsList);
+        _VRControllers.DuplicateUIElementsToGameObjects(_levelsList);
     }
 
-    private void DuplicateUIElementsToGameObjects(Transform container)
+    public void DuplicateUIElementsToGameObjects(Transform container)
     {
         foreach(Image image in container.GetComponentsInChildren<Image>())
         {
