@@ -44,10 +44,10 @@ public class VRControllers : MonoBehaviour
             {
                 LinkGameObjectToUIElement UIElement = hit.collider.GetComponent<LinkGameObjectToUIElement>();
 
-                if(hit.collider != null)
-                {
-                    Debug.Log(hit.collider.name);
-                }
+                //if(hit.collider != null)
+                //{
+                //    Debug.Log(hit.collider.name);
+                //}
 
                 if (hit.collider.GetComponent<LinkGameObjectToUIElement>() != null && Input.GetButtonDown($"{triggerInputs[i]}"))
                 {
