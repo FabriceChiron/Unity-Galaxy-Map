@@ -19,6 +19,9 @@ public class VRControllers : MonoBehaviour
     private Transform[] _UIContainers;
 
     [SerializeField]
+    private bool _duplicateUIElementsToVR;
+
+    [SerializeField]
     private List<GameObject> _VROverlaysUI;
 
     [SerializeField]
@@ -86,6 +89,8 @@ public class VRControllers : MonoBehaviour
 
                 if (hit.collider.GetComponent<LinkGameObjectToUIElement>() != null && Input.GetButtonDown($"{triggerInputs[i]}"))
                 {
+                    Debug.Log("yo");
+                    Debug.Log(hit.collider.name);
                     UIElement.TriggerUIElement();
                 }
             }
@@ -101,7 +106,7 @@ public class VRControllers : MonoBehaviour
             foreach (Image image in container.GetComponentsInChildren<Image>())
             {
                 Debug.Log(image.name);
-                if (image.transform.childCount > 0)
+                if (image.transform.childCount > 0 && image.GetComponent<Canvas>() == null)
                 {
                     GameObject GODuplicate;
                     if (image.enabled)
@@ -115,7 +120,8 @@ public class VRControllers : MonoBehaviour
                             GODuplicate = Instantiate(_rectangleButtonOverlayPrefab, VROverlayUI.transform);
                         }
 
-                        GODuplicate.name = image.name.Replace("-", "Overlay -");
+                        GODuplicate.name = image.name.Replace("Button -", "Button Overlay -");
+                        GODuplicate.name = image.name.Replace("Toggle -", "Toggle Overlay -");
 
 
                         GODuplicate.GetComponent<LinkGameObjectToUIElement>().UIElement = image.gameObject;

@@ -12,6 +12,9 @@ public class LinkGameObjectToUIElement : MonoBehaviour
     [SerializeField]
     private Transform _VROverlayUI;
 
+    [SerializeField]
+    private MainMenuNav _mainMenuNav;
+
     private Button _button;
     private Toggle _toggle;
 
@@ -22,6 +25,9 @@ public class LinkGameObjectToUIElement : MonoBehaviour
     [SerializeField]
     private Transform elementCenter;
     private bool _isSquare;
+
+    [SerializeField]
+    private bool _doNotMove;
 
     private MeshRenderer _meshRenderer;
     private MeshCollider _meshCollider;
@@ -41,6 +47,8 @@ public class LinkGameObjectToUIElement : MonoBehaviour
         _toggle = UIElement.GetComponent<Toggle>();
         _button = UIElement.GetComponent<Button>();
         _UIElementParent = UIElement.transform.parent.gameObject;
+
+        _mainMenuNav = GameObject.FindGameObjectWithTag("Menu").GetComponent<MainMenuNav>();
     }
 
     // Update is called once per frame
@@ -55,11 +63,14 @@ public class LinkGameObjectToUIElement : MonoBehaviour
         {
             ActivateOverlay(true);
 
-            transform.localPosition = new Vector3(
-                elementCenter.position.x,
-                elementCenter.position.y - VROverlayUI.transform.position.y,
-                _isSquare ? -0.02f : -0.01f
-            );
+            if (!_doNotMove)
+            {
+                transform.position = new Vector3(
+                    elementCenter.position.x,
+                    elementCenter.position.y,
+                    VROverlayUI.transform.position.z + (_isSquare ? -0.02f : -0.01f)
+                );
+            }
         }
         else
         {
@@ -69,7 +80,6 @@ public class LinkGameObjectToUIElement : MonoBehaviour
 
     private void ActivateOverlay(bool isEnabled)
     {
-        _meshRenderer.enabled = isEnabled;
         _meshCollider.enabled = isEnabled;
     }
 
@@ -80,7 +90,7 @@ public class LinkGameObjectToUIElement : MonoBehaviour
         {
             _toggle.isOn = !_toggle.isOn;
         }
-        if(_button != null && _button.GetComponent<Image>().color.a <= 0.2f)
+        if(_button != null)
         {
             _button.onClick.Invoke();
         }

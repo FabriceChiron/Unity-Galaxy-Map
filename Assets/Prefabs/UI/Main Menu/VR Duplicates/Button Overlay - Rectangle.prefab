@@ -49,7 +49,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8089886368698310928}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -94,7 +94,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &8089886368698310930
@@ -109,4 +109,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61488ca8fd7dfbb4294031a5c9dfe839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIElement: {fileID: 0}
+  _UIElement: {fileID: 0}
+  _VROverlayUI: {fileID: 0}
+  _mainMenuNav: {fileID: 0}
+  elementCenter: {fileID: 0}
+  _doNotMove: 0

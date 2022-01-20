@@ -159,9 +159,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MainMenuNav, Assembly-CSharp
-        m_MethodName: NewGame
+      - m_Target: {fileID: -714974854897116494}
+        m_TargetAssemblyTypeName: LevelToSelect, Assembly-CSharp
+        m_MethodName: SelectGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -184,6 +184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelItem: {fileID: 0}
+  _mainMenuNav: {fileID: 0}
 --- !u!95 &1444426066165017719
 Animator:
   serializedVersion: 3

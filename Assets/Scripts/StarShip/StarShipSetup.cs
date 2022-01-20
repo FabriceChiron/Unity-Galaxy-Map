@@ -67,6 +67,9 @@ public class StarShipSetup : MonoBehaviour
     private Canvas _menu, _gameOverMenu;
 
     [SerializeField]
+    private GameObject _gameOverMenuVROverlay;
+
+    [SerializeField]
     private Image[] _menuImages;
 
     [SerializeField]
@@ -156,8 +159,6 @@ public class StarShipSetup : MonoBehaviour
         _menu.enabled = _controller.IsPaused;
         _crosshair.enabled = !_controller.IsPaused;
 
-        _VRControllers.SetActive(_menu.enabled);
-
         if (_playerInput.SwitchCameraButton)
         {
             SwitchCamera();
@@ -215,6 +216,10 @@ public class StarShipSetup : MonoBehaviour
         GameOverMenu.transform.SetParent(ActiveCamera.transform.parent);
         GameOverMenu.transform.localPosition = new Vector3(0f,0f,0.6f);
         GameOverMenu.worldCamera = ActiveCamera;
+
+        _gameOverMenuVROverlay.transform.SetParent(ActiveCamera.transform.parent);
+        _gameOverMenuVROverlay.transform.localPosition = new Vector3(0f, 0f, 0.6f);
+
     }
 
     private void UpdateHealthDisplay()
@@ -460,6 +465,8 @@ public class StarShipSetup : MonoBehaviour
             IsDead = true;
 
             GameOverMenu.gameObject.SetActive(true);
+            _gameOverMenuVROverlay.gameObject.SetActive(true);
+            _VRControllers.SetActive(true);
         }
     }
 }

@@ -67,7 +67,6 @@ public class MainMenuNav : MonoBehaviour
 
         foreach(StellarSystemData stellarSystemData in _memory.StellarSystemsArray.stellarSystemsArray)
         {
-            Debug.Log(stellarSystemData);
             GameObject newBtnLevel = Instantiate(_levelBtnPrefab, _levelsList);
 
             newBtnLevel.GetComponent<Image>().color = new Color(0f, 0f, 0f, 0f);
@@ -76,11 +75,12 @@ public class MainMenuNav : MonoBehaviour
 
             newBtnLevel.GetComponent<LevelToSelect>().LevelItem = stellarSystemData;
 
-            newBtnLevel.GetComponent<Button>().onClick.AddListener(
-                delegate { 
+            /*newBtnLevel.GetComponent<Button>().onClick.AddListener(
+                delegate {
+                    Debug.Log($"Select Level: {stellarSystemData.name}");
                     SelectGame(stellarSystemData);
                 }
-            );
+            );*/
 
             newBtnLevel.name = $"Button - Select {stellarSystemData.Name}";
         }
