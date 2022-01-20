@@ -18,7 +18,7 @@ MonoBehaviour:
   StarDescription: 
   StarsItem:
   - {fileID: 11400000, guid: c1709ec5989f21b44ba79b38fc890aff, type: 2}
-  ScaleFactor: 25
+  ScaleFactor: 100
   Texture: {fileID: 0}
   Material: {fileID: 2100000, guid: c575297c6d9b36843a12e99e55943111, type: 2}
   Top: 0

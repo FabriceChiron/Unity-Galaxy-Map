@@ -270,10 +270,19 @@ MonoBehaviour:
   laserSources:
   - {fileID: 217698541478644846}
   - {fileID: 1574901654115971934}
+  laserLineRenderers: []
   triggerInputs:
   - XRI_Left_TriggerButton
   - XRI_Right_TriggerButton
+  _UIContainers: []
+  _duplicateUIElementsToVR: 0
+  _VROverlaysUI: []
+  _VROverlayUIPrefab: {fileID: 0}
+  _UIImages: []
   overlays: []
+  _squareButtonOverlayPrefab: {fileID: 0}
+  _rectangleButtonOverlayPrefab: {fileID: 0}
+  _levelBtnPrefab: {fileID: 0}
 --- !u!1 &7121166602926338401
 GameObject:
   m_ObjectHideFlags: 0
@@ -396,6 +405,26 @@ PrefabInstance:
     - target: {fileID: 1130643113987517263, guid: 245304362c561f140bdf6558e66166c6, type: 3}
       propertyPath: m_UseWorldSpace
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1130643113987517263, guid: 245304362c561f140bdf6558e66166c6, type: 3}
+      propertyPath: m_Parameters.colorGradient.atime1
+      value: 58982
+      objectReference: {fileID: 0}
+    - target: {fileID: 1130643113987517263, guid: 245304362c561f140bdf6558e66166c6, type: 3}
+      propertyPath: m_Parameters.colorGradient.atime2
+      value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 1130643113987517263, guid: 245304362c561f140bdf6558e66166c6, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.a
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 1130643113987517263, guid: 245304362c561f140bdf6558e66166c6, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.a
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 1130643113987517263, guid: 245304362c561f140bdf6558e66166c6, type: 3}
+      propertyPath: m_Parameters.colorGradient.m_NumAlphaKeys
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1130643113987517263, guid: 245304362c561f140bdf6558e66166c6, type: 3}
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
@@ -834,6 +863,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7121166602367807015}
     m_Modifications:
+    - target: {fileID: 8188562793746528036, guid: 090b480ddf8ac2a4bbf6b8ba4f7120bc, type: 3}
+      propertyPath: m_Parameters.colorGradient.atime1
+      value: 58982
+      objectReference: {fileID: 0}
+    - target: {fileID: 8188562793746528036, guid: 090b480ddf8ac2a4bbf6b8ba4f7120bc, type: 3}
+      propertyPath: m_Parameters.colorGradient.atime2
+      value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 8188562793746528036, guid: 090b480ddf8ac2a4bbf6b8ba4f7120bc, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.a
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 8188562793746528036, guid: 090b480ddf8ac2a4bbf6b8ba4f7120bc, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.a
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 8188562793746528036, guid: 090b480ddf8ac2a4bbf6b8ba4f7120bc, type: 3}
+      propertyPath: m_Parameters.colorGradient.m_NumAlphaKeys
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8188562793746528036, guid: 090b480ddf8ac2a4bbf6b8ba4f7120bc, type: 3}
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
       value: 0.005

@@ -13,6 +13,9 @@ public class VRControllers : MonoBehaviour
     private GameObject[] laserSources;
 
     [SerializeField]
+    private List<LineRenderer> laserLineRenderers;
+
+    [SerializeField]
     private string[] triggerInputs;
 
     [SerializeField]
@@ -41,6 +44,12 @@ public class VRControllers : MonoBehaviour
     {
         if (XRSettings.isDeviceActive)
         {
+
+            foreach(GameObject laserSource in laserSources)
+            {
+                laserLineRenderers.Add(laserSource.GetComponent<LineRenderer>());
+            }
+
          
             foreach(Transform UIContainer in _UIContainers)
             {
@@ -66,7 +75,7 @@ public class VRControllers : MonoBehaviour
         }
         else
         {
-            //this.gameObject.SetActive(false);
+            this.gameObject.SetActive(false);
         }
     }
 
@@ -80,17 +89,14 @@ public class VRControllers : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(laserSources[i].transform.position, laserSources[i].transform.forward, out hit))
             {
-                LinkGameObjectToUIElement UIElement = hit.collider.GetComponent<LinkGameObjectToUIElement>();
+                laserLineRenderers[i].SetPosition(1, new Vector3(0f ,0f , hit.distance));
 
-                //if(hit.collider != null)
-                //{
-                //    Debug.Log(hit.collider.name);
-                //}
+                LinkGameObjectToUIElement UIElement = hit.collider.GetComponent<LinkGameObjectToUIElement>();
 
                 if (hit.collider.GetComponent<LinkGameObjectToUIElement>() != null && Input.GetButtonDown($"{triggerInputs[i]}"))
                 {
-                    Debug.Log("yo");
-                    Debug.Log(hit.collider.name);
+                    //Debug.Log("yo");
+                    //Debug.Log(hit.collider.name);
                     UIElement.TriggerUIElement();
                 }
             }

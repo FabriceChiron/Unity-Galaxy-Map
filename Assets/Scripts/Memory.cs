@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Memory : MonoBehaviour
 {
-
+/*
     [SerializeField]
     private StellarSystemData _selectedSystem;
 
@@ -13,14 +13,19 @@ public class Memory : MonoBehaviour
 
     [SerializeField]
     private StellarSystemsArray _stellarSystemsArray;
-
+*/
+    [SerializeField]
+    private SavedData _savedData;
+/*
     public StellarSystemData SelectedSystem { get => _selectedSystem; set => _selectedSystem = value; }
     public SavedStellarSystem SavedStellarSystem { get => _savedStellarSystem; set => _savedStellarSystem = value; }
     public StellarSystemsArray StellarSystemsArray { get => _stellarSystemsArray; set => _stellarSystemsArray = value; }
+*/    
+    public SavedData SavedData { get => _savedData; set => _savedData = value; }
 
     private void Awake()
     {
-        DontDestroyOnLoad(transform.gameObject);
+        //DontDestroyOnLoad(transform.gameObject);
     }
 
     // Start is called before the first frame update
@@ -32,9 +37,9 @@ public class Memory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(SelectedSystem != null)
+        if(SavedData.SelectedSystem != null)
         {
-            SavedStellarSystem.Item = SelectedSystem;
+            SavedData.SavedStellarSystem.Item = SavedData.SelectedSystem;
         }
     }
 }

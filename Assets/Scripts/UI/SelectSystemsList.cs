@@ -48,11 +48,6 @@ public class SelectSystemsList : MonoBehaviour
         //StartCoroutine(AudioHelper.FadeIn(_controller.TravelSound, _controller.FadeTime));
         _systemsDropdown = GetComponent<TMP_Dropdown>();
 
-        if(GameObject.FindGameObjectWithTag("SavedData") != null)
-        {
-            Memory = GameObject.FindGameObjectWithTag("SavedData").GetComponent<Memory>();
-        }
-
         _resetTimeBeforeDeploy = _timeBeforeDeploy;
         _resetTimeBeforeResetCam = _timeBeforeResetCam;
 
@@ -61,14 +56,15 @@ public class SelectSystemsList : MonoBehaviour
             _systemsDropdown.AddOptions(new List<string> { stellarSystemItem.name });
         }
 
-        if(Memory != null && Memory.SavedStellarSystem.Item != null)
+        if(Memory != null && Memory.SavedData.SelectedSystem != null)
         {
-            LoopLists.StellarSystemData = Memory.SavedStellarSystem.Item;
+            
+            LoopLists.StellarSystemData = Memory.SavedData.SelectedSystem;
 
             int i = 0;
             foreach (StellarSystemData stellarSystemItem in _stellarSystemsArray.stellarSystemsArray)
             {
-                if(stellarSystemItem == Memory.SavedStellarSystem.Item)
+                if(stellarSystemItem == Memory.SavedData.SelectedSystem)
                 {
                     _systemsDropdown.SetValueWithoutNotify(i);
                 }
@@ -104,7 +100,7 @@ public class SelectSystemsList : MonoBehaviour
 
         if(Memory != null)
         {
-            Memory.SelectedSystem = _stellarSystemsArray.stellarSystemsArray[_systemsDropdown.value];
+            Memory.SavedData.SelectedSystem = _stellarSystemsArray.stellarSystemsArray[_systemsDropdown.value];
         }
 
         if (!_controller.IsPaused)

@@ -45,7 +45,7 @@ public class MainMenuNav : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _btnResumeGame.interactable = _memory.SavedStellarSystem.Item != null;
+        _btnResumeGame.interactable = _memory.SavedData.SavedStellarSystem.Item != null;
 
         //FillLevelsList();
 
@@ -62,10 +62,10 @@ public class MainMenuNav : MonoBehaviour
     {
         _levelsList.GetComponent<RectTransform>().sizeDelta = new Vector2(
             _levelBtnPrefab.GetComponent<RectTransform>().sizeDelta.x,
-            (_levelBtnPrefab.GetComponent<RectTransform>().sizeDelta.y * _memory.StellarSystemsArray.stellarSystemsArray.Length) + ((_memory.StellarSystemsArray.stellarSystemsArray.Length) * 10f)
+            (_levelBtnPrefab.GetComponent<RectTransform>().sizeDelta.y * _memory.SavedData.StellarSystemsArray.stellarSystemsArray.Length) + ((_memory.SavedData.StellarSystemsArray.stellarSystemsArray.Length) * 10f)
         );
 
-        foreach(StellarSystemData stellarSystemData in _memory.StellarSystemsArray.stellarSystemsArray)
+        foreach(StellarSystemData stellarSystemData in _memory.SavedData.StellarSystemsArray.stellarSystemsArray)
         {
             GameObject newBtnLevel = Instantiate(_levelBtnPrefab, _levelsList);
 
@@ -168,7 +168,7 @@ public class MainMenuNav : MonoBehaviour
 
     public void SelectLevel(StellarSystemData stellarSystemData)
     {
-        _memory.SelectedSystem = stellarSystemData;
+        _memory.SavedData.SelectedSystem = stellarSystemData;
     }
 
     public void NewGame()
@@ -179,14 +179,14 @@ public class MainMenuNav : MonoBehaviour
 
     public void SelectGame(StellarSystemData stellarSystemData)
     {
-        _memory.SelectedSystem = stellarSystemData;
-        Debug.Log("Select level and new Game!");
+        _memory.SavedData.SelectedSystem = stellarSystemData;
+        Debug.Log($"Select level {stellarSystemData.Name} and new Game!");
         SceneManager.LoadScene("Scene", LoadSceneMode.Single);
     }
 
     public void ResumeGame()
     {
-        _memory.SelectedSystem = _memory.SavedStellarSystem.Item;
+        _memory.SavedData.SelectedSystem = _memory.SavedData.SavedStellarSystem.Item;
         Debug.Log("Resume Game!");
         SceneManager.LoadScene("Scene", LoadSceneMode.Single);
     }
