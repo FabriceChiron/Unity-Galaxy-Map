@@ -36,3 +36,5 @@ MonoBehaviour:
   AsteroidBeltItem:
   - {fileID: 11400000, guid: b03cfee6d9178634391e28b949bf94be, type: 2}
   - {fileID: 11400000, guid: 51e55f6180232924eb717c0c579f6a93, type: 2}
+  Platinum: 100
+  Turrets: 5

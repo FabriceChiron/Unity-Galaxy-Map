@@ -17,6 +17,9 @@ public class StellarObject : MonoBehaviour
     [SerializeField]
     private Scales scalesStarship;
 
+    [SerializeField]
+    private Mesh _androidMesh;
+
     private Scales _currentScales;
 
     [SerializeField]
@@ -114,6 +117,11 @@ public class StellarObject : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            GetComponent<MeshFilter>().mesh = _androidMesh;
+        }
+
         Controller = LoopLists.GetComponent<Controller>();
 
         CurrentScales = Controller.HasPlayer ? scalesStarship : scales;

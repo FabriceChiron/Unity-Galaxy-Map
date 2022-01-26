@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Quantity: 100
   AsteroidsWithPlatinum: 50
-  AsteroidsWithTurrets: 100
+  AsteroidsWithTurrets: 10
   asteroidType: 0
   Orbit: 3
   OrbitMin: 3

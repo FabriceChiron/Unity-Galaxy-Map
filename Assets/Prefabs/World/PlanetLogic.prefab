@@ -908,8 +908,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 361.875, y: 0}
-  m_SizeDelta: {x: 723.75, y: 0}
+  m_AnchoredPosition: {x: 328.3333, y: 0}
+  m_SizeDelta: {x: 656.6666, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &8118629942466838946
 CanvasRenderer:
@@ -2975,6 +2975,7 @@ MonoBehaviour:
   _loopLists: {fileID: 0}
   scales: {fileID: 11400000, guid: c0c8336a971c09743bc6a866d7f5a944, type: 2}
   scalesStarship: {fileID: 11400000, guid: 80199f57c70605e47b9415c087b76919, type: 2}
+  _androidMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   _parentStellarObject: 
   _planetData: {fileID: 0}
   _objectType: 
@@ -3950,7 +3951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 1.0909426
+  m_AspectRatio: 1.3030303
 --- !u!1 &7339924979650250425
 GameObject:
   m_ObjectHideFlags: 0
@@ -4145,7 +4146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 0.5454713
+  m_AspectRatio: 0.6515151
 --- !u!1 &8650243798634411468
 GameObject:
   m_ObjectHideFlags: 0
@@ -4767,7 +4768,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 5539523941454990137}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.64939964
+  m_Size: 0.58680636
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

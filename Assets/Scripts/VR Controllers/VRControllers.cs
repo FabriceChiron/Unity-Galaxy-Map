@@ -39,9 +39,13 @@ public class VRControllers : MonoBehaviour
     [SerializeField]
     private GameObject _squareButtonOverlayPrefab, _rectangleButtonOverlayPrefab, _levelBtnPrefab;
 
+    private LayerMask layerMask;
+
     // Start is called before the first frame update
     void Start()
     {
+        LayerMask layerMask = 1 << 9;
+
         if (XRSettings.isDeviceActive)
         {
 
@@ -87,8 +91,10 @@ public class VRControllers : MonoBehaviour
         {
             
             RaycastHit hit;
-            if (Physics.Raycast(laserSources[i].transform.position, laserSources[i].transform.forward, out hit))
+            if (Physics.Raycast(laserSources[i].transform.position, laserSources[i].transform.forward, out hit, Mathf.Infinity, ~layerMask))
             {
+                Debug.Log($"RaycastHit: {hit.transform.name}");
+
                 laserLineRenderers[i].SetPosition(1, new Vector3(0f ,0f , hit.distance));
 
                 LinkGameObjectToUIElement UIElement = hit.collider.GetComponent<LinkGameObjectToUIElement>();

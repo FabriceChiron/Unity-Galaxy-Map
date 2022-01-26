@@ -28,3 +28,5 @@ MonoBehaviour:
   ChildrenItem: []
   AsteroidBeltItem:
   - {fileID: 11400000, guid: e9ddab1e20e3e074991f46e0ff4b9afb, type: 2}
+  Platinum: 100
+  Turrets: 10

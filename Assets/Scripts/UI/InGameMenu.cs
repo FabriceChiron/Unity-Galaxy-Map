@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class GameOverMenu : MonoBehaviour
+public class InGameMenu : MonoBehaviour
 {
     [SerializeField]
     private Memory _memory;
@@ -17,7 +17,7 @@ public class GameOverMenu : MonoBehaviour
     public void Restart()
     {
         Memory.SavedData.SelectedSystem = Memory.SavedData.SavedStellarSystem.Item;
-        Debug.Log("Resume Game!");
+        Debug.Log("Restart Game!");
         SceneManager.LoadScene("Scene", LoadSceneMode.Single);
     }
 

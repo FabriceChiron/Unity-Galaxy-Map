@@ -28,4 +28,8 @@ public class StellarSystemData : ScriptableObject
     public PlanetData[] ChildrenItem;
 
     public AsteroidBeltData[] AsteroidBeltItem;
+
+    [Header("Objectives")]
+    public int Platinum;
+    public int Turrets;
 }
