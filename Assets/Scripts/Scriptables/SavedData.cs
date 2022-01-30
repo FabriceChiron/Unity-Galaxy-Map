@@ -10,4 +10,8 @@ public class SavedData : ScriptableObject
     public SavedStellarSystem SavedStellarSystem;
 
     public StellarSystemsArray StellarSystemsArray;
+
+    public int Platinum;
+
+    public int Turrets;
 }

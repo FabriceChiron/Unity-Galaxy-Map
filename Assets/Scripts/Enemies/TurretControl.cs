@@ -9,6 +9,9 @@ public class TurretControl : MonoBehaviour
     private Transform _player;
 
     [SerializeField]
+    private Memory _memory;
+
+    [SerializeField]
     private int _turretStartHealth, _turretCurrentHealth;
 
     [SerializeField]
@@ -19,6 +22,7 @@ public class TurretControl : MonoBehaviour
 
     [SerializeField]
     private Canvas _UI;
+
     [SerializeField]
     private Image healthDisplay;
 
@@ -40,6 +44,7 @@ public class TurretControl : MonoBehaviour
     [SerializeField]
     private ParticleSystem Explosion { get => _explosion; set => _explosion = value; }
     public bool IsDead { get => _isDead; set => _isDead = value; }
+    public Memory Memory { get => _memory; set => _memory = value; }
 
     private AudioSource _audioSource;
 
@@ -56,6 +61,7 @@ public class TurretControl : MonoBehaviour
     private void OnEnable()
     {
         Player = GameObject.FindGameObjectWithTag("Player").transform;
+        Memory = GameObject.FindGameObjectWithTag("SavedData").GetComponent<Memory>();
         _playerBeacon = Player.GetComponent<SC_SpaceshipController>().TurretAnchor;
     }
 
@@ -149,6 +155,7 @@ public class TurretControl : MonoBehaviour
     {
         Explosion.Play();
         IsDead = true;
+        Memory.SavedData.Turrets += 1;
         _timeToDestroy = 2.5f;
 
         foreach (MeshRenderer childMeshRenderer in GetComponentsInChildren<MeshRenderer>())
@@ -164,7 +171,10 @@ public class TurretControl : MonoBehaviour
         if(_turretCurrentHealth <= 0)
         {
             _audioSource.PlayOneShot(_explosionSound);
-            Explode();
+            if (!IsDead)
+            {
+                Explode();
+            }
         }
         else
         {

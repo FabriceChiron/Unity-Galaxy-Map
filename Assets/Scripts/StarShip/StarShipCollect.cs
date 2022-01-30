@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class StarShipCollect : MonoBehaviour
 {
@@ -10,6 +12,9 @@ public class StarShipCollect : MonoBehaviour
 
     [SerializeField]
     private StarShipSetup _starShipSetup;
+
+    [SerializeField]
+    private Memory _memory;
 
     [SerializeField]
     private GameObject _lidarPrefab;
@@ -22,6 +27,9 @@ public class StarShipCollect : MonoBehaviour
 
     [SerializeField]
     private TextMesh _platinumGauge;
+
+    [SerializeField]
+    private TextMeshProUGUI _platinumObjective, _turretsObjective;
 
     [SerializeField]
     private bool _collectingHydrogen;
@@ -40,20 +48,28 @@ public class StarShipCollect : MonoBehaviour
     void Start()
     {
         _nextLidarTime = Time.time;
+
+        UpdateObjectives();
+    }
+
+    private void UpdateObjectives()
+    {
+        _platinumObjective.text = $"<color=#f00>{_platinumScore}</color>/{_memory.SavedData.SavedStellarSystem.Item.Platinum} <size=75%>Platinum</size>";
+        _turretsObjective.text = $"<color=#f00>{_memory.SavedData.Turrets}</color>/{_memory.SavedData.SavedStellarSystem.Item.Turrets} <size=75%>Turrets</size>";
     }
 
     // Update is called once per frame
     void Update()
     {
-
-/*        if (Time.time >= _nextLidarTime)
-        {
-            if (Input.GetButtonDown("Lidar"))
-            {
-                FireLidar();
-                _nextLidarTime = Time.time + _delayBetweenLidars;
-            }
-        }*/
+        UpdateObjectives();
+        /*        if (Time.time >= _nextLidarTime)
+                {
+                    if (Input.GetButtonDown("Lidar"))
+                    {
+                        FireLidar();
+                        _nextLidarTime = Time.time + _delayBetweenLidars;
+                    }
+                }*/
 
         if (_isLidarFired)
         {
@@ -129,6 +145,7 @@ public class StarShipCollect : MonoBehaviour
         if (!_isPatinumCollected)
         {
             PlatinumScore += quantity;
+            _memory.SavedData.Platinum += PlatinumScore;
             _platinumGauge.text = PlatinumScore.ToString();
             _isPatinumCollected = true;
             Destroy(_platinum);

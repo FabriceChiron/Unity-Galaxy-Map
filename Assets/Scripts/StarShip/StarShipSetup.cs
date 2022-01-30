@@ -13,6 +13,9 @@ public class StarShipSetup : MonoBehaviour
     private Camera[] _cameras;
 
     [SerializeField]
+    private Memory _memory;
+
+    [SerializeField]
     private GameObject[] _gameObjectsToDeactivate;
 
     [SerializeField]
